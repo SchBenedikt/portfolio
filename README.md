@@ -24,7 +24,12 @@ This project aims to create a professional profile management system similar to 
    JWT_SECRET=<your_jwt_secret>
    ```
 
-4. Start the development server:
+4. Create the database schema:
+   ```bash
+   node src/models/user.js
+   ```
+
+5. Start the development server:
    ```bash
    npm run dev
    ```
