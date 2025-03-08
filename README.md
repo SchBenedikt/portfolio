@@ -8,8 +8,8 @@ This project aims to create a professional profile management system similar to 
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/githubnext/workspace-blank.git
-   cd workspace-blank
+   git clone https://github.com/SchBenedikt/portfolio.git
+   cd portfolio
    ```
 
 2. Install dependencies:
