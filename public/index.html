@@ -5,6 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Professional Profile Management System</title>
   <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #333;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+    }
+    h2 {
+      color: #444;
+    }
+    .endpoint {
+      background: #f4f4f4;
+      padding: 10px;
+      border-left: 3px solid #333;
+      margin-bottom: 10px;
+    }
+    .method {
+      font-weight: bold;
+      color: #0066cc;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -56,6 +84,29 @@
         <input type="password" id="login-password" name="login-password" required>
         <button type="submit">Login</button>
       </form>
+    </section>
+    <section id="api">
+      <h2>Available Endpoints</h2>
+      <div class="endpoint">
+        <p><span class="method">POST</span> /api/users/register</p>
+        <p>Register a new user with first name, last name, email, and password.</p>
+      </div>
+      <div class="endpoint">
+        <p><span class="method">POST</span> /api/users/login</p>
+        <p>Login with email and password to receive an authentication token.</p>
+      </div>
+      <div class="endpoint">
+        <p><span class="method">GET</span> /api/users/profile</p>
+        <p>Get the current user's profile information. Requires authentication.</p>
+      </div>
+      <div class="endpoint">
+        <p><span class="method">PUT</span> /api/users/profile</p>
+        <p>Update the current user's profile information. Requires authentication.</p>
+      </div>
+    </section>
+    <section id="documentation">
+      <h2>API Documentation</h2>
+      <p>For more detailed API documentation, visit <a href="/api">/api</a>.</p>
     </section>
   </main>
   <script src="public/js/app.js"></script>

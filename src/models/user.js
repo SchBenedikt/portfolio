@@ -3,32 +3,61 @@ const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
   personalInfo: {
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    profilePicture: { type: String },
+    firstName: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    lastName: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true
+    },
+    profilePicture: {
+      type: String,
+      default: ''
+    }
   },
-  workExperience: [
-    {
-      company: { type: String },
-      position: { type: String },
-      startDate: { type: Date },
-      endDate: { type: Date },
-      description: { type: String },
-    },
-  ],
-  education: [
-    {
-      institution: { type: String },
-      degree: { type: String },
-      fieldOfStudy: { type: String },
-      startDate: { type: Date },
-      endDate: { type: Date },
-      description: { type: String },
-    },
-  ],
-  skills: [{ type: String }],
-  password: { type: String, required: true },
+  password: {
+    type: String,
+    required: true
+  },
+  workExperience: [{
+    title: String,
+    company: String,
+    location: String,
+    from: Date,
+    to: Date,
+    current: Boolean,
+    description: String
+  }],
+  education: [{
+    school: String,
+    degree: String,
+    fieldOfStudy: String,
+    from: Date,
+    to: Date,
+    current: Boolean,
+    description: String
+  }],
+  skills: [{
+    name: String,
+    level: {
+      type: String,
+      enum: ['Beginner', 'Intermediate', 'Advanced', 'Expert']
+    }
+  }],
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 userSchema.pre('save', async function (next) {
@@ -44,6 +73,4 @@ userSchema.pre('save', async function (next) {
   }
 });
 
-const User = mongoose.model('User', userSchema);
-
-module.exports = User;
+module.exports = mongoose.model('User', userSchema);
