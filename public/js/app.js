@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchUserProfile();
 });
 
-async function handleRegistration(event) {
+const handleRegistration = async (event) => {
   event.preventDefault();
 
   const firstName = document.getElementById('first-name').value;
@@ -16,66 +16,81 @@ async function handleRegistration(event) {
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
 
-  const response = await fetch('/api/register', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ firstName, lastName, email, password }),
-  });
+  try {
+    const response = await fetch('/api/users/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ firstName, lastName, email, password }),
+    });
 
-  const data = await response.json();
-  if (response.ok) {
-    alert('Registration successful');
-  } else {
-    alert(`Registration failed: ${data.message}`);
+    const data = await response.json();
+    if (response.ok) {
+      alert('Registration successful');
+    } else {
+      alert(`Registration failed: ${data.message}`);
+    }
+  } catch (error) {
+    console.error('Error during registration:', error);
+    alert('An error occurred during registration. Please try again.');
   }
-}
+};
 
-async function handleLogin(event) {
+const handleLogin = async (event) => {
   event.preventDefault();
 
   const email = document.getElementById('login-email').value;
   const password = document.getElementById('login-password').value;
 
-  const response = await fetch('/api/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, password }),
-  });
+  try {
+    const response = await fetch('/api/users/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-  const data = await response.json();
-  if (response.ok) {
-    localStorage.setItem('token', data.token);
-    alert('Login successful');
-    fetchUserProfile();
-  } else {
-    alert(`Login failed: ${data.message}`);
+    const data = await response.json();
+    if (response.ok) {
+      localStorage.setItem('token', data.token);
+      alert('Login successful');
+      fetchUserProfile();
+    } else {
+      alert(`Login failed: ${data.message}`);
+    }
+  } catch (error) {
+    console.error('Error during login:', error);
+    alert('An error occurred during login. Please try again.');
   }
-}
+};
 
-async function fetchUserProfile() {
+const fetchUserProfile = async () => {
   const token = localStorage.getItem('token');
   if (!token) return;
 
-  const response = await fetch('/api/profile', {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    },
-  });
+  try {
+    const response = await fetch('/api/users/profile', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
 
-  const data = await response.json();
-  if (response.ok) {
-    displayUserProfile(data);
-  } else {
-    alert(`Failed to fetch profile: ${data.message}`);
+    const data = await response.json();
+    if (response.ok) {
+      displayUserProfile(data);
+    } else {
+      alert(`Failed to fetch profile: ${data.message}`);
+    }
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    alert('An error occurred while fetching the profile. Please try again.');
   }
-}
+};
 
-function displayUserProfile(profile) {
+const displayUserProfile = (profile) => {
   document.getElementById('name').textContent = `${profile.personalInfo.firstName} ${profile.personalInfo.lastName}`;
   document.getElementById('email').textContent = profile.personalInfo.email;
   document.getElementById('profile-picture').querySelector('img').src = profile.personalInfo.profilePicture;
@@ -84,7 +99,7 @@ function displayUserProfile(profile) {
   workExperienceList.innerHTML = '';
   profile.workExperience.forEach((experience) => {
     const li = document.createElement('li');
-    li.textContent = `${experience.position} at ${experience.company} (${experience.startDate} - ${experience.endDate})`;
+    li.textContent = `${experience.title} at ${experience.company} (${experience.from} - ${experience.to})`;
     workExperienceList.appendChild(li);
   });
 
@@ -92,7 +107,7 @@ function displayUserProfile(profile) {
   educationList.innerHTML = '';
   profile.education.forEach((education) => {
     const li = document.createElement('li');
-    li.textContent = `${education.degree} from ${education.institution} (${education.startDate} - ${education.endDate})`;
+    li.textContent = `${education.degree} from ${education.school} (${education.from} - ${education.to})`;
     educationList.appendChild(li);
   });
 
@@ -100,7 +115,7 @@ function displayUserProfile(profile) {
   skillsList.innerHTML = '';
   profile.skills.forEach((skill) => {
     const li = document.createElement('li');
-    li.textContent = skill;
+    li.textContent = skill.name;
     skillsList.appendChild(li);
   });
-}
+};
