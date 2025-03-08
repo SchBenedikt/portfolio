@@ -17,9 +17,4 @@ const auth = (req, res, next) => {
   }
 };
 
-// Function for generating JWT tokens upon successful login
-const generateToken = (userId) => {
-  return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
-};
-
-module.exports = { auth, generateToken };
+module.exports = auth;
