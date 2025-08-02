@@ -1,16 +1,21 @@
+
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, TerminalSquare, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/header';
 import Link from 'next/link';
-import Image from 'next/image';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAchievements } from '@/components/providers/achievements-provider';
+import { Terminal } from '@/components/terminal';
+import { cn } from '@/lib/utils';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 export default function Home() {
   const { unlockAchievement } = useAchievements();
+  const [isTerminalView, setIsTerminalView] = useState(false);
 
   useEffect(() => {
     unlockAchievement('FIRST_STEP');
@@ -44,47 +49,77 @@ export default function Home() {
       <Header />
       <main className="flex-grow">
         <div className="container mx-auto px-6 sm:px-8 h-full">
-          <motion.section
-            className="flex flex-col justify-center items-center text-center h-full min-h-screen"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <div className="text-center">
-              <motion.h1
-                id="hero-title"
-                className="text-8xl md:text-9xl lg:text-10xl font-black uppercase tracking-tighter font-headline"
-                variants={itemVariants}
-              >
-                Benedikt
-                <br />
-                Schächner
-              </motion.h1>
-              <motion.p
-                id="hero-subtitle"
-                className="mt-6 text-2xl md:text-3xl max-w-xl mx-auto text-muted-foreground"
-                variants={itemVariants}
-              >
-                Creative Developer & Designer shaping unique digital experiences.
-              </motion.p>
-              <motion.div
-                className="mt-10"
-                variants={itemVariants}
-              >
-                <Button
-                  id="hero-button"
-                  size="lg"
-                  asChild
-                  className="rounded-full text-xl py-10 px-12 group"
+          <div className="absolute top-32 right-8 flex items-center space-x-2">
+            <Label htmlFor="view-switch" className="flex items-center gap-2 text-lg">
+              <User className={cn(!isTerminalView && 'text-primary')} />
+              <span>UI</span>
+            </Label>
+            <Switch
+              id="view-switch"
+              checked={isTerminalView}
+              onCheckedChange={setIsTerminalView}
+            />
+            <Label htmlFor="view-switch" className="flex items-center gap-2 text-lg">
+              <TerminalSquare className={cn(isTerminalView && 'text-primary')} />
+              <span>Terminal</span>
+            </Label>
+          </div>
+
+          {isTerminalView ? (
+            <motion.div
+              key="terminal"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Terminal />
+            </motion.div>
+          ) : (
+            <motion.section
+              key="ui"
+              className="flex flex-col justify-center items-center text-center h-full min-h-screen"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              exit={{ opacity: 0 }}
+            >
+              <div className="text-center">
+                <motion.h1
+                  id="hero-title"
+                  className="text-8xl md:text-9xl lg:text-10xl font-black uppercase tracking-tighter font-headline"
+                  variants={itemVariants}
                 >
-                  <Link href="/projects">
-                    View My Work{' '}
-                    <ArrowRight className="ml-3 h-7 w-7 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Button>
-              </motion.div>
-            </div>
-          </motion.section>
+                  Benedikt
+                  <br />
+                  Schächner
+                </motion.h1>
+                <motion.p
+                  id="hero-subtitle"
+                  className="mt-6 text-2xl md:text-3xl max-w-xl mx-auto text-muted-foreground"
+                  variants={itemVariants}
+                >
+                  Creative Developer & Designer shaping unique digital experiences.
+                </motion.p>
+                <motion.div
+                  className="mt-10"
+                  variants={itemVariants}
+                >
+                  <Button
+                    id="hero-button"
+                    size="lg"
+                    asChild
+                    className="rounded-full text-xl py-10 px-12 group"
+                  >
+                    <Link href="/projects">
+                      View My Work{' '}
+                      <ArrowRight className="ml-3 h-7 w-7 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  </Button>
+                </motion.div>
+              </div>
+            </motion.section>
+          )}
         </div>
       </main>
     </div>
