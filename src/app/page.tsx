@@ -19,33 +19,8 @@ import Scene from '@/components/scene';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { AiAnimationGenerator } from '@/components/ai-animation-generator';
-
-const projectData = [
-  {
-    title: 'Project Alpha',
-    description:
-      'An immersive 3D data visualization platform using WebGL and React, creating interactive charts and graphs.',
-    image: 'https://placehold.co/600x400.png',
-    tags: ['React', 'Three.js', 'WebGL', 'UI/UX'],
-    aiHint: 'abstract data',
-  },
-  {
-    title: 'Project Beta',
-    description:
-      'A generative art installation controlled by real-time weather data, built with p5.js and a custom API.',
-    image: 'https://placehold.co/600x400.png',
-    tags: ['Generative Art', 'p5.js', 'APIs'],
-    aiHint: 'generative art',
-  },
-  {
-    title: 'Project Gamma',
-    description:
-      'A futuristic e-commerce experience with a minimalist UI, parallax scrolling, and AI-powered product recommendations.',
-    image: 'https://placehold.co/600x400.png',
-    tags: ['Next.js', 'AI/ML', 'Framer Motion'],
-    aiHint: 'futuristic ecommerce',
-  },
-];
+import { projectData } from '@/lib/projects';
+import Link from 'next/link';
 
 const MotionCard = motion(Card);
 
@@ -114,43 +89,44 @@ export default function Home() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {projectData.map((project, index) => (
-                <MotionCard
-                  key={index}
-                  className="flex flex-col overflow-hidden transition-all duration-300 group rounded-3xl"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <CardHeader className="p-0">
-                    <div className="aspect-video overflow-hidden rounded-t-3xl">
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        width={600}
-                        height={400}
-                        className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-300"
-                        data-ai-hint={project.aiHint}
-                      />
-                    </div>
-                  </CardHeader>
-                  <CardContent className="flex-grow p-6 space-y-4">
-                    <CardTitle className="text-4xl font-bold font-headline">
-                      {project.title}
-                    </CardTitle>
-                    <CardDescription className="text-lg">{project.description}</CardDescription>
-                    <div className="flex flex-wrap gap-2 pt-2">
-                      {project.tags.map((tag) => (
-                        <Badge key={tag} variant="secondary" className="text-md rounded-lg">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                  </CardContent>
-                  <CardFooter className="p-6">
-                    <AiAnimationGenerator elementName={project.title} />
-                  </CardFooter>
-                </MotionCard>
+                <Link href={`/projects/${project.slug}`} key={project.slug}>
+                  <MotionCard
+                    className="flex flex-col overflow-hidden transition-all duration-300 group rounded-3xl h-full"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                  >
+                    <CardHeader className="p-0">
+                      <div className="aspect-video overflow-hidden rounded-t-3xl">
+                        <Image
+                          src={project.image}
+                          alt={project.title}
+                          width={600}
+                          height={400}
+                          className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-300"
+                          data-ai-hint={project.aiHint}
+                        />
+                      </div>
+                    </CardHeader>
+                    <CardContent className="flex-grow p-6 space-y-4">
+                      <CardTitle className="text-4xl font-bold font-headline">
+                        {project.title}
+                      </CardTitle>
+                      <CardDescription className="text-lg">{project.description}</CardDescription>
+                      <div className="flex flex-wrap gap-2 pt-2">
+                        {project.tags.map((tag) => (
+                          <Badge key={tag} variant="secondary" className="text-md rounded-lg">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </CardContent>
+                    <CardFooter className="p-6 mt-auto">
+                      <AiAnimationGenerator elementName={project.title} />
+                    </CardFooter>
+                  </MotionCard>
+                </Link>
               ))}
             </div>
           </motion.section>
