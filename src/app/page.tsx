@@ -14,7 +14,7 @@ export default function Home() {
         <div className="container mx-auto px-6 sm:px-8 h-full">
           <section
             id="hero"
-            className="h-full flex flex-col justify-center items-center text-center"
+            className="h-full flex flex-col justify-center items-start text-left"
           >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -26,7 +26,7 @@ export default function Home() {
                 <br />
                 Schächner
               </h1>
-              <p className="mt-6 text-2xl md:text-3xl max-w-3xl text-muted-foreground mx-auto">
+              <p className="mt-6 text-2xl md:text-3xl max-w-3xl text-muted-foreground">
                 Creative Developer & Designer shaping digital experiences with a
                 focus on motion, 3D graphics, and AI-driven interactions.
               </p>
