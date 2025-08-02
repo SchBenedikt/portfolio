@@ -42,6 +42,8 @@ export const AchievementsProvider = ({ children }: { children: ReactNode }) => {
 
 
   const unlockAchievement = useCallback((id: AchievementID) => {
+    // This function is defined here and will be passed to the context.
+    // It depends on `unlockedAchievements`.
     if (!unlockedAchievements.has(id)) {
       const newAchievements = new Set(unlockedAchievements);
       newAchievements.add(id);
@@ -56,13 +58,26 @@ export const AchievementsProvider = ({ children }: { children: ReactNode }) => {
         });
       }
 
-      // Check for completionist
+      // Check for completionist after a new achievement is added.
+      // This is a separate check and can be part of the same useCallback.
       const allUnlocked = achievementsList.every((ach) => newAchievements.has(ach.id));
-      if(allUnlocked && !unlockedAchievements.has('COMPLETIONIST')){
-         unlockAchievement('COMPLETIONIST');
+      if(allUnlocked && !newAchievements.has('COMPLETIONIST')){
+         // Directly call the logic again for the 'COMPLETIONIST' achievement
+         // to avoid circular dependency.
+         const completionistAchievement = achievementsList.find((a) => a.id === 'COMPLETIONIST');
+         if(completionistAchievement && !newAchievements.has('COMPLETIONIST')){
+            const finalAchievements = new Set(newAchievements);
+            finalAchievements.add('COMPLETIONIST');
+            setUnlockedAchievements(finalAchievements);
+            saveAchievements(finalAchievements);
+            toast.success('Achievement Unlocked!', {
+                description: "Completionist",
+                icon: <CheckCircle className="h-5 w-5 text-primary" />,
+            });
+         }
       }
     }
-  }, [unlockedAchievements, unlockAchievement]);
+  }, [unlockedAchievements]);
 
   return (
     <AchievementsContext.Provider value={{ unlockedAchievements, unlockAchievement, allAchievementsUnlocked }}>
