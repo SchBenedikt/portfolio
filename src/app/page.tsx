@@ -5,14 +5,13 @@ import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/header';
 import Link from 'next/link';
-import { EmojiPhysics } from '@/components/emoji-physics';
+import Image from 'next/image';
 
 export default function Home() {
   return (
     <div className="flex flex-col h-screen bg-background text-foreground overflow-hidden">
       <Header />
       <main className="relative z-10 flex-grow">
-        <EmojiPhysics />
         <div className="container mx-auto px-6 sm:px-8 h-full">
           <section
             id="hero"
@@ -28,9 +27,9 @@ export default function Home() {
                 <br />
                 Schächner
               </h1>
-              <p id="hero-subtitle" className="mt-6 text-2xl md:text-3xl max-w-3xl text-muted-foreground">
-                Creative Developer & Designer shaping digital experiences with a
-                focus on motion, 3D graphics, and AI-driven interactions.
+              <p id="hero-subtitle" className="mt-6 text-2xl md:text-3xl max-w-3xl text-muted-foreground flex items-center">
+                Creative Developer & Designer shaping digital experiences 
+                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Waving%20Hand%20Light%20Skin%20Tone.png" alt="Waving Hand Light Skin Tone" width="35" height="35" className="ml-3" />
               </p>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
