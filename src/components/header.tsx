@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -6,7 +7,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
-const Header = () => {
+const Header = ({children}: {children?: React.ReactNode}) => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -36,7 +37,8 @@ const Header = () => {
           <Link href="/resume" className="font-medium hover:text-accent transition-colors">Resume</Link>
           <Link href="/blog" className="font-medium hover:text-accent transition-colors">Blog</Link>
         </nav>
-        <div className="flex items-center">
+        <div className="flex items-center gap-4">
+          {children}
           <ThemeToggle />
         </div>
       </div>

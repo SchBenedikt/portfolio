@@ -4,7 +4,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { cn } from '@/lib/utils';
 import { useTheme } from 'next-themes';
 
 interface HistoryItem {
@@ -40,14 +39,14 @@ export const Terminal = () => {
     switch (cmd) {
       case 'help':
         output = `Available commands:\n
-          'nav <page>'    - Navigate to a page (projects, resume, blog)\n
-          'theme <name>'  - Change the color theme (dark, light, system)\n
-          'whoami'        - Display a short bio\n
-          'clear'         - Clear the terminal history\n
-          'socials'       - Show social media links`;
+  'nav <page>'    - Navigate to a page (projects, resume, blog)
+  'theme <name>'  - Change the color theme (dark, light)
+  'whoami'        - Display a short bio
+  'socials'       - Show social media links
+  'clear'         - Clear the terminal history`;
         break;
       case 'whoami':
-        output = 'Benedikt Schächner - Creative Developer & Designer.';
+        output = 'Benedikt Schächner - Creative Developer & Designer shaping unique digital experiences.';
         break;
       case 'nav':
         const page = args[0];
@@ -60,15 +59,15 @@ export const Terminal = () => {
         break;
       case 'theme':
         const newTheme = args[0];
-         if (['dark', 'light', 'system'].includes(newTheme)) {
+         if (['dark', 'light'].includes(newTheme)) {
             setTheme(newTheme);
             output = `Theme changed to ${newTheme}.`;
         } else {
-            output = `Error: Theme '${newTheme}' not found. Available themes: dark, light, system.`;
+            output = `Error: Theme '${newTheme}' not found. Available themes: dark, light.`;
         }
         break;
       case 'socials':
-        output = 'You can find me on GitHub, LinkedIn, and Twitter. (Note: These are dummy links for now)';
+        output = 'GitHub: github.com/user\nLinkedIn: linkedin.com/in/user\nTwitter: twitter.com/user\n(Note: These are dummy links)';
         break;
       case 'clear':
         setHistory([]);
@@ -92,38 +91,36 @@ export const Terminal = () => {
   };
 
   return (
-    <div 
-        className="relative flex flex-col h-[70vh] max-w-4xl mx-auto mt-24 p-6 border rounded-2xl bg-card/50 backdrop-blur-sm overflow-hidden"
+    <motion.div 
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="relative flex flex-col h-[75vh] max-w-5xl mx-auto mt-24 border rounded-2xl bg-card/60 backdrop-blur-xl shadow-2xl shadow-primary/10 overflow-hidden"
         onClick={handleTerminalClick}
     >
-      <div className="absolute top-0 left-4 flex gap-2 p-4">
-        <div className="w-3 h-3 rounded-full bg-red-500"></div>
-        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+      <div className="absolute top-0 left-0 w-full flex items-center gap-2 p-4 bg-card/80">
+        <div className="w-3.5 h-3.5 rounded-full bg-red-500"></div>
+        <div className="w-3.5 h-3.5 rounded-full bg-yellow-500"></div>
+        <div className="w-3.5 h-3.5 rounded-full bg-green-500"></div>
+        <p className="text-center flex-1 text-muted-foreground text-sm font-mono">/bin/bash - benedikt.dev</p>
       </div>
-       <div className="flex-grow overflow-y-auto pr-4 font-mono text-lg">
+       <div className="flex-grow overflow-y-auto pr-4 pt-16 p-6 font-mono text-lg">
         {history.map((item, index) => (
-          <motion.div 
-            key={index}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: index * 0.05 }}
-            className="whitespace-pre-wrap"
-          >
+          <div key={index} className="mb-2">
             {item.type === 'input' ? (
               <div className="flex">
-                <span className="text-primary mr-2">$</span>
-                <span>{item.content}</span>
+                <span className="text-primary font-bold mr-2">$</span>
+                <span className="flex-1">{item.content}</span>
               </div>
             ) : (
-              <span className="text-muted-foreground">{item.content}</span>
+              <span className="text-muted-foreground whitespace-pre-wrap leading-relaxed">{item.content}</span>
             )}
-          </motion.div>
+          </div>
         ))}
          <div ref={endOfHistoryRef} />
       </div>
-      <form onSubmit={handleSubmit} className="flex items-center font-mono text-lg mt-4">
-        <span className="text-primary mr-2">$</span>
+      <form onSubmit={handleSubmit} className="flex items-center font-mono text-lg p-6 border-t border-border/50 bg-card/80">
+        <span className="text-primary font-bold mr-2">$</span>
         <input
           ref={inputRef}
           type="text"
@@ -134,6 +131,6 @@ export const Terminal = () => {
           autoComplete="off"
         />
       </form>
-    </div>
+    </motion.div>
   );
 };

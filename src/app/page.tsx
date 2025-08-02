@@ -10,7 +10,6 @@ import { useEffect, useState } from 'react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { Terminal } from '@/components/terminal';
 import { cn } from '@/lib/utils';
-import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 
 export default function Home() {
@@ -44,27 +43,26 @@ export default function Home() {
     },
   };
 
+  const handleToggleView = () => {
+    setIsTerminalView(prev => !prev);
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <Header />
+      <Header>
+        <div className="flex items-center space-x-4">
+          <button onClick={handleToggleView} className={cn('flex items-center gap-2 text-lg transition-colors hover:text-primary', !isTerminalView && 'text-primary')}>
+            <User />
+            <span>UI</span>
+          </button>
+           <button onClick={handleToggleView} className={cn('flex items-center gap-2 text-lg transition-colors hover:text-primary', isTerminalView && 'text-primary')}>
+            <TerminalSquare />
+            <span>Terminal</span>
+          </button>
+        </div>
+      </Header>
       <main className="flex-grow">
         <div className="container mx-auto px-6 sm:px-8 h-full">
-          <div className="absolute top-32 right-8 flex items-center space-x-2">
-            <Label htmlFor="view-switch" className="flex items-center gap-2 text-lg">
-              <User className={cn(!isTerminalView && 'text-primary')} />
-              <span>UI</span>
-            </Label>
-            <Switch
-              id="view-switch"
-              checked={isTerminalView}
-              onCheckedChange={setIsTerminalView}
-            />
-            <Label htmlFor="view-switch" className="flex items-center gap-2 text-lg">
-              <TerminalSquare className={cn(isTerminalView && 'text-primary')} />
-              <span>Terminal</span>
-            </Label>
-          </div>
-
           {isTerminalView ? (
             <motion.div
               key="terminal"
