@@ -19,6 +19,7 @@ import Scene from '@/components/scene';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { AiAnimationGenerator } from '@/components/ai-animation-generator';
+import FunEffects from '@/components/fun-effects';
 
 const projectData = [
   {
@@ -66,6 +67,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
       <Scene />
+      <FunEffects />
       <main className="relative z-10 flex-grow">
         <div className="container mx-auto px-6 sm:px-8">
           <section
@@ -77,12 +79,12 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter font-headline">
+              <h1 className="text-8xl md:text-9xl lg:text-10xl font-black uppercase tracking-tighter font-headline">
                 Benedikt
                 <br />
                 Schächner
               </h1>
-              <p className="mt-6 text-xl md:text-2xl max-w-3xl text-muted-foreground">
+              <p className="mt-6 text-2xl md:text-3xl max-w-3xl text-muted-foreground">
                 Creative Developer & Designer shaping digital experiences with a
                 focus on motion, 3D graphics, and AI-driven interactions.
               </p>
@@ -92,9 +94,9 @@ export default function Home() {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="mt-10"
               >
-                <Button size="lg" asChild className="rounded-full text-lg py-8 px-10">
+                <Button size="lg" asChild className="rounded-full text-xl py-10 px-12">
                   <a href="#projects">
-                    View My Work <ArrowRight className="ml-3 h-6 w-6" />
+                    View My Work <ArrowRight className="ml-3 h-7 w-7" />
                   </a>
                 </Button>
               </motion.div>
@@ -109,21 +111,21 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.1 }}
           >
-            <h2 className="text-5xl md:text-7xl font-black text-center mb-16 uppercase tracking-tighter font-headline">
+            <h2 className="text-7xl md:text-8xl font-black text-center mb-16 uppercase tracking-tighter font-headline">
               Selected Work
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {projectData.map((project, index) => (
                 <MotionCard
                   key={index}
-                  className="flex flex-col overflow-hidden transition-all duration-300 group"
+                  className="flex flex-col overflow-hidden transition-all duration-300 group rounded-3xl"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                   <CardHeader className="p-0">
-                    <div className="aspect-video overflow-hidden rounded-t-lg">
+                    <div className="aspect-video overflow-hidden rounded-t-3xl">
                       <Image
                         src={project.image}
                         alt={project.title}
@@ -135,13 +137,13 @@ export default function Home() {
                     </div>
                   </CardHeader>
                   <CardContent className="flex-grow p-6 space-y-4">
-                    <CardTitle className="text-3xl font-bold font-headline">
+                    <CardTitle className="text-4xl font-bold font-headline">
                       {project.title}
                     </CardTitle>
-                    <CardDescription className="text-base">{project.description}</CardDescription>
+                    <CardDescription className="text-lg">{project.description}</CardDescription>
                     <div className="flex flex-wrap gap-2 pt-2">
                       {project.tags.map((tag) => (
-                        <Badge key={tag} variant="secondary" className="text-sm">
+                        <Badge key={tag} variant="secondary" className="text-md rounded-lg">
                           {tag}
                         </Badge>
                       ))}
@@ -163,10 +165,10 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
           >
-            <h2 className="text-5xl md:text-7xl font-black text-center mb-16 uppercase tracking-tighter font-headline">
+            <h2 className="text-7xl md:text-8xl font-black text-center mb-16 uppercase tracking-tighter font-headline">
               About Me
             </h2>
-            <div className="text-xl text-center text-muted-foreground space-y-8">
+            <div className="text-2xl text-center text-muted-foreground space-y-8">
               <p>
                 I am a passionate developer and designer with a knack for
                 blending technology and art. My work explores the frontiers of
@@ -182,19 +184,19 @@ export default function Home() {
               </p>
             </div>
             <div className="flex justify-center gap-4 mt-12">
-              <Button variant="outline" size="icon" className="rounded-full w-14 h-14" asChild>
+              <Button variant="outline" size="icon" className="rounded-full w-16 h-16" asChild>
                 <a href="#" aria-label="Github">
-                  <Github className="w-6 h-6"/>
+                  <Github className="w-8 h-8"/>
                 </a>
               </Button>
-              <Button variant="outline" size="icon" className="rounded-full w-14 h-14" asChild>
+              <Button variant="outline" size="icon" className="rounded-full w-16 h-16" asChild>
                 <a href="#" aria-label="LinkedIn">
-                  <Linkedin className="w-6 h-6"/>
+                  <Linkedin className="w-8 h-8"/>
                 </a>
               </Button>
-              <Button variant="outline" size="icon" className="rounded-full w-14 h-14" asChild>
+              <Button variant="outline" size="icon" className="rounded-full w-16 h-16" asChild>
                 <a href="#" aria-label="Email">
-                  <Mail className="w-6 h-6"/>
+                  <Mail className="w-8 h-8"/>
                 </a>
               </Button>
             </div>
@@ -208,14 +210,14 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
           >
-            <h2 className="text-5xl md:text-7xl font-black text-center mb-16 uppercase tracking-tighter font-headline">
+            <h2 className="text-7xl md:text-8xl font-black text-center mb-16 uppercase tracking-tighter font-headline">
               Get In Touch
             </h2>
             <form className="space-y-8">
-              <Input type="text" placeholder="Your Name" required className="h-14 text-lg rounded-xl"/>
-              <Input type="email" placeholder="Your Email" required className="h-14 text-lg rounded-xl"/>
-              <Textarea placeholder="Your Message" rows={6} required className="text-lg rounded-xl"/>
-              <Button type="submit" className="w-full rounded-full text-lg py-8">
+              <Input type="text" placeholder="Your Name" required className="h-16 text-xl rounded-2xl"/>
+              <Input type="email" placeholder="Your Email" required className="h-16 text-xl rounded-2xl"/>
+              <Textarea placeholder="Your Message" rows={6} required className="text-xl rounded-2xl"/>
+              <Button type="submit" className="w-full rounded-full text-xl py-10">
                 Send Message
               </Button>
             </form>
