@@ -43,7 +43,16 @@ export const EmojiPhysics = () => {
     Matter.Composite.add(world, staticElements);
 
     const emojis = ['💻', '🎨', '🚀', '🤖', '💡', '✨'];
+    const maxEmojis = 10;
+    
     const spawnEmoji = () => {
+      if (world.bodies.length > maxEmojis + staticElements.length) {
+          const oldEmoji = world.bodies.find(body => !body.isStatic);
+          if (oldEmoji) {
+              Matter.World.remove(world, oldEmoji);
+          }
+      }
+        
       const emoji = emojis[Math.floor(Math.random() * emojis.length)];
       const body = Matter.Bodies.circle(Math.random() * window.innerWidth, -50, 18, {
         restitution: 0.5,
@@ -59,7 +68,7 @@ export const EmojiPhysics = () => {
       Matter.Composite.add(world, body);
     };
 
-    const interval = setInterval(spawnEmoji, 300);
+    const interval = setInterval(spawnEmoji, 500);
 
     Matter.Runner.run(engine);
     Matter.Render.run(render);
@@ -100,5 +109,5 @@ export const EmojiPhysics = () => {
     };
   }, []);
 
-  return <div ref={sceneRef} style={{ position: 'absolute', top: 0, left: 0, zIndex: -1, pointerEvents: 'none' }} />;
+  return <div ref={sceneRef} style={{ position: 'absolute', top: 0, left: 0, zIndex: 0, pointerEvents: 'none' }} />;
 };
