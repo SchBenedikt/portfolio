@@ -8,6 +8,7 @@ export type AchievementID =
   | 'BLOG_POST_READER'
   | 'NIGHT_OWL'
   | 'EARLY_BIRD'
+  | 'GAMER'
   | 'COMPLETIONIST';
 
 export interface Achievement {
@@ -57,4 +58,9 @@ export const achievementsList: Achievement[] = [
     name: 'Early Bird',
     description: 'Switched to light mode.',
   },
+  {
+    id: 'GAMER',
+    name: 'High Score',
+    description: 'You beat the number guessing game.',
+  }
 ];
