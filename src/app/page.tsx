@@ -19,7 +19,6 @@ import Scene from '@/components/scene';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { AiAnimationGenerator } from '@/components/ai-animation-generator';
-import FunEffects from '@/components/fun-effects';
 
 const projectData = [
   {
@@ -67,7 +66,6 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
       <Scene />
-      <FunEffects />
       <main className="relative z-10 flex-grow">
         <div className="container mx-auto px-6 sm:px-8">
           <section

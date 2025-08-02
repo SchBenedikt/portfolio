@@ -21,20 +21,20 @@ const Header = () => {
     <motion.header
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        scrolled ? 'py-2 bg-background/80 backdrop-blur-lg shadow-md' : 'py-6'
+        scrolled ? 'py-4 bg-background/80 backdrop-blur-lg shadow-lg' : 'py-8'
       )}
-      initial={{ y: -100 }}
+      initial={{ y: -120 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.6, ease: [0.6, 0.05, -0.01, 0.9] }}
     >
       <div className="container mx-auto px-6 sm:px-8 flex justify-between items-center">
-        <Link href="/" className="text-xl font-bold uppercase tracking-widest font-headline hover:text-accent transition-colors">
+        <Link href="/" className="text-2xl font-black uppercase tracking-widest font-headline hover:text-accent transition-colors">
           BS
         </Link>
-        <nav className="hidden md:flex items-center gap-6">
-          <a href="#projects" className="text-sm font-medium hover:text-accent transition-colors">Projects</a>
-          <a href="#about" className="text-sm font-medium hover:text-accent transition-colors">About</a>
-          <a href="#contact" className="text-sm font-medium hover:text-accent transition-colors">Contact</a>
+        <nav className="hidden md:flex items-center gap-8 text-lg">
+          <a href="#projects" className="font-medium hover:text-accent transition-colors">Projects</a>
+          <a href="#about" className="font-medium hover:text-accent transition-colors">About</a>
+          <a href="#contact" className="font-medium hover:text-accent transition-colors">Contact</a>
         </nav>
         <div className="flex items-center">
           <ThemeToggle />
