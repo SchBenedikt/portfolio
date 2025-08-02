@@ -27,32 +27,32 @@ const Scene = () => {
     currentMount.appendChild(renderer.domElement);
 
     // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
-    const pointLight = new THREE.PointLight(0x8F00FF, 2, 20);
-    pointLight.position.set(0, 3, 4);
+    const pointLight = new THREE.PointLight(0x6A0DAD, 3, 30);
+    pointLight.position.set(0, 5, 5);
     scene.add(pointLight);
-    const pointLight2 = new THREE.PointLight(0x4B0082, 2, 20);
-    pointLight2.position.set(3, -3, 3);
+    const pointLight2 = new THREE.PointLight(0xE6007A, 3, 30);
+    pointLight2.position.set(5, -5, 3);
     scene.add(pointLight2);
 
     // Objects
     const geometry = new THREE.IcosahedronGeometry(1, 0);
     const material = new THREE.MeshStandardMaterial({
       color: 0xffffff,
-      roughness: 0.3,
-      metalness: 0.1,
+      roughness: 0.2,
+      metalness: 0.4,
     });
     
     const objects: THREE.Mesh[] = [];
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 40; i++) {
       const mesh = new THREE.Mesh(geometry, material);
-      mesh.position.x = (Math.random() - 0.5) * 20;
-      mesh.position.y = (Math.random() - 0.5) * 20;
-      mesh.position.z = (Math.random() - 0.5) * 20;
+      mesh.position.x = (Math.random() - 0.5) * 25;
+      mesh.position.y = (Math.random() - 0.5) * 25;
+      mesh.position.z = (Math.random() - 0.5) * 25;
       mesh.rotation.x = Math.random() * 2 * Math.PI;
       mesh.rotation.y = Math.random() * 2 * Math.PI;
-      const scale = Math.random() * 0.2 + 0.1;
+      const scale = Math.random() * 0.3 + 0.15;
       mesh.scale.set(scale, scale, scale);
       scene.add(mesh);
       objects.push(mesh);

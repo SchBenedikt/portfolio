@@ -77,12 +77,12 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter font-headline">
+              <h1 className="text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter font-headline">
                 Benedikt
                 <br />
                 Schächner
               </h1>
-              <p className="mt-4 text-lg md:text-xl max-w-2xl text-muted-foreground">
+              <p className="mt-6 text-xl md:text-2xl max-w-3xl text-muted-foreground">
                 Creative Developer & Designer shaping digital experiences with a
                 focus on motion, 3D graphics, and AI-driven interactions.
               </p>
@@ -90,11 +90,11 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="mt-8"
+                className="mt-10"
               >
-                <Button size="lg" asChild>
+                <Button size="lg" asChild className="rounded-full text-lg py-8 px-10">
                   <a href="#projects">
-                    View My Work <ArrowRight className="ml-2" />
+                    View My Work <ArrowRight className="ml-3 h-6 w-6" />
                   </a>
                 </Button>
               </motion.div>
@@ -103,27 +103,27 @@ export default function Home() {
 
           <motion.section
             id="projects"
-            className="py-20 md:py-32"
+            className="py-24 md:py-40"
             variants={sectionVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.1 }}
           >
-            <h2 className="text-4xl md:text-5xl font-black text-center mb-12 uppercase tracking-tighter font-headline">
+            <h2 className="text-5xl md:text-7xl font-black text-center mb-16 uppercase tracking-tighter font-headline">
               Selected Work
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {projectData.map((project, index) => (
                 <MotionCard
                   key={index}
-                  className="flex flex-col overflow-hidden bg-card/80 backdrop-blur-sm border-border/50 hover:border-accent transition-all duration-300 hover:shadow-2xl hover:shadow-accent/20"
+                  className="flex flex-col overflow-hidden transition-all duration-300 group"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <CardHeader>
-                    <div className="aspect-video overflow-hidden rounded-md mb-4">
+                  <CardHeader className="p-0">
+                    <div className="aspect-video overflow-hidden rounded-t-lg">
                       <Image
                         src={project.image}
                         alt={project.title}
@@ -133,21 +133,21 @@ export default function Home() {
                         data-ai-hint={project.aiHint}
                       />
                     </div>
-                    <CardTitle className="text-2xl font-bold font-headline">
+                  </CardHeader>
+                  <CardContent className="flex-grow p-6 space-y-4">
+                    <CardTitle className="text-3xl font-bold font-headline">
                       {project.title}
                     </CardTitle>
-                    <CardDescription>{project.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="flex-grow">
-                    <div className="flex flex-wrap gap-2">
+                    <CardDescription className="text-base">{project.description}</CardDescription>
+                    <div className="flex flex-wrap gap-2 pt-2">
                       {project.tags.map((tag) => (
-                        <Badge key={tag} variant="secondary">
+                        <Badge key={tag} variant="secondary" className="text-sm">
                           {tag}
                         </Badge>
                       ))}
                     </div>
                   </CardContent>
-                  <CardFooter>
+                  <CardFooter className="p-6">
                     <AiAnimationGenerator elementName={project.title} />
                   </CardFooter>
                 </MotionCard>
@@ -157,16 +157,16 @@ export default function Home() {
 
           <motion.section
             id="about"
-            className="py-20 md:py-32 max-w-4xl mx-auto"
+            className="py-24 md:py-40 max-w-4xl mx-auto"
             variants={sectionVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
           >
-            <h2 className="text-4xl md:text-5xl font-black text-center mb-12 uppercase tracking-tighter font-headline">
+            <h2 className="text-5xl md:text-7xl font-black text-center mb-16 uppercase tracking-tighter font-headline">
               About Me
             </h2>
-            <div className="text-lg text-center text-muted-foreground space-y-6">
+            <div className="text-xl text-center text-muted-foreground space-y-8">
               <p>
                 I am a passionate developer and designer with a knack for
                 blending technology and art. My work explores the frontiers of
@@ -181,20 +181,20 @@ export default function Home() {
                 products are those that feel alive and responsive to user interaction.
               </p>
             </div>
-            <div className="flex justify-center gap-4 mt-8">
-              <Button variant="outline" size="icon" asChild>
+            <div className="flex justify-center gap-4 mt-12">
+              <Button variant="outline" size="icon" className="rounded-full w-14 h-14" asChild>
                 <a href="#" aria-label="Github">
-                  <Github />
+                  <Github className="w-6 h-6"/>
                 </a>
               </Button>
-              <Button variant="outline" size="icon" asChild>
+              <Button variant="outline" size="icon" className="rounded-full w-14 h-14" asChild>
                 <a href="#" aria-label="LinkedIn">
-                  <Linkedin />
+                  <Linkedin className="w-6 h-6"/>
                 </a>
               </Button>
-              <Button variant="outline" size="icon" asChild>
+              <Button variant="outline" size="icon" className="rounded-full w-14 h-14" asChild>
                 <a href="#" aria-label="Email">
-                  <Mail />
+                  <Mail className="w-6 h-6"/>
                 </a>
               </Button>
             </div>
@@ -202,20 +202,20 @@ export default function Home() {
 
           <motion.section
             id="contact"
-            className="py-20 md:py-32 max-w-2xl mx-auto"
+            className="py-24 md:py-40 max-w-2xl mx-auto"
             variants={sectionVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
           >
-            <h2 className="text-4xl md:text-5xl font-black text-center mb-12 uppercase tracking-tighter font-headline">
+            <h2 className="text-5xl md:text-7xl font-black text-center mb-16 uppercase tracking-tighter font-headline">
               Get In Touch
             </h2>
-            <form className="space-y-6">
-              <Input type="text" placeholder="Your Name" required />
-              <Input type="email" placeholder="Your Email" required />
-              <Textarea placeholder="Your Message" rows={5} required />
-              <Button type="submit" className="w-full" size="lg">
+            <form className="space-y-8">
+              <Input type="text" placeholder="Your Name" required className="h-14 text-lg rounded-xl"/>
+              <Input type="email" placeholder="Your Email" required className="h-14 text-lg rounded-xl"/>
+              <Textarea placeholder="Your Message" rows={6} required className="text-lg rounded-xl"/>
+              <Button type="submit" className="w-full rounded-full text-lg py-8">
                 Send Message
               </Button>
             </form>
