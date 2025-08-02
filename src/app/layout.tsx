@@ -2,6 +2,13 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
+import { Rubik } from 'next/font/google';
+
+const rubik = Rubik({
+  subsets: ['latin'],
+  weight: ['400', '500', '700', '900'],
+  variable: '--font-rubik',
+});
 
 export const metadata: Metadata = {
   title: 'Benedikt Schächner | Creative Developer Portfolio',
@@ -23,12 +30,8 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap"
-          rel="stylesheet"
-        ></link>
       </head>
-      <body className="font-body antialiased">
+      <body className={`${rubik.variable} font-body antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
