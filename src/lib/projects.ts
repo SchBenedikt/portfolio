@@ -1,35 +1,36 @@
+
 export const projectData = [
   {
-    title: 'Project Alpha',
-    slug: 'project-alpha',
+    title: 'Meum Diarium',
+    slug: 'meum-diarium',
     description:
-      'An immersive 3D data visualization platform using WebGL and React, creating interactive charts and graphs.',
+      'Ein kreatives Crossmedia-Projekt, das Julius Cäsars Feldherr-Geschichte im Stil eines modernen Influencer-Blogs erzählt.',
     longDescription:
-      'Project Alpha is a cutting-edge data visualization tool that transforms complex datasets into interactive 3D environments. Built with a powerful combination of React and Three.js, it leverages WebGL for high-performance graphics rendering directly in the browser. Users can explore, manipulate, and gain new insights from their data through an intuitive and immersive interface. The project emphasizes UI/UX principles to ensure that the experience is not only visually stunning but also easy to navigate and understand.',
+      '„Meum Diarium – Ein Feldherr als Influencer“ ist ein preisgekröntes Schulprojekt, das im Rahmen einer Crossmedia-AG entstand. Es bricht die historische Erzählung von Julius Cäsars "De Bello Gallico" auf und überträgt sie in moderne Formate wie Blog-Posts, Interviews und illustrierte Social-Media-Storys. Das Projekt zielt darauf ab, klassische Texte für ein junges Publikum zugänglich und spannend zu machen, indem es historische Inhalte mit moderner Netzkultur verbindet. Es gewann den Hauptpreis beim Deutschen Multimedia-Preis mb21 2024.',
     image: 'https://placehold.co/600x400.png',
-    tags: ['React', 'Three.js', 'WebGL', 'UI/UX'],
-    aiHint: 'abstract data',
+    tags: ['Crossmedia', 'Storytelling', 'Latein', 'UI/UX'],
+    aiHint: 'roman influencer blog',
   },
   {
-    title: 'Project Beta',
-    slug: 'project-beta',
+    title: 'Technik- & KI-Blog',
+    slug: 'technik-blog',
     description:
-      'A generative art installation controlled by real-time weather data, built with p5.js and a custom API.',
+      'Ein Self-Hosting Blog mit Anleitungen zum lokalen Betrieb von KI-Modellen wie Llama3 mit Ollama und Docker.',
     longDescription:
-      'Project Beta is a unique generative art piece that visualizes real-time weather data from around the world. Using p5.js for creative coding and a custom-built API to fetch meteorological data, the installation translates variables like temperature, wind speed, and humidity into evolving abstract visuals and soundscapes. This project bridges the gap between digital art and the natural world, creating a constantly changing artwork that reflects the current state of our environment.',
+      'Auf technik.schächner.de teile ich mein Wissen über digitale Souveränität. Der Blog bietet detaillierte Schritt-für-Schritt-Anleitungen für das Self-Hosting von Open-Source-Software. Schwerpunkte sind der lokale Betrieb von großen Sprachmodellen (LLMs) mit Ollama und die Einrichtung von GUIs wie Open WebUI. Die Tutorials sind praxisorientiert und richten sich an Entwickler und Technik-Enthusiasten, die mehr Kontrolle über ihre digitale Infrastruktur wollen.',
     image: 'https://placehold.co/600x400.png',
-    tags: ['Generative Art', 'p5.js', 'APIs'],
-    aiHint: 'generative art',
+    tags: ['Selfhosting', 'AI', 'Docker', 'Linux'],
+    aiHint: 'server code terminal',
   },
   {
-    title: 'Project Gamma',
-    slug: 'project-gamma',
+    title: 'Schulplattformen & Tools',
+    slug: 'schulplattformen',
     description:
-      'A futuristic e-commerce experience with a minimalist UI, parallax scrolling, and AI-powered product recommendations.',
+      'Entwicklung von Web-Tools für schulische AGs, darunter ein Chatbot, ein Medienschutz-Portal und CO₂-Sensor-Automatisierungen.',
     longDescription:
-      'Project Gamma redefines the e-commerce landscape with a sleek, minimalist design and advanced user experience features. Built on Next.js for optimal performance, it incorporates smooth parallax scrolling and fluid animations with Framer Motion to create an engaging shopping journey. The core innovation lies in its AI-powered recommendation engine, which analyzes user behavior to provide personalized and highly relevant product suggestions, making online shopping more intuitive and enjoyable.',
+      'Als Mitgründer der MedienScouts am KKG habe ich diverse digitale Werkzeuge entwickelt, um den Schulalltag zu bereichern. Dazu gehören die Plattform medienscouts-kkg.de mit einem eigens entwickelten Chatbot und Tutorials zur Medienkompetenz, die historische Storytelling-Seite caesar.schächner.de sowie technische Automatisierungen mit Arduino und CO₂-Sensoren zur Überwachung der Luftqualität in Klassenräumen. Alle Projekte werden über CI/CD-Pipelines mit GitHub automatisiert bereitgestellt.',
     image: 'https://placehold.co/600x400.png',
-    tags: ['Next.js', 'AI/ML', 'Framer Motion'],
-    aiHint: 'futuristic ecommerce',
+    tags: ['Next.js', 'Chatbot', 'Arduino', 'CI/CD'],
+    aiHint: 'school media lab',
   },
 ];

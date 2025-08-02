@@ -2,7 +2,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, TerminalSquare, User } from 'lucide-react';
+import { ArrowRight, TerminalSquare, User, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/header';
 import Link from 'next/link';
@@ -58,6 +58,7 @@ export default function Home() {
 
   const handleToggleView = () => {
     setIsTerminalView(prev => !prev);
+    unlockAchievement('VIEW_SWITCHER');
   }
   
   if (!isMounted) {
@@ -67,16 +68,17 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header>
-        <div className="flex items-center space-x-4">
-          <button onClick={() => setIsTerminalView(false)} className={cn('flex items-center gap-2 text-lg transition-colors hover:text-primary', !isTerminalView && 'text-primary')}>
-            <User />
-            <span>UI</span>
-          </button>
-           <button onClick={() => setIsTerminalView(true)} className={cn('flex items-center gap-2 text-lg transition-colors hover:text-primary', isTerminalView && 'text-primary')}>
-            <TerminalSquare />
-            <span>Terminal</span>
-          </button>
-        </div>
+        <Button
+            variant="outline"
+            size="icon"
+            className="w-9 h-9"
+            onClick={handleToggleView}
+            aria-label="Toggle view mode"
+        >
+            <User className={cn("h-[1.2rem] w-[1.2rem] transition-all", isTerminalView && "scale-0" )}/>
+            <Bot className={cn("absolute h-[1.2rem] w-[1.2rem] transition-all", !isTerminalView && "scale-0")}/>
+            <span className="sr-only">Toggle view mode</span>
+        </Button>
       </Header>
       <main className="flex-grow">
         <div className="container mx-auto px-6 sm:px-8 h-full">
@@ -114,7 +116,7 @@ export default function Home() {
                   className="mt-6 text-2xl md:text-3xl max-w-xl mx-auto text-muted-foreground"
                   variants={itemVariants}
                 >
-                  Creative Developer & Designer shaping unique digital experiences.
+                  Creative Developer focusing on AI-Tools, Selfhosting and Edutech.
                 </motion.p>
                 <motion.div
                   className="mt-10"

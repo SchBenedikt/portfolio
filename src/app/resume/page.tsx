@@ -1,3 +1,4 @@
+
 'use client';
 
 import Header from '@/components/header';
@@ -6,42 +7,59 @@ import { motion } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Download, Briefcase } from 'lucide-react';
+import { Download, Award, Briefcase, Lightbulb, Link as LinkIcon, Users, Code } from 'lucide-react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 const skills = [
-  'JavaScript (ES6+)',
-  'TypeScript',
-  'React & Next.js',
-  'Three.js & WebGL',
-  'Framer Motion',
-  'Generative AI (Genkit)',
-  'UI/UX Design',
-  'Tailwind CSS',
-  'Node.js',
-  'Firebase',
+  'LAMP Stacks',
+  'Docker',
+  'Supabase',
+  'Nextcloud',
+  'Ollama / llama3',
+  'Open WebUI',
+  'WebGL / D3',
+  'React',
+  'GitOps',
+  'UI Motion',
 ];
 
-const experiences = [
+const competitions = [
     {
-        role: "Creative Technologist",
-        company: "Future Systems Inc.",
-        period: "2021 - Present",
-        description: "Leading the development of immersive web experiences using Next.js and Three.js. Specialized in creating AI-driven interactive installations and data visualizations that push the boundaries of user engagement."
+        title: "Deutscher Multimedia-Preis mb21 2024",
+        project: "„Meum Diarium – Ein Feldherr als Influencer“",
+        result: "Hauptpreis (500 €) in der Kategorie „textbased“, Altersgruppe 11–15 Jahre.",
+        description: "Offizielle Präsentation und Preisverleihung in Dresden im November 2024."
     },
     {
-        role: "Frontend Developer",
-        company: "Digital Innovations Co.",
-        period: "2018 - 2021",
-        description: "Developed and maintained responsive user interfaces for high-traffic e-commerce platforms. Focused on performance optimization and creating fluid animations with Framer Motion and CSS."
+        title: "Crossmedia-Wettbewerb des Bayerischen Rundfunks 2024",
+        project: "„Meum Diarium“",
+        result: "Nominierter Beitrag in der Sparte „textbased“.",
+        description: "Preisverleihung am 21.11.2024 beim BR in Unterföhring."
     }
 ]
 
-const education = {
-    degree: "Master of Science in Human-Computer Interaction",
-    university: "University of Design & Technology",
-    period: "2016 - 2018"
+const events = [
+    {
+        title: "Nextcloud Community Conference 2024 (Berlin)",
+        role: "Lightning Talk",
+        description: "Fokus: Nextcloud-Security, Selfhosting und Schutz sensibler Daten."
+    },
+    {
+        title: "Medien- & Technik-Engagement (AG-Ebene)",
+        role: "Mitgründer der MedienScouts am KKG",
+        description: "Technisch-didaktische Schulinitiativen, Live-Workshops, Aufbau von Audiotechnik, und peer-to-peer Schulung."
+    }
+]
+
+const motivation = {
+    vision: "Digitale Souveränität, Edu-Tech mit Storytelling, und Teamwork.",
+    points: [
+        "Fokus auf Selfhosting, Open Source und Datenschutz (Nextcloud, Ollama).",
+        "Vermittlung von IT- und AI-Themen durch Gamification und Crossmedia-Projekte.",
+        "Zusammenarbeit mit Bruder Vinzenz bei Hardware-AG, Konferenzen und Talks."
+    ]
 }
 
 export default function ResumePage() {
@@ -79,9 +97,9 @@ export default function ResumePage() {
             <div className="flex justify-between items-start mb-12">
                 <div>
                     <h1 className="text-7xl md:text-8xl font-black uppercase tracking-tighter font-headline">
-                        Resume
+                        Benedikt Schächner
                     </h1>
-                    <p className="text-2xl text-muted-foreground mt-2">Benedikt Schächner</p>
+                    <p className="text-2xl text-muted-foreground mt-2">Pleiskirchen / Altötting, Bayern</p>
                 </div>
                 <Button className="rounded-full text-lg py-6 px-8 mt-4">
                     <Download className="mr-3"/>
@@ -96,30 +114,42 @@ export default function ResumePage() {
               animate="visible"
             >
                 <motion.section variants={itemVariants}>
-                    <h2 className="text-5xl font-bold font-headline mb-8">Experience</h2>
-                    <div className="relative border-l-2 border-primary/30 pl-10 space-y-12">
-                         {experiences.map((exp, index) => (
-                           <div key={exp.company} className="relative">
-                              <div className="absolute -left-[49px] top-1.5 h-6 w-6 rounded-full bg-primary flex items-center justify-center ring-8 ring-background">
-                                 <Briefcase className="h-3 w-3 text-primary-foreground"/>
-                              </div>
-                               <motion.div
-                                 initial={{ opacity: 0, x: 20 }}
-                                 animate={{ opacity: 1, x: 0 }}
-                                 transition={{ duration: 0.5, delay: index * 0.2 }}
-                               >
-                                <p className="text-lg font-semibold text-muted-foreground -mt-1">{exp.period}</p>
-                                <h3 className="text-3xl font-bold font-headline mt-1">{exp.role}</h3>
-                                <p className="text-xl text-muted-foreground pt-1">{exp.company}</p>
-                                <p className="text-lg text-muted-foreground mt-3">{exp.description}</p>
-                               </motion.div>
-                           </div>
+                    <h2 className="flex items-center text-5xl font-bold font-headline mb-8"><Award className="mr-4 text-primary"/>Wettbewerbe & Auszeichnungen</h2>
+                    <div className="space-y-8">
+                         {competitions.map((comp) => (
+                           <Card key={comp.title} className="rounded-3xl">
+                               <CardHeader>
+                                   <CardTitle className="text-3xl font-bold font-headline">{comp.title}</CardTitle>
+                                   <CardDescription className="text-xl pt-1">{comp.project}</CardDescription>
+                               </CardHeader>
+                               <CardContent>
+                                   <p className="text-lg text-primary font-semibold">{comp.result}</p>
+                                   <p className="text-lg text-muted-foreground mt-2">{comp.description}</p>
+                               </CardContent>
+                           </Card>
                         ))}
                     </div>
                 </motion.section>
 
                 <motion.section variants={itemVariants}>
-                    <h2 className="text-5xl font-bold font-headline mb-6">Skills</h2>
+                    <h2 className="flex items-center text-5xl font-bold font-headline mb-8"><Users className="mr-4 text-primary"/>Events & Community</h2>
+                     <div className="space-y-8">
+                         {events.map((event) => (
+                           <Card key={event.title} className="rounded-3xl">
+                               <CardHeader>
+                                   <CardTitle className="text-3xl font-bold font-headline">{event.title}</CardTitle>
+                                   <CardDescription className="text-xl pt-1">{event.role}</CardDescription>
+                               </CardHeader>
+                               <CardContent>
+                                   <p className="text-lg text-muted-foreground mt-2">{event.description}</p>
+                               </CardContent>
+                           </Card>
+                        ))}
+                    </div>
+                </motion.section>
+
+                <motion.section variants={itemVariants}>
+                    <h2 className="flex items-center text-5xl font-bold font-headline mb-6"><Code className="mr-4 text-primary"/>Sprachen & Technologien</h2>
                      <Card className="rounded-3xl">
                         <CardContent className="p-6">
                             <div className="flex flex-wrap gap-3">
@@ -134,15 +164,16 @@ export default function ResumePage() {
                 </motion.section>
                 
                 <motion.section variants={itemVariants}>
-                    <h2 className="text-5xl font-bold font-headline mb-6">Education</h2>
+                    <h2 className="flex items-center text-5xl font-bold font-headline mb-6"><Lightbulb className="mr-4 text-primary"/>Vision & Motivation</h2>
                      <Card className="overflow-hidden rounded-3xl">
                         <CardHeader>
-                            <div className="flex justify-between items-baseline">
-                                <CardTitle className="text-3xl font-bold font-headline">{education.degree}</CardTitle>
-                                <p className="text-lg text-muted-foreground">{education.period}</p>
-                            </div>
-                            <CardDescription className="text-xl pt-1">{education.university}</CardDescription>
+                            <CardTitle className="text-3xl font-bold font-headline">{motivation.vision}</CardTitle>
                         </CardHeader>
+                        <CardContent>
+                            <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground">
+                                {motivation.points.map((point, i) => <li key={i}>{point}</li>)}
+                            </ul>
+                        </CardContent>
                     </Card>
                 </motion.section>
             </motion.div>

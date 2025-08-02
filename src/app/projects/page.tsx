@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion } from 'framer-motion';
@@ -51,7 +52,7 @@ export default function ProjectsPage() {
             animate="visible"
           >
             <h1 className="text-7xl md:text-8xl font-black text-center mb-16 uppercase tracking-tighter font-headline">
-              Selected Work
+              Projekte & Tools
             </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {projectData.map((project, index) => (

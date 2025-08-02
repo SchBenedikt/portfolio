@@ -9,6 +9,9 @@ export type AchievementID =
   | 'NIGHT_OWL'
   | 'EARLY_BIRD'
   | 'GAMER'
+  | 'VIEW_SWITCHER'
+  | 'COMMAND_PRO'
+  | 'SECRET_FINDER'
   | 'COMPLETIONIST';
 
 export interface Achievement {
@@ -62,5 +65,20 @@ export const achievementsList: Achievement[] = [
     id: 'GAMER',
     name: 'High Score',
     description: 'You beat the number guessing game.',
-  }
+  },
+  {
+    id: 'VIEW_SWITCHER',
+    name: 'Dual Perspective',
+    description: 'Switched between UI and Terminal view.',
+  },
+  {
+    id: 'COMMAND_PRO',
+    name: 'Command Pro',
+    description: "Used 5 different terminal commands.",
+  },
+  {
+    id: 'SECRET_FINDER',
+    name: 'Secret Finder',
+    description: 'Found a secret command in the terminal.',
+  },
 ];

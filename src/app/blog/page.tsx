@@ -1,3 +1,4 @@
+
 'use client';
 
 import Header from '@/components/header';
@@ -53,7 +54,7 @@ export default function BlogPage() {
             animate="visible"
           >
             <h1 className="text-7xl md:text-8xl font-black text-center mb-16 uppercase tracking-tighter font-headline">
-              From the Keyboard
+              Technik & KI Blog
             </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {blogData.map((post, index) => (
