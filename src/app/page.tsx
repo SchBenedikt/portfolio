@@ -91,14 +91,14 @@ export default function Home() {
               {projectData.map((project, index) => (
                 <Link href={`/projects/${project.slug}`} key={project.slug}>
                   <MotionCard
-                    className="flex flex-col overflow-hidden transition-all duration-300 group rounded-3xl h-full"
+                    className="flex flex-col overflow-hidden transition-all duration-300 group rounded-3xl h-full shadow-lg hover:shadow-2xl hover:-translate-y-2"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
                     <CardHeader className="p-0">
-                      <div className="aspect-video overflow-hidden rounded-t-3xl">
+                      <div className="aspect-video overflow-hidden">
                         <Image
                           src={project.image}
                           alt={project.title}
