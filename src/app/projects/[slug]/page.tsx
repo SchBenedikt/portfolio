@@ -69,9 +69,11 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                      <p className="text-lg text-muted-foreground mb-6">
                         {project.description}
                      </p>
-                     <Button className="w-full rounded-full text-lg py-8">
-                        <Github className="mr-3"/>
-                        View on Github
+                     <Button asChild className="w-full rounded-full text-lg py-8">
+                        <Link href={`/projects/${project.slug}`}>
+                           <Github className="mr-3"/>
+                           View on Github
+                        </Link>
                     </Button>
                  </div>
               </div>

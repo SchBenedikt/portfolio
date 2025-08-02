@@ -35,7 +35,6 @@ const Header = () => {
           <Link href="/projects" className="font-medium hover:text-accent transition-colors">Projects</Link>
           <Link href="/resume" className="font-medium hover:text-accent transition-colors">Resume</Link>
           <Link href="/blog" className="font-medium hover:text-accent transition-colors">Blog</Link>
-          <Link href="/#contact" className="font-medium hover:text-accent transition-colors">Contact</Link>
         </nav>
         <div className="flex items-center">
           <ThemeToggle />
