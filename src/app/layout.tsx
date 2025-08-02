@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/components/providers/theme-provider';
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster as DefaultToaster } from '@/components/ui/toaster';
 import { Rubik } from 'next/font/google';
+import { AchievementsProvider } from '@/components/providers/achievements-provider';
+import { Toaster as SonnerToaster } from '@/components/ui/sonner';
 
 const rubik = Rubik({
   subsets: ['latin'],
@@ -38,8 +40,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Toaster />
+          <AchievementsProvider>
+            {children}
+            <DefaultToaster />
+            <SonnerToaster />
+          </AchievementsProvider>
         </ThemeProvider>
       </body>
     </html>

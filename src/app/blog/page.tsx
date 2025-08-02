@@ -16,15 +16,18 @@ import Link from 'next/link';
 import { blogData } from '@/lib/blog';
 import { ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useAchievements } from '@/components/providers/achievements-provider';
 
 const MotionCard = motion(Card);
 
 export default function BlogPage() {
   const [isClient, setIsClient] = useState(false);
+  const { unlockAchievement } = useAchievements();
 
   useEffect(() => {
     setIsClient(true);
-  }, []);
+    unlockAchievement('BLOG_EXPLORER');
+  }, [unlockAchievement]);
 
   const sectionVariants = {
     hidden: { opacity: 0, y: 50 },

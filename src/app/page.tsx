@@ -6,8 +6,16 @@ import { Button } from '@/components/ui/button';
 import Header from '@/components/header';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useEffect } from 'react';
+import { useAchievements } from '@/components/providers/achievements-provider';
 
 export default function Home() {
+  const { unlockAchievement } = useAchievements();
+
+  useEffect(() => {
+    unlockAchievement('FIRST_STEP');
+  }, [unlockAchievement]);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {

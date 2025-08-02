@@ -10,9 +10,19 @@ import { ArrowLeft, Github } from 'lucide-react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useAchievements } from '@/components/providers/achievements-provider';
+import { useEffect } from 'react';
 
 export default function ProjectPage({ params }: { params: { slug: string } }) {
   const project = projectData.find((p) => p.slug === params.slug);
+  const { unlockAchievement } = useAchievements();
+
+  useEffect(() => {
+    if (project) {
+      unlockAchievement('PROJECT_INSPECTOR');
+    }
+  }, [project, unlockAchievement]);
+
 
   if (!project) {
     notFound();

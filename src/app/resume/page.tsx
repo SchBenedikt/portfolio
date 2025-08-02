@@ -7,6 +7,8 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Download, Briefcase } from 'lucide-react';
+import { useAchievements } from '@/components/providers/achievements-provider';
+import { useEffect } from 'react';
 
 const skills = [
   'JavaScript (ES6+)',
@@ -43,6 +45,12 @@ const education = {
 }
 
 export default function ResumePage() {
+  const { unlockAchievement } = useAchievements();
+
+  useEffect(() => {
+    unlockAchievement('RESUME_VIEWER');
+  }, [unlockAchievement]);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 

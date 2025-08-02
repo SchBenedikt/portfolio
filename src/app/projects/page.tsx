@@ -14,10 +14,18 @@ import Footer from '@/components/footer';
 import { projectData } from '@/lib/projects';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useAchievements } from '@/components/providers/achievements-provider';
+import { useEffect } from 'react';
 
 const MotionCard = motion(Card);
 
 export default function ProjectsPage() {
+  const { unlockAchievement } = useAchievements();
+
+  useEffect(() => {
+    unlockAchievement('PROJECTS_EXPLORER');
+  }, [unlockAchievement]);
+
   const sectionVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
