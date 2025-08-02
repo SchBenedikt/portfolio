@@ -4,7 +4,6 @@ import { projectData } from '@/lib/projects';
 import { notFound } from 'next/navigation';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
-import Scene from '@/components/scene';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Github } from 'lucide-react';
@@ -22,7 +21,6 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
-      <Scene />
       <main className="relative z-10 flex-grow pt-32 pb-16">
         <div className="container mx-auto px-6 sm:px-8">
           <motion.div

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, Wand2, ArrowRight } from 'lucide-react';
+import { Github, Linkedin, Mail, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -15,10 +15,8 @@ import {
   CardDescription,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import Scene from '@/components/scene';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
-import { AiAnimationGenerator } from '@/components/ai-animation-generator';
 import { projectData } from '@/lib/projects';
 import Link from 'next/link';
 
@@ -40,7 +38,6 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
-      <Scene />
       <main className="relative z-10 flex-grow">
         <div className="container mx-auto px-6 sm:px-8">
           <section
@@ -122,9 +119,6 @@ export default function Home() {
                         ))}
                       </div>
                     </CardContent>
-                    <CardFooter className="p-6 mt-auto">
-                      <AiAnimationGenerator elementName={project.title} />
-                    </CardFooter>
                   </MotionCard>
                 </Link>
               ))}
