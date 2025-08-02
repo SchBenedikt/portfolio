@@ -32,9 +32,10 @@ const Header = () => {
           BS
         </Link>
         <nav className="hidden md:flex items-center gap-10 text-xl">
-          <a href="/#projects" className="font-medium hover:text-accent transition-colors">Projects</a>
-          <a href="/#about" className="font-medium hover:text-accent transition-colors">About</a>
-          <a href="/#contact" className="font-medium hover:text-accent transition-colors">Contact</a>
+          <Link href="/projects" className="font-medium hover:text-accent transition-colors">Projects</Link>
+          <Link href="/resume" className="font-medium hover:text-accent transition-colors">Resume</Link>
+          <Link href="/blog" className="font-medium hover:text-accent transition-colors">Blog</Link>
+          <Link href="/#contact" className="font-medium hover:text-accent transition-colors">Contact</Link>
         </nav>
         <div className="flex items-center">
           <ThemeToggle />

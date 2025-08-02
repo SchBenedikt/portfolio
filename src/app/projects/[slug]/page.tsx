@@ -30,7 +30,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
           >
             <div className="mb-8">
               <Button asChild variant="outline" className="rounded-full">
-                <Link href="/#projects">
+                <Link href="/projects">
                   <ArrowLeft className="mr-2" />
                   Back to Projects
                 </Link>
