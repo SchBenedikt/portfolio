@@ -4,18 +4,17 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/header';
-import Footer from '@/components/footer';
 import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
+    <div className="flex flex-col h-screen bg-background text-foreground">
       <Header />
       <main className="relative z-10 flex-grow">
-        <div className="container mx-auto px-6 sm:px-8">
+        <div className="container mx-auto px-6 sm:px-8 h-full">
           <section
             id="hero"
-            className="min-h-screen flex flex-col justify-center items-start text-left"
+            className="h-full flex flex-col justify-center items-center text-center"
           >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -27,7 +26,7 @@ export default function Home() {
                 <br />
                 Schächner
               </h1>
-              <p className="mt-6 text-2xl md:text-3xl max-w-3xl text-muted-foreground">
+              <p className="mt-6 text-2xl md:text-3xl max-w-3xl text-muted-foreground mx-auto">
                 Creative Developer & Designer shaping digital experiences with a
                 focus on motion, 3D graphics, and AI-driven interactions.
               </p>
@@ -47,7 +46,6 @@ export default function Home() {
           </section>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }
