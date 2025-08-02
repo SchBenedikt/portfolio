@@ -15,10 +15,17 @@ import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { blogData } from '@/lib/blog';
 import { ArrowRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 const MotionCard = motion(Card);
 
 export default function BlogPage() {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const sectionVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
@@ -58,7 +65,7 @@ export default function BlogPage() {
                       <CardTitle className="text-4xl font-bold font-headline">
                         {post.title}
                       </CardTitle>
-                       <CardDescription className="text-lg pt-2">{new Date(post.date).toLocaleDateString()}</CardDescription>
+                       <CardDescription className="text-lg pt-2">{isClient ? new Date(post.date).toLocaleDateString() : new Date(post.date).toISOString().split('T')[0]}</CardDescription>
                     </CardHeader>
                     <CardContent className="flex-grow">
                       <p className="text-lg text-muted-foreground">{post.description}</p>
