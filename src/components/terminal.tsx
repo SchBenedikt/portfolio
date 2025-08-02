@@ -11,16 +11,38 @@ interface HistoryItem {
   content: string;
 }
 
+const initialHistory: HistoryItem[] = [
+  { type: 'output', content: "Welcome to Benedikt's interactive terminal." },
+  { type: 'output', content: "Type 'help' to see the list of available commands." },
+];
+
 export const Terminal = () => {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const [input, setInput] = useState('');
-  const [history, setHistory] = useState<HistoryItem[]>([
-    { type: 'output', content: "Welcome to Benedikt's interactive terminal." },
-    { type: 'output', content: "Type 'help' to see the list of available commands." },
-  ]);
+  const [history, setHistory] = useState<HistoryItem[]>(initialHistory);
   const inputRef = useRef<HTMLInputElement>(null);
   const endOfHistoryRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    try {
+      const savedHistory = localStorage.getItem('terminalHistory');
+      if (savedHistory) {
+        setHistory(JSON.parse(savedHistory));
+      }
+    } catch (e) {
+      console.error("Failed to load terminal history:", e);
+      setHistory(initialHistory);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('terminalHistory', JSON.stringify(history));
+    } catch (e) {
+      console.error("Failed to save terminal history:", e);
+    }
+  }, [history]);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -50,9 +72,9 @@ export const Terminal = () => {
         break;
       case 'nav':
         const page = args[0];
-        if (['projects', 'resume', 'blog'].includes(page)) {
-          output = `Navigating to /${page}...`;
-          router.push(`/${page}`);
+        if (['projects', 'resume', 'blog', ''].includes(page) || page === undefined) {
+          router.push(`/${page || ''}`);
+          output = `Navigating to /${page || ''}...`;
         } else {
           output = `Error: Page '${page}' not found. Available pages: projects, resume, blog.`;
         }

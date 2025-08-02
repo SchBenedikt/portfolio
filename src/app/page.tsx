@@ -15,10 +15,23 @@ import { Label } from '@/components/ui/label';
 export default function Home() {
   const { unlockAchievement } = useAchievements();
   const [isTerminalView, setIsTerminalView] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
 
   useEffect(() => {
     unlockAchievement('FIRST_STEP');
+    const savedView = localStorage.getItem('terminalView');
+    if (savedView) {
+      setIsTerminalView(JSON.parse(savedView));
+    }
+    setIsMounted(true);
   }, [unlockAchievement]);
+
+  useEffect(() => {
+    if(isMounted) {
+      localStorage.setItem('terminalView', JSON.stringify(isTerminalView));
+    }
+  }, [isTerminalView, isMounted]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -46,16 +59,20 @@ export default function Home() {
   const handleToggleView = () => {
     setIsTerminalView(prev => !prev);
   }
+  
+  if (!isMounted) {
+    return null; 
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header>
         <div className="flex items-center space-x-4">
-          <button onClick={handleToggleView} className={cn('flex items-center gap-2 text-lg transition-colors hover:text-primary', !isTerminalView && 'text-primary')}>
+          <button onClick={() => setIsTerminalView(false)} className={cn('flex items-center gap-2 text-lg transition-colors hover:text-primary', !isTerminalView && 'text-primary')}>
             <User />
             <span>UI</span>
           </button>
-           <button onClick={handleToggleView} className={cn('flex items-center gap-2 text-lg transition-colors hover:text-primary', isTerminalView && 'text-primary')}>
+           <button onClick={() => setIsTerminalView(true)} className={cn('flex items-center gap-2 text-lg transition-colors hover:text-primary', isTerminalView && 'text-primary')}>
             <TerminalSquare />
             <span>Terminal</span>
           </button>
