@@ -29,49 +29,57 @@ const timelineEvents = [
         date: "April 2025",
         title: "Freiwilliges Schülerpraktikum",
         organization: "OMV Burghausen",
-        description: "Einblicke in Petrochemie, Erdölverarbeitung und Unternehmensstrukturen."
+        description: "Einblicke in Petrochemie, Erdölverarbeitung und Unternehmensstrukturen.",
+        icon: <Briefcase/>
     },
     {
         date: "Nov 2024",
         title: "Hauptpreis, Deutscher Multimedia-Preis mb21",
         organization: "Finale in Dresden",
-        description: "Gewinn des Hauptpreises (Altersgruppe 11-15) für das Projekt „Meum Diarium – Ein Feldherr als Influencer“ zusammen mit Vinzenz Schächner."
+        description: "Gewinn des Hauptpreises (Altersgruppe 11-15) für das Projekt „Meum Diarium – Ein Feldherr als Influencer“ zusammen mit Vinzenz Schächner.",
+        icon: <Award className="text-primary"/>
     },
     {
         date: "Nov 2024",
         title: "1. Platz, Crossmedia-Wettbewerb",
         organization: "Bayerischer Rundfunk, Unterföhring",
-        description: "Auszeichnung für „Meum Diarium“ in der Sparte „textbased“ für Idee, Umsetzung und mediale Aufbereitung."
+        description: "Auszeichnung für „Meum Diarium“ in der Sparte „textbased“ für Idee, Umsetzung und mediale Aufbereitung.",
+        icon: <Award className="text-primary"/>
     },
      {
         date: "Nov 2024",
         title: "Zertifikat in Jugendstrafrecht",
         organization: "Friedrich-Alexander-Universität Erlangen-Nürnberg",
-        description: "Erfolgreiche Teilnahme am Seminar und Erwerb des Zertifikats."
+        description: "Erfolgreiche Teilnahme am Seminar und Erwerb des Zertifikats.",
+        icon: <GraduationCap/>
     },
     {
         date: "Sep 2024",
         title: "Lightning Talk, Nextcloud Conference",
         organization: "Berlin",
-        description: "Vortrag über Nextcloud-Security, Selfhosting und den Schutz sensibler Daten vor einer internationalen Community."
+        description: "Vortrag über Nextcloud-Security, Selfhosting und den Schutz sensibler Daten vor einer internationalen Community.",
+        icon: <Rocket/>
     },
     {
         date: "Juli 2024",
         title: "Praktikum Informatik & Netzwerktechnik",
         organization: "Rohde & Schwarz Cybersecurity, München",
-        description: "Praktische Arbeit an IT-Projekten und Einblicke in die Netzwerksicherheit."
+        description: "Praktische Arbeit an IT-Projekten und Einblicke in die Netzwerksicherheit.",
+        icon: <Briefcase/>
     },
      {
         date: "Seit 2023",
         title: "Mitgründer der MedienScouts",
         organization: "König-Karlmann-Gymnasium",
-        description: "Technische und didaktische Leitung von Schulinitiativen, Live-Workshops und Peer-to-Peer-Schulungen zur Medienkompetenz."
+        description: "Technische und didaktische Leitung von Schulinitiativen, Live-Workshops und Peer-to-Peer-Schulungen zur Medienkompetenz.",
+        icon: <Users/>
     },
      {
         date: "Seit 2019",
         title: "Schüler am König-Karlmann-Gymnasium",
         organization: "Altötting",
-        description: "Aktive Teilnahme an Digitalklassen, Medienscouts und MINT-Angeboten."
+        description: "Aktive Teilnahme an Digitalklassen, Medienscouts und MINT-Angeboten.",
+        icon: <School/>
     }
 ];
 
@@ -142,8 +150,8 @@ export default function ResumePage() {
                 <div className="relative border-l-2 border-primary/50 ml-4 pl-4">
                     {timelineEvents.map((event, index) => (
                          <motion.div key={index} variants={itemVariants} className="mb-10 ml-8">
-                            <span className={`absolute -left-[18px] flex items-center justify-center w-9 h-9 rounded-full ring-8 ring-background bg-primary`}>
-                                <Calendar className="h-5 w-5 text-primary-foreground" />
+                            <span className={`absolute -left-[18px] flex items-center justify-center w-9 h-9 rounded-full ring-8 ring-background bg-secondary`}>
+                                {React.cloneElement(event.icon, { className: "h-5 w-5 text-secondary-foreground" })}
                             </span>
                             <Card className="rounded-2xl shadow-lg border-border/50 transition-all hover:border-primary/50">
                                 <CardHeader>
@@ -200,3 +208,5 @@ export default function ResumePage() {
     </div>
   );
 }
+
+    
