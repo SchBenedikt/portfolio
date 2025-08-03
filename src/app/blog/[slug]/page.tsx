@@ -2,7 +2,7 @@
 'use client';
 
 import { blogData } from '@/lib/blog';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { Badge } from '@/components/ui/badge';
@@ -11,11 +11,14 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useAchievements } from '@/components/providers/achievements-provider';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useChat } from '@/components/providers/chat-provider';
 
-export default function BlogPostPage({ params: { slug } }: { params: { slug: string } }) {
-  const post = blogData.find((p) => p.slug === slug);
+export default function BlogPostPage() {
+  const params = useParams();
+  const slug = params.slug as string;
+
+  const post = useMemo(() => blogData.find((p) => p.slug === slug), [slug]);
   const { unlockAchievement } = useAchievements();
   const { openChat } = useChat();
 

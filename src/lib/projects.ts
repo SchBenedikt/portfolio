@@ -8,6 +8,7 @@ export const projectData = [
     longDescription:
       '„Meum Diarium – Ein Feldherr als Influencer“ ist ein preisgekröntes Schulprojekt, das Cäsars "De Bello Gallico" als Blog-Posts, Interviews und Social-Media-Storys modern interpretiert. Das Projekt gewann den Hauptpreis beim Deutschen Multimedia-Preis mb21 2024 und wurde beim Crossmedia-Wettbewerb des Bayerischen Rundfunks ausgezeichnet, indem es historische Inhalte mit moderner Netzkultur kreativ verbindet.',
     image: 'https://placehold.co/600x400.png',
+    url: 'https://www.br.de/medienkompetenz/crossmedia-wettbewerb/gewinner-crossmedia-2024-meum-diarium-100.html',
     tags: ['Crossmedia', 'Storytelling', 'Ausgezeichnet', 'UI/UX'],
     aiHint: 'roman influencer blog',
     date: '2024-05-10',
@@ -21,6 +22,7 @@ export const projectData = [
     longDescription:
       'Auf medienscouts-kkg.de stellen wir als Gruppe digitale Werkzeuge vor, organisieren Workshops und beraten zu Datenschutz und Online-Sicherheit. Wir unterstützen die Digitalklassen, in denen ab der 8. Klasse papierlos gearbeitet wird, und stehen als Ansprechpartner für Schüler, Lehrer und Eltern zur Verfügung, um die digitale Bildung und Sicherheit an der Schule zu fördern.',
     image: 'https://placehold.co/600x400.png',
+    url: 'https://www.medienscouts-kkg.de/',
     tags: ['Next.js', 'Chatbot', 'Schulprojekt', 'CI/CD'],
     aiHint: 'school media lab',
     date: '2023-09-01',
@@ -34,6 +36,7 @@ export const projectData = [
     longDescription:
       'Auf meiner technischen Website teile ich mein Wissen über digitale Souveränität, Open-Source-Software und Self-Hosting. Dort finden sich detaillierte Anleitungen, zum Beispiel zum lokalen Betrieb von KI-Modellen, aber auch Erfahrungsberichte und Rückblicke auf Konferenzen wie die Nextcloud Conference, wo ich als Speaker aufgetreten bin.',
     image: 'https://placehold.co/600x400.png',
+    url: 'https://github.com/Benedikt-Schaechner/selfhosting',
     tags: ['Selfhosting', 'Speaker', 'Docker', 'Linux'],
     aiHint: 'server code terminal',
     date: '2024-01-15',

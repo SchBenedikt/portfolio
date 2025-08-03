@@ -84,14 +84,12 @@ export default function ProjectsPage() {
                   >
                     <Card className="rounded-3xl shadow-lg">
                       <CardHeader className="p-0">
-                         <div className="aspect-video overflow-hidden rounded-t-3xl">
-                            <Image
-                            src={selectedProject.image}
-                            alt={selectedProject.title}
-                            width={1200}
-                            height={675}
-                            className="object-cover w-full h-full"
-                            data-ai-hint={selectedProject.aiHint}
+                         <div className="aspect-video overflow-hidden rounded-t-3xl border-b">
+                            <iframe 
+                                src={selectedProject.url}
+                                title={selectedProject.title}
+                                className="w-full h-full"
+                                sandbox="allow-scripts allow-same-origin"
                             />
                         </div>
                       </CardHeader>

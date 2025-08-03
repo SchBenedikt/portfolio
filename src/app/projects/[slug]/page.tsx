@@ -2,7 +2,7 @@
 'use client';
 
 import { projectData } from '@/lib/projects';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { Badge } from '@/components/ui/badge';
@@ -12,11 +12,14 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useAchievements } from '@/components/providers/achievements-provider';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useChat } from '@/components/providers/chat-provider';
 
-export default function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
-  const project = projectData.find((p) => p.slug === slug);
+export default function ProjectPage() {
+  const params = useParams();
+  const slug = params.slug as string;
+
+  const project = useMemo(() => projectData.find((p) => p.slug === slug), [slug]);
   const { unlockAchievement } = useAchievements();
   const { openChat } = useChat();
 
