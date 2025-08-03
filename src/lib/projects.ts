@@ -22,7 +22,7 @@ export const projectData = [
     longDescription:
       'Auf medienscouts-kkg.de stellen wir als Gruppe digitale Werkzeuge vor, organisieren Workshops und beraten zu Datenschutz und Online-Sicherheit. Wir unterstützen die Digitalklassen, in denen ab der 8. Klasse papierlos gearbeitet wird, und stehen als Ansprechpartner für Schüler, Lehrer und Eltern zur Verfügung, um die digitale Bildung und Sicherheit an der Schule zu fördern.',
     image: 'https://placehold.co/600x400.png',
-    url: 'https://www.medienscouts-kkg.de/',
+    url: 'https://medienscouts-kkg.de/',
     tags: ['Next.js', 'Chatbot', 'Schulprojekt', 'CI/CD'],
     aiHint: 'school media lab',
     date: '2023-09-01',
