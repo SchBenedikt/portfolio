@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { Terminal } from '@/components/terminal';
 import { cn } from '@/lib/utils';
+import React from 'react';
 
 export default function Home() {
   const { unlockAchievement } = useAchievements();
@@ -105,7 +106,7 @@ export default function Home() {
                   transition={{ duration: 0.8, ease: "easeOut" }}
                 >
                   <h1 className="text-7xl sm:text-8xl md:text-9xl font-black uppercase tracking-tighter font-headline">
-                    Benedikt Schächner
+                    Benedikt<br/>Schächner
                   </h1>
               </motion.div>
             </motion.section>
