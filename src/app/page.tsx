@@ -94,13 +94,13 @@ export default function Home() {
           ) : (
             <motion.section
               key="ui"
-              className="flex flex-col justify-center items-center text-center h-full min-h-screen"
+              className="flex flex-col justify-center items-start text-left h-full min-h-screen"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
               exit={{ opacity: 0 }}
             >
-              <div className="text-center">
+              <div className="text-left">
                 <motion.h1
                   id="hero-title"
                   className="text-8xl md:text-9xl lg:text-10xl font-black uppercase tracking-tighter font-headline"
@@ -112,7 +112,7 @@ export default function Home() {
                 </motion.h1>
                 <motion.p
                   id="hero-subtitle"
-                  className="mt-6 text-2xl md:text-3xl max-w-xl mx-auto text-muted-foreground"
+                  className="mt-6 text-2xl md:text-3xl max-w-xl text-muted-foreground"
                   variants={itemVariants}
                 >
                   Creative Developer mit Fokus auf KI-Tools, Selfhosting und Edutech.
