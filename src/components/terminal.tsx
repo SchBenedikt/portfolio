@@ -797,7 +797,7 @@ export const Terminal = () => {
   if (gameState.type === 'nano') {
       return (
          <div className="fixed inset-0 bg-black text-white font-mono z-[100] flex flex-col p-2">
-            <div className="bg-blue-800 text-white text-center text-sm mb-1">
+            <div className="bg-primary/80 text-primary-foreground text-center text-sm mb-1 font-semibold">
                 Nano Editor - {gameState.nanoFile}
             </div>
             <Textarea
@@ -806,9 +806,9 @@ export const Terminal = () => {
                 className="flex-grow bg-black text-white border-none focus:ring-0 whitespace-pre-wrap rounded-none"
                 autoFocus
             />
-            <div className="bg-blue-800 text-white text-sm mt-1 flex justify-center gap-6">
-                <button onClick={() => handleNanoExit(true)} className="cursor-pointer bg-transparent border-none">^X Speichern & Schließen</button>
-                <button onClick={() => handleNanoExit(false)} className="cursor-pointer bg-transparent border-none">^C Abbrechen</button>
+            <div className="bg-card border-t border-border/50 p-2 flex justify-end gap-2">
+                <Button variant="secondary" onClick={() => handleNanoExit(false)} data-cursor-interactive>Abbrechen</Button>
+                <Button onClick={() => handleNanoExit(true)} data-cursor-interactive>Speichern & Schließen</Button>
             </div>
          </div>
       );
@@ -885,7 +885,7 @@ export const Terminal = () => {
             className="w-full bg-transparent border-none focus:ring-0 outline-none text-foreground"
             autoFocus
             autoComplete="off"
-            disabled={gameState.type === 'typing_test' || gameState.type === 'tutorial'}
+            disabled={gameState.type !== 'none'}
           />
         </form>
       </motion.div>
