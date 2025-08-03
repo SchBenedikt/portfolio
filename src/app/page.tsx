@@ -105,23 +105,22 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <motion.div 
-                  className="text-right"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                 >
                   <h1 className="text-7xl sm:text-8xl md:text-9xl font-black uppercase tracking-tighter font-headline">
-                    <div className="flex items-center justify-end">
-                        <Image
-                          src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Waving%20Hand.png"
-                          alt="Waving Hand"
-                          width={80}
-                          height={80}
-                          className="inline-block mr-4"
-                        />
-                        <span>Benedikt</span>
+                    <div className="flex items-center justify-between">
+                      <Image
+                        src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Waving%20Hand.png"
+                        alt="Waving Hand"
+                        width={80}
+                        height={80}
+                        className="inline-block"
+                      />
+                      <span className="text-right">Benedikt</span>
                     </div>
-                    <div>Schächner</div>
+                    <div className="text-right">Schächner</div>
                   </h1>
               </motion.div>
             </motion.section>
