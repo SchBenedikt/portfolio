@@ -8,59 +8,83 @@ import { motion } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Download, Award, Briefcase, Lightbulb, Users, Code, Rocket, GitBranch, Terminal as TerminalIcon, Rss, Link as LinkIcon, GraduationCap, Instagram } from 'lucide-react';
+import { Download, Award, Briefcase, Lightbulb, Users, Code, Rocket, GitBranch, Terminal as TerminalIcon, Rss, Link as LinkIcon, GraduationCap, Instagram, Linkedin, Home, School, Mail, Phone, Calendar, CodeSquare, Star } from 'lucide-react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { useEffect } from 'react';
 import Link from 'next/link';
 
+const about = {
+    name: "Benedikt Schächner",
+    title: "Schüler, Entwickler & digitaler Pionier",
+    quote: "„Arbeite hart, habe Spaß und schreibe Geschichte“ – Jeff Bezos",
+    links: [
+        { name: "Website", url: "https://benedikt.xn--schchner-2za.de", icon: <LinkIcon/> },
+        { name: "LinkedIn", url: "https://de.linkedin.com/in/benedikt-schächner-a22632299/", icon: <Linkedin/> },
+        { name: "Instagram", url: "https://www.instagram.com/benedikt.schaechner/", icon: <Instagram/> },
+    ]
+}
+
 const timelineEvents = [
     {
-        icon: <Award className="h-5 w-5 text-background" />,
-        iconBg: 'bg-yellow-500',
+        date: "April 2025",
+        title: "Freiwilliges Schülerpraktikum",
+        organization: "OMV Burghausen",
+        description: "Einblicke in Petrochemie, Erdölverarbeitung und Unternehmensstrukturen."
+    },
+    {
         date: "Nov 2024",
         title: "Hauptpreis, Deutscher Multimedia-Preis mb21",
         organization: "Finale in Dresden",
-        description: "Gewinn des Hauptpreises für das Projekt „Meum Diarium – Ein Feldherr als Influencer“ zusammen mit Vinzenz Schächner."
+        description: "Gewinn des Hauptpreises (Altersgruppe 11-15) für das Projekt „Meum Diarium – Ein Feldherr als Influencer“ zusammen mit Vinzenz Schächner."
     },
     {
-        icon: <Award className="h-5 w-5 text-background" />,
-        iconBg: 'bg-yellow-500',
         date: "Nov 2024",
-        title: "Nominierung, Crossmedia-Wettbewerb",
+        title: "1. Platz, Crossmedia-Wettbewerb",
         organization: "Bayerischer Rundfunk, Unterföhring",
-        description: "Nominierung und Auszeichnung für „Meum Diarium“ in der Sparte „textbased“ für Idee, Umsetzung und mediale Aufbereitung."
+        description: "Auszeichnung für „Meum Diarium“ in der Sparte „textbased“ für Idee, Umsetzung und mediale Aufbereitung."
+    },
+     {
+        date: "Nov 2024",
+        title: "Zertifikat in Jugendstrafrecht",
+        organization: "Friedrich-Alexander-Universität Erlangen-Nürnberg",
+        description: "Erfolgreiche Teilnahme am Seminar und Erwerb des Zertifikats."
     },
     {
-        icon: <Users className="h-5 w-5 text-background" />,
-        iconBg: 'bg-blue-500',
         date: "Sep 2024",
         title: "Lightning Talk, Nextcloud Conference",
         organization: "Berlin",
         description: "Vortrag über Nextcloud-Security, Selfhosting und den Schutz sensibler Daten vor einer internationalen Community."
     },
+    {
+        date: "Juli 2024",
+        title: "Praktikum Informatik & Netzwerktechnik",
+        organization: "Rohde & Schwarz Cybersecurity, München",
+        description: "Praktische Arbeit an IT-Projekten und Einblicke in die Netzwerksicherheit."
+    },
      {
-        icon: <GraduationCap className="h-5 w-5 text-background" />,
-        iconBg: 'bg-green-500',
         date: "Seit 2023",
         title: "Mitgründer der MedienScouts",
         organization: "König-Karlmann-Gymnasium",
         description: "Technische und didaktische Leitung von Schulinitiativen, Live-Workshops und Peer-to-Peer-Schulungen zur Medienkompetenz."
+    },
+     {
+        date: "Seit 2019",
+        title: "Schüler am König-Karlmann-Gymnasium",
+        organization: "Altötting",
+        description: "Aktive Teilnahme an Digitalklassen, Medienscouts und MINT-Angeboten."
     }
-].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-const skills = [
-  'Open Source', 'Digitale Bildung', 'LAMP Stacks', 'Docker', 'Next.js', 'React', 'TypeScript', 'GitOps', 'Linux', 'UI Motion', 'Nextcloud', 'Ollama'
 ];
 
-const about = {
-    text: "Schüler am König-Karlmann-Gymnasium in Altötting. Engagiert in technischen und medialen Projekten, um Digitalisierung mit Kreativität und Teamgeist an Schulen zu bringen.",
-    links: [
-        { name: "Website", url: "https://benedikt.xn--schchner-2za.de", icon: <LinkIcon/> },
-        { name: "Medienscouts", url: "https://medienscouts-kkg.de", icon: <Users/> },
-        { name: "Instagram", url: "#", icon: <Instagram/> },
-        { name: "LinkedIn", url: "#", icon: <Briefcase/> }
-    ]
-}
+const skills = [
+  'IT-Management', 'Serververwaltung', 'Netzwerktechnik', 'Next.js', 'React', 'Docker', 'Linux', 'Nextcloud', 'WordPress', 'UI Motion', 'Ollama', 'GitOps', 'Digitale Bildung', 'Mediation', 'Jura/Strafrecht'
+];
+
+const languages = [
+    { name: "Deutsch", level: "Muttersprache" },
+    { name: "Englisch", level: "B1+ (zertifiziert)" },
+    { name: "Latein", level: "Großes Latinum" },
+]
+
 
 export default function ResumePage() {
   const { unlockAchievement } = useAchievements();
@@ -92,38 +116,34 @@ export default function ResumePage() {
           variants={containerVariants}
           className="container mx-auto px-6 sm:px-8 max-w-5xl"
         >
-            <motion.div variants={itemVariants} className="text-center mb-16">
+            <motion.div variants={itemVariants} className="text-center mb-12">
                 <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter font-headline">
-                    Lebenslauf
+                    {about.name}
                 </h1>
-                <p className="text-xl md:text-2xl text-muted-foreground mt-2">Benedikt Schächner</p>
+                <p className="text-xl md:text-2xl text-primary mt-2">{about.title}</p>
+                <blockquote className="mt-6 text-lg md:text-xl text-muted-foreground italic">
+                    {about.quote}
+                </blockquote>
             </motion.div>
 
-            {/* About Me & Links */}
-            <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                <div className="md:col-span-2 bg-card/50 backdrop-blur-lg p-8 rounded-3xl border border-border/50">
-                    <p className="text-lg md:text-xl text-center md:text-left leading-relaxed">{about.text}</p>
-                </div>
-                <div className="flex flex-row md:flex-col justify-center items-center gap-4">
-                    {about.links.map(link => (
-                        <Button key={link.name} asChild variant="outline" className="rounded-full w-full justify-center text-md py-6" data-cursor-interactive>
-                           <Link href={link.url} target="_blank">
-                             {React.cloneElement(link.icon, { className: "mr-2" })}
-                             {link.name}
-                           </Link>
-                        </Button>
-                    ))}
-                </div>
+            <motion.div variants={itemVariants} className="flex justify-center gap-4 mb-16">
+                {about.links.map(link => (
+                    <Button key={link.name} asChild variant="outline" className="rounded-full" data-cursor-interactive>
+                        <Link href={link.url} target="_blank">
+                            {React.cloneElement(link.icon, { className: "mr-2" })}
+                            {link.name}
+                        </Link>
+                    </Button>
+                ))}
             </motion.div>
-
-
-            {/* Timeline Section */}
+            
             <motion.div variants={itemVariants} className="mb-16">
-                <div className="relative border-l-2 border-border/50 ml-4 pl-4">
+                <h2 className="text-4xl font-bold font-headline mb-8 text-center flex items-center justify-center gap-3"><Briefcase className="text-primary"/> Werdegang</h2>
+                <div className="relative border-l-2 border-primary/50 ml-4 pl-4">
                     {timelineEvents.map((event, index) => (
                          <motion.div key={index} variants={itemVariants} className="mb-10 ml-8">
-                            <span className={`absolute -left-[18px] flex items-center justify-center w-9 h-9 rounded-full ring-8 ring-background ${event.iconBg}`}>
-                                {event.icon}
+                            <span className={`absolute -left-[18px] flex items-center justify-center w-9 h-9 rounded-full ring-8 ring-background bg-primary`}>
+                                <Calendar className="h-5 w-5 text-primary-foreground" />
                             </span>
                             <Card className="rounded-2xl shadow-lg border-border/50 transition-all hover:border-primary/50">
                                 <CardHeader>
@@ -131,7 +151,7 @@ export default function ResumePage() {
                                         <CardTitle className="text-xl md:text-2xl font-bold font-headline mb-1 sm:mb-0">{event.title}</CardTitle>
                                         <Badge variant="secondary" className="text-sm rounded-md whitespace-nowrap self-start sm:self-center">{event.date}</Badge>
                                     </div>
-                                    <CardDescription className="text-md md:text-lg pt-1">{event.organization}</CardDescription>
+                                    <CardDescription className="text-md md:text-lg pt-1 text-primary">{event.organization}</CardDescription>
                                 </CardHeader>
                                 <CardContent>
                                     <p className="text-md md:text-lg text-muted-foreground">{event.description}</p>
@@ -142,25 +162,38 @@ export default function ResumePage() {
                 </div>
             </motion.div>
 
-            {/* Skills */}
-             <motion.div variants={itemVariants}>
-                <Card className="rounded-2xl p-8">
-                    <CardHeader className="p-0 mb-6">
-                        <CardTitle className="flex items-center text-3xl md:text-4xl font-bold font-headline">
-                            <Code className="mr-3 text-primary"/> Sprachen & Technologien
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-0">
-                        <div className="flex flex-wrap gap-3">
-                            {skills.map((skill) => (
-                                <Badge key={skill} variant="secondary" className="text-md md:text-lg rounded-lg px-4 py-1">
-                                    {skill}
-                                </Badge>
-                            ))}
-                        </div>
-                    </CardContent>
-                </Card>
-            </motion.div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <motion.div variants={itemVariants}>
+                    <h2 className="text-4xl font-bold font-headline mb-8 text-center flex items-center justify-center gap-3"><CodeSquare className="text-primary"/> Fähigkeiten</h2>
+                    <Card className="rounded-2xl p-8">
+                        <CardContent className="p-0">
+                            <div className="flex flex-wrap justify-center gap-3">
+                                {skills.map((skill) => (
+                                    <Badge key={skill} variant="secondary" className="text-md md:text-lg rounded-lg px-4 py-1">
+                                        {skill}
+                                    </Badge>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
+                </motion.div>
+
+                 <motion.div variants={itemVariants}>
+                    <h2 className="text-4xl font-bold font-headline mb-8 text-center flex items-center justify-center gap-3"><GraduationCap className="text-primary"/> Sprachen</h2>
+                    <Card className="rounded-2xl p-8">
+                        <CardContent className="p-0">
+                            <div className="flex flex-col gap-4">
+                                {languages.map((lang) => (
+                                    <div key={lang.name} className="flex justify-between items-center text-lg">
+                                        <span className="font-medium">{lang.name}</span>
+                                        <span className="text-muted-foreground">{lang.level}</span>
+                                     </div>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
+                </motion.div>
+            </div>
         </motion.div>
       </main>
       <Footer />

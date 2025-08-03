@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { useAchievements } from './providers/achievements-provider';
@@ -19,7 +19,23 @@ interface HistoryItem {
   path: string;
 }
 
+type FileSystemNode = {
+    type: 'file';
+    content: string;
+} | {
+    type: 'dir';
+    children: { [key: string]: FileSystemNode };
+};
+
+
 type GameType = 'none' | 'number_guesser' | 'typing_test' | 'matrix';
+
+const initialFileSystem: { [key: string]: FileSystemNode } = {
+    'README.md': { 
+        type: 'file', 
+        content: "Willkommen!\n\nDies ist ein interaktives Terminal. Tippe 'help', um mehr zu erfahren.\nDu kannst Dateien und Ordner erstellen und bearbeiten.\n\nProbiere: 'ls', 'cat README.md', 'mkdir projekte', 'touch projekte/idee.txt', 'nano projekte/idee.txt', 'view projekte/idee.txt'" 
+    }
+};
 
 const initialHistory: HistoryItem[] = [
   { type: 'output', content: "Willkommen bei Benedikts interaktivem Terminal.", path: '~' },
@@ -43,6 +59,12 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   const [gameState, setGameState] = useState<GameType>('none');
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [usedCommands, setUsedCommands] = useState<Set<string>>(new Set());
+  const [currentPath, setCurrentPath] = useState<string[]>([]);
+  const [fileSystem, setFileSystem] = useState<{ [key: string]: FileSystemNode }>(initialFileSystem);
+  
+  const [isNanoMode, setIsNanoMode] = useState(false);
+  const [nanoFile, setNanoFile] = useState<{ path: string[], content: string }>({ path: [], content: '' });
+
 
   // Game State
   const [secretNumber, setSecretNumber] = useState(0);
@@ -54,10 +76,36 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const endOfHistoryRef = useRef<HTMLDivElement>(null);
   const matrixCanvasRef = useRef<HTMLCanvasElement>(null);
+  const nanoTextareaRef = useRef<HTMLTextAreaElement>(null);
+
 
   useEffect(() => {
-    inputRef.current?.focus();
+    try {
+        const savedFileSystem = localStorage.getItem('terminalFileSystem');
+        if (savedFileSystem) {
+            setFileSystem(JSON.parse(savedFileSystem));
+        }
+    } catch (e) {
+        console.error("Could not load filesystem from local storage", e)
+        setFileSystem(initialFileSystem);
+    }
   }, []);
+
+  const saveFileSystem = useCallback((fs: { [key: string]: FileSystemNode }) => {
+      try {
+        localStorage.setItem('terminalFileSystem', JSON.stringify(fs));
+      } catch (e) {
+        console.error("Could not save filesystem to local storage", e);
+      }
+  }, []);
+
+  useEffect(() => {
+    if (isNanoMode) {
+      nanoTextareaRef.current?.focus();
+    } else {
+      inputRef.current?.focus();
+    }
+  }, [isNanoMode]);
 
   useEffect(() => {
     endOfHistoryRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -124,8 +172,40 @@ export const Terminal = ({ onExit }: TerminalProps) => {
     }
   };
 
+  const resolvePath = (path: string) => {
+    const segments = path.split('/').filter(p => p);
+    let newPath = path.startsWith('/') ? [] : [...currentPath];
+
+    for (const segment of segments) {
+        if (segment === '..') {
+            newPath.pop();
+        } else if (segment !== '.') {
+            newPath.push(segment);
+        }
+    }
+    return newPath;
+  };
+
+  const getNodeByPath = (path: string[]): FileSystemNode | null => {
+      let current: any = { type: 'dir', children: fileSystem };
+      for (const part of path) {
+          if (current && current.type === 'dir' && current.children[part]) {
+              current = current.children[part];
+          } else {
+              return null;
+          }
+      }
+      return current;
+  };
+
+  const getParentNodeByPath = (path: string[]): FileSystemNode | null => {
+    if (path.length === 0) return null;
+    if (path.length === 1) return { type: 'dir', children: fileSystem };
+    return getNodeByPath(path.slice(0, -1));
+  }
+  
   const handleGameInput = (command: string) => {
-    let newHistory = [...history, { type: 'input', content: command, path: '~' } as HistoryItem];
+    let newHistory = [...history, { type: 'input', content: command, path: `~/${currentPath.join('/')}` } as HistoryItem];
     let output = '';
 
     if (gameState === 'number_guesser') {
@@ -170,11 +250,11 @@ export const Terminal = ({ onExit }: TerminalProps) => {
         setGameState('none');
     }
     
-    setHistory([...newHistory, { type: 'output', content: output, path: '~' }]);
+    setHistory([...newHistory, { type: 'output', content: output, path: `~/${currentPath.join('/')}` }]);
   }
-
+  
   const handleCommand = (command: string) => {
-    let newHistory = [...history, { type: 'input', content: command, path: '~' } as HistoryItem];
+    let newHistory = [...history, { type: 'input', content: command, path: `~/${currentPath.join('/')}` } as HistoryItem];
     const [cmd, ...args] = command.split(' ');
     checkCommandAchievement(cmd);
 
@@ -182,13 +262,28 @@ export const Terminal = ({ onExit }: TerminalProps) => {
 
     switch (cmd.toLowerCase()) {
       case 'help':
-        output = "Verfügbare Befehle: 'clear', 'achievements', 'theme <name>', 'whoami', 'date', 'echo <text>', 'matrix', 'game', 'typing-test', 'exit'";
+        output = `Verfügbare Befehle:
+  help            - Zeigt diese Hilfe an
+  ls [pfad]       - Listet Dateien und Ordner auf
+  cd <pfad>       - Wechselt das Verzeichnis
+  cat <datei>     - Zeigt den Inhalt einer Datei an
+  touch <datei>   - Erstellt eine leere Datei
+  mkdir <ordner>  - Erstellt einen neuen Ordner
+  rm <datei>      - Löscht eine Datei
+  nano <datei>    - Öffnet einen einfachen Texteditor
+  view <datei>    - Öffnet die Datei in einem neuen Tab
+  clear           - Leert den Terminalverlauf
+  whoami          - Zeigt den aktuellen Benutzer an
+  date            - Zeigt das aktuelle Datum und die Uhrzeit an
+  echo <text>     - Gibt den angegebenen Text aus
+  theme <dark|light> - Ändert das Farbschema
+  matrix          - Startet einen geheimen Modus
+  game            - Startet das Zahlenratespiel
+  typing-test     - Startet den Schreibgeschwindigkeitstest
+  exit            - Beendet ein laufendes Spiel/Modus`;
         break;
       case 'whoami':
-        output = 'Du bist ein neugieriger Besucher auf meinem Portfolio. Willkommen!';
-        break;
-      case 'achievements':
-        output = 'Erfolge werden bald hier angezeigt. Besuche den Footer, um sie jetzt zu sehen!';
+        output = 'gast@benedikt.dev';
         break;
       case 'theme':
         const newTheme = args[0];
@@ -224,6 +319,118 @@ export const Terminal = ({ onExit }: TerminalProps) => {
         setGameState('typing_test');
         output = `Tippe den folgenden Satz so schnell wie möglich und drücke Enter:\n\n'${text}'`;
         break;
+      case 'ls':
+        const targetPathLs = args[0] ? resolvePath(args[0]) : currentPath;
+        const nodeLs = getNodeByPath(targetPathLs);
+        if (nodeLs && nodeLs.type === 'dir') {
+            output = Object.keys(nodeLs.children).map(name => {
+                return nodeLs.children[name].type === 'dir' ? `${name}/` : name;
+            }).join('  ');
+        } else {
+            output = `ls: '${args[0] || '.'}': Kein solcher Ordner`;
+        }
+        break;
+      case 'cd':
+        const targetPathCd = resolvePath(args[0] || '');
+        const nodeCd = getNodeByPath(targetPathCd);
+        if (nodeCd && nodeCd.type === 'dir') {
+            setCurrentPath(targetPathCd);
+        } else {
+            output = `cd: ${args[0]}: Kein solcher Ordner`;
+        }
+        break;
+      case 'cat':
+        if (!args[0]) {
+            output = "cat: Bitte gib eine Datei an.";
+            break;
+        }
+        const targetPathCat = resolvePath(args[0]);
+        const nodeCat = getNodeByPath(targetPathCat);
+        if (nodeCat && nodeCat.type === 'file') {
+            output = nodeCat.content;
+        } else {
+            output = `cat: ${args[0]}: Keine solche Datei`;
+        }
+        break;
+      case 'touch':
+      case 'mkdir':
+      case 'rm':
+      case 'nano':
+      case 'view':
+        const pathArg = args[0];
+        if (!pathArg) {
+            output = `${cmd}: Bitte gib einen Pfad an.`;
+            break;
+        }
+        const newPath = resolvePath(pathArg);
+        const parentPath = newPath.slice(0, -1);
+        const parentNode = getNodeByPath(parentPath);
+        const itemName = newPath[newPath.length - 1];
+
+        if (!parentNode || parentNode.type !== 'dir') {
+            output = `${cmd}: ${pathArg}: Kein solcher Pfad`;
+            break;
+        }
+
+        const newFileSystem = JSON.parse(JSON.stringify(fileSystem));
+        let parentRef = newFileSystem;
+        for (const part of parentPath) {
+            parentRef = parentRef[part].children;
+        }
+        
+        switch(cmd) {
+            case 'touch':
+                if (parentRef[itemName]) {
+                    output = `touch: '${pathArg}' existiert bereits.`;
+                } else {
+                    parentRef[itemName] = { type: 'file', content: '' };
+                    setFileSystem(newFileSystem);
+                    saveFileSystem(newFileSystem);
+                }
+                break;
+            case 'mkdir':
+                if (parentRef[itemName]) {
+                    output = `mkdir: '${pathArg}' existiert bereits.`;
+                } else {
+                    parentRef[itemName] = { type: 'dir', children: {} };
+                    setFileSystem(newFileSystem);
+                    saveFileSystem(newFileSystem);
+                }
+                break;
+            case 'rm':
+                if (!parentRef[itemName]) {
+                    output = `rm: '${pathArg}': Keine solche Datei oder Ordner`;
+                } else if (parentRef[itemName].type === 'dir') {
+                     output = `rm: '${pathArg}' ist ein Ordner. Löschen von Ordnern wird nicht unterstützt.`;
+                }
+                else {
+                    delete parentRef[itemName];
+                    setFileSystem(newFileSystem);
+                    saveFileSystem(newFileSystem);
+                }
+                break;
+            case 'nano':
+                const nodeToEdit = parentRef[itemName];
+                if (nodeToEdit && nodeToEdit.type === 'dir') {
+                    output = `nano: ${pathArg}: Ist ein Ordner.`;
+                } else {
+                    const content = nodeToEdit ? nodeToEdit.content : '';
+                    setNanoFile({ path: newPath, content: content });
+                    setIsNanoMode(true);
+                }
+                break;
+            case 'view':
+                 const nodeToView = getNodeByPath(newPath);
+                 if (nodeToView && nodeToView.type === 'file') {
+                    window.open(`/view/${newPath.join('/')}`, '_blank');
+                    output = `Datei wird in neuem Tab geöffnet...`;
+                 } else {
+                    output = `view: ${pathArg}: Datei nicht gefunden oder ist ein Ordner.`
+                 }
+                 break;
+        }
+        break;
+
       case 'exit':
          if (gameState !== 'none') {
            setGameState('none');
@@ -237,8 +444,39 @@ export const Terminal = ({ onExit }: TerminalProps) => {
             output = `Befehl nicht gefunden: ${command}. Tippe 'help' für eine Liste der Befehle.`;
         }
     }
+    
+    if (output) {
+      setHistory([...newHistory, { type: 'output', content: output, path: `~/${currentPath.join('/')}` }]);
+    } else {
+      setHistory(newHistory);
+    }
+  };
 
-    setHistory([...newHistory, { type: 'output', content: output, path: '~' }]);
+  const handleNanoSave = () => {
+    const { path, content } = nanoFile;
+    const parentPath = path.slice(0, -1);
+    const itemName = path[path.length - 1];
+
+    const newFileSystem = JSON.parse(JSON.stringify(fileSystem));
+    let parentRef: any = { type: 'dir', children: newFileSystem };
+    for (const part of parentPath) {
+        if (parentRef.children[part]) {
+            parentRef = parentRef.children[part];
+        }
+    }
+    
+    if (parentRef && parentRef.type === 'dir') {
+      parentRef.children[itemName] = { type: 'file', content: content };
+    }
+    
+    setFileSystem(newFileSystem);
+    saveFileSystem(newFileSystem);
+    setIsNanoMode(false);
+    setHistory([...history, { type: 'output', content: `Datei '${path.join('/')}' gespeichert.`, path: `~/${currentPath.join('/')}` }]);
+  };
+
+  const handleNanoCancel = () => {
+    setIsNanoMode(false);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -264,12 +502,36 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   };
 
   const handleTerminalClick = () => {
-    inputRef.current?.focus();
+    if(!isNanoMode) {
+      inputRef.current?.focus();
+    }
   };
 
-  const promptSymbol = '>';
-  const promptUser = 'guest@benedikt.dev:';
-  const promptPath = '~';
+  const promptUser = 'gast@benedikt.dev:';
+  const promptPath = `~/${currentPath.join('/')}`;
+
+  if (isNanoMode) {
+    return (
+        <motion.div
+            layout
+            className="flex flex-col bg-card/60 backdrop-blur-xl shadow-2xl shadow-primary/10 overflow-hidden relative h-[75vh] w-full max-w-5xl rounded-2xl border"
+        >
+            <div className="p-2 border-b text-center text-sm text-muted-foreground bg-card/80">
+                Nano Editor - {nanoFile.path.join('/')}
+            </div>
+            <textarea
+                ref={nanoTextareaRef}
+                value={nanoFile.content}
+                onChange={(e) => setNanoFile({ ...nanoFile, content: e.target.value })}
+                className="w-full h-full bg-background/50 text-foreground font-mono p-4 text-lg focus:outline-none resize-none"
+            />
+            <div className="flex justify-end gap-2 p-2 border-t bg-card/80">
+                <Button onClick={handleNanoSave} size="sm" data-cursor-interactive>Speichern & Schließen</Button>
+                <Button onClick={handleNanoCancel} variant="outline" size="sm" data-cursor-interactive>Abbrechen</Button>
+            </div>
+        </motion.div>
+    );
+  }
 
   return (
     <>
@@ -309,7 +571,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
                         <span>
                             <span className="text-green-400">{promptUser}</span>
                             <span className="text-blue-400">{item.path}</span>
-                            <span className="text-foreground">{promptSymbol} </span>
+                            <span className="text-foreground">$ </span>
                         </span>
                         <span className="text-foreground">{item.content}</span>
                         </div>
@@ -326,7 +588,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
           <div className="flex-shrink-0">
             <span className="text-green-400">{promptUser}</span>
             <span className="text-blue-400">{promptPath}</span>
-            <span className="text-foreground">{promptSymbol} </span>
+            <span className="text-foreground">$ </span>
           </div>
           <input
             ref={inputRef}
