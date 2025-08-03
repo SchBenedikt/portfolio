@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { Menu } from 'lucide-react';
+import { Menu, FolderKanban, UserSquare, Rss } from 'lucide-react';
 
 const Header = ({ children }: { children?: React.ReactNode }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -84,13 +84,22 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem asChild>
-                    <Link href="/projects">Projekte</Link>
+                    <Link href="/projects" className="flex items-center gap-2">
+                      <FolderKanban className="text-muted-foreground" /> 
+                      Projekte
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/resume">Lebenslauf</Link>
+                    <Link href="/resume" className="flex items-center gap-2">
+                      <UserSquare className="text-muted-foreground" />
+                      Lebenslauf
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/blog">Blog</Link>
+                    <Link href="/blog" className="flex items-center gap-2">
+                      <Rss className="text-muted-foreground" />
+                      Blog
+                    </Link>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

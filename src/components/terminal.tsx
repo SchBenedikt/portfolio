@@ -8,13 +8,14 @@ import { useTheme } from 'next-themes';
 import { useAchievements } from './providers/achievements-provider';
 import { projectData } from '@/lib/projects';
 import { blogData } from '@/lib/blog';
-import { Maximize, Minimize } from 'lucide-react';
+import { Maximize, Minimize, CheckCircle, Lock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
+import { achievementsList } from '@/lib/achievements';
 
 interface HistoryItem {
-  type: 'input' | 'output';
-  content: string;
+  type: 'input' | 'output' | 'component';
+  content: string | React.ReactNode;
 }
 
 type GameState = {
@@ -41,7 +42,7 @@ const typingSentences = [
 export const Terminal = () => {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
-  const { unlockAchievement } = useAchievements();
+  const { unlockAchievement, unlockedAchievements } = useAchievements();
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<HistoryItem[]>(initialHistory);
   const [gameState, setGameState] = useState<GameState>({ type: 'none' });
@@ -51,10 +52,8 @@ export const Terminal = () => {
   const endOfHistoryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // We don't save or load history anymore to keep it clean.
     try {
-      const savedHistory = localStorage.getItem('terminalHistory');
-      if (savedHistory) setHistory(JSON.parse(savedHistory));
-      
       const savedFullScreen = localStorage.getItem('terminalFullScreen');
       if (savedFullScreen) setIsFullScreen(JSON.parse(savedFullScreen));
 
@@ -63,19 +62,18 @@ export const Terminal = () => {
 
     } catch (e) {
       console.error('Fehler beim Laden des Terminal-Zustands:', e);
-      setHistory(initialHistory);
     }
   }, []);
 
   useEffect(() => {
     try {
-      localStorage.setItem('terminalHistory', JSON.stringify(history));
       localStorage.setItem('terminalFullScreen', JSON.stringify(isFullScreen));
       localStorage.setItem('usedCommands', JSON.stringify(Array.from(usedCommands)));
     } catch (e) {
       console.error('Fehler beim Speichern des Terminal-Zustands:', e);
     }
-  }, [history, isFullScreen, usedCommands]);
+  }, [isFullScreen, usedCommands]);
+
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -97,7 +95,7 @@ export const Terminal = () => {
 
   const handleGameInput = (command: string) => {
     const newHistory: HistoryItem[] = [...history, { type: 'input', content: command }];
-    let output = '';
+    let output: string | React.ReactNode = '';
 
     if (command.toLowerCase() === 'exit') {
         output = 'Das Spiel wurde beendet.';
@@ -154,27 +152,33 @@ export const Terminal = () => {
   }
 
   const handleCommand = (command: string) => {
-    const newHistory: HistoryItem[] = [...history, { type: 'input', content: command }];
+    let newHistory: HistoryItem[] = [...history, { type: 'input', content: command }];
     const [cmd, ...args] = command.toLowerCase().split(' ');
     checkCommandAchievement(cmd);
 
-    let output = '';
+    let output: string | React.ReactNode = '';
+    let isComponent = false;
 
     switch (cmd) {
       case 'help':
         output = `Verfügbare Befehle:\n
+  Grundlagen:
   'ls'              - Zeigt verfügbare Bereiche an (projects, resume, blog).
-  'ls <bereich>'    - Listet den Inhalt eines Bereichs auf.
-  'cat resume'      - Zeigt den Lebenslauf an.
-  'theme <name>'    - Ändere das Farbschema (dark, light).
-  'whoami'          - Zeige eine kurze Biografie an.
-  'socials'         - Zeige Social-Media-Links an.
-  'game'            - Starte das Zahlenratespiel.
-  'typing-test'     - Starte einen Schreibgeschwindigkeitstest.
-  'date'            - Zeige das aktuelle Datum und die Uhrzeit an.
-  'echo <text>'     - Gib den Text im Terminal aus.
+  'cat resume'      - Zeigt den Inhalt eines Bereichs an (z.B. den Lebenslauf).
+  'clear'           - Leert den Terminal-Verlauf.
+  
+  Navigation & Interaktion:
+  'achievements'    - Zeigt deine freigeschalteten Erfolge.
+  'theme <name>'    - Ändert Farbschema (dark, light).
+  'whoami'          - Zeigt eine kurze Biografie an.
+  'date'            - Zeigt das aktuelle Datum und die Uhrzeit an.
+  'echo <text>'     - Gibt den Text im Terminal aus.
   'matrix'          - Betritt die Matrix...
-  'clear'           - Leere den Terminal-Verlauf.`;
+
+  Spiele:
+  'game'            - Startet das Zahlenratespiel.
+  'typing-test'     - Startet einen Schreibgeschwindigkeitstest.
+`;
         break;
       case 'whoami':
         output = 'Benedikt Schächner - Creative Developer & Designer, der einzigartige digitale Erlebnisse gestaltet.';
@@ -205,8 +209,22 @@ export const Terminal = () => {
             output = `Fehler: 'cat' kann nur mit 'resume' verwendet werden.`;
         }
         break;
-      case 'nav':
-        output = "Befehl 'nav' ist veraltet. Benutze 'ls' und 'cat', um Inhalte anzuzeigen.";
+      case 'achievements':
+        isComponent = true;
+        output = (
+            <div className="space-y-2">
+                <p>Freigeschaltete Erfolge ({unlockedAchievements.size}/{achievementsList.length}):</p>
+                {achievementsList.map(ach => {
+                    const isUnlocked = unlockedAchievements.has(ach.id);
+                    return (
+                        <div key={ach.id} className="flex items-center gap-2">
+                            {isUnlocked ? <CheckCircle className="h-4 w-4 text-green-500" /> : <Lock className="h-4 w-4 text-muted-foreground" />}
+                            <span className={cn(isUnlocked ? 'text-foreground' : 'text-muted-foreground')}>{ach.name}</span>
+                        </div>
+                    )
+                })}
+            </div>
+        )
         break;
       case 'theme':
         const newTheme = args[0];
@@ -216,9 +234,6 @@ export const Terminal = () => {
         } else {
           output = `Fehler: Theme '${newTheme}' nicht gefunden. Verfügbare Themes: dark, light.`;
         }
-        break;
-      case 'socials':
-        output = 'GitHub: github.com/user\nLinkedIn: linkedin.com/in/user\nTwitter: twitter.com/user\n(Hinweis: Dies sind Dummy-Links)';
         break;
       case 'clear':
         setHistory([]);
@@ -247,7 +262,13 @@ export const Terminal = () => {
         output = `Befehl nicht gefunden: ${command}. Tippe 'help' für eine Liste der Befehle.`;
     }
 
-    setHistory([...newHistory, { type: 'output', content: output }]);
+    if (isComponent) {
+        newHistory.push({ type: 'component', content: output });
+    } else {
+        newHistory.push({ type: 'output', content: output });
+    }
+
+    setHistory(newHistory);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -313,10 +334,12 @@ export const Terminal = () => {
               {item.type === 'input' ? (
                 <div className="flex">
                   <span className="text-primary font-bold mr-2">{item.content ? '$' : ''}</span>
-                  <span>{item.content}</span>
+                  <span>{item.content as string}</span>
                 </div>
+              ) : item.type === 'output' ? (
+                <span className="text-muted-foreground whitespace-pre-wrap leading-relaxed">{item.content as string}</span>
               ) : (
-                <span className="text-muted-foreground whitespace-pre-wrap leading-relaxed">{item.content}</span>
+                <div>{item.content}</div>
               )}
             </div>
           ))}
