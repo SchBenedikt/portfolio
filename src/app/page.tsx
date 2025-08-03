@@ -5,20 +5,10 @@ import { motion } from 'framer-motion';
 import { Bot, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/header';
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState } from 'react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { Terminal } from '@/components/terminal';
 import { cn } from '@/lib/utils';
-import { Skeleton } from '@/components/ui/skeleton';
-import dynamic from 'next/dynamic';
-import { Canvas } from '@react-three/fiber';
-import InteractiveLogo from '@/components/interactive-logo';
-
-const Scene = dynamic(() => import('@/components/scene').then(mod => mod.default), {
-  ssr: false,
-  loading: () => <Skeleton className="w-full h-full rounded-full" />,
-});
-
 
 export default function Home() {
   const { unlockAchievement } = useAchievements();
@@ -124,15 +114,6 @@ export default function Home() {
                     <br />
                     Schächner
                   </h1>
-                </motion.div>
-                <motion.div 
-                    className="w-64 h-64"
-                    variants={itemVariants}
-                    data-cursor-interactive
-                >
-                  <Suspense fallback={<Skeleton className="w-full h-full rounded-full" />}>
-                     <Scene />
-                  </Suspense>
                 </motion.div>
               </div>
             </motion.section>
