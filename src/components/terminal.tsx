@@ -11,6 +11,10 @@ import { Button } from './ui/button';
 import { achievementsList, AchievementID } from '@/lib/achievements';
 import { Textarea } from './ui/textarea';
 
+interface TerminalProps {
+  onExit: () => void;
+}
+
 interface HistoryItem {
   type: 'input' | 'output' | 'component';
   content: string | React.ReactNode;
@@ -90,7 +94,7 @@ const typingSentences = [
     "Next.js und React ermöglichen den Bau moderner Webanwendungen."
 ];
 
-export const Terminal = () => {
+export const Terminal = ({ onExit }: TerminalProps) => {
   const { theme, setTheme } = useTheme();
   const { unlockAchievement, unlockedAchievements } = useAchievements();
   const [input, setInput] = useState('');
@@ -844,25 +848,14 @@ export const Terminal = () => {
       >
         <div className="flex items-center justify-between gap-2 px-4 py-3 bg-card/80 z-10 border-b">
           <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" className="w-6 h-6 rounded-full bg-red-500 hover:bg-red-600" onClick={(e) => e.stopPropagation()} data-cursor-interactive><X className="w-3 h-3"/></Button>
-              <div className="w-6 h-6 rounded-full bg-yellow-500"></div>
-              <div className="w-6 h-6 rounded-full bg-green-500"></div>
+              <Button variant="ghost" size="icon" className="w-6 h-6 rounded-full bg-red-500 hover:bg-red-600" onClick={(e) => { e.stopPropagation(); onExit(); }} data-cursor-interactive><X className="w-3 h-3"/></Button>
+              <Button variant="ghost" size="icon" className="w-6 h-6 rounded-full bg-yellow-500 hover:bg-yellow-600" onClick={(e) => e.stopPropagation()} data-cursor-interactive></Button>
+              <Button variant="ghost" size="icon" className="w-6 h-6 rounded-full bg-green-500 hover:bg-green-600" onClick={(e) => { e.stopPropagation(); setIsFullScreen(prev => !prev);}} data-cursor-interactive>
+                 {isFullScreen ? <Minimize className="w-3 h-3"/> : <Maximize className="w-3 h-3"/>}
+              </Button>
           </div>
           <p className="text-center flex-1 text-muted-foreground text-sm font-mono select-none">/bin/bash - benedikt.dev</p>
-          <Button 
-              variant="ghost" 
-              size="icon" 
-              className="w-8 h-8" 
-              onClick={(e) => {
-                  e.stopPropagation();
-                  setIsFullScreen(prev => !prev);
-                }
-              }
-              data-cursor-interactive
-          >
-              {isFullScreen ? <Minimize className="w-4 h-4"/> : <Maximize className="w-4 h-4"/>}
-              <span className="sr-only">Vollbild umschalten</span>
-          </Button>
+          <div className="w-20" />
         </div>
         <div className="flex-grow overflow-y-auto pr-4 pt-4 p-6 font-mono text-lg">
           {history.map((item, index) => (

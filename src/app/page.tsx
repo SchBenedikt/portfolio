@@ -89,7 +89,7 @@ export default function Home() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <Terminal />
+              <Terminal onExit={() => setIsTerminalView(false)} />
             </motion.div>
           ) : (
             <motion.section
