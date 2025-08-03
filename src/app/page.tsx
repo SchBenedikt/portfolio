@@ -50,7 +50,11 @@ export default function Home() {
     visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: [0.6, 0.05, 0.01, 0.9] } },
   };
 
-  const handleToggleView = () => {
+  const handleToggleView = (forceUiView?: boolean) => {
+    if (typeof forceUiView === 'boolean') {
+      setIsTerminalView(!forceUiView);
+      return;
+    }
     unlockAchievement('VIEW_SWITCHER');
     setIsTerminalView((prev) => !prev);
   };
@@ -67,7 +71,7 @@ export default function Home() {
             variant="outline"
             size="icon"
             className="w-9 h-9"
-            onClick={handleToggleView}
+            onClick={() => handleToggleView()}
             aria-label="Ansicht wechseln"
             data-cursor-interactive
           >
@@ -90,7 +94,7 @@ export default function Home() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <Terminal onExit={() => setIsTerminalView(false)} />
+              <Terminal onExit={() => handleToggleView(true)} />
             </motion.div>
           ) : (
             <motion.section
@@ -107,20 +111,17 @@ export default function Home() {
                   transition={{ duration: 0.8, ease: "easeOut" }}
                 >
                   <h1 className="text-7xl sm:text-8xl md:text-9xl font-black uppercase tracking-tighter font-headline">
-                    <div className='flex items-center'>
-                      <span>Benedik</span>
-                      <div className='flex items-baseline'>
-                        <span>t</span>
+                    <div className="flex items-center">
                         <Image
                           src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Waving%20Hand.png"
                           alt="Waving Hand"
                           width={80}
                           height={80}
-                          className="inline-block"
+                          className="inline-block mr-4"
                         />
-                      </div>
+                        <span>Benedikt</span>
                     </div>
-                    Schächner
+                    <div>Schächner</div>
                   </h1>
               </motion.div>
             </motion.section>
