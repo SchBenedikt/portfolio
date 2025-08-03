@@ -15,8 +15,7 @@ import { useAchievements } from '@/components/providers/achievements-provider';
 import { useEffect } from 'react';
 
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
-  const post = blogData.find((p) => p.slug === slug);
+  const post = blogData.find((p) => p.slug === params.slug);
   const { unlockAchievement } = useAchievements();
 
   useEffect(() => {

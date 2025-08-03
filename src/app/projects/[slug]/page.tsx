@@ -15,8 +15,7 @@ import { useAchievements } from '@/components/providers/achievements-provider';
 import { useEffect } from 'react';
 
 export default function ProjectPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
-  const project = projectData.find((p) => p.slug === slug);
+  const project = projectData.find((p) => p.slug === params.slug);
   const { unlockAchievement } = useAchievements();
 
   useEffect(() => {
