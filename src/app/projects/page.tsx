@@ -49,12 +49,12 @@ export default function ProjectsPage() {
             transition={{ duration: 0.6 }}
             className="max-w-7xl mx-auto"
           >
-            <h1 className="text-7xl md:text-8xl font-black text-center mb-16 uppercase tracking-tighter font-headline">
+            <h1 className="text-6xl md:text-8xl font-black text-center mb-12 md:mb-16 uppercase tracking-tighter font-headline">
               Projekte & Tools
             </h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
               <div className="md:col-span-1">
-                <div className="sticky top-32 space-y-4">
+                <div className="md:sticky md:top-32 space-y-4">
                   {projectData.map((project) => (
                     <Card
                       key={project.slug}
@@ -67,7 +67,7 @@ export default function ProjectsPage() {
                       data-cursor-interactive
                     >
                       <CardHeader>
-                        <CardTitle className="text-2xl font-bold font-headline">{project.title}</CardTitle>
+                        <CardTitle className="text-xl md:text-2xl font-bold font-headline">{project.title}</CardTitle>
                       </CardHeader>
                     </Card>
                   ))}
@@ -80,7 +80,7 @@ export default function ProjectsPage() {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="sticky top-32"
+                    className="md:sticky md:top-32"
                   >
                     <Card className="rounded-3xl shadow-lg">
                       <CardHeader className="p-0">
@@ -95,21 +95,21 @@ export default function ProjectsPage() {
                             />
                         </div>
                       </CardHeader>
-                      <CardContent className="p-8">
-                        <h2 className="text-5xl font-black uppercase tracking-tighter font-headline mb-4">
+                      <CardContent className="p-6 md:p-8">
+                        <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter font-headline mb-4">
                           {selectedProject.title}
                         </h2>
                         <div className="flex flex-wrap gap-2 mb-6">
                           {selectedProject.tags.map((tag) => (
-                            <Badge key={tag} variant="secondary" className="text-md rounded-lg">
+                            <Badge key={tag} variant="secondary" className="text-sm md:text-md rounded-lg">
                               {tag}
                             </Badge>
                           ))}
                         </div>
-                        <p className="text-muted-foreground text-xl mb-6">
+                        <p className="text-muted-foreground text-lg md:text-xl mb-6">
                           {selectedProject.longDescription}
                         </p>
-                        <div className="flex gap-4">
+                        <div className="flex flex-col sm:flex-row gap-4">
                           <Button asChild className="rounded-full text-lg py-6" data-cursor-interactive>
                             <Link href={`/projects/${selectedProject.slug}`}>
                                 Details ansehen <ArrowRight className="ml-2"/>

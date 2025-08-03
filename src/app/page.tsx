@@ -115,14 +115,14 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                 >
-                  <h1 className="text-7xl sm:text-8xl md:text-9xl font-black uppercase tracking-tighter font-headline">
+                  <h1 className="text-6xl sm:text-7xl md:text-9xl font-black uppercase tracking-tighter font-headline">
                     <div className="flex items-center justify-between">
                       <Image
                         src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20professions/Technologist%20Medium-Light%20Skin%20Tone.png"
                         alt="Technologist Medium-Light Skin Tone"
                         width={100}
                         height={100}
-                        className="inline-block"
+                        className="inline-block w-[60px] h-[60px] md:w-[100px] md:h-[100px]"
                       />
                       <span className="text-right">Benedikt</span>
                     </div>

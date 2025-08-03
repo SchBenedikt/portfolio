@@ -47,11 +47,11 @@ export default function ProjectPage({ params: { slug } }: { params: { slug: stri
                 </Link>
               </Button>
             </div>
-            <h1 className="text-7xl md:text-8xl font-black uppercase tracking-tighter font-headline mb-4">
+            <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter font-headline mb-8 md:mb-4">
               {project.title}
             </h1>
             
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12">
               <div className="md:col-span-3">
                 <div className="aspect-video overflow-hidden rounded-3xl mb-8">
                    <Image
@@ -63,14 +63,14 @@ export default function ProjectPage({ params: { slug } }: { params: { slug: stri
                       data-ai-hint={project.aiHint}
                     />
                 </div>
-                <div className="prose prose-invert prose-lg max-w-none text-muted-foreground text-2xl space-y-6">
+                <div className="prose prose-invert prose-lg max-w-none text-muted-foreground text-xl md:text-2xl space-y-6">
                   <p>{project.longDescription}</p>
                 </div>
               </div>
               <div className="md:col-span-2">
-                 <div className="sticky top-32 bg-card/50 backdrop-blur-lg p-8 rounded-3xl border border-border/50">
-                    <h3 className="text-3xl font-bold font-headline mb-6">Projekt-Infos</h3>
-                     <p className="text-lg text-muted-foreground mb-6">
+                 <div className="sticky top-32 bg-card/50 backdrop-blur-lg p-6 md:p-8 rounded-3xl border border-border/50">
+                    <h3 className="text-2xl md:text-3xl font-bold font-headline mb-6">Projekt-Infos</h3>
+                     <p className="text-base md:text-lg text-muted-foreground mb-6">
                         {project.description}
                      </p>
                      <div className="space-y-4 mb-8">
@@ -78,14 +78,14 @@ export default function ProjectPage({ params: { slug } }: { params: { slug: stri
                             <Calendar className="mr-3 mt-1 text-primary"/>
                             <div>
                                 <h4 className="font-semibold">Datum</h4>
-                                <p className="text-muted-foreground">{new Date(project.date).toLocaleDateString('de-DE')}</p>
+                                <p className="text-muted-foreground text-sm md:text-base">{new Date(project.date).toLocaleDateString('de-DE')}</p>
                             </div>
                         </div>
                          <div className="flex items-start">
                             <Folder className="mr-3 mt-1 text-primary"/>
                             <div>
                                 <h4 className="font-semibold">Kategorie</h4>
-                                <p className="text-muted-foreground">{project.category}</p>
+                                <p className="text-muted-foreground text-sm md:text-base">{project.category}</p>
                             </div>
                         </div>
                         <div className="flex items-start">
@@ -94,7 +94,7 @@ export default function ProjectPage({ params: { slug } }: { params: { slug: stri
                                 <h4 className="font-semibold">Technologien</h4>
                                 <div className="flex flex-wrap gap-2 mt-2">
                                     {project.tags.map((tag) => (
-                                        <Badge key={tag} variant="secondary" className="text-sm rounded-md">
+                                        <Badge key={tag} variant="secondary" className="text-xs md:text-sm rounded-md">
                                         {tag}
                                         </Badge>
                                     ))}
@@ -102,7 +102,7 @@ export default function ProjectPage({ params: { slug } }: { params: { slug: stri
                             </div>
                         </div>
                      </div>
-                     <Button asChild className="w-full rounded-full text-lg py-8" data-cursor-interactive>
+                     <Button asChild className="w-full rounded-full text-base md:text-lg py-6 md:py-8" data-cursor-interactive>
                         <Link href="#">
                            <Github className="mr-3"/>
                            Auf Github ansehen

@@ -330,7 +330,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
       case 'theme':
         const color = args[0];
         if (['red', 'blue', 'green'].includes(color)) {
-          setThemeColor(color);
+          setThemeColor(color as 'red' | 'blue' | 'green');
           output = `Akzentfarbe zu ${color} geändert.`;
         } else {
           output = `Fehler: Farbe '${color}' nicht erkannt. Verfügbar: red, blue, green.`;
@@ -610,7 +610,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
     return (
         <motion.div
             layout
-            className="flex flex-col bg-card/60 backdrop-blur-xl shadow-2xl shadow-primary/10 overflow-hidden relative h-[75vh] w-full max-w-5xl rounded-2xl border"
+            className="flex flex-col bg-card/60 backdrop-blur-xl shadow-2xl shadow-primary/10 overflow-hidden relative h-[85vh] w-full max-w-5xl rounded-2xl border md:h-[75vh]"
         >
             <div className="p-2 border-b text-center text-sm text-muted-foreground bg-card/80">
                 Nano Editor - {nanoFile.path.join('/')}
@@ -619,7 +619,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
                 ref={nanoTextareaRef}
                 value={nanoFile.content}
                 onChange={(e) => setNanoFile({ ...nanoFile, content: e.target.value })}
-                className="w-full h-full bg-background/50 text-foreground font-mono p-4 text-lg focus:outline-none resize-none"
+                className="w-full h-full bg-background/50 text-foreground font-mono p-4 text-base md:text-lg focus:outline-none resize-none"
             />
             <div className="flex justify-end gap-2 p-2 border-t bg-card/80">
                 <Button onClick={handleNanoSave} size="sm" data-cursor-interactive>Speichern & Schließen</Button>
@@ -640,7 +640,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
           "flex flex-col bg-card/60 backdrop-blur-xl shadow-2xl shadow-primary/10 overflow-hidden transition-all duration-300",
           isFullScreen
             ? 'fixed inset-0 z-50 w-screen h-screen rounded-none border-none'
-            : 'relative h-[75vh] w-full max-w-5xl rounded-2xl border'
+            : 'relative h-[85vh] w-full max-w-5xl rounded-2xl border md:h-[75vh]'
         )}
         onClick={handleTerminalClick}
       >
@@ -657,20 +657,20 @@ export const Terminal = ({ onExit }: TerminalProps) => {
         {gameState === 'matrix' ? (
              <canvas ref={matrixCanvasRef} className="absolute inset-0 w-full h-full z-0" />
         ) : (
-            <div className="flex-grow overflow-y-auto pr-4 pt-4 p-6 font-mono text-lg">
+            <div className="flex-grow overflow-y-auto pr-4 pt-4 p-4 md:p-6 font-mono text-base md:text-lg">
                 {history.map((item, index) => (
                     <div key={index} className="mb-2">
                     {item.type === 'input' ? (
                         <div>
-                        <span>
+                        <span className="flex-shrink-0">
                             <span className={terminalTheme.user}>{item.path === '~' && loginState !== 'loggedin' ? 'name:' : promptUser}</span>
                             {loginState === 'loggedin' && <span className={terminalTheme.path}>{item.path}</span>}
                             <span className="text-foreground"> $ </span>
                         </span>
-                        <span className="text-foreground">{item.content}</span>
+                        <span className="text-foreground break-words">{item.content}</span>
                         </div>
                     ) : (
-                        <span className="text-muted-foreground whitespace-pre-wrap">{item.content}</span>
+                        <span className="text-muted-foreground whitespace-pre-wrap break-words">{item.content}</span>
                     )}
                     </div>
                 ))}
@@ -678,7 +678,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
             </div>
         )}
         
-        <form onSubmit={handleSubmit} className="flex items-center p-4 font-mono text-lg border-t border-border/50 bg-card/80 z-10">
+        <form onSubmit={handleSubmit} className="flex items-center p-4 font-mono text-base md:text-lg border-t border-border/50 bg-card/80 z-10">
           {loginState !== 'logging_in' && (
             <>
               <div className="flex-shrink-0">
@@ -709,5 +709,3 @@ export const Terminal = ({ onExit }: TerminalProps) => {
     </>
   );
 };
-
-    

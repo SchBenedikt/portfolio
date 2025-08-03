@@ -50,12 +50,12 @@ export default function BlogPage() {
             transition={{ duration: 0.6 }}
             className="max-w-7xl mx-auto"
           >
-            <h1 className="text-7xl md:text-8xl font-black text-center mb-16 uppercase tracking-tighter font-headline">
+            <h1 className="text-6xl md:text-8xl font-black text-center mb-12 md:mb-16 uppercase tracking-tighter font-headline">
               Technik & KI Blog
             </h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
               <div className="md:col-span-1">
-                <div className="sticky top-32 space-y-4">
+                <div className="md:sticky md:top-32 space-y-4">
                   {blogData.map((post) => (
                     <Card
                       key={post.slug}
@@ -68,8 +68,8 @@ export default function BlogPage() {
                       data-cursor-interactive
                     >
                       <CardHeader>
-                        <CardTitle className="text-2xl font-bold font-headline">{post.title}</CardTitle>
-                        <CardDescription className="text-md pt-1">{new Date(post.date).toLocaleDateString('de-DE')}</CardDescription>
+                        <CardTitle className="text-xl md:text-2xl font-bold font-headline">{post.title}</CardTitle>
+                        <CardDescription className="text-sm md:text-md pt-1">{new Date(post.date).toLocaleDateString('de-DE')}</CardDescription>
                       </CardHeader>
                     </Card>
                   ))}
@@ -82,32 +82,32 @@ export default function BlogPage() {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="sticky top-32"
+                    className="md:sticky md:top-32"
                   >
                     <Card className="rounded-3xl shadow-lg">
                       <CardHeader>
-                        <h2 className="text-5xl font-black uppercase tracking-tighter font-headline mb-2">
+                        <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter font-headline mb-2">
                           {selectedPost.title}
                         </h2>
-                        <div className="flex justify-between items-center mb-4">
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
                             <div className="flex flex-wrap gap-2">
                                 {selectedPost.tags.map((tag) => (
-                                <Badge key={tag} variant="secondary" className="text-md rounded-lg">
+                                <Badge key={tag} variant="secondary" className="text-sm md:text-md rounded-lg">
                                     {tag}
                                 </Badge>
                                 ))}
                             </div>
-                            <p className="text-muted-foreground text-lg">{new Date(selectedPost.date).toLocaleDateString('de-DE')}</p>
+                            <p className="text-muted-foreground text-base md:text-lg shrink-0">{new Date(selectedPost.date).toLocaleDateString('de-DE')}</p>
                         </div>
                       </CardHeader>
                       <CardContent>
                         <div
-                            className="prose prose-invert prose-lg max-w-none text-muted-foreground text-xl space-y-6"
+                            className="prose prose-invert prose-lg max-w-none text-muted-foreground text-lg md:text-xl space-y-6"
                             dangerouslySetInnerHTML={{ __html: selectedPost.content }}
                         ></div>
                       </CardContent>
                       <CardFooter>
-                         <Button asChild className="rounded-full" data-cursor-interactive>
+                         <Button asChild className="rounded-full text-base md:text-lg" data-cursor-interactive>
                            <Link href={`/blog/${selectedPost.slug}`}>
                                 Beitrag aufrufen <ArrowRight className="ml-2"/>
                            </Link>

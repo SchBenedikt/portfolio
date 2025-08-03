@@ -134,7 +134,7 @@ export default function ResumePage() {
                 </blockquote>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="flex justify-center gap-4 mb-16">
+            <motion.div variants={itemVariants} className="flex justify-center gap-2 md:gap-4 mb-16 flex-wrap">
                 {about.links.map(link => (
                     <Button key={link.name} asChild variant="outline" className="rounded-full" data-cursor-interactive>
                         <Link href={link.url} target="_blank">
@@ -146,23 +146,23 @@ export default function ResumePage() {
             </motion.div>
             
             <motion.div variants={itemVariants} className="mb-16">
-                <h2 className="text-4xl font-bold font-headline mb-8 text-center flex items-center justify-center gap-3"><Briefcase className="text-primary"/> Werdegang</h2>
-                <div className="relative border-l-2 border-primary/50 ml-4 pl-4">
+                <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 text-center flex items-center justify-center gap-3"><Briefcase className="text-primary"/> Werdegang</h2>
+                <div className="relative border-l-2 border-primary/50 ml-3 md:ml-4 pl-4">
                     {timelineEvents.map((event, index) => (
-                         <motion.div key={index} variants={itemVariants} className="mb-10 ml-8">
+                         <motion.div key={index} variants={itemVariants} className="mb-10 ml-4 md:ml-8">
                             <span className={`absolute -left-[18px] flex items-center justify-center w-9 h-9 rounded-full ring-8 ring-background bg-secondary`}>
                                 {React.cloneElement(event.icon, { className: "h-5 w-5 text-secondary-foreground" })}
                             </span>
                             <Card className="rounded-2xl shadow-lg border-border/50 transition-all hover:border-primary/50">
                                 <CardHeader>
-                                    <div className="flex flex-col sm:flex-row justify-between sm:items-center">
-                                        <CardTitle className="text-xl md:text-2xl font-bold font-headline mb-1 sm:mb-0">{event.title}</CardTitle>
-                                        <Badge variant="secondary" className="text-sm rounded-md whitespace-nowrap self-start sm:self-center">{event.date}</Badge>
+                                    <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+                                        <CardTitle className="text-lg md:text-2xl font-bold font-headline">{event.title}</CardTitle>
+                                        <Badge variant="secondary" className="text-xs md:text-sm rounded-md whitespace-nowrap self-start sm:self-center">{event.date}</Badge>
                                     </div>
-                                    <CardDescription className="text-md md:text-lg pt-1 text-primary">{event.organization}</CardDescription>
+                                    <CardDescription className="text-base md:text-lg pt-1 text-primary">{event.organization}</CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    <p className="text-md md:text-lg text-muted-foreground">{event.description}</p>
+                                    <p className="text-base md:text-lg text-muted-foreground">{event.description}</p>
                                 </CardContent>
                             </Card>
                         </motion.div>
@@ -172,12 +172,12 @@ export default function ResumePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <motion.div variants={itemVariants}>
-                    <h2 className="text-4xl font-bold font-headline mb-8 text-center flex items-center justify-center gap-3"><CodeSquare className="text-primary"/> Fähigkeiten</h2>
-                    <Card className="rounded-2xl p-8">
+                    <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 text-center flex items-center justify-center gap-3"><CodeSquare className="text-primary"/> Fähigkeiten</h2>
+                    <Card className="rounded-2xl p-6 md:p-8">
                         <CardContent className="p-0">
-                            <div className="flex flex-wrap justify-center gap-3">
+                            <div className="flex flex-wrap justify-center gap-2 md:gap-3">
                                 {skills.map((skill) => (
-                                    <Badge key={skill} variant="secondary" className="text-md md:text-lg rounded-lg px-4 py-1">
+                                    <Badge key={skill} variant="secondary" className="text-sm md:text-lg rounded-lg px-3 py-1 md:px-4">
                                         {skill}
                                     </Badge>
                                 ))}
@@ -187,12 +187,12 @@ export default function ResumePage() {
                 </motion.div>
 
                  <motion.div variants={itemVariants}>
-                    <h2 className="text-4xl font-bold font-headline mb-8 text-center flex items-center justify-center gap-3"><GraduationCap className="text-primary"/> Sprachen</h2>
-                    <Card className="rounded-2xl p-8">
+                    <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 text-center flex items-center justify-center gap-3"><GraduationCap className="text-primary"/> Sprachen</h2>
+                    <Card className="rounded-2xl p-6 md:p-8">
                         <CardContent className="p-0">
                             <div className="flex flex-col gap-4">
                                 {languages.map((lang) => (
-                                    <div key={lang.name} className="flex justify-between items-center text-lg">
+                                    <div key={lang.name} className="flex justify-between items-center text-base md:text-lg">
                                         <span className="font-medium">{lang.name}</span>
                                         <span className="text-muted-foreground">{lang.level}</span>
                                      </div>
@@ -208,5 +208,3 @@ export default function ResumePage() {
     </div>
   );
 }
-
-    

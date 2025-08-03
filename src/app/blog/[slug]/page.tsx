@@ -46,21 +46,21 @@ export default function BlogPostPage({ params: { slug } }: { params: { slug: str
                 </Link>
               </Button>
             </div>
-            <h1 className="text-7xl md:text-8xl font-black uppercase tracking-tighter font-headline mb-4">
+            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter font-headline mb-4">
               {post.title}
             </h1>
-            <div className="flex justify-between items-center mb-8">
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-8 gap-4">
               <div className="flex flex-wrap gap-2">
                 {post.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary" className="text-md rounded-lg">
+                  <Badge key={tag} variant="secondary" className="text-sm md:text-md rounded-lg">
                     {tag}
                   </Badge>
                 ))}
               </div>
-              <p className="text-muted-foreground text-lg">{new Date(post.date).toLocaleDateString('de-DE')}</p>
+              <p className="text-muted-foreground text-base md:text-lg">{new Date(post.date).toLocaleDateString('de-DE')}</p>
             </div>
 
-            <div className="prose prose-invert prose-lg max-w-4xl mx-auto text-muted-foreground text-2xl space-y-6" dangerouslySetInnerHTML={{ __html: post.content }}>
+            <div className="prose prose-invert prose-lg max-w-4xl mx-auto text-muted-foreground text-lg md:text-2xl space-y-6" dangerouslySetInnerHTML={{ __html: post.content }}>
             </div>
           </motion.div>
         </div>

@@ -38,7 +38,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8 text-lg">
+        <nav className="hidden md:flex items-center gap-6 md:gap-8 text-base md:text-lg">
           {navLinks.map(link => (
              <Link key={link.href} href={link.href} className="font-medium text-foreground/80 hover:text-foreground transition-colors" data-cursor-interactive>
                 {link.label}
@@ -61,7 +61,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
               <DropdownMenuContent align="end">
                 {navLinks.map(link => (
                     <DropdownMenuItem key={link.href} asChild>
-                      <Link href={link.href} className="flex items-center gap-2">
+                      <Link href={link.href} className="flex items-center gap-2 text-base">
                          {React.cloneElement(link.icon as React.ReactElement, { className: "text-muted-foreground" })}
                          {link.label}
                       </Link>
