@@ -31,7 +31,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
       <div className="container mx-auto px-6 sm:px-8 flex justify-between items-center">
         <Link
           href="/"
-          className="text-2xl md:text-3xl font-black uppercase tracking-widest font-headline hover:text-accent transition-colors"
+          className="text-2xl md:text-3xl font-black uppercase tracking-widest font-headline hover:text-primary transition-colors"
           data-cursor-interactive
         >
           BS
@@ -40,7 +40,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8 text-lg">
           {navLinks.map(link => (
-             <Link key={link.href} href={link.href} className="font-medium hover:text-accent transition-colors" data-cursor-interactive>
+             <Link key={link.href} href={link.href} className="font-medium text-foreground/80 hover:text-foreground transition-colors" data-cursor-interactive>
                 {link.label}
               </Link>
           ))}
