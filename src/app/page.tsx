@@ -10,6 +10,7 @@ import { useAchievements } from '@/components/providers/achievements-provider';
 import { Terminal } from '@/components/terminal';
 import { cn } from '@/lib/utils';
 import React from 'react';
+import Image from 'next/image';
 
 export default function Home() {
   const { unlockAchievement } = useAchievements();
@@ -106,7 +107,20 @@ export default function Home() {
                   transition={{ duration: 0.8, ease: "easeOut" }}
                 >
                   <h1 className="text-7xl sm:text-8xl md:text-9xl font-black uppercase tracking-tighter font-headline">
-                    Benedikt<br/>Schächner
+                    <div className='flex items-center'>
+                      <span>Benedik</span>
+                      <div className='flex items-baseline'>
+                        <span>t</span>
+                        <Image
+                          src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Waving%20Hand.png"
+                          alt="Waving Hand"
+                          width={80}
+                          height={80}
+                          className="inline-block"
+                        />
+                      </div>
+                    </div>
+                    Schächner
                   </h1>
               </motion.div>
             </motion.section>
