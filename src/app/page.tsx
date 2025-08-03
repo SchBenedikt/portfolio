@@ -114,8 +114,8 @@ export default function Home() {
                       <Image
                         src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Waving%20Hand.png"
                         alt="Waving Hand"
-                        width={80}
-                        height={80}
+                        width={120}
+                        height={120}
                         className="inline-block"
                       />
                       <span className="text-right">Benedikt</span>
