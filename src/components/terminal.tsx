@@ -385,44 +385,56 @@ export const Terminal = ({ onExit }: TerminalProps) => {
         }
 
         const newFileSystem = JSON.parse(JSON.stringify(fileSystem));
-        let parentRef = newFileSystem;
+        let parentRef: any = { type: 'dir', children: newFileSystem }; // Start from the root
+        let currentRef = parentRef.children;
+
         for (const part of parentPath) {
-            parentRef = parentRef[part].children;
+            if (currentRef[part] && currentRef[part].type === 'dir') {
+                currentRef = currentRef[part].children;
+            } else {
+                currentRef = null;
+                break;
+            }
+        }
+        
+        if (!currentRef) {
+            output = `${cmd}: ${pathArg}: Kein solcher Pfad`;
+            break;
         }
         
         switch(cmd) {
             case 'touch':
-                if (parentRef[itemName]) {
+                if (currentRef[itemName]) {
                     output = `touch: '${pathArg}' existiert bereits.`;
                 } else {
-                    parentRef[itemName] = { type: 'file', content: '' };
+                    currentRef[itemName] = { type: 'file', content: '' };
                     setFileSystem(newFileSystem);
                     saveFileSystem(newFileSystem);
                 }
                 break;
             case 'mkdir':
-                if (parentRef[itemName]) {
+                if (currentRef[itemName]) {
                     output = `mkdir: '${pathArg}' existiert bereits.`;
                 } else {
-                    parentRef[itemName] = { type: 'dir', children: {} };
+                    currentRef[itemName] = { type: 'dir', children: {} };
                     setFileSystem(newFileSystem);
                     saveFileSystem(newFileSystem);
                 }
                 break;
             case 'rm':
-                if (!parentRef[itemName]) {
+                if (!currentRef[itemName]) {
                     output = `rm: '${pathArg}': Keine solche Datei oder Ordner`;
-                } else if (parentRef[itemName].type === 'dir') {
+                } else if (currentRef[itemName].type === 'dir') {
                      output = `rm: '${pathArg}' ist ein Ordner. Löschen von Ordnern wird nicht unterstützt.`;
                 }
                 else {
-                    delete parentRef[itemName];
+                    delete currentRef[itemName];
                     setFileSystem(newFileSystem);
                     saveFileSystem(newFileSystem);
                 }
                 break;
             case 'nano':
-                const nodeToEdit = parentRef[itemName];
+                const nodeToEdit = currentRef[itemName];
                 if (nodeToEdit && nodeToEdit.type === 'dir') {
                     output = `nano: ${pathArg}: Ist ein Ordner.`;
                 } else {
@@ -470,15 +482,23 @@ export const Terminal = ({ onExit }: TerminalProps) => {
     const itemName = path[path.length - 1];
 
     const newFileSystem = JSON.parse(JSON.stringify(fileSystem));
-    let parentRef: any = { type: 'dir', children: newFileSystem };
+    
+    let parentRef: any = { type: 'dir', children: newFileSystem }; // Start from the root
+    let currentRef = parentRef.children;
+
     for (const part of parentPath) {
-        if (parentRef.children[part]) {
-            parentRef = parentRef.children[part];
+        if (currentRef && currentRef[part] && currentRef[part].type === 'dir') {
+            currentRef = currentRef[part].children;
+        } else {
+           // If a directory in the path doesn't exist, you might want to handle this.
+           // For simplicity, we assume the parent directory exists, as mkdir should be used first.
+           currentRef = null;
+           break;
         }
     }
     
-    if (parentRef && parentRef.type === 'dir') {
-      parentRef.children[itemName] = { type: 'file', content: content };
+    if (currentRef) {
+      currentRef[itemName] = { type: 'file', content: content };
     }
     
     setFileSystem(newFileSystem);
