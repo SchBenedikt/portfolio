@@ -16,27 +16,26 @@ import { projectData } from '@/lib/projects';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAchievements } from '@/components/providers/achievements-provider';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Github, ArrowRight } from 'lucide-react';
 
 const MotionCard = motion(Card);
 
 export default function ProjectsPage() {
+  const [selectedProject, setSelectedProject] = useState(projectData[0]);
   const { unlockAchievement } = useAchievements();
 
   useEffect(() => {
     unlockAchievement('PROJECTS_EXPLORER');
   }, [unlockAchievement]);
 
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: 'easeOut',
-      },
-    },
+  const handleSelectProject = (slug: string) => {
+    const project = projectData.find((p) => p.slug === slug);
+    if (project) {
+      setSelectedProject(project);
+      unlockAchievement('PROJECT_INSPECTOR');
+    }
   };
 
   return (
@@ -44,55 +43,92 @@ export default function ProjectsPage() {
       <Header />
       <main className="relative z-10 flex-grow pt-32 pb-16">
         <div className="container mx-auto px-6 sm:px-8">
-          <motion.section
-            id="projects"
-            className="py-12"
-            variants={sectionVariants}
-            initial="hidden"
-            animate="visible"
+           <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-7xl mx-auto"
           >
             <h1 className="text-7xl md:text-8xl font-black text-center mb-16 uppercase tracking-tighter font-headline">
               Projekte & Tools
             </h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {projectData.map((project, index) => (
-                <Link href={`/projects/${project.slug}`} key={project.slug} data-cursor-interactive>
-                  <MotionCard
-                    className="flex flex-col overflow-hidden transition-all duration-300 group rounded-3xl h-full shadow-lg hover:shadow-2xl hover:-translate-y-2"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              <div className="md:col-span-1">
+                <div className="sticky top-32 space-y-4">
+                  {projectData.map((project) => (
+                    <Card
+                      key={project.slug}
+                      className={`cursor-pointer rounded-2xl transition-all ${
+                        selectedProject.slug === project.slug
+                          ? 'border-primary shadow-2xl'
+                          : 'hover:border-primary/50'
+                      }`}
+                      onClick={() => handleSelectProject(project.slug)}
+                      data-cursor-interactive
+                    >
+                      <CardHeader>
+                        <CardTitle className="text-2xl font-bold font-headline">{project.title}</CardTitle>
+                      </CardHeader>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+              <div className="md:col-span-2">
+                {selectedProject && (
+                  <motion.div
+                    key={selectedProject.slug}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="sticky top-32"
                   >
-                    <CardHeader className="p-0">
-                      <div className="aspect-video overflow-hidden">
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          width={600}
-                          height={400}
-                          className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-300"
-                          data-ai-hint={project.aiHint}
-                        />
-                      </div>
-                    </CardHeader>
-                    <CardContent className="flex-grow p-6 space-y-4">
-                      <CardTitle className="text-4xl font-bold font-headline">
-                        {project.title}
-                      </CardTitle>
-                      <CardDescription className="text-lg">{project.description}</CardDescription>
-                      <div className="flex flex-wrap gap-2 pt-2">
-                        {project.tags.map((tag) => (
-                          <Badge key={tag} variant="secondary" className="text-md rounded-lg">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </MotionCard>
-                </Link>
-              ))}
+                    <Card className="rounded-3xl shadow-lg">
+                      <CardHeader className="p-0">
+                         <div className="aspect-video overflow-hidden rounded-t-3xl">
+                            <Image
+                            src={selectedProject.image}
+                            alt={selectedProject.title}
+                            width={1200}
+                            height={675}
+                            className="object-cover w-full h-full"
+                            data-ai-hint={selectedProject.aiHint}
+                            />
+                        </div>
+                      </CardHeader>
+                      <CardContent className="p-8">
+                        <h2 className="text-5xl font-black uppercase tracking-tighter font-headline mb-4">
+                          {selectedProject.title}
+                        </h2>
+                        <div className="flex flex-wrap gap-2 mb-6">
+                          {selectedProject.tags.map((tag) => (
+                            <Badge key={tag} variant="secondary" className="text-md rounded-lg">
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+                        <p className="text-muted-foreground text-xl mb-6">
+                          {selectedProject.longDescription}
+                        </p>
+                        <div className="flex gap-4">
+                          <Button asChild className="rounded-full text-lg py-6" data-cursor-interactive>
+                            <Link href={`/projects/${selectedProject.slug}`}>
+                                Details ansehen <ArrowRight className="ml-2"/>
+                            </Link>
+                          </Button>
+                           <Button asChild variant="outline" className="rounded-full text-lg py-6" data-cursor-interactive>
+                                <a href="#" target="_blank">
+                                    <Github className="mr-3"/>
+                                    Auf Github ansehen
+                                </a>
+                           </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                )}
+              </div>
             </div>
-          </motion.section>
+          </motion.div>
         </div>
       </main>
       <Footer />

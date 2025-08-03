@@ -7,10 +7,11 @@ import { motion } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Download, Award, Briefcase, Lightbulb, Link as LinkIcon, Users, Code } from 'lucide-react';
+import { Download, Award, Briefcase, Lightbulb, Users, Code, ChevronDown } from 'lucide-react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { useEffect } from 'react';
 import Link from 'next/link';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const skills = [
   'LAMP Stacks',
@@ -73,15 +74,23 @@ export default function ResumePage() {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1,
-      transition: { staggerChildren: 0.2, duration: 0.6 } 
+      transition: { staggerChildren: 0.1, duration: 0.5 } 
     },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
+  const AccordionTriggerStyled = ({ icon, title }: { icon: React.ReactNode, title: string }) => (
+    <AccordionTrigger className="text-4xl font-bold font-headline hover:no-underline">
+        <div className="flex items-center">
+            {icon}
+            <span className="ml-4">{title}</span>
+        </div>
+    </AccordionTrigger>
+  );
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
@@ -89,93 +98,125 @@ export default function ResumePage() {
       <main className="relative z-10 flex-grow pt-32 pb-16">
         <div className="container mx-auto px-6 sm:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto"
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+            className="max-w-5xl mx-auto"
           >
-            <div className="flex justify-between items-start mb-12">
+            <motion.div variants={itemVariants} className="flex justify-between items-start mb-12">
                 <div>
                     <h1 className="text-7xl md:text-8xl font-black uppercase tracking-tighter font-headline">
                         Benedikt Schächner
                     </h1>
                     <p className="text-2xl text-muted-foreground mt-2">Pleiskirchen / Altötting, Bayern</p>
                 </div>
-                <Button className="rounded-full text-lg py-6 px-8 mt-4" data-cursor-interactive>
+                <Button className="rounded-full text-lg py-6 px-8 mt-4 whitespace-nowrap" data-cursor-interactive>
                     <Download className="mr-3"/>
                     CV Herunterladen
                 </Button>
-            </div>
+            </motion.div>
 
             <motion.div 
-              className="space-y-12"
+              className="space-y-4"
               variants={containerVariants}
-              initial="hidden"
-              animate="visible"
             >
-                <motion.section variants={itemVariants}>
-                    <h2 className="flex items-center text-5xl font-bold font-headline mb-8"><Award className="mr-4 text-primary"/>Wettbewerbe & Auszeichnungen</h2>
-                    <div className="space-y-8">
-                         {competitions.map((comp) => (
-                           <Card key={comp.title} className="rounded-3xl">
-                               <CardHeader>
-                                   <CardTitle className="text-3xl font-bold font-headline">{comp.title}</CardTitle>
-                                   <CardDescription className="text-xl pt-1">{comp.project}</CardDescription>
-                               </CardHeader>
-                               <CardContent>
-                                   <p className="text-lg text-primary font-semibold">{comp.result}</p>
-                                   <p className="text-lg text-muted-foreground mt-2">{comp.description}</p>
-                               </CardContent>
-                           </Card>
-                        ))}
-                    </div>
-                </motion.section>
+                <motion.div variants={itemVariants}>
+                    <Accordion type="single" collapsible defaultValue="item-1">
+                        <AccordionItem value="item-1" className="border-b-0">
+                             <Card className="rounded-3xl overflow-hidden">
+                                <CardHeader>
+                                    <AccordionTriggerStyled icon={<Award className="text-primary"/>} title="Wettbewerbe & Auszeichnungen"/>
+                                </CardHeader>
+                                <AccordionContent>
+                                    <div className="px-6 pb-6 space-y-6">
+                                        {competitions.map((comp) => (
+                                        <Card key={comp.title} className="rounded-2xl bg-muted/50">
+                                            <CardHeader>
+                                                <CardTitle className="text-2xl font-bold font-headline">{comp.title}</CardTitle>
+                                                <CardDescription className="text-lg pt-1">{comp.project}</CardDescription>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <p className="text-lg text-primary font-semibold">{comp.result}</p>
+                                                <p className="text-lg text-muted-foreground mt-2">{comp.description}</p>
+                                            </CardContent>
+                                        </Card>
+                                        ))}
+                                    </div>
+                                </AccordionContent>
+                            </Card>
+                        </AccordionItem>
+                    </Accordion>
+                </motion.div>
 
-                <motion.section variants={itemVariants}>
-                    <h2 className="flex items-center text-5xl font-bold font-headline mb-8"><Users className="mr-4 text-primary"/>Events & Community</h2>
-                     <div className="space-y-8">
-                         {events.map((event) => (
-                           <Card key={event.title} className="rounded-3xl">
-                               <CardHeader>
-                                   <CardTitle className="text-3xl font-bold font-headline">{event.title}</CardTitle>
-                                   <CardDescription className="text-xl pt-1">{event.role}</CardDescription>
-                               </CardHeader>
-                               <CardContent>
-                                   <p className="text-lg text-muted-foreground mt-2">{event.description}</p>
-                               </CardContent>
-                           </Card>
-                        ))}
-                    </div>
-                </motion.section>
+                 <motion.div variants={itemVariants}>
+                    <Accordion type="single" collapsible>
+                        <AccordionItem value="item-1" className="border-b-0">
+                             <Card className="rounded-3xl overflow-hidden">
+                                <CardHeader>
+                                    <AccordionTriggerStyled icon={<Users className="text-primary"/>} title="Events & Community"/>
+                                </CardHeader>
+                                <AccordionContent>
+                                    <div className="px-6 pb-6 space-y-6">
+                                        {events.map((event) => (
+                                        <Card key={event.title} className="rounded-2xl bg-muted/50">
+                                            <CardHeader>
+                                                <CardTitle className="text-2xl font-bold font-headline">{event.title}</CardTitle>
+                                                <CardDescription className="text-lg pt-1">{event.role}</CardDescription>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <p className="text-lg text-muted-foreground mt-2">{event.description}</p>
+                                            </CardContent>
+                                        </Card>
+                                        ))}
+                                    </div>
+                                </AccordionContent>
+                            </Card>
+                        </AccordionItem>
+                    </Accordion>
+                </motion.div>
 
-                <motion.section variants={itemVariants}>
-                    <h2 className="flex items-center text-5xl font-bold font-headline mb-6"><Code className="mr-4 text-primary"/>Sprachen & Technologien</h2>
-                     <Card className="rounded-3xl">
-                        <CardContent className="p-6">
-                            <div className="flex flex-wrap gap-3">
-                                {skills.map((skill) => (
-                                    <Badge key={skill} variant="secondary" className="text-lg rounded-lg px-4 py-1">
-                                    {skill}
-                                    </Badge>
-                                ))}
-                            </div>
-                        </CardContent>
-                    </Card>
-                </motion.section>
+                <motion.div variants={itemVariants}>
+                    <Accordion type="single" collapsible>
+                        <AccordionItem value="item-1" className="border-b-0">
+                             <Card className="rounded-3xl overflow-hidden">
+                                <CardHeader>
+                                    <AccordionTriggerStyled icon={<Code className="text-primary"/>} title="Sprachen & Technologien"/>
+                                </CardHeader>
+                                <AccordionContent>
+                                    <div className="px-6 pb-6">
+                                        <div className="flex flex-wrap gap-3">
+                                            {skills.map((skill) => (
+                                                <Badge key={skill} variant="secondary" className="text-lg rounded-lg px-4 py-1">
+                                                {skill}
+                                                </Badge>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </AccordionContent>
+                            </Card>
+                        </AccordionItem>
+                    </Accordion>
+                </motion.div>
                 
-                <motion.section variants={itemVariants}>
-                    <h2 className="flex items-center text-5xl font-bold font-headline mb-6"><Lightbulb className="mr-4 text-primary"/>Vision & Motivation</h2>
-                     <Card className="overflow-hidden rounded-3xl">
-                        <CardHeader>
-                            <CardTitle className="text-3xl font-bold font-headline">{motivation.vision}</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground">
-                                {motivation.points.map((point, i) => <li key={i}>{point}</li>)}
-                            </ul>
-                        </CardContent>
-                    </Card>
-                </motion.section>
+                <motion.div variants={itemVariants}>
+                    <Accordion type="single" collapsible>
+                        <AccordionItem value="item-1" className="border-b-0">
+                             <Card className="rounded-3xl overflow-hidden">
+                                <CardHeader>
+                                    <AccordionTriggerStyled icon={<Lightbulb className="text-primary"/>} title="Vision & Motivation"/>
+                                </CardHeader>
+                                <AccordionContent>
+                                    <div className="px-6 pb-6">
+                                        <CardTitle className="text-2xl font-bold font-headline mb-4">{motivation.vision}</CardTitle>
+                                        <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground">
+                                            {motivation.points.map((point, i) => <li key={i}>{point}</li>)}
+                                        </ul>
+                                    </div>
+                                </AccordionContent>
+                            </Card>
+                        </AccordionItem>
+                    </Accordion>
+                </motion.div>
             </motion.div>
           </motion.div>
         </div>

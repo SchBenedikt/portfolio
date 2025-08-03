@@ -15,82 +15,110 @@ import {
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { blogData } from '@/lib/blog';
-import { ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useAchievements } from '@/components/providers/achievements-provider';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
 
 const MotionCard = motion(Card);
 
 export default function BlogPage() {
-  const [isClient, setIsClient] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(blogData[0]);
   const { unlockAchievement } = useAchievements();
 
   useEffect(() => {
-    setIsClient(true);
     unlockAchievement('BLOG_EXPLORER');
   }, [unlockAchievement]);
 
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: 'easeOut',
-      },
-    },
+  const handleSelectPost = (slug: string) => {
+    const post = blogData.find((p) => p.slug === slug);
+    if (post) {
+      setSelectedPost(post);
+      unlockAchievement('BLOG_POST_READER');
+    }
   };
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
       <main className="relative z-10 flex-grow pt-32 pb-16">
         <div className="container mx-auto px-6 sm:px-8">
-          <motion.section
-            id="blog"
-            className="py-12"
-            variants={sectionVariants}
-            initial="hidden"
-            animate="visible"
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-7xl mx-auto"
           >
             <h1 className="text-7xl md:text-8xl font-black text-center mb-16 uppercase tracking-tighter font-headline">
               Technik & KI Blog
             </h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {blogData.map((post, index) => (
-                <Link href={`/blog/${post.slug}`} key={post.slug} data-cursor-interactive>
-                  <MotionCard
-                    className="flex flex-col overflow-hidden transition-all duration-300 group rounded-3xl h-full shadow-lg hover:shadow-2xl hover:-translate-y-2"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              <div className="md:col-span-1">
+                <div className="sticky top-32 space-y-4">
+                  {blogData.map((post) => (
+                    <Card
+                      key={post.slug}
+                      className={`cursor-pointer rounded-2xl transition-all ${
+                        selectedPost.slug === post.slug
+                          ? 'border-primary shadow-2xl'
+                          : 'hover:border-primary/50'
+                      }`}
+                      onClick={() => handleSelectPost(post.slug)}
+                      data-cursor-interactive
+                    >
+                      <CardHeader>
+                        <CardTitle className="text-2xl font-bold font-headline">{post.title}</CardTitle>
+                        <CardDescription className="text-md pt-1">{new Date(post.date).toLocaleDateString('de-DE')}</CardDescription>
+                      </CardHeader>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+              <div className="md:col-span-2">
+                {selectedPost && (
+                  <motion.div
+                    key={selectedPost.slug}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="sticky top-32"
                   >
-                    <CardHeader>
-                      <CardTitle className="text-4xl font-bold font-headline">
-                        {post.title}
-                      </CardTitle>
-                       <CardDescription className="text-lg pt-2">{isClient ? new Date(post.date).toLocaleDateString('de-DE') : new Date(post.date).toISOString().split('T')[0]}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex-grow">
-                      <p className="text-lg text-muted-foreground">{post.description}</p>
-                    </CardContent>
-                    <CardFooter className="flex-col items-start space-y-4">
-                       <div className="flex flex-wrap gap-2">
-                        {post.tags.map((tag) => (
-                          <Badge key={tag} variant="secondary" className="text-md rounded-lg">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                       <p className="flex items-center font-semibold text-primary group-hover:text-accent transition-colors">
-                        Mehr lesen <ArrowRight className="ml-2 h-5 w-5"/>
-                       </p>
-                    </CardFooter>
-                  </MotionCard>
-                </Link>
-              ))}
+                    <Card className="rounded-3xl shadow-lg">
+                      <CardHeader>
+                        <h2 className="text-5xl font-black uppercase tracking-tighter font-headline mb-2">
+                          {selectedPost.title}
+                        </h2>
+                        <div className="flex justify-between items-center mb-4">
+                            <div className="flex flex-wrap gap-2">
+                                {selectedPost.tags.map((tag) => (
+                                <Badge key={tag} variant="secondary" className="text-md rounded-lg">
+                                    {tag}
+                                </Badge>
+                                ))}
+                            </div>
+                            <p className="text-muted-foreground text-lg">{new Date(selectedPost.date).toLocaleDateString('de-DE')}</p>
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <div
+                            className="prose prose-invert prose-lg max-w-none text-muted-foreground text-xl space-y-6"
+                            dangerouslySetInnerHTML={{ __html: selectedPost.content }}
+                        ></div>
+                      </CardContent>
+                      <CardFooter>
+                         <Button asChild className="rounded-full" data-cursor-interactive>
+                           <Link href={`/blog/${selectedPost.slug}`}>
+                                Beitrag aufrufen <ArrowRight className="ml-2"/>
+                           </Link>
+                         </Button>
+                      </CardFooter>
+                    </Card>
+                  </motion.div>
+                )}
+              </div>
             </div>
-          </motion.section>
+          </motion.div>
         </div>
       </main>
       <Footer />
