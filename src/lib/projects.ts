@@ -6,31 +6,31 @@ export const projectData = [
     description:
       'Ein kreatives Crossmedia-Projekt, das Julius Cäsars Feldherr-Geschichte im Stil eines modernen Influencer-Blogs erzählt.',
     longDescription:
-      '„Meum Diarium – Ein Feldherr als Influencer“ ist ein preisgekröntes Schulprojekt, das im Rahmen einer Crossmedia-AG entstand. Es bricht die historische Erzählung von Julius Cäsars "De Bello Gallico" auf und überträgt sie in moderne Formate wie Blog-Posts, Interviews und illustrierte Social-Media-Storys. Das Projekt zielt darauf ab, klassische Texte für ein junges Publikum zugänglich und spannend zu machen, indem es historische Inhalte mit moderner Netzkultur verbindet. Es gewann den Hauptpreis beim Deutschen Multimedia-Preis mb21 2024.',
+      '„Meum Diarium – Ein Feldherr als Influencer“ ist ein preisgekröntes Schulprojekt, das Cäsars "De Bello Gallico" als Blog-Posts, Interviews und Social-Media-Storys modern interpretiert. Das Projekt gewann den Hauptpreis beim Deutschen Multimedia-Preis mb21 2024 und wurde beim Crossmedia-Wettbewerb des Bayerischen Rundfunks ausgezeichnet, indem es historische Inhalte mit moderner Netzkultur kreativ verbindet.',
     image: 'https://placehold.co/600x400.png',
-    tags: ['Crossmedia', 'Storytelling', 'Latein', 'UI/UX'],
+    tags: ['Crossmedia', 'Storytelling', 'Ausgezeichnet', 'UI/UX'],
     aiHint: 'roman influencer blog',
   },
   {
-    title: 'Technik- & KI-Blog',
-    slug: 'technik-blog',
+    title: 'Medienscouts KKG',
+    slug: 'medienscouts-kkg',
     description:
-      'Ein Self-Hosting Blog mit Anleitungen zum lokalen Betrieb von KI-Modellen wie Llama3 mit Ollama und Docker.',
+      'Als Teil der Medienscouts am König-Karlmann-Gymnasium unterstütze ich Mitschüler beim sicheren Umgang mit digitalen Medien.',
     longDescription:
-      'Auf technik.schächner.de teile ich mein Wissen über digitale Souveränität. Der Blog bietet detaillierte Schritt-für-Schritt-Anleitungen für das Self-Hosting von Open-Source-Software. Schwerpunkte sind der lokale Betrieb von großen Sprachmodellen (LLMs) mit Ollama und die Einrichtung von GUIs wie Open WebUI. Die Tutorials sind praxisorientiert und richten sich an Entwickler und Technik-Enthusiasten, die mehr Kontrolle über ihre digitale Infrastruktur wollen.',
+      'Auf medienscouts-kkg.de stellen wir als Gruppe digitale Werkzeuge vor, organisieren Workshops und beraten zu Datenschutz und Online-Sicherheit. Wir unterstützen die Digitalklassen, in denen ab der 8. Klasse papierlos gearbeitet wird, und stehen als Ansprechpartner für Schüler, Lehrer und Eltern zur Verfügung, um die digitale Bildung und Sicherheit an der Schule zu fördern.',
     image: 'https://placehold.co/600x400.png',
-    tags: ['Selfhosting', 'AI', 'Docker', 'Linux'],
-    aiHint: 'server code terminal',
+    tags: ['Next.js', 'Chatbot', 'Schulprojekt', 'CI/CD'],
+    aiHint: 'school media lab',
   },
   {
-    title: 'Schulplattformen & Tools',
-    slug: 'schulplattformen',
+    title: 'Technik- & Konferenz-Blog',
+    slug: 'technik-blog',
     description:
-      'Entwicklung von Web-Tools für schulische AGs, darunter ein Chatbot, ein Medienschutz-Portal und CO₂-Sensor-Automatisierungen.',
+      'Ein Self-Hosting Blog mit Anleitungen und Berichten von Events wie der Nextcloud Community Conference.',
     longDescription:
-      'Als Mitgründer der MedienScouts am KKG habe ich diverse digitale Werkzeuge entwickelt, um den Schulalltag zu bereichern. Dazu gehören die Plattform medienscouts-kkg.de mit einem eigens entwickelten Chatbot und Tutorials zur Medienkompetenz, die historische Storytelling-Seite caesar.schächner.de sowie technische Automatisierungen mit Arduino und CO₂-Sensoren zur Überwachung der Luftqualität in Klassenräumen. Alle Projekte werden über CI/CD-Pipelines mit GitHub automatisiert bereitgestellt.',
+      'Auf meiner technischen Website teile ich mein Wissen über digitale Souveränität, Open-Source-Software und Self-Hosting. Dort finden sich detaillierte Anleitungen, zum Beispiel zum lokalen Betrieb von KI-Modellen, aber auch Erfahrungsberichte und Rückblicke auf Konferenzen wie die Nextcloud Conference, wo ich als Speaker aufgetreten bin.',
     image: 'https://placehold.co/600x400.png',
-    tags: ['Next.js', 'Chatbot', 'Arduino', 'CI/CD'],
-    aiHint: 'school media lab',
+    tags: ['Selfhosting', 'Speaker', 'Docker', 'Linux'],
+    aiHint: 'server code terminal',
   },
 ];
