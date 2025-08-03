@@ -11,9 +11,12 @@ import { Terminal } from '@/components/terminal';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
+import { Canvas } from '@react-three/fiber';
+import InteractiveLogo from '@/components/interactive-logo';
 
-const Scene = dynamic(() => import('@/components/scene'), {
+const Scene = dynamic(() => import('@/components/scene').then(mod => mod.default), {
   ssr: false,
+  loading: () => <Skeleton className="w-full h-full rounded-full" />,
 });
 
 
