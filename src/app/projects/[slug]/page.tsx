@@ -7,16 +7,18 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Github, Calendar, Folder, Tags } from 'lucide-react';
+import { ArrowLeft, Github, Calendar, Folder, Tags, Bot } from 'lucide-react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { useEffect } from 'react';
+import { useChat } from '@/components/providers/chat-provider';
 
 export default function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
   const project = projectData.find((p) => p.slug === slug);
   const { unlockAchievement } = useAchievements();
+  const { openChat } = useChat();
 
   useEffect(() => {
     if (project) {
@@ -28,6 +30,17 @@ export default function ProjectPage({ params: { slug } }: { params: { slug: stri
   if (!project) {
     notFound();
   }
+
+  const handleAskAI = () => {
+    const context = `
+      Projekttitel: ${project.title}
+      Beschreibung: ${project.longDescription}
+      Technologien: ${project.tags.join(', ')}
+      Kategorie: ${project.category}
+      Datum: ${project.date}
+    `;
+    openChat(context);
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
@@ -69,7 +82,13 @@ export default function ProjectPage({ params: { slug } }: { params: { slug: stri
               </div>
               <div className="md:col-span-2">
                  <div className="sticky top-32 bg-card/50 backdrop-blur-lg p-6 md:p-8 rounded-3xl border border-border/50">
-                    <h3 className="text-2xl md:text-3xl font-bold font-headline mb-6">Projekt-Infos</h3>
+                    <div className="flex justify-between items-start mb-6">
+                      <h3 className="text-2xl md:text-3xl font-bold font-headline">Projekt-Infos</h3>
+                      <Button variant="outline" size="icon" onClick={handleAskAI} data-cursor-interactive>
+                        <Bot className="w-5 h-5"/>
+                        <span className="sr-only">Frag die KI zu diesem Projekt</span>
+                      </Button>
+                    </div>
                      <p className="text-base md:text-lg text-muted-foreground mb-6">
                         {project.description}
                      </p>

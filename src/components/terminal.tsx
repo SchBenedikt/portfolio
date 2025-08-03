@@ -9,6 +9,7 @@ import { Maximize, Minimize, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { useThemeColor } from '@/hooks/use-theme-color';
+import { useChat } from './providers/chat-provider';
 
 interface TerminalProps {
   onExit: () => void;
@@ -52,6 +53,8 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   const { setTheme } = useTheme();
   const { unlockAchievement } = useAchievements();
   const { setThemeColor } = useThemeColor();
+  const { openChat } = useChat();
+
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [gameState, setGameState] = useState<GameType>('none');
@@ -283,6 +286,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   clear             - Leert den Terminalverlauf
   exit              - Beendet ein laufendes Spiel/Modus
   logout            - Setzt den Benutzernamen zurück
+  ask <frage>       - Stelle eine Frage an die KI
 
   System
   --------------------
@@ -308,6 +312,15 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   matrix            - Startet einen geheimen Modus
   game              - Startet das Zahlenratespiel
   typing-test       - Startet den Schreibgeschwindigkeitstest`;
+        break;
+      case 'ask':
+        const question = args.join(' ');
+        if (!question) {
+            output = "ask: Bitte gib eine Frage an.";
+        } else {
+            const context = "Der Benutzer stellt eine allgemeine Frage über das Terminal.";
+            openChat(context);
+        }
         break;
       case 'whoami':
         output = `${username}@benedikt.dev`;

@@ -7,6 +7,8 @@ import { Rubik, JetBrains_Mono as FontMono } from 'next/font/google';
 import { AchievementsProvider } from '@/components/providers/achievements-provider';
 import { Toaster as SonnerToaster } from '@/components/ui/sonner';
 import CustomCursor from '@/components/custom-cursor';
+import { ChatProvider } from '@/components/providers/chat-provider';
+import { ChatSheet } from '@/components/chat-sheet';
 
 const rubik = Rubik({
   subsets: ['latin'],
@@ -67,10 +69,13 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AchievementsProvider>
-            <CustomCursor />
-            {children}
-            <DefaultToaster />
-            <SonnerToaster />
+            <ChatProvider>
+              <CustomCursor />
+              {children}
+              <ChatSheet />
+              <DefaultToaster />
+              <SonnerToaster />
+            </ChatProvider>
           </AchievementsProvider>
         </ThemeProvider>
       </body>

@@ -8,10 +8,11 @@ import { motion } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Download, Award, Briefcase, Lightbulb, Users, Code, Rocket, GitBranch, Terminal as TerminalIcon, Rss, Link as LinkIcon, GraduationCap, Instagram, Linkedin, Home, School, Mail, Phone, Calendar, CodeSquare, Star } from 'lucide-react';
+import { Download, Award, Briefcase, Lightbulb, Users, Code, Rocket, GitBranch, Terminal as TerminalIcon, Rss, Link as LinkIcon, GraduationCap, Instagram, Linkedin, Home, School, Mail, Phone, Calendar, CodeSquare, Star, Bot } from 'lucide-react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { useEffect } from 'react';
 import Link from 'next/link';
+import { useChat } from '@/components/providers/chat-provider';
 
 const about = {
     name: "Benedikt Schächner",
@@ -96,10 +97,15 @@ const languages = [
 
 export default function ResumePage() {
   const { unlockAchievement } = useAchievements();
+  const { openChat } = useChat();
 
   useEffect(() => {
     unlockAchievement('RESUME_VIEWER');
   }, [unlockAchievement]);
+
+  const handleAskAI = (context: string) => {
+    openChat(context);
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -114,6 +120,15 @@ export default function ResumePage() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
+  const fullResumeContext = `
+    Name: ${about.name}
+    Titel: ${about.title}
+    Zitat: ${about.quote}
+    Werdegang: ${timelineEvents.map(e => `${e.date} - ${e.title} bei ${e.organization}: ${e.description}`).join('\n')}
+    Fähigkeiten: ${skills.join(', ')}
+    Sprachen: ${languages.map(l => `${l.name} (${l.level})`).join(', ')}
+  `;
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
@@ -125,9 +140,15 @@ export default function ResumePage() {
           className="container mx-auto px-6 sm:px-8 max-w-5xl"
         >
             <motion.div variants={itemVariants} className="text-center mb-12">
-                <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter font-headline">
-                    {about.name}
-                </h1>
+                <div className="flex justify-center items-center gap-4">
+                  <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter font-headline">
+                      {about.name}
+                  </h1>
+                  <Button variant="outline" size="icon" onClick={() => handleAskAI(fullResumeContext)} data-cursor-interactive>
+                    <Bot className="w-6 h-6"/>
+                    <span className="sr-only">Frag die KI zu diesem Lebenslauf</span>
+                  </Button>
+                </div>
                 <p className="text-xl md:text-2xl text-primary mt-2">{about.title}</p>
                 <blockquote className="mt-6 text-lg md:text-xl text-muted-foreground italic">
                     {about.quote}

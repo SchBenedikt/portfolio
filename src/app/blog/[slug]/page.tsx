@@ -6,17 +6,18 @@ import { notFound } from 'next/navigation';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Github, Rss } from 'lucide-react';
-import Image from 'next/image';
+import { ArrowLeft, Bot } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { useEffect } from 'react';
+import { useChat } from '@/components/providers/chat-provider';
 
 export default function BlogPostPage({ params: { slug } }: { params: { slug: string } }) {
   const post = blogData.find((p) => p.slug === slug);
   const { unlockAchievement } = useAchievements();
+  const { openChat } = useChat();
 
   useEffect(() => {
     if (post) {
@@ -28,6 +29,16 @@ export default function BlogPostPage({ params: { slug } }: { params: { slug: str
     notFound();
   }
 
+  const handleAskAI = () => {
+    const context = `
+      Blog-Titel: ${post.title}
+      Veröffentlichungsdatum: ${post.date}
+      Tags: ${post.tags.join(', ')}
+      Inhalt: ${post.content.replace(/<[^>]*>?/gm, '')}
+    `;
+    openChat(context);
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
@@ -38,12 +49,16 @@ export default function BlogPostPage({ params: { slug } }: { params: { slug: str
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="mb-8">
+            <div className="flex justify-between items-center mb-8">
               <Button asChild variant="outline" className="rounded-full" data-cursor-interactive>
                 <Link href="/blog">
                   <ArrowLeft className="mr-2" />
                   Zurück zum Blog
                 </Link>
+              </Button>
+              <Button variant="outline" size="icon" onClick={handleAskAI} data-cursor-interactive>
+                  <Bot className="w-5 h-5" />
+                  <span className="sr-only">Frag die KI zu diesem Beitrag</span>
               </Button>
             </div>
             <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter font-headline mb-4">
