@@ -1,24 +1,23 @@
 
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { useAchievements } from './providers/achievements-provider';
-import { projectData } from '@/lib/projects';
-import { blogData } from '@/lib/blog';
 import { Maximize, Minimize, CheckCircle, Lock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { achievementsList, AchievementID } from '@/lib/achievements';
+import { Textarea } from './ui/textarea';
 
 interface HistoryItem {
   type: 'input' | 'output' | 'component';
   content: string | React.ReactNode;
+  path?: string;
 }
 
-type GameType = 'none' | 'number_guesser' | 'typing_test' | 'tutorial';
+type GameType = 'none' | 'number_guesser' | 'typing_test' | 'tutorial' | 'nano';
 
 type MissionStep = {
     prompt: string | (() => string);
@@ -35,6 +34,18 @@ type Mission = {
     achievementId?: AchievementID;
 };
 
+const initialFileSystem = {
+    'documents': {
+        type: 'dir',
+        children: {
+            'about_me.txt': { type: 'file', content: 'Dies ist ein Portfolio von Benedikt Schächner, einem kreativen Entwickler.' },
+        }
+    },
+    'projects.txt': { type: 'file', content: 'Projekt 1: Meum Diarium...\nProjekt 2: Technik-Blog...\nProjekt 3: Schulplattformen...' },
+    'blog.txt': { type: 'file', content: 'Blog 1: Eigene KI hosten...\nBlog 2: Open WebUI installieren...' },
+    'resume.txt': { type: 'file', content: 'Benedikt Schächner\nKompetenzen: LAMP, Docker, Next.js...' },
+};
+
 type GameState = {
   type: GameType;
   secretNumber?: number;
@@ -45,6 +56,11 @@ type GameState = {
   // Tutorial State
   missionId?: string;
   stepIndex?: number;
+
+  // Nano State
+  nanoFile?: string;
+  nanoFilePath?: string[];
+  nanoInitialContent?: string;
 };
 
 const initialHistory: HistoryItem[] = [
@@ -61,7 +77,6 @@ const typingSentences = [
 ];
 
 export const Terminal = () => {
-  const router = useRouter();
   const { theme, setTheme } = useTheme();
   const { unlockAchievement, unlockedAchievements } = useAchievements();
   const [input, setInput] = useState('');
@@ -71,6 +86,12 @@ export const Terminal = () => {
   const [usedCommands, setUsedCommands] = useState<Set<string>>(new Set());
   const inputRef = useRef<HTMLInputElement>(null);
   const endOfHistoryRef = useRef<HTMLDivElement>(null);
+  const [nanoContent, setNanoContent] = useState('');
+
+  // --- File System State ---
+  const [fileSystem, setFileSystem] = useState(initialFileSystem);
+  const [currentPath, setCurrentPath] = useState<string[]>([]);
+
 
   // --- Missions Definition ---
   const missions: Mission[] = [
@@ -85,12 +106,12 @@ export const Terminal = () => {
                 expected: 'ls'
             },
             {
-                prompt: "Gut gemacht! 'ls' (list) zeigt dir den Inhalt. Du siehst 'projects', 'blog' und 'resume'.\nNun, wer bin ich überhaupt? Tippe 'whoami' ein.",
+                prompt: "Gut gemacht! 'ls' (list) zeigt dir den Inhalt. Du siehst 'projects.txt', 'blog.txt' und 'resume.txt'.\nNun, wer bin ich überhaupt? Tippe 'whoami' ein.",
                 expected: 'whoami'
             },
             {
-                prompt: "Exzellent! 'whoami' gibt Infos über den Benutzer. Lass uns nun den Inhalt von 'resume' ansehen. Tippe 'cat resume'.",
-                expected: 'cat resume'
+                prompt: "Exzellent! 'whoami' gibt Infos über den Benutzer. Lass uns nun den Inhalt von 'resume.txt' ansehen. Tippe 'cat resume.txt'.",
+                expected: 'cat resume.txt'
             },
             {
                 prompt: "Perfekt! Du hast die Grundlagen gemeistert. Mit 'clear' leerst du den Bildschirm und mit 'help' siehst du alle Befehle.",
@@ -188,7 +209,7 @@ export const Terminal = () => {
 
   useEffect(() => {
     inputRef.current?.focus();
-  }, []);
+  }, [gameState.type]);
 
   useEffect(() => {
     endOfHistoryRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -204,8 +225,40 @@ export const Terminal = () => {
     }
   };
 
+  const resolvePath = (path: string) => {
+    const segments = path.split('/').filter(p => p !== '');
+    let newPath: string[] = [];
+
+    if (path.startsWith('/')) {
+        newPath = [];
+    } else {
+        newPath = [...currentPath];
+    }
+    
+    for (const segment of segments) {
+        if (segment === '..') {
+            if (newPath.length > 0) newPath.pop();
+        } else if (segment !== '.') {
+            newPath.push(segment);
+        }
+    }
+    return newPath;
+  };
+
+  const getDirectoryContents = (path: string[]) => {
+      let current = fileSystem;
+      for (const part of path) {
+          if (current[part] && current[part].type === 'dir') {
+              current = current[part].children as any;
+          } else {
+              return null; // Path does not exist or is not a directory
+          }
+      }
+      return current;
+  };
+
   const handleGameInput = (command: string) => {
-    let newHistory: HistoryItem[] = [...history, { type: 'input', content: command }];
+    let newHistory: HistoryItem[] = [...history, { type: 'input', content: command, path: getPathString() }];
     let output: string | React.ReactNode = '';
 
     if (gameState.type === 'number_guesser') {
@@ -273,7 +326,7 @@ export const Terminal = () => {
             if (nextStepIndex < mission.steps.length) {
                 const nextStep = mission.steps[nextStepIndex];
                 let prompt = typeof nextStep.prompt === 'function' ? nextStep.prompt(command) : nextStep.prompt;
-                if (nextStep.expected === 'ps') { // Hack to show process list after 'ps'
+                if (nextStep.expected === 'ps') { 
                      const { processes } = (gameState as any).missionData;
                     let processList = "PID\tProzess\n---\t-------\n";
                     processList += processes.map((p: any) => `${p.pid}\t${p.name}`).join('\n');
@@ -300,7 +353,7 @@ export const Terminal = () => {
   }
 
   const handleCommand = (command: string) => {
-    let newHistory: HistoryItem[] = [...history, { type: 'input', content: command }];
+    let newHistory: HistoryItem[] = [...history, { type: 'input', content: command, path: getPathString() }];
     const [cmd, ...args] = command.toLowerCase().split(' ');
     checkCommandAchievement(cmd);
 
@@ -316,12 +369,15 @@ export const Terminal = () => {
   'tutorial'        - Startet die erste Mission ('basics').
   'exit'            - Bricht eine laufende Mission oder ein Spiel ab.
 
+  Dateisystem:
+  'ls'              - Zeigt den Inhalt des aktuellen Verzeichnisses an.
+  'cd <verzeichnis>'- Wechselt in ein Verzeichnis (benutze '..' für übergeordnet).
+  'pwd'             - Zeigt den aktuellen Pfad an.
+  'cat <datei>'     - Zeigt den Inhalt einer Textdatei an.
+  'nano <datei>'    - Öffnet einen einfachen Texteditor für eine Datei.
+
   Grundlagen:
-  'ls'              - Zeigt verfügbare Bereiche an (projects, resume, blog).
-  'cat resume'      - Zeigt den Inhalt eines Bereichs an (z.B. den Lebenslauf).
   'clear'           - Leert den Terminal-Verlauf.
-  
-  Interaktion & Info:
   'achievements'    - Zeigt deine freigeschalteten Erfolge.
   'theme <name>'    - Ändert Farbschema (dark, light).
   'whoami'          - Zeigt eine kurze Biografie und Systeminformationen an.
@@ -343,7 +399,7 @@ export const Terminal = () => {
         if (userAgent.indexOf("Android") != -1) os = "Android";
         if (userAgent.indexOf("like Mac") != -1) os = "iOS";
         
-        output = `Benutzer: Gast\n`
+        output = `Benutzer: guest\n`
                + `Hostname: benedikt.dev\n`
                + `IP-Adresse: [Lokal]\n`
                + `OS: ${os}\n`
@@ -381,26 +437,83 @@ export const Terminal = () => {
         );
         break;
       case 'ls':
-        let lsOutput = "Bereiche: projects, blog, resume.";
-        if ((gameState as any)?.missionData?.cloned) {
-            lsOutput += "\n\nmy-first-repo/"
-        }
-        output = lsOutput;
-        break;
-      case 'cat':
-        if(args[0] === 'resume') {
-            output = `Benedikt Schächner\n`
-            + `Pleiskirchen / Altötting, Bayern\n\n`
-            + `Kompetenzen:\n`
-            + `  - LAMP Stacks, Docker, Supabase, Nextcloud\n`
-            + `  - Ollama / llama3, Open WebUI\n`
-            + `  - WebGL / D3, React, GitOps, UI Motion\n\n`
-            + `Vision & Motivation:\n`
-            + `  - Digitale Souveränität, Edu-Tech mit Storytelling, und Teamwork.`
+        const dirContents = getDirectoryContents(currentPath);
+        if (dirContents) {
+            output = Object.keys(dirContents).map(key => {
+                return dirContents[key].type === 'dir' ? `${key}/` : key;
+            }).join('  ');
         } else {
-            output = `Fehler: 'cat' kann nur mit 'resume' verwendet werden.`;
+            output = 'ls: Fehler beim Lesen des Verzeichnisses.';
+        }
+        if ((gameState as any)?.missionData?.cloned) {
+             output += "\nmy-first-repo/"
         }
         break;
+      case 'cd':
+        const targetDir = args[0] || '';
+        if (targetDir === '') {
+            setCurrentPath([]); // cd to home
+        } else if (targetDir === '..') {
+            if (currentPath.length > 0) {
+                setCurrentPath(prev => prev.slice(0, -1));
+            }
+        } else {
+            const newPath = resolvePath(targetDir);
+            const dir = getDirectoryContents(newPath);
+            if (dir) {
+                setCurrentPath(newPath);
+                 if(newPath.length > 1) {
+                    unlockAchievement('DEEP_DIVER');
+                }
+            } else {
+                output = `cd: Verzeichnis nicht gefunden: ${targetDir}`;
+            }
+        }
+        break;
+       case 'pwd':
+         output = `/${currentPath.join('/')}`;
+         break;
+       case 'cat':
+        const catFile = args[0];
+        if (!catFile) {
+            output = 'cat: Dateiname fehlt.';
+        } else {
+            const dir = getDirectoryContents(currentPath);
+            if (dir && dir[catFile] && dir[catFile].type === 'file') {
+                output = (dir[catFile] as any).content;
+            } else {
+                output = `cat: Datei nicht gefunden: ${catFile}`;
+            }
+        }
+        break;
+       case 'nano':
+         const nanoFile = args[0];
+         if (!nanoFile) {
+             output = 'nano: Dateiname fehlt.';
+         } else {
+             const dir = getDirectoryContents(currentPath);
+             if (dir && dir[nanoFile] && dir[nanoFile].type === 'file') {
+                const fileContent = (dir[nanoFile] as any).content;
+                 setGameState({
+                     type: 'nano',
+                     nanoFile: nanoFile,
+                     nanoFilePath: [...currentPath],
+                     nanoInitialContent: fileContent,
+                 });
+                 setNanoContent(fileContent);
+             } else if (dir) { // Create new file
+                setGameState({
+                     type: 'nano',
+                     nanoFile: nanoFile,
+                     nanoFilePath: [...currentPath],
+                     nanoInitialContent: '',
+                 });
+                 setNanoContent('');
+             } else {
+                 output = `nano: Ungültiger Pfad.`;
+             }
+         }
+         break;
       case 'achievements':
         isComponent = true;
         output = (
@@ -480,10 +593,12 @@ export const Terminal = () => {
         output = `Befehl nicht gefunden: ${command}. Tippe 'help' für eine Liste der Befehle.`;
     }
 
-    if (isComponent) {
-        newHistory.push({ type: 'component', content: output });
-    } else {
-        newHistory.push({ type: 'output', content: output });
+    if (output) {
+        if (isComponent) {
+            newHistory.push({ type: 'component', content: output });
+        } else {
+            newHistory.push({ type: 'output', content: output });
+        }
     }
 
     setHistory(newHistory);
@@ -504,7 +619,7 @@ export const Terminal = () => {
     }
     
     if (commandLower === 'exit') {
-       let newHistory: HistoryItem[] = [...history, { type: 'input', content: command }];
+       let newHistory: HistoryItem[] = [...history, { type: 'input', content: command, path: getPathString() }];
       if (gameState.type !== 'none') {
         newHistory.push({ type: 'output', content: `Aktion '${gameState.type}' wurde abgebrochen.` });
         setGameState({ type: 'none' });
@@ -526,10 +641,68 @@ export const Terminal = () => {
   };
 
   const handleTerminalClick = () => {
-    inputRef.current?.focus();
+    if (gameState.type !== 'nano') {
+        inputRef.current?.focus();
+    }
   };
 
+  const handleNanoExit = (save: boolean) => {
+    let newHistory = [...history];
+    if (save) {
+        // This is a simplified way to update the file system state.
+        // For a more robust solution, you'd use a deep copy and update utility.
+        const newFileSystem = JSON.parse(JSON.stringify(fileSystem));
+        let current = newFileSystem;
+        for (const part of gameState.nanoFilePath!) {
+            current = current[part].children;
+        }
+        if (current[gameState.nanoFile!]) {
+            current[gameState.nanoFile!].content = nanoContent;
+        } else {
+            // create new file
+            current[gameState.nanoFile!] = { type: 'file', content: nanoContent };
+        }
+
+        setFileSystem(newFileSystem);
+        newHistory.push({ type: 'output', content: `Datei '${gameState.nanoFile}' gespeichert.` });
+
+        if(gameState.nanoInitialContent !== nanoContent){
+            unlockAchievement('EDITOR_PRO');
+        }
+    } else {
+        newHistory.push({ type: 'output', content: 'Änderungen verworfen.' });
+    }
+    
+    setHistory(newHistory);
+    setGameState({ type: 'none' });
+  };
+
+
+  const getPathString = () => `~/${currentPath.join('/')}`;
   const promptSymbol = gameState.type !== 'none' ? '>' : '$';
+  const promptUser = 'guest@benedikt.dev';
+  const promptPath = getPathString();
+
+  if (gameState.type === 'nano') {
+      return (
+         <div className="fixed inset-0 bg-black text-white font-mono z-[100] flex flex-col p-2">
+            <div className="bg-blue-700 text-center text-sm mb-1">
+                Nano Editor - {gameState.nanoFile}
+            </div>
+            <Textarea
+                value={nanoContent}
+                onChange={(e) => setNanoContent(e.target.value)}
+                className="flex-grow bg-black text-white border-none focus:ring-0 whitespace-pre-wrap"
+                autoFocus
+            />
+            <div className="bg-blue-700 text-sm mt-1 flex justify-center gap-4">
+                <span onClick={() => handleNanoExit(true)} className="cursor-pointer">^X Speichern & Schließen</span>
+                <span onClick={() => handleNanoExit(false)} className="cursor-pointer">^C Abbrechen</span>
+            </div>
+         </div>
+      );
+  }
+
 
   return (
     <>
@@ -549,7 +722,7 @@ export const Terminal = () => {
         <div className="absolute top-0 left-0 w-full flex items-center justify-between gap-2 p-4 bg-card/80 z-10">
           <div className="flex items-center gap-2">
               <div className="w-3.5 h-3.5 rounded-full bg-red-500"></div>
-              <div className="w-3.h-3.5 rounded-full bg-yellow-500"></div>
+              <div className="w-3.5 h-3.5 rounded-full bg-yellow-500"></div>
               <div className="w-3.5 h-3.5 rounded-full bg-green-500"></div>
           </div>
           <p className="text-center flex-1 text-muted-foreground text-sm font-mono select-none">/bin/bash - benedikt.dev</p>
@@ -573,8 +746,10 @@ export const Terminal = () => {
             <div key={index} className="mb-2">
               {item.type === 'input' ? (
                 <div className="flex">
-                  <span className="text-primary font-bold mr-2">{item.content ? (gameState.type === 'tutorial' ? '>' : '$') : ''}</span>
-                  <span>{item.content as string}</span>
+                    <span className="text-green-400">{promptUser}:</span>
+                    <span className="text-blue-400 mx-1">{item.path}</span>
+                    <span className="text-primary font-bold mr-2">{promptSymbol}</span>
+                    <span>{item.content as string}</span>
                 </div>
               ) : item.type === 'output' ? (
                 <span className="text-muted-foreground whitespace-pre-wrap leading-relaxed">{item.content as string}</span>
@@ -586,6 +761,8 @@ export const Terminal = () => {
           <div ref={endOfHistoryRef} />
         </div>
         <form onSubmit={handleSubmit} className="flex items-center font-mono text-lg p-6 border-t border-border/50 bg-card/80">
+          <span className="text-green-400">{promptUser}:</span>
+          <span className="text-blue-400 mx-1">{promptPath}</span>
           <span className="text-primary font-bold mr-2">{promptSymbol}</span>
           <input
             ref={inputRef}
@@ -595,11 +772,10 @@ export const Terminal = () => {
             className="w-full bg-transparent border-none focus:ring-0 outline-none"
             autoFocus
             autoComplete="off"
+            disabled={gameState.type !== 'none'}
           />
         </form>
       </motion.div>
     </>
   );
 };
-
-    
