@@ -311,13 +311,14 @@ export const Terminal = () => {
 
         const step = mission.steps[gameState.stepIndex!];
         let isCorrect = false;
+        const commandLower = command.toLowerCase().trim();
 
         if (typeof step.expected === 'string') {
-            isCorrect = command.toLowerCase().trim() === step.expected;
+            isCorrect = commandLower === step.expected;
         } else if (Array.isArray(step.expected)) {
-            isCorrect = step.expected.includes(command.toLowerCase().trim());
+            isCorrect = step.expected.includes(commandLower);
         } else if (typeof step.expected === 'function') {
-            isCorrect = step.expected(command.toLowerCase().trim());
+            isCorrect = step.expected(commandLower);
         }
 
         if (isCorrect) {
@@ -327,8 +328,10 @@ export const Terminal = () => {
             if (nextStepIndex < mission.steps.length) {
                 const nextStep = mission.steps[nextStepIndex];
                 let prompt = typeof nextStep.prompt === 'function' ? nextStep.prompt(command) : nextStep.prompt;
-                if (nextStep.expected === 'ps') { 
-                     const { processes } = (gameState as any).missionData;
+                
+                // Special handling for ps command output within tutorial
+                if (commandLower === 'ps') {
+                    const { processes } = (gameState as any).missionData;
                     let processList = "PID\tProzess\n---\t-------\n";
                     processList += processes.map((p: any) => `${p.pid}\t${p.name}`).join('\n');
                     prompt = `${processList}\n\nEin Prozess scheint schädlich zu sein. Beende ihn mit 'kill <PID>'.`;
@@ -346,7 +349,15 @@ export const Terminal = () => {
                  setGameState({ type: 'none' });
             }
         } else {
-            output = `${step.feedback || 'Das war nicht ganz richtig. Versuche es nochmal.'}\n\n${typeof step.prompt === 'function' ? step.prompt(command) : step.prompt}`;
+            let promptText = typeof step.prompt === 'function' ? step.prompt(command) : step.prompt;
+             if (commandLower === 'ps' && gameState.missionId === 'processes') {
+                const { processes } = (gameState as any).missionData;
+                let processList = "PID\tProzess\n---\t-------\n";
+                processList += processes.map((p: any) => `${p.pid}\t${p.name}`).join('\n');
+                promptText = `${processList}\n\nEin Prozess scheint schädlich zu sein. Beende ihn mit 'kill <PID>'.`;
+            }
+
+            output = `${step.feedback || 'Das war nicht ganz richtig. Versuche es nochmal.'}\n\n${promptText}`;
         }
     }
     
@@ -496,7 +507,6 @@ export const Terminal = () => {
              if (dir && dir[nanoFile] && dir[nanoFile].type === 'file') {
                 const fileContent = (dir[nanoFile] as any).content;
                  setGameState({
-                     ...gameState,
                      type: 'nano',
                      nanoFile: nanoFile,
                      nanoFilePath: [...currentPath],
@@ -505,7 +515,6 @@ export const Terminal = () => {
                  setNanoContent(fileContent);
              } else if (dir) { // Create new file
                 setGameState({
-                     ...gameState,
                      type: 'nano',
                      nanoFile: nanoFile,
                      nanoFilePath: [...currentPath],
@@ -584,10 +593,9 @@ export const Terminal = () => {
         break;
        case 'ps':
          if (gameState.type === 'tutorial' && gameState.missionId === 'processes') {
-            const { processes } = (gameState as any).missionData;
-            let processList = "PID\tProzess\n---\t-------\n";
-            processList += processes.map((p: any) => `${p.pid}\t${p.name}`).join('\n');
-            output = `${processList}\n\nEin Prozess scheint schädlich zu sein. Beende ihn mit 'kill <PID>'.`;
+            const commandLower = command.toLowerCase().trim();
+            handleGameInput(commandLower);
+            return; // Skip default history push
          } else {
             output = "Dieser Befehl ist nur in der 'processes' Mission verfügbar.";
          }
@@ -690,18 +698,18 @@ export const Terminal = () => {
   if (gameState.type === 'nano') {
       return (
          <div className="fixed inset-0 bg-black text-white font-mono z-[100] flex flex-col p-2">
-            <div className="bg-blue-700 text-center text-sm mb-1">
+            <div className="bg-primary text-primary-foreground text-center text-sm mb-1">
                 Nano Editor - {gameState.nanoFile}
             </div>
             <Textarea
                 value={nanoContent}
                 onChange={(e) => setNanoContent(e.target.value)}
-                className="flex-grow bg-black text-white border-none focus:ring-0 whitespace-pre-wrap"
+                className="flex-grow bg-black text-white border-none focus:ring-0 whitespace-pre-wrap rounded-none"
                 autoFocus
             />
-            <div className="bg-blue-700 text-sm mt-1 flex justify-center gap-4">
-                <span onClick={() => handleNanoExit(true)} className="cursor-pointer">^X Speichern & Schließen</span>
-                <span onClick={() => handleNanoExit(false)} className="cursor-pointer">^C Abbrechen</span>
+            <div className="bg-primary text-primary-foreground text-sm mt-1 flex justify-center gap-6">
+                <button onClick={() => handleNanoExit(true)} className="cursor-pointer bg-transparent border-none">^X Speichern & Schließen</button>
+                <button onClick={() => handleNanoExit(false)} className="cursor-pointer bg-transparent border-none">^C Abbrechen</button>
             </div>
          </div>
       );
@@ -773,10 +781,10 @@ export const Terminal = () => {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="w-full bg-transparent border-none focus:ring-0 outline-none"
+            className="w-full bg-transparent border-none focus:ring-0 outline-none text-foreground"
             autoFocus
             autoComplete="off"
-            disabled={gameState.type === 'typing_test'}
+            disabled={gameState.type === 'typing_test' || (gameState.type === 'tutorial' && !inputRef.current)}
           />
         </form>
       </motion.div>
