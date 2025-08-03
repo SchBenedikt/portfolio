@@ -45,12 +45,12 @@ export default function Home() {
 
   const headerVariants = {
     hidden: { y: -150, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: [0.6, 0.05, -0.01, 0.9] } },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: [0.6, 0.05, 0.01, 0.9] } },
   };
 
   const contentVariants = {
     initial: { y: 0 },
-    headerVisible: { y: 80, transition: { duration: 0.6, ease: [0.6, 0.05, -0.01, 0.9] } },
+    headerVisible: { y: 80, transition: { duration: 0.6, ease: [0.6, 0.05, 0.01, 0.9] } },
   };
 
   const handleToggleView = () => {
