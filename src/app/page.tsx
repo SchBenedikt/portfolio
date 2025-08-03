@@ -33,9 +33,11 @@ export default function Home() {
     };
     
     window.addEventListener('wheel', handleInteraction, { once: true });
+    window.addEventListener('touchmove', handleInteraction, { once: true });
 
     return () => {
       window.removeEventListener('wheel', handleInteraction);
+      window.removeEventListener('touchmove', handleInteraction);
     };
   }, [unlockAchievement, isHeaderVisible]);
 
