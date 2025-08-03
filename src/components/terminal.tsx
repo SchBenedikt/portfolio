@@ -19,8 +19,8 @@ type GameState = {
 };
 
 const initialHistory: HistoryItem[] = [
-  { type: 'output', content: "Welcome to Benedikt's interactive terminal." },
-  { type: 'output', content: "Type 'help' to see the list of available commands." },
+  { type: 'output', content: "Willkommen bei Benedikts interaktivem Terminal." },
+  { type: 'output', content: "Tippe 'help' ein, um eine Liste der verfügbaren Befehle zu sehen." },
 ];
 
 export const Terminal = () => {
@@ -40,7 +40,7 @@ export const Terminal = () => {
         setHistory(JSON.parse(savedHistory));
       }
     } catch (e) {
-      console.error('Failed to load terminal history:', e);
+      console.error('Fehler beim Laden des Terminal-Verlaufs:', e);
       setHistory(initialHistory);
     }
   }, []);
@@ -49,7 +49,7 @@ export const Terminal = () => {
     try {
       localStorage.setItem('terminalHistory', JSON.stringify(history));
     } catch (e) {
-      console.error('Failed to save terminal history:', e);
+      console.error('Fehler beim Speichern des Terminal-Verlaufs:', e);
     }
   }, [history]);
 
@@ -66,18 +66,18 @@ export const Terminal = () => {
     let output = '';
 
     if (command.toLowerCase() === 'exit') {
-      output = 'Exited the game.';
+      output = 'Das Spiel wurde beendet.';
       setGameState({ isActive: false, secretNumber: 0, attempts: 0 });
     } else if (isNaN(guess)) {
-      output = "That's not a number. Guess a number between 1 and 100, or type 'exit'.";
+      output = "Das ist keine Zahl. Rate eine Zahl zwischen 1 und 100, oder tippe 'exit'.";
     } else if (guess < gameState.secretNumber) {
-      output = 'Higher...';
+      output = 'Höher...';
       setGameState(prev => ({ ...prev, attempts: prev.attempts + 1 }));
     } else if (guess > gameState.secretNumber) {
-      output = 'Lower...';
+      output = 'Niedriger...';
       setGameState(prev => ({ ...prev, attempts: prev.attempts + 1 }));
     } else {
-      output = `You guessed it in ${gameState.attempts + 1} attempts! The number was ${gameState.secretNumber}.`;
+      output = `Du hast es in ${gameState.attempts + 1} Versuchen erraten! Die Zahl war ${gameState.secretNumber}.`;
       unlockAchievement('GAMER');
       setGameState({ isActive: false, secretNumber: 0, attempts: 0 });
     }
@@ -93,46 +93,46 @@ export const Terminal = () => {
 
     switch (cmd) {
       case 'help':
-        output = `Available commands:\n
-  'nav <page>'    - Navigate to a page (projects, resume, blog)
-  'theme <name>'  - Change the color theme (dark, light)
-  'whoami'        - Display a short bio
-  'socials'       - Show social media links
-  'game'          - Start the number guessing game
-  'date'          - Show the current date and time
-  'echo <text>'   - Print text to the terminal
-  'matrix'        - Enter the matrix...
-  'clear'         - Clear the terminal history`;
+        output = `Verfügbare Befehle:\n
+  'nav <seite>'    - Navigiere zu einer Seite (projects, resume, blog)
+  'theme <name>'  - Ändere das Farbschema (dark, light)
+  'whoami'        - Zeige eine kurze Biografie an
+  'socials'       - Zeige Social-Media-Links an
+  'game'          - Starte das Zahlenratespiel
+  'date'          - Zeige das aktuelle Datum und die Uhrzeit an
+  'echo <text>'   - Gib den Text im Terminal aus
+  'matrix'        - Betritt die Matrix...
+  'clear'         - Leere den Terminal-Verlauf`;
         break;
       case 'whoami':
-        output = 'Benedikt Schächner - Creative Developer & Designer shaping unique digital experiences.';
+        output = 'Benedikt Schächner - Creative Developer & Designer, der einzigartige digitale Erlebnisse gestaltet.';
         break;
       case 'nav':
         const page = args[0];
         if (['projects', 'resume', 'blog', ''].includes(page) || page === undefined) {
           router.push(`/${page || ''}`);
-          output = `Navigating to /${page || ''}...`;
+          output = `Navigiere zu /${page || ''}...`;
         } else {
-          output = `Error: Page '${page}' not found. Available pages: projects, resume, blog.`;
+          output = `Fehler: Seite '${page}' nicht gefunden. Verfügbare Seiten: projects, resume, blog.`;
         }
         break;
       case 'theme':
         const newTheme = args[0];
         if (['dark', 'light'].includes(newTheme)) {
           setTheme(newTheme);
-          output = `Theme changed to ${newTheme}.`;
+          output = `Theme zu ${newTheme} geändert.`;
         } else {
-          output = `Error: Theme '${newTheme}' not found. Available themes: dark, light.`;
+          output = `Fehler: Theme '${newTheme}' nicht gefunden. Verfügbare Themes: dark, light.`;
         }
         break;
       case 'socials':
-        output = 'GitHub: github.com/user\nLinkedIn: linkedin.com/in/user\nTwitter: twitter.com/user\n(Note: These are dummy links)';
+        output = 'GitHub: github.com/user\nLinkedIn: linkedin.com/in/user\nTwitter: twitter.com/user\n(Hinweis: Dies sind Dummy-Links)';
         break;
       case 'clear':
         setHistory([]);
         return;
       case 'date':
-        output = new Date().toLocaleString();
+        output = new Date().toLocaleString('de-DE');
         break;
       case 'echo':
         output = args.join(' ');
@@ -140,13 +140,13 @@ export const Terminal = () => {
       case 'game':
         const numberToGuess = Math.floor(Math.random() * 100) + 1;
         setGameState({ isActive: true, secretNumber: numberToGuess, attempts: 0 });
-        output = "I'm thinking of a number between 1 and 100. Try to guess it! Type 'exit' to quit.";
+        output = "Ich denke an eine Zahl zwischen 1 und 100. Versuche sie zu erraten! Tippe 'exit' zum Beenden.";
         break;
       case 'matrix':
-        output = "Initializing...\n\nFollow the white rabbit. 🐇";
+        output = "Initialisiere...\n\nFolge dem weißen Kaninchen. 🐇";
         break;
       default:
-        output = `Command not found: ${command}. Type 'help' for a list of commands.`;
+        output = `Befehl nicht gefunden: ${command}. Tippe 'help' für eine Liste der Befehle.`;
     }
 
     setHistory([...newHistory, { type: 'output', content: output }]);

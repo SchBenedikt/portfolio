@@ -103,7 +103,7 @@ export default function ResumePage() {
                 </div>
                 <Button className="rounded-full text-lg py-6 px-8 mt-4">
                     <Download className="mr-3"/>
-                    Download CV
+                    CV Herunterladen
                 </Button>
             </div>
 

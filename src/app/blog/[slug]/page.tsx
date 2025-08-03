@@ -42,7 +42,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
               <Button asChild variant="outline" className="rounded-full">
                 <Link href="/blog">
                   <ArrowLeft className="mr-2" />
-                  Back to Blog
+                  Zurück zum Blog
                 </Link>
               </Button>
             </div>
@@ -57,7 +57,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                   </Badge>
                 ))}
               </div>
-              <p className="text-muted-foreground text-lg">{new Date(post.date).toLocaleDateString()}</p>
+              <p className="text-muted-foreground text-lg">{new Date(post.date).toLocaleDateString('de-DE')}</p>
             </div>
 
             <div className="prose prose-invert prose-lg max-w-4xl mx-auto text-muted-foreground text-2xl space-y-6" dangerouslySetInnerHTML={{ __html: post.content }}>

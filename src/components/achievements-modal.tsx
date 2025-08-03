@@ -30,10 +30,10 @@ export const AchievementsModal = ({ isOpen, onClose }: AchievementsModalProps) =
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-2xl">
             <Trophy className="text-primary" />
-            Achievements
+            Erfolge
           </DialogTitle>
           <DialogDescription>
-            You have unlocked {unlockedAchievements.size} of {achievementsList.length} achievements.
+            Du hast {unlockedAchievements.size} von {achievementsList.length} Erfolgen freigeschaltet.
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-72 pr-4">
@@ -80,9 +80,9 @@ export const AchievementsModal = ({ isOpen, onClose }: AchievementsModalProps) =
                   )}
                 </div>
                 <div>
-                  <h3 className="font-semibold">Completionist</h3>
+                  <h3 className="font-semibold">Perfektionist</h3>
                   <p className="text-sm text-muted-foreground">
-                    Unlock all other achievements.
+                    Schalte alle anderen Erfolge frei.
                   </p>
                 </div>
               </div>

@@ -24,7 +24,7 @@ export const AchievementsProvider = ({ children }: { children: ReactNode }) => {
         setUnlockedAchievements(new Set(JSON.parse(storedAchievements)));
       }
     } catch (error) {
-      console.error('Failed to load achievements from localStorage', error);
+      console.error('Fehler beim Laden der Erfolge aus dem localStorage', error);
     }
   }, []);
 
@@ -32,7 +32,7 @@ export const AchievementsProvider = ({ children }: { children: ReactNode }) => {
     try {
       localStorage.setItem('unlockedAchievements', JSON.stringify(Array.from(achievements)));
     } catch (error) {
-      console.error('Failed to save achievements to localStorage', error);
+      console.error('Fehler beim Speichern der Erfolge im localStorage', error);
     }
   };
 
@@ -42,8 +42,6 @@ export const AchievementsProvider = ({ children }: { children: ReactNode }) => {
 
 
   const unlockAchievement = useCallback((id: AchievementID) => {
-    // This function is defined here and will be passed to the context.
-    // It depends on `unlockedAchievements`.
     if (!unlockedAchievements.has(id)) {
       const newAchievements = new Set(unlockedAchievements);
       newAchievements.add(id);
@@ -52,26 +50,22 @@ export const AchievementsProvider = ({ children }: { children: ReactNode }) => {
 
       const achievement = achievementsList.find((a) => a.id === id);
       if (achievement) {
-        toast.success('Achievement Unlocked!', {
+        toast.success('Erfolg freigeschaltet!', {
           description: achievement.name,
           icon: <CheckCircle className="h-5 w-5 text-primary" />,
         });
       }
 
-      // Check for completionist after a new achievement is added.
-      // This is a separate check and can be part of the same useCallback.
       const allUnlocked = achievementsList.every((ach) => newAchievements.has(ach.id));
       if(allUnlocked && !newAchievements.has('COMPLETIONIST')){
-         // Directly call the logic again for the 'COMPLETIONIST' achievement
-         // to avoid circular dependency.
          const completionistAchievement = achievementsList.find((a) => a.id === 'COMPLETIONIST');
          if(completionistAchievement && !newAchievements.has('COMPLETIONIST')){
             const finalAchievements = new Set(newAchievements);
             finalAchievements.add('COMPLETIONIST');
             setUnlockedAchievements(finalAchievements);
             saveAchievements(finalAchievements);
-            toast.success('Achievement Unlocked!', {
-                description: "Completionist",
+            toast.success('Erfolg freigeschaltet!', {
+                description: "Perfektionist",
                 icon: <CheckCircle className="h-5 w-5 text-primary" />,
             });
          }
@@ -89,7 +83,7 @@ export const AchievementsProvider = ({ children }: { children: ReactNode }) => {
 export const useAchievements = () => {
   const context = useContext(AchievementsContext);
   if (context === undefined) {
-    throw new Error('useAchievements must be used within an AchievementsProvider');
+    throw new Error('useAchievements muss innerhalb eines AchievementsProvider verwendet werden');
   }
   return context;
 };

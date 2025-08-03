@@ -13,9 +13,9 @@ const rubik = Rubik({
 });
 
 export const metadata: Metadata = {
-  title: 'Benedikt Schächner | Creative Developer Portfolio',
+  title: 'Benedikt Schächner | Portfolio für kreative Entwicklung',
   description:
-    'A portfolio showcasing creative development and design projects with 3D interactions and AI-driven animations.',
+    'Ein Portfolio, das kreative Entwicklungs- und Designprojekte mit 3D-Interaktionen und KI-gesteuerten Animationen zeigt.',
 };
 
 export default function RootLayout({
@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="de" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link

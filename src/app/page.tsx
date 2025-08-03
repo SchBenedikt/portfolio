@@ -2,7 +2,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, TerminalSquare, User, Bot } from 'lucide-react';
+import { ArrowRight, Bot, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/header';
 import Link from 'next/link';
@@ -10,7 +10,6 @@ import { useEffect, useState } from 'react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { Terminal } from '@/components/terminal';
 import { cn } from '@/lib/utils';
-import { Label } from '@/components/ui/label';
 
 export default function Home() {
   const { unlockAchievement } = useAchievements();
@@ -73,11 +72,11 @@ export default function Home() {
             size="icon"
             className="w-9 h-9"
             onClick={handleToggleView}
-            aria-label="Toggle view mode"
+            aria-label="Ansicht wechseln"
         >
             <User className={cn("h-[1.2rem] w-[1.2rem] transition-all", isTerminalView && "scale-0" )}/>
             <Bot className={cn("absolute h-[1.2rem] w-[1.2rem] transition-all", !isTerminalView && "scale-0")}/>
-            <span className="sr-only">Toggle view mode</span>
+            <span className="sr-only">Ansicht wechseln</span>
         </Button>
       </Header>
       <main className="flex-grow">
@@ -116,7 +115,7 @@ export default function Home() {
                   className="mt-6 text-2xl md:text-3xl max-w-xl mx-auto text-muted-foreground"
                   variants={itemVariants}
                 >
-                  Creative Developer focusing on AI-Tools, Selfhosting and Edutech.
+                  Creative Developer mit Fokus auf KI-Tools, Selfhosting und Edutech.
                 </motion.p>
                 <motion.div
                   className="mt-10"
@@ -129,7 +128,7 @@ export default function Home() {
                     className="rounded-full text-xl py-10 px-12 group"
                   >
                     <Link href="/projects">
-                      View My Work{' '}
+                      Meine Arbeiten ansehen{' '}
                       <ArrowRight className="ml-3 h-7 w-7 transition-transform group-hover:translate-x-1" />
                     </Link>
                   </Button>

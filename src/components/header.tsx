@@ -33,8 +33,8 @@ const Header = ({children}: {children?: React.ReactNode}) => {
           BS
         </Link>
         <nav className="hidden md:flex items-center gap-10 text-xl">
-          <Link href="/projects" className="font-medium hover:text-accent transition-colors">Projects</Link>
-          <Link href="/resume" className="font-medium hover:text-accent transition-colors">Resume</Link>
+          <Link href="/projects" className="font-medium hover:text-accent transition-colors">Projekte</Link>
+          <Link href="/resume" className="font-medium hover:text-accent transition-colors">Lebenslauf</Link>
           <Link href="/blog" className="font-medium hover:text-accent transition-colors">Blog</Link>
         </nav>
         <div className="flex items-center gap-4">

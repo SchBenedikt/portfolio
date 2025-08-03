@@ -69,7 +69,7 @@ export default function BlogPage() {
                       <CardTitle className="text-4xl font-bold font-headline">
                         {post.title}
                       </CardTitle>
-                       <CardDescription className="text-lg pt-2">{isClient ? new Date(post.date).toLocaleDateString() : new Date(post.date).toISOString().split('T')[0]}</CardDescription>
+                       <CardDescription className="text-lg pt-2">{isClient ? new Date(post.date).toLocaleDateString('de-DE') : new Date(post.date).toISOString().split('T')[0]}</CardDescription>
                     </CardHeader>
                     <CardContent className="flex-grow">
                       <p className="text-lg text-muted-foreground">{post.description}</p>
@@ -83,7 +83,7 @@ export default function BlogPage() {
                         ))}
                       </div>
                        <p className="flex items-center font-semibold text-primary group-hover:text-accent transition-colors">
-                        Read More <ArrowRight className="ml-2 h-5 w-5"/>
+                        Mehr lesen <ArrowRight className="ml-2 h-5 w-5"/>
                        </p>
                     </CardFooter>
                   </MotionCard>
