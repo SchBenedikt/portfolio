@@ -12,13 +12,7 @@ export type AchievementID =
   | 'VIEW_SWITCHER'
   | 'COMMAND_PRO'
   | 'SECRET_FINDER'
-  | 'KEYBOARD_VIRTUOSO'
-  | 'TERMINAL_TUTOR'
-  | 'SYSTEM_ADMIN'
-  | 'GIT_INITIATE'
-  | 'EDITOR_PRO'
-  | 'DEEP_DIVER'
-  | 'COMPLETIONIST';
+  | 'KEYBOARD_VIRTUOSO';
 
 export interface Achievement {
   id: AchievementID;
@@ -91,30 +85,5 @@ export const achievementsList: Achievement[] = [
     id: 'KEYBOARD_VIRTUOSO',
     name: 'Tasten-Virtuose',
     description: 'Den Schreibgeschwindigkeitstest gemeistert.'
-  },
-  {
-    id: 'TERMINAL_TUTOR',
-    name: 'Terminal-Tutor',
-    description: 'Die erste Lern-Mission abgeschlossen.'
-  },
-  {
-    id: 'SYSTEM_ADMIN',
-    name: 'System-Admin',
-    description: 'Die Prozess-Management-Mission abgeschlossen.'
-  },
-  {
-    id: 'GIT_INITIATE',
-    name: 'Git-Initiierte(r)',
-    description: 'Die Git & Open Source Mission abgeschlossen.'
-  },
-  {
-    id: 'EDITOR_PRO',
-    name: 'Editor-Profi',
-    description: 'Eine Datei mit dem nano-Editor bearbeitet und gespeichert.'
-  },
-  {
-    id: 'DEEP_DIVER',
-    name: 'Höhlenforscher',
-    description: 'Mehr als eine Ebene tief im Dateisystem navigiert.'
   }
 ];
