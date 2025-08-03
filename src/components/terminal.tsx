@@ -178,6 +178,7 @@ export const Terminal = () => {
         break;
       case 'matrix':
         output = "Initialisiere...\n\nFolge dem weißen Kaninchen. 🐇";
+        unlockAchievement('SECRET_FINDER');
         break;
       default:
         output = `Befehl nicht gefunden: ${command}. Tippe 'help' für eine Liste der Befehle.`;

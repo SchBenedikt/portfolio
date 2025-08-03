@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useMotionValue } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 const CustomCursor = () => {
@@ -10,10 +10,6 @@ const CustomCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
-
-  const springConfig = { damping: 25, stiffness: 400, mass: 0.1 };
-  const springX = useSpring(cursorX, springConfig);
-  const springY = useSpring(cursorY, springConfig);
 
   useEffect(() => {
     setIsClient(true);
@@ -54,8 +50,8 @@ const CustomCursor = () => {
         'transition-transform duration-200 ease-in-out'
       )}
       style={{
-        translateX: springX,
-        translateY: springY,
+        translateX: cursorX,
+        translateY: cursorY,
         scale: isHovering ? 2.5 : 1,
       }}
     />
