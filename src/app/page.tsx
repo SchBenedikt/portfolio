@@ -9,8 +9,13 @@ import { useEffect, useState, Suspense } from 'react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { Terminal } from '@/components/terminal';
 import { cn } from '@/lib/utils';
-import InteractiveLogo from '@/components/interactive-logo';
-import { Canvas } from '@react-three/fiber';
+import { Skeleton } from '@/components/ui/skeleton';
+import dynamic from 'next/dynamic';
+
+const Scene = dynamic(() => import('@/components/scene'), {
+  ssr: false,
+});
+
 
 export default function Home() {
   const { unlockAchievement } = useAchievements();
@@ -122,14 +127,9 @@ export default function Home() {
                     variants={itemVariants}
                     data-cursor-interactive
                 >
-                    <Suspense fallback={<div className="w-full h-full bg-muted rounded-full animate-pulse" />}>
-                        <Canvas>
-                            <ambientLight intensity={0.5} />
-                            <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-                            <pointLight position={[-10, -10, -10]} />
-                            <InteractiveLogo />
-                        </Canvas>
-                    </Suspense>
+                  <Suspense fallback={<Skeleton className="w-full h-full rounded-full" />}>
+                     <Scene />
+                  </Suspense>
                 </motion.div>
               </div>
             </motion.section>
