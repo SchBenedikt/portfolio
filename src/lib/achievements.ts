@@ -12,6 +12,7 @@ export type AchievementID =
   | 'VIEW_SWITCHER'
   | 'COMMAND_PRO'
   | 'SECRET_FINDER'
+  | 'KEYBOARD_VIRTUOSO'
   | 'COMPLETIONIST';
 
 export interface Achievement {
@@ -81,4 +82,9 @@ export const achievementsList: Achievement[] = [
     name: 'Geheimnisfinder',
     description: 'Einen geheimen Befehl im Terminal gefunden.',
   },
+  {
+    id: 'KEYBOARD_VIRTUOSO',
+    name: 'Tasten-Virtuose',
+    description: 'Den Schreibgeschwindigkeitstest gemeistert.'
+  }
 ];

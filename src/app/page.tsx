@@ -2,14 +2,15 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, Bot, User } from 'lucide-react';
+import { Bot, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/header';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { Terminal } from '@/components/terminal';
 import { cn } from '@/lib/utils';
+import InteractiveLogo from '@/components/interactive-logo';
+import { Canvas } from '@react-three/fiber';
 
 export default function Home() {
   const { unlockAchievement } = useAchievements();
@@ -96,22 +97,40 @@ export default function Home() {
           ) : (
             <motion.section
               key="ui"
-              className="flex flex-col justify-center items-start text-left w-full"
+              className="flex justify-center items-center text-left w-full h-full"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
               exit={{ opacity: 0 }}
             >
-              <div className="text-left">
-                <motion.h1
-                  id="hero-title"
-                  className="text-8xl md:text-9xl lg:text-10xl font-black uppercase tracking-tighter font-headline"
+              <div className="flex flex-col md:flex-row items-center justify-center gap-16">
+                <motion.div
+                  className="text-left"
                   variants={itemVariants}
                 >
-                  Benedikt
-                  <br />
-                  Schächner
-                </motion.h1>
+                  <h1
+                    id="hero-title"
+                    className="text-8xl md:text-9xl lg:text-10xl font-black uppercase tracking-tighter font-headline"
+                  >
+                    Benedikt
+                    <br />
+                    Schächner
+                  </h1>
+                </motion.div>
+                <motion.div 
+                    className="w-64 h-64"
+                    variants={itemVariants}
+                    data-cursor-interactive
+                >
+                    <Suspense fallback={<div className="w-full h-full bg-muted rounded-full animate-pulse" />}>
+                        <Canvas>
+                            <ambientLight intensity={0.5} />
+                            <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+                            <pointLight position={[-10, -10, -10]} />
+                            <InteractiveLogo />
+                        </Canvas>
+                    </Suspense>
+                </motion.div>
               </div>
             </motion.section>
           )}

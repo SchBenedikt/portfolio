@@ -18,14 +18,24 @@ interface HistoryItem {
 }
 
 type GameState = {
-  isActive: boolean;
-  secretNumber: number;
-  attempts: number;
+  type: 'none' | 'number_guesser' | 'typing_test';
+  secretNumber?: number;
+  attempts?: number;
+  textToType?: string;
+  startTime?: number;
 };
 
 const initialHistory: HistoryItem[] = [
   { type: 'output', content: "Willkommen bei Benedikts interaktivem Terminal." },
   { type: 'output', content: "Tippe 'help' ein, um eine Liste der verfügbaren Befehle zu sehen." },
+];
+
+const typingSentences = [
+    "Der schnelle braune Fuchs springt über den faulen Hund.",
+    "JavaScript ist eine vielseitige Skriptsprache für Web-Entwicklung.",
+    "Kreativität ist Intelligenz, die Spaß hat.",
+    "Ein guter Entwickler schreibt Code, den Menschen verstehen können.",
+    "Next.js und React ermöglichen den Bau moderner Webanwendungen."
 ];
 
 export const Terminal = () => {
@@ -34,21 +44,23 @@ export const Terminal = () => {
   const { unlockAchievement } = useAchievements();
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<HistoryItem[]>(initialHistory);
-  const [gameState, setGameState] = useState<GameState>({ isActive: false, secretNumber: 0, attempts: 0 });
+  const [gameState, setGameState] = useState<GameState>({ type: 'none' });
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [usedCommands, setUsedCommands] = useState<Set<string>>(new Set());
   const inputRef = useRef<HTMLInputElement>(null);
   const endOfHistoryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     try {
       const savedHistory = localStorage.getItem('terminalHistory');
-      if (savedHistory) {
-        setHistory(JSON.parse(savedHistory));
-      }
+      if (savedHistory) setHistory(JSON.parse(savedHistory));
+      
       const savedFullScreen = localStorage.getItem('terminalFullScreen');
-      if (savedFullScreen) {
-        setIsFullScreen(JSON.parse(savedFullScreen));
-      }
+      if (savedFullScreen) setIsFullScreen(JSON.parse(savedFullScreen));
+
+      const savedCommands = localStorage.getItem('usedCommands');
+      if(savedCommands) setUsedCommands(new Set(JSON.parse(savedCommands)));
+
     } catch (e) {
       console.error('Fehler beim Laden des Terminal-Zustands:', e);
       setHistory(initialHistory);
@@ -59,10 +71,11 @@ export const Terminal = () => {
     try {
       localStorage.setItem('terminalHistory', JSON.stringify(history));
       localStorage.setItem('terminalFullScreen', JSON.stringify(isFullScreen));
+      localStorage.setItem('usedCommands', JSON.stringify(Array.from(usedCommands)));
     } catch (e) {
       console.error('Fehler beim Speichern des Terminal-Zustands:', e);
     }
-  }, [history, isFullScreen]);
+  }, [history, isFullScreen, usedCommands]);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -72,26 +85,69 @@ export const Terminal = () => {
     endOfHistoryRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [history]);
 
+
+  const checkCommandAchievement = (newCommand: string) => {
+    const newCommands = new Set(usedCommands);
+    newCommands.add(newCommand);
+    setUsedCommands(newCommands);
+    if (newCommands.size >= 5) {
+      unlockAchievement('COMMAND_PRO');
+    }
+  };
+
   const handleGameInput = (command: string) => {
     const newHistory: HistoryItem[] = [...history, { type: 'input', content: command }];
-    const guess = parseInt(command, 10);
     let output = '';
 
     if (command.toLowerCase() === 'exit') {
-      output = 'Das Spiel wurde beendet.';
-      setGameState({ isActive: false, secretNumber: 0, attempts: 0 });
-    } else if (isNaN(guess)) {
-      output = "Das ist keine Zahl. Rate eine Zahl zwischen 1 und 100, oder tippe 'exit'.";
-    } else if (guess < gameState.secretNumber) {
-      output = 'Höher...';
-      setGameState(prev => ({ ...prev, attempts: prev.attempts + 1 }));
-    } else if (guess > gameState.secretNumber) {
-      output = 'Niedriger...';
-      setGameState(prev => ({ ...prev, attempts: prev.attempts + 1 }));
-    } else {
-      output = `Du hast es in ${gameState.attempts + 1} Versuchen erraten! Die Zahl war ${gameState.secretNumber}.`;
-      unlockAchievement('GAMER');
-      setGameState({ isActive: false, secretNumber: 0, attempts: 0 });
+        output = 'Das Spiel wurde beendet.';
+        setGameState({ type: 'none' });
+        setHistory([...newHistory, { type: 'output', content: output }]);
+        return;
+    }
+
+    if (gameState.type === 'number_guesser') {
+      const guess = parseInt(command, 10);
+      if (isNaN(guess)) {
+        output = "Das ist keine Zahl. Rate eine Zahl zwischen 1 und 100, oder tippe 'exit'.";
+      } else if (guess < gameState.secretNumber!) {
+        output = 'Höher...';
+        setGameState(prev => ({ ...prev, attempts: prev.attempts! + 1 }));
+      } else if (guess > gameState.secretNumber!) {
+        output = 'Niedriger...';
+        setGameState(prev => ({ ...prev, attempts: prev.attempts! + 1 }));
+      } else {
+        output = `Du hast es in ${gameState.attempts! + 1} Versuchen erraten! Die Zahl war ${gameState.secretNumber}.`;
+        unlockAchievement('GAMER');
+        setGameState({ type: 'none' });
+      }
+    }
+
+    if (gameState.type === 'typing_test') {
+        const endTime = Date.now();
+        const timeTaken = (endTime - gameState.startTime!) / 1000; // in seconds
+        const wordsTyped = gameState.textToType!.split(' ').length;
+        const wpm = Math.round((wordsTyped / timeTaken) * 60);
+
+        let correctChars = 0;
+        for (let i = 0; i < command.length; i++) {
+            if (command[i] === gameState.textToType![i]) {
+                correctChars++;
+            }
+        }
+        const accuracy = ((correctChars / gameState.textToType!.length) * 100).toFixed(2);
+        
+        output = `Test beendet!\n\n`
+               + `  Geschwindigkeit: ${wpm} WPM\n`
+               + `  Genauigkeit: ${accuracy}%\n`;
+        
+        if (parseFloat(accuracy) > 90 && wpm > 30) {
+            output += `\nGut gemacht!`;
+            unlockAchievement('KEYBOARD_VIRTUOSO');
+        } else {
+             output += `\nVersuch es nochmal, um den Erfolg freizuschalten! (WPM > 30, Genauigkeit > 90%)`;
+        }
+        setGameState({ type: 'none' });
     }
     
     setHistory([...newHistory, { type: 'output', content: output }]);
@@ -100,6 +156,7 @@ export const Terminal = () => {
   const handleCommand = (command: string) => {
     const newHistory: HistoryItem[] = [...history, { type: 'input', content: command }];
     const [cmd, ...args] = command.toLowerCase().split(' ');
+    checkCommandAchievement(cmd);
 
     let output = '';
 
@@ -113,6 +170,7 @@ export const Terminal = () => {
   'whoami'          - Zeige eine kurze Biografie an.
   'socials'         - Zeige Social-Media-Links an.
   'game'            - Starte das Zahlenratespiel.
+  'typing-test'     - Starte einen Schreibgeschwindigkeitstest.
   'date'            - Zeige das aktuelle Datum und die Uhrzeit an.
   'echo <text>'     - Gib den Text im Terminal aus.
   'matrix'          - Betritt die Matrix...
@@ -173,8 +231,13 @@ export const Terminal = () => {
         break;
       case 'game':
         const numberToGuess = Math.floor(Math.random() * 100) + 1;
-        setGameState({ isActive: true, secretNumber: numberToGuess, attempts: 0 });
+        setGameState({ type: 'number_guesser', secretNumber: numberToGuess, attempts: 0 });
         output = "Ich denke an eine Zahl zwischen 1 und 100. Versuche sie zu erraten! Tippe 'exit' zum Beenden.";
+        break;
+       case 'typing-test':
+        const text = typingSentences[Math.floor(Math.random() * typingSentences.length)];
+        setGameState({ type: 'typing_test', textToType: text, startTime: Date.now() });
+        output = `Tippe den folgenden Satz so schnell wie möglich und drücke Enter:\n\n'${text}'`;
         break;
       case 'matrix':
         output = "Initialisiere...\n\nFolge dem weißen Kaninchen. 🐇";
@@ -190,10 +253,10 @@ export const Terminal = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const command = input.trim();
-    if (!command) return;
+    if (!command && gameState.type === 'none') return;
     
-    if (gameState.isActive) {
-      handleGameInput(command);
+    if (gameState.type !== 'none') {
+      handleGameInput(input); // use raw input for typing test
     } else {
       handleCommand(command);
     }
@@ -205,7 +268,7 @@ export const Terminal = () => {
     inputRef.current?.focus();
   };
 
-  const promptSymbol = gameState.isActive ? '>' : '$';
+  const promptSymbol = gameState.type !== 'none' ? '>' : '$';
 
   return (
     <>
@@ -249,7 +312,7 @@ export const Terminal = () => {
             <div key={index} className="mb-2">
               {item.type === 'input' ? (
                 <div className="flex">
-                  <span className="text-primary font-bold mr-2">{promptSymbol}</span>
+                  <span className="text-primary font-bold mr-2">{item.content ? '$' : ''}</span>
                   <span>{item.content}</span>
                 </div>
               ) : (
