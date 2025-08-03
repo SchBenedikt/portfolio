@@ -11,25 +11,45 @@ import { blogData } from '@/lib/blog';
 import { Maximize, Minimize, CheckCircle, Lock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
-import { achievementsList } from '@/lib/achievements';
+import { achievementsList, AchievementID } from '@/lib/achievements';
 
 interface HistoryItem {
   type: 'input' | 'output' | 'component';
   content: string | React.ReactNode;
 }
 
+type GameType = 'none' | 'number_guesser' | 'typing_test' | 'tutorial';
+
+type MissionStep = {
+    prompt: string | (() => string);
+    expected: string | string[] | ((input: string) => boolean);
+    feedback?: string;
+    onSuccess?: (input?: string) => void;
+};
+
+type Mission = {
+    id: string;
+    title: string;
+    description: string;
+    steps: MissionStep[];
+    achievementId?: AchievementID;
+};
+
 type GameState = {
-  type: 'none' | 'number_guesser' | 'typing_test' | 'tutorial';
+  type: GameType;
   secretNumber?: number;
   attempts?: number;
   textToType?: string;
   startTime?: number;
-  tutorialStep?: number;
+  
+  // Tutorial State
+  missionId?: string;
+  stepIndex?: number;
 };
 
 const initialHistory: HistoryItem[] = [
   { type: 'output', content: "Willkommen bei Benedikts interaktivem Terminal." },
-  { type: 'output', content: "Tippe 'help' ein, um eine Liste der verfügbaren Befehle zu sehen." },
+  { type: 'output', content: "Tippe 'help' ein, um eine Liste der verfügbaren Befehle zu sehen, oder 'missions' für eine Liste der Lern-Missionen." },
 ];
 
 const typingSentences = [
@@ -38,25 +58,6 @@ const typingSentences = [
     "Kreativität ist Intelligenz, die Spaß hat.",
     "Ein guter Entwickler schreibt Code, den Menschen verstehen können.",
     "Next.js und React ermöglichen den Bau moderner Webanwendungen."
-];
-
-const tutorialSteps = [
-    { 
-        prompt: "Willkommen zum Terminal-Tutorial! Lass uns die Grundlagen lernen.\nZuerst: Jede Zeile, die mit '$' beginnt, ist eine Eingabe von dir. Der Rest ist die Ausgabe des Computers.\n\nTippe 'ls' ein und drücke Enter, um die verfügbaren Bereiche aufzulisten.", 
-        expected: "ls" 
-    },
-    { 
-        prompt: "Gut gemacht! 'ls' steht für 'list' und zeigt dir den Inhalt eines Verzeichnisses. Du siehst 'projects', 'blog' und 'resume'.\n\nLass uns nun mehr über mich erfahren. Tippe 'whoami' ein.", 
-        expected: "whoami" 
-    },
-    { 
-        prompt: "Exzellent! 'whoami' gibt normalerweise den aktuellen Benutzer aus. Hier ist es eine kleine Bio.\n\nJetzt wollen wir den Inhalt von 'resume' ansehen. Der Befehl dafür ist 'cat' (concatenate). Tippe 'cat resume'.", 
-        expected: "cat resume" 
-    },
-    {
-        prompt: "Perfekt! Du hast die Grundlagen gelernt. Mit 'clear' kannst du den Bildschirm leeren und mit 'help' alle Befehle sehen.\n\nTutorial abgeschlossen! Du hast einen neuen Erfolg freigeschaltet.",
-        expected: "end"
-    }
 ];
 
 export const Terminal = () => {
@@ -70,6 +71,97 @@ export const Terminal = () => {
   const [usedCommands, setUsedCommands] = useState<Set<string>>(new Set());
   const inputRef = useRef<HTMLInputElement>(null);
   const endOfHistoryRef = useRef<HTMLDivElement>(null);
+
+  // --- Missions Definition ---
+  const missions: Mission[] = [
+    {
+        id: 'basics',
+        title: 'Terminal Grundlagen',
+        description: 'Lerne die grundlegendsten Befehle, um dich in einem Terminal zurechtzufinden.',
+        achievementId: 'TERMINAL_TUTOR',
+        steps: [
+            {
+                prompt: "Willkommen zur ersten Mission! Lass uns die Grundlagen lernen.\nTippe 'ls' ein, um die verfügbaren Bereiche aufzulisten.",
+                expected: 'ls'
+            },
+            {
+                prompt: "Gut gemacht! 'ls' (list) zeigt dir den Inhalt. Du siehst 'projects', 'blog' und 'resume'.\nNun, wer bin ich überhaupt? Tippe 'whoami' ein.",
+                expected: 'whoami'
+            },
+            {
+                prompt: "Exzellent! 'whoami' gibt Infos über den Benutzer. Lass uns nun den Inhalt von 'resume' ansehen. Tippe 'cat resume'.",
+                expected: 'cat resume'
+            },
+            {
+                prompt: "Perfekt! Du hast die Grundlagen gemeistert. Mit 'clear' leerst du den Bildschirm und mit 'help' siehst du alle Befehle.",
+                expected: 'end'
+            }
+        ]
+    },
+    {
+        id: 'processes',
+        title: 'Prozess-Management',
+        description: 'Lerne, wie man laufende Prozesse anzeigt und beendet. (Minispiel)',
+        achievementId: 'SYSTEM_ADMIN',
+        steps: [
+            {
+                prompt: () => {
+                    const processes = [
+                        { pid: 101, name: 'system-kernel' },
+                        { pid: 234, name: 'music-player' },
+                        { pid: 556, name: 'virus.exe' },
+                        { pid: 782, name: 'text-editor' }
+                    ].sort(() => Math.random() - 0.5);
+                    setGameState(prev => ({ ...prev, missionData: { processes, virusPid: 556 } }));
+                    return "Einige Prozesse laufen. Einer davon sieht verdächtig aus! Finde ihn und beende ihn.\nTippe 'ps' um die Prozessliste anzuzeigen.";
+                },
+                expected: 'ps'
+            },
+            {
+                prompt: (input) => {
+                    const { processes } = (gameState as any).missionData;
+                    let processList = "PID\tProzess\n---\t-------\n";
+                    processList += processes.map((p: any) => `${p.pid}\t${p.name}`).join('\n');
+                    return `${processList}\n\nEin Prozess scheint schädlich zu sein. Beende ihn mit 'kill <PID>'.`;
+                },
+                expected: (input) => {
+                    const { virusPid } = (gameState as any).missionData;
+                    return input.trim() === `kill ${virusPid}`;
+                },
+                feedback: "Das war der falsche Prozess! Versuche es erneut."
+            },
+            {
+                prompt: "Gute Arbeit, Agent! Du hast den Virus gestoppt und das System gerettet.",
+                expected: 'end'
+            }
+        ]
+    },
+    {
+        id: 'git',
+        title: 'Open Source & Git',
+        description: 'Verstehe die Grundlagen von Git und Open Source, indem du ein Projekt klonst.',
+        achievementId: 'GIT_INITIATE',
+        steps: [
+            {
+                prompt: "Open Source Software treibt die moderne Welt an. Git ist das wichtigste Werkzeug dafür.\nEin 'Repository' ist wie ein Ordner für ein Projekt. Lass uns eins 'klonen' (herunterladen).\nTippe: 'git clone my-first-repo'",
+                expected: 'git clone my-first-repo',
+                onSuccess: () => {
+                   setGameState(prev => ({ ...prev, missionData: { ...prev.missionData, cloned: true } }));
+                }
+            },
+            {
+                prompt: "Erfolgreich geklont! Jetzt existiert ein neuer Ordner. \nBenutze 'ls', um den Inhalt des aktuellen Verzeichnisses anzuzeigen und den neuen Ordner zu finden.",
+                expected: 'ls'
+            },
+             {
+                prompt: (input) => {
+                    return "Du siehst den Ordner 'my-first-repo'. Super!\nDu hast gelernt, wie man Code von anderen herunterlädt. Das ist die Basis von Open Source Kollaboration."
+                },
+                expected: 'end'
+            }
+        ]
+    }
+  ];
 
   useEffect(() => {
     try {
@@ -113,7 +205,7 @@ export const Terminal = () => {
   };
 
   const handleGameInput = (command: string) => {
-    const newHistory: HistoryItem[] = [...history, { type: 'input', content: command }];
+    let newHistory: HistoryItem[] = [...history, { type: 'input', content: command }];
     let output: string | React.ReactNode = '';
 
     if (gameState.type === 'number_guesser') {
@@ -131,9 +223,7 @@ export const Terminal = () => {
         unlockAchievement('GAMER');
         setGameState({ type: 'none' });
       }
-    }
-
-    if (gameState.type === 'typing_test') {
+    } else if (gameState.type === 'typing_test') {
         const endTime = Date.now();
         const timeTaken = (endTime - gameState.startTime!) / 1000; // in seconds
         const wordsTyped = gameState.textToType!.split(' ').length;
@@ -158,22 +248,51 @@ export const Terminal = () => {
              output += `\nVersuch es nochmal, um den Erfolg freizuschalten! (WPM > 30, Genauigkeit > 90%)`;
         }
         setGameState({ type: 'none' });
-    }
+    } else if(gameState.type === 'tutorial') {
+        const mission = missions.find(m => m.id === gameState.missionId);
+        if (!mission) {
+            setGameState({ type: 'none' });
+            return;
+        }
 
-    if(gameState.type === 'tutorial') {
-        const step = gameState.tutorialStep!;
-        if (command.toLowerCase() === tutorialSteps[step].expected) {
-            const nextStep = step + 1;
-            if (nextStep < tutorialSteps.length) {
-                output = tutorialSteps[nextStep].prompt;
-                setGameState(prev => ({ ...prev, tutorialStep: nextStep }));
+        const step = mission.steps[gameState.stepIndex!];
+        let isCorrect = false;
+
+        if (typeof step.expected === 'string') {
+            isCorrect = command.toLowerCase().trim() === step.expected;
+        } else if (Array.isArray(step.expected)) {
+            isCorrect = step.expected.includes(command.toLowerCase().trim());
+        } else if (typeof step.expected === 'function') {
+            isCorrect = step.expected(command.toLowerCase().trim());
+        }
+
+        if (isCorrect) {
+            if (step.onSuccess) step.onSuccess(command);
+
+            const nextStepIndex = gameState.stepIndex! + 1;
+            if (nextStepIndex < mission.steps.length) {
+                const nextStep = mission.steps[nextStepIndex];
+                let prompt = typeof nextStep.prompt === 'function' ? nextStep.prompt(command) : nextStep.prompt;
+                if (nextStep.expected === 'ps') { // Hack to show process list after 'ps'
+                     const { processes } = (gameState as any).missionData;
+                    let processList = "PID\tProzess\n---\t-------\n";
+                    processList += processes.map((p: any) => `${p.pid}\t${p.name}`).join('\n');
+                    prompt = `${processList}\n\nEin Prozess scheint schädlich zu sein. Beende ihn mit 'kill <PID>'.`;
+                }
+
+                output = prompt;
+                setGameState(prev => ({ ...prev, stepIndex: nextStepIndex }));
+
             } else {
-                 output = tutorialSteps[step].prompt; // Show final message
-                 unlockAchievement('TERMINAL_TUTOR');
+                 output = `${mission.steps[mission.steps.length-1].prompt}\n\nMission '${mission.title}' abgeschlossen!`;
+                 if (mission.achievementId) {
+                    unlockAchievement(mission.achievementId);
+                    output += `\nNeuer Erfolg freigeschaltet!`;
+                 }
                  setGameState({ type: 'none' });
             }
         } else {
-            output = `Das war nicht ganz richtig. Versuche es nochmal.\n\n${tutorialSteps[step].prompt}`;
+            output = `${step.feedback || 'Das war nicht ganz richtig. Versuche es nochmal.'}\n\n${typeof step.prompt === 'function' ? step.prompt(command) : step.prompt}`;
         }
     }
     
@@ -191,8 +310,13 @@ export const Terminal = () => {
     switch (cmd) {
       case 'help':
         output = `Verfügbare Befehle:\n
-  Grundlagen & Lernen:
-  'tutorial'        - Startet ein interaktives Tutorial, um die Grundlagen zu lernen.
+  Lernen & Missionen:
+  'missions'        - Zeigt alle verfügbaren Lern-Missionen an.
+  'start <mission>' - Startet eine spezifische Mission (z.B. 'start basics').
+  'tutorial'        - Startet die erste Mission ('basics').
+  'exit'            - Bricht eine laufende Mission oder ein Spiel ab.
+
+  Grundlagen:
   'ls'              - Zeigt verfügbare Bereiche an (projects, resume, blog).
   'cat resume'      - Zeigt den Inhalt eines Bereichs an (z.B. den Lebenslauf).
   'clear'           - Leert den Terminal-Verlauf.
@@ -257,16 +381,11 @@ export const Terminal = () => {
         );
         break;
       case 'ls':
-        const section = args[0];
-        if (!section) {
-          output = "Bereiche: projects, blog, resume. \nBenutze 'ls <bereich>', um den Inhalt aufzulisten.";
-        } else if (section === 'projects') {
-            output = 'Projekte:\n\n' + projectData.map(p => `  - ${p.title}:\n    ${p.description}`).join('\n\n');
-        } else if (section === 'blog') {
-             output = 'Blog:\n\n' + blogData.map(p => `  - ${p.title}:\n    ${p.description}`).join('\n\n');
-        } else {
-            output = `Fehler: Bereich '${section}' nicht gefunden. Verfügbare Bereiche: projects, resume, blog.`;
+        let lsOutput = "Bereiche: projects, blog, resume.";
+        if ((gameState as any)?.missionData?.cloned) {
+            lsOutput += "\n\nmy-first-repo/"
         }
+        output = lsOutput;
         break;
       case 'cat':
         if(args[0] === 'resume') {
@@ -325,13 +444,38 @@ export const Terminal = () => {
         output = `Tippe den folgenden Satz so schnell wie möglich und drücke Enter:\n\n'${text}'`;
         break;
       case 'tutorial':
-        setGameState({ type: 'tutorial', tutorialStep: 0 });
-        output = tutorialSteps[0].prompt;
+        const firstMission = missions[0];
+        setGameState({ type: 'tutorial', missionId: firstMission.id, stepIndex: 0 });
+        output = typeof firstMission.steps[0].prompt === 'function' ? firstMission.steps[0].prompt() : firstMission.steps[0].prompt;
+        break;
+      case 'missions':
+        output = 'Verfügbare Missionen:\n\n' + missions.map(m => `  - ${m.id}: ${m.title}\n    ${m.description}`).join('\n\n') + "\n\nBenutze 'start <missions-name>', um eine zu beginnen.";
+        break;
+      case 'start':
+        const missionId = args[0];
+        const missionToStart = missions.find(m => m.id === missionId);
+        if (missionToStart) {
+            setGameState({ type: 'tutorial', missionId: missionToStart.id, stepIndex: 0, missionData: {} });
+            const firstStep = missionToStart.steps[0];
+            output = typeof firstStep.prompt === 'function' ? firstStep.prompt() : firstStep.prompt;
+        } else {
+            output = `Mission '${missionId}' nicht gefunden. Tippe 'missions', um alle verfügbaren Missionen zu sehen.`
+        }
         break;
       case 'matrix':
         output = "Initialisiere...\n\nFolge dem weißen Kaninchen. 🐇";
         unlockAchievement('SECRET_FINDER');
         break;
+       case 'ps':
+         if (gameState.type === 'tutorial' && gameState.missionId === 'processes') {
+            const { processes } = (gameState as any).missionData;
+            let processList = "PID\tProzess\n---\t-------\n";
+            processList += processes.map((p: any) => `${p.pid}\t${p.name}`).join('\n');
+            output = `${processList}\n\nEin Prozess scheint schädlich zu sein. Beende ihn mit 'kill <PID>'.`;
+         } else {
+            output = "Dieser Befehl ist nur in der 'processes' Mission verfügbar.";
+         }
+         break;
       default:
         output = `Befehl nicht gefunden: ${command}. Tippe 'help' für eine Liste der Befehle.`;
     }
@@ -354,7 +498,7 @@ export const Terminal = () => {
 
     // Global commands that work in any state
     if (commandLower === 'clear') {
-        setHistory([{ type: 'input', content: command }]);
+        setHistory([]);
         setInput('');
         return;
     }
@@ -362,10 +506,10 @@ export const Terminal = () => {
     if (commandLower === 'exit') {
        let newHistory: HistoryItem[] = [...history, { type: 'input', content: command }];
       if (gameState.type !== 'none') {
-        newHistory.push({ type: 'output', content: 'Das Spiel wurde beendet.' });
+        newHistory.push({ type: 'output', content: `Aktion '${gameState.type}' wurde abgebrochen.` });
         setGameState({ type: 'none' });
       } else {
-        newHistory.push({ type: 'output', content: "Es ist kein Spiel aktiv, das beendet werden kann." });
+        newHistory.push({ type: 'output', content: "Es ist keine Aktion aktiv, die beendet werden kann." });
       }
       setHistory(newHistory);
       setInput('');
@@ -373,7 +517,7 @@ export const Terminal = () => {
     }
 
     if (gameState.type !== 'none') {
-      handleGameInput(input);
+      handleGameInput(command);
     } else {
       handleCommand(command);
     }
@@ -429,7 +573,7 @@ export const Terminal = () => {
             <div key={index} className="mb-2">
               {item.type === 'input' ? (
                 <div className="flex">
-                  <span className="text-primary font-bold mr-2">{item.content ? '$' : ''}</span>
+                  <span className="text-primary font-bold mr-2">{item.content ? (gameState.type === 'tutorial' ? '>' : '$') : ''}</span>
                   <span>{item.content as string}</span>
                 </div>
               ) : item.type === 'output' ? (
@@ -457,3 +601,5 @@ export const Terminal = () => {
     </>
   );
 };
+
+    

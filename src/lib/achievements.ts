@@ -14,6 +14,8 @@ export type AchievementID =
   | 'SECRET_FINDER'
   | 'KEYBOARD_VIRTUOSO'
   | 'TERMINAL_TUTOR'
+  | 'SYSTEM_ADMIN'
+  | 'GIT_INITIATE'
   | 'COMPLETIONIST';
 
 export interface Achievement {
@@ -91,6 +93,18 @@ export const achievementsList: Achievement[] = [
   {
     id: 'TERMINAL_TUTOR',
     name: 'Terminal-Tutor',
-    description: 'Das Terminal-Tutorial abgeschlossen.'
+    description: 'Die erste Lern-Mission abgeschlossen.'
+  },
+  {
+    id: 'SYSTEM_ADMIN',
+    name: 'System-Admin',
+    description: 'Die Prozess-Management-Mission abgeschlossen.'
+  },
+  {
+    id: 'GIT_INITIATE',
+    name: 'Git-Initiierte(r)',
+    description: 'Die Git & Open Source Mission abgeschlossen.'
   }
 ];
+
+    
