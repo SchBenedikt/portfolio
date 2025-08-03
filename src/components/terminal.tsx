@@ -286,6 +286,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   clear             - Leert den Terminalverlauf
   exit              - Beendet ein laufendes Spiel/Modus
   logout            - Setzt den Benutzernamen zurück
+  reset             - Setzt ALLE Einstellungen und Daten zurück
   ask <frage>       - Stelle eine Frage an die KI
 
   System
@@ -322,6 +323,20 @@ export const Terminal = ({ onExit }: TerminalProps) => {
             openChat(context);
         }
         break;
+      case 'reset':
+        output = "Alle Einstellungen werden zurückgesetzt. Das Terminal wird neu gestartet...";
+        setHistory([...newHistory, { type: 'output', content: output, path: `~/${currentPath.join('/')}` }]);
+        try {
+            localStorage.removeItem('terminalUsername');
+            localStorage.removeItem('terminalFileSystem');
+            localStorage.removeItem('unlockedAchievements');
+            localStorage.removeItem('theme-color');
+            localStorage.removeItem('cookie-consent');
+        } catch (e) {
+            console.error("Could not clear local storage", e);
+        }
+        setTimeout(() => window.location.reload(), 1500);
+        return;
       case 'whoami':
         output = `${username}@benedikt.dev`;
         break;
@@ -557,28 +572,39 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   const handleLogin = (name: string) => {
     setHistory([...history, { type: 'input', content: name, path: '~' }]);
     setUsername(name);
-    localStorage.setItem('terminalUsername', name);
+    try {
+        localStorage.setItem('terminalUsername', name);
+    } catch(e) {
+        console.error("Could not save username to local storage", e);
+    }
     setLoginState('logging_in');
   
     const loginSequence = [
       { delay: 500, text: 'Authentifiziere...' },
       { delay: 1000, text: 'Prüfe Anmeldeinformationen...' },
-      { delay: 1500, text: 'Zugriff gewährt. Willkommen, ' + name + '!' },
-      { delay: 2000, text: "Tippe 'help' für eine Liste der Befehle." },
+      { delay: 1500, text: `Zugriff gewährt.` },
+      { delay: 2000, text: `
+┌──────────────────────────────────┐
+│                                  │
+│   Willkommen, ${name.padEnd(20, ' ')} │
+│                                  │
+└──────────────────────────────────┘
+`
+      },
+      { delay: 2500, text: "Tippe 'help' für eine Liste der Befehle." },
     ];
   
     let currentHistory = [...history, { type: 'input', content: name, path: '~' }];
   
-    loginSequence.forEach(item => {
+    loginSequence.forEach((item, index) => {
       setTimeout(() => {
         currentHistory = [...currentHistory, { type: 'output', content: item.text, path: '~' }];
         setHistory(currentHistory);
+        if (index === loginSequence.length -1) {
+             setLoginState('loggedin');
+        }
       }, item.delay);
     });
-  
-    setTimeout(() => {
-      setLoginState('loggedin');
-    }, 2500);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

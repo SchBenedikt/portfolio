@@ -9,6 +9,7 @@ import { Toaster as SonnerToaster } from '@/components/ui/sonner';
 import CustomCursor from '@/components/custom-cursor';
 import { ChatProvider } from '@/components/providers/chat-provider';
 import { ChatSheet } from '@/components/chat-sheet';
+import { CookieBanner } from '@/components/cookie-banner';
 
 const rubik = Rubik({
   subsets: ['latin'],
@@ -75,6 +76,7 @@ export default function RootLayout({
               <ChatSheet />
               <DefaultToaster />
               <SonnerToaster />
+              <CookieBanner />
             </ChatProvider>
           </AchievementsProvider>
         </ThemeProvider>
