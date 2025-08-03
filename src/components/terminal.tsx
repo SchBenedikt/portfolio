@@ -263,7 +263,22 @@ export const Terminal = ({ onExit }: TerminalProps) => {
     switch (cmd.toLowerCase()) {
       case 'help':
         output = `Verfügbare Befehle:
+
+  Allgemein
+  --------------------
   help            - Zeigt diese Hilfe an
+  clear           - Leert den Terminalverlauf
+  exit            - Beendet ein laufendes Spiel/Modus
+
+  System
+  --------------------
+  whoami          - Zeigt den aktuellen Benutzer an
+  date            - Zeigt das aktuelle Datum und die Uhrzeit an
+  echo <text>     - Gibt den angegebenen Text aus
+  theme <dark|light> - Ändert das Farbschema
+
+  Dateisystem
+  --------------------
   ls [pfad]       - Listet Dateien und Ordner auf
   cd <pfad>       - Wechselt das Verzeichnis
   cat <datei>     - Zeigt den Inhalt einer Datei an
@@ -272,15 +287,12 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   rm <datei>      - Löscht eine Datei
   nano <datei>    - Öffnet einen einfachen Texteditor
   view <datei>    - Öffnet die Datei in einem neuen Tab
-  clear           - Leert den Terminalverlauf
-  whoami          - Zeigt den aktuellen Benutzer an
-  date            - Zeigt das aktuelle Datum und die Uhrzeit an
-  echo <text>     - Gibt den angegebenen Text aus
-  theme <dark|light> - Ändert das Farbschema
+
+  Spiele & Spaß
+  --------------------
   matrix          - Startet einen geheimen Modus
   game            - Startet das Zahlenratespiel
-  typing-test     - Startet den Schreibgeschwindigkeitstest
-  exit            - Beendet ein laufendes Spiel/Modus`;
+  typing-test     - Startet den Schreibgeschwindigkeitstest`;
         break;
       case 'whoami':
         output = 'gast@benedikt.dev';
@@ -550,11 +562,9 @@ export const Terminal = ({ onExit }: TerminalProps) => {
       >
         <div className="flex items-center justify-between gap-2 px-4 py-2 bg-card/80 z-10 border-b">
           <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" className="w-4 h-4 rounded-full bg-red-500 hover:bg-red-600" onClick={(e) => { e.stopPropagation(); onExit(); }} data-cursor-interactive><X className="w-2 h-2"/></Button>
+              <Button variant="ghost" size="icon" className="w-4 h-4 rounded-full bg-red-500 hover:bg-red-600" onClick={(e) => { e.stopPropagation(); onExit(); }} data-cursor-interactive></Button>
               <Button variant="ghost" size="icon" className="w-4 h-4 rounded-full bg-yellow-500 hover:bg-yellow-600" onClick={(e) => e.stopPropagation()} data-cursor-interactive></Button>
-              <Button variant="ghost" size="icon" className="w-4 h-4 rounded-full bg-green-500 hover:bg-green-600" onClick={(e) => { e.stopPropagation(); setIsFullScreen(prev => !prev);}} data-cursor-interactive>
-                 {isFullScreen ? <Minimize className="w-2 h-2"/> : <Maximize className="w-2 h-2"/>}
-              </Button>
+              <Button variant="ghost" size="icon" className="w-4 h-4 rounded-full bg-green-500 hover:bg-green-600" onClick={(e) => { e.stopPropagation(); setIsFullScreen(prev => !prev);}} data-cursor-interactive></Button>
           </div>
           <p className="text-center flex-1 text-muted-foreground text-sm font-mono select-none">/bin/bash - benedikt.dev</p>
           <div className="w-20" />
