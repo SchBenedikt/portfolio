@@ -55,8 +55,14 @@ export default function Home() {
       setIsTerminalView(!forceUiView);
       return;
     }
-    unlockAchievement('VIEW_SWITCHER');
+  
+    // Toggle view first
     setIsTerminalView((prev) => !prev);
+  
+    // Unlock achievement after a short delay to prevent UI blocking
+    setTimeout(() => {
+      unlockAchievement('VIEW_SWITCHER');
+    }, 100);
   };
 
   if (!isMounted) {
