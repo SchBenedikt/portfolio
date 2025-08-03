@@ -110,29 +110,6 @@ export default function Home() {
                   <br />
                   Schächner
                 </motion.h1>
-                <motion.p
-                  id="hero-subtitle"
-                  className="mt-6 text-2xl md:text-3xl max-w-xl text-muted-foreground"
-                  variants={itemVariants}
-                >
-                  Creative Developer mit Fokus auf KI-Tools, Selfhosting und Edutech.
-                </motion.p>
-                <motion.div
-                  className="mt-10"
-                  variants={itemVariants}
-                >
-                  <Button
-                    id="hero-button"
-                    size="lg"
-                    asChild
-                    className="rounded-full text-xl py-10 px-12 group"
-                  >
-                    <Link href="/projects">
-                      Meine Arbeiten ansehen{' '}
-                      <ArrowRight className="ml-3 h-7 w-7 transition-transform group-hover:translate-x-1" />
-                    </Link>
-                  </Button>
-                </motion.div>
               </div>
             </motion.section>
           )}
