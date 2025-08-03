@@ -7,7 +7,7 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Github } from 'lucide-react';
+import { ArrowLeft, Github, Calendar, Folder, Tags } from 'lucide-react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -50,14 +50,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
             <h1 className="text-7xl md:text-8xl font-black uppercase tracking-tighter font-headline mb-4">
               {project.title}
             </h1>
-            <div className="flex flex-wrap gap-2 mb-8">
-              {project.tags.map((tag) => (
-                <Badge key={tag} variant="secondary" className="text-md rounded-lg">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-
+            
             <div className="grid grid-cols-1 md:grid-cols-5 gap-12">
               <div className="md:col-span-3">
                 <div className="aspect-video overflow-hidden rounded-3xl mb-8">
@@ -76,12 +69,41 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
               </div>
               <div className="md:col-span-2">
                  <div className="sticky top-32 bg-card/50 backdrop-blur-lg p-8 rounded-3xl border border-border/50">
-                    <h3 className="text-3xl font-bold font-headline mb-6">Projektübersicht</h3>
+                    <h3 className="text-3xl font-bold font-headline mb-6">Projekt-Infos</h3>
                      <p className="text-lg text-muted-foreground mb-6">
                         {project.description}
                      </p>
+                     <div className="space-y-4 mb-8">
+                        <div className="flex items-start">
+                            <Calendar className="mr-3 mt-1 text-primary"/>
+                            <div>
+                                <h4 className="font-semibold">Datum</h4>
+                                <p className="text-muted-foreground">{new Date(project.date).toLocaleDateString('de-DE')}</p>
+                            </div>
+                        </div>
+                         <div className="flex items-start">
+                            <Folder className="mr-3 mt-1 text-primary"/>
+                            <div>
+                                <h4 className="font-semibold">Kategorie</h4>
+                                <p className="text-muted-foreground">{project.category}</p>
+                            </div>
+                        </div>
+                        <div className="flex items-start">
+                            <Tags className="mr-3 mt-1 text-primary"/>
+                            <div>
+                                <h4 className="font-semibold">Technologien</h4>
+                                <div className="flex flex-wrap gap-2 mt-2">
+                                    {project.tags.map((tag) => (
+                                        <Badge key={tag} variant="secondary" className="text-sm rounded-md">
+                                        {tag}
+                                        </Badge>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                     </div>
                      <Button asChild className="w-full rounded-full text-lg py-8" data-cursor-interactive>
-                        <Link href={`/projects/${project.slug}`}>
+                        <Link href="#">
                            <Github className="mr-3"/>
                            Auf Github ansehen
                         </Link>

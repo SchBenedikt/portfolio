@@ -10,6 +10,8 @@ export const projectData = [
     image: 'https://placehold.co/600x400.png',
     tags: ['Crossmedia', 'Storytelling', 'Ausgezeichnet', 'UI/UX'],
     aiHint: 'roman influencer blog',
+    date: '2024-05-10',
+    category: 'Schulprojekt / Crossmedia',
   },
   {
     title: 'Medienscouts KKG',
@@ -21,6 +23,8 @@ export const projectData = [
     image: 'https://placehold.co/600x400.png',
     tags: ['Next.js', 'Chatbot', 'Schulprojekt', 'CI/CD'],
     aiHint: 'school media lab',
+    date: '2023-09-01',
+    category: 'Web-Anwendung / Bildung',
   },
   {
     title: 'Technik- & Konferenz-Blog',
@@ -32,5 +36,7 @@ export const projectData = [
     image: 'https://placehold.co/600x400.png',
     tags: ['Selfhosting', 'Speaker', 'Docker', 'Linux'],
     aiHint: 'server code terminal',
+    date: '2024-01-15',
+    category: 'Blog / Wissensmanagement',
   },
 ];
