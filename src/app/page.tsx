@@ -111,8 +111,7 @@ export default function Home() {
                   transition={{ duration: 0.8, ease: "easeOut" }}
                 >
                   <h1 className="text-7xl sm:text-8xl md:text-9xl font-black uppercase tracking-tighter font-headline">
-                    <div>Benedikt</div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-end">
                         <Image
                           src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Waving%20Hand.png"
                           alt="Waving Hand"
@@ -120,8 +119,9 @@ export default function Home() {
                           height={80}
                           className="inline-block mr-4"
                         />
-                        <span>Schächner</span>
+                        <span>Benedikt</span>
                     </div>
+                    <div>Schächner</div>
                   </h1>
               </motion.div>
             </motion.section>
