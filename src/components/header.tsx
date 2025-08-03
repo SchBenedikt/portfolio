@@ -1,6 +1,7 @@
 
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { cn } from '@/lib/utils';
@@ -61,7 +62,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
                 {navLinks.map(link => (
                     <DropdownMenuItem key={link.href} asChild>
                       <Link href={link.href} className="flex items-center gap-2">
-                         {React.cloneElement(link.icon, { className: "text-muted-foreground" })}
+                         {React.cloneElement(link.icon as React.ReactElement, { className: "text-muted-foreground" })}
                          {link.label}
                       </Link>
                     </DropdownMenuItem>
