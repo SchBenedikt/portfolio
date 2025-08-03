@@ -65,6 +65,11 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   const [isNanoMode, setIsNanoMode] = useState(false);
   const [nanoFile, setNanoFile] = useState<{ path: string[], content: string }>({ path: [], content: '' });
 
+  const [terminalTheme, setTerminalTheme] = useState({
+    user: 'text-green-400',
+    path: 'text-blue-400',
+  });
+
 
   // Game State
   const [secretNumber, setSecretNumber] = useState(0);
@@ -266,33 +271,34 @@ export const Terminal = ({ onExit }: TerminalProps) => {
 
   Allgemein
   --------------------
-  help            - Zeigt diese Hilfe an
-  clear           - Leert den Terminalverlauf
-  exit            - Beendet ein laufendes Spiel/Modus
+  help              - Zeigt diese Hilfe an
+  clear             - Leert den Terminalverlauf
+  exit              - Beendet ein laufendes Spiel/Modus
 
   System
   --------------------
-  whoami          - Zeigt den aktuellen Benutzer an
-  date            - Zeigt das aktuelle Datum und die Uhrzeit an
-  echo <text>     - Gibt den angegebenen Text aus
-  theme <dark|light> - Ändert das Farbschema
+  whoami            - Zeigt den aktuellen Benutzer an
+  date              - Zeigt das aktuelle Datum und die Uhrzeit an
+  echo <text>       - Gibt den angegebenen Text aus
+  theme <dark|light>  - Ändert das Farbschema des Portfolios
+  terminal <color>    - Ändert die Akzentfarbe des Terminals (z.B. blue, red, green)
 
   Dateisystem
   --------------------
-  ls [pfad]       - Listet Dateien und Ordner auf
-  cd <pfad>       - Wechselt das Verzeichnis
-  cat <datei>     - Zeigt den Inhalt einer Datei an
-  touch <datei>   - Erstellt eine leere Datei
-  mkdir <ordner>  - Erstellt einen neuen Ordner
-  rm <datei>      - Löscht eine Datei
-  nano <datei>    - Öffnet einen einfachen Texteditor
-  view <datei>    - Öffnet die Datei in einem neuen Tab
+  ls [pfad]         - Listet Dateien und Ordner auf
+  cd <pfad>         - Wechselt das Verzeichnis
+  cat <datei>       - Zeigt den Inhalt einer Datei an
+  touch <datei>     - Erstellt eine leere Datei
+  mkdir <ordner>    - Erstellt einen neuen Ordner
+  rm <datei>        - Löscht eine Datei
+  nano <datei>      - Öffnet einen einfachen Texteditor
+  view <datei>      - Öffnet die Datei in einem neuen Tab
 
   Spiele & Spaß
   --------------------
-  matrix          - Startet einen geheimen Modus
-  game            - Startet das Zahlenratespiel
-  typing-test     - Startet den Schreibgeschwindigkeitstest`;
+  matrix            - Startet einen geheimen Modus
+  game              - Startet das Zahlenratespiel
+  typing-test       - Startet den Schreibgeschwindigkeitstest`;
         break;
       case 'whoami':
         output = 'gast@benedikt.dev';
@@ -304,6 +310,21 @@ export const Terminal = ({ onExit }: TerminalProps) => {
           output = `Theme zu ${newTheme} geändert.`;
         } else {
           output = `Fehler: Theme '${newTheme}' nicht gefunden. Verfügbare Themes: dark, light.`;
+        }
+        break;
+      case 'terminal':
+        const color = args[0];
+        if (color === 'blue') {
+          setTerminalTheme({ user: 'text-blue-400', path: 'text-cyan-400' });
+          output = 'Terminal-Farbe auf Blau geändert.';
+        } else if (color === 'red') {
+          setTerminalTheme({ user: 'text-red-400', path: 'text-yellow-400' });
+          output = 'Terminal-Farbe auf Rot geändert.';
+        } else if (color === 'green') {
+          setTerminalTheme({ user: 'text-green-400', path: 'text-lime-400' });
+          output = 'Terminal-Farbe auf Grün geändert.';
+        } else {
+          output = `Fehler: Farbe '${color}' nicht erkannt. Verfügbar: blue, red, green.`;
         }
         break;
       case 'date':
@@ -599,8 +620,8 @@ export const Terminal = ({ onExit }: TerminalProps) => {
                     {item.type === 'input' ? (
                         <div>
                         <span>
-                            <span className="text-green-400">{promptUser}</span>
-                            <span className="text-blue-400">{item.path}</span>
+                            <span className={terminalTheme.user}>{promptUser}</span>
+                            <span className={terminalTheme.path}>{item.path}</span>
                             <span className="text-foreground">$ </span>
                         </span>
                         <span className="text-foreground">{item.content}</span>
@@ -616,8 +637,8 @@ export const Terminal = ({ onExit }: TerminalProps) => {
         
         <form onSubmit={handleSubmit} className="flex items-center p-4 font-mono text-lg border-t border-border/50 bg-card/80 z-10">
           <div className="flex-shrink-0">
-            <span className="text-green-400">{promptUser}</span>
-            <span className="text-blue-400">{promptPath}</span>
+            <span className={terminalTheme.user}>{promptUser}</span>
+            <span className={terminalTheme.path}>{promptPath}</span>
             <span className="text-foreground">$ </span>
           </div>
           <input
