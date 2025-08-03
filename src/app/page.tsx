@@ -24,16 +24,17 @@ export default function Home() {
     }
     setIsMounted(true);
 
-    const handleScroll = () => {
+    const handleInteraction = () => {
       if (!isHeaderVisible) {
         setIsHeaderVisible(true);
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { once: true });
+    // Use 'wheel' event as it fires even if the page doesn't have a scrollbar
+    window.addEventListener('wheel', handleInteraction, { once: true });
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('wheel', handleInteraction);
     };
   }, [unlockAchievement, isHeaderVisible]);
 
