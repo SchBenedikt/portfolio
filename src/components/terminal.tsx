@@ -222,8 +222,11 @@ export const Terminal = () => {
         output = `Benutzer: Gast\n`
                + `Hostname: benedikt.dev\n`
                + `IP-Adresse: [Lokal]\n`
-               + `Gerät: ${os}\n`
+               + `OS: ${os}\n`
                + `Browser: ${userAgent.match(/(Firefox|Chrome|Safari|Opera|Edge)\/[\d\.]+/)?.[0] || 'Unbekannt'}\n`
+               + `Sprache: ${navigator.language}\n`
+               + `Auflösung: ${window.screen.width}x${window.screen.height}\n`
+               + `Online: ${navigator.onLine ? 'Ja' : 'Nein'}\n`
                + `Standort: [Wird abgerufen...]`;
 
         navigator.geolocation.getCurrentPosition(
@@ -346,26 +349,25 @@ export const Terminal = () => {
     e.preventDefault();
     const command = input.trim();
     if (!command) return;
-
-    let newHistory: HistoryItem[] = [...history, { type: 'input', content: command }];
-    setHistory(newHistory);
     
     const commandLower = command.toLowerCase();
 
     // Global commands that work in any state
     if (commandLower === 'clear') {
-        setHistory([]);
+        setHistory([{ type: 'input', content: command }]);
         setInput('');
         return;
     }
     
     if (commandLower === 'exit') {
+       let newHistory: HistoryItem[] = [...history, { type: 'input', content: command }];
       if (gameState.type !== 'none') {
-        setHistory(prev => [...prev, { type: 'output', content: 'Das Spiel wurde beendet.' }]);
+        newHistory.push({ type: 'output', content: 'Das Spiel wurde beendet.' });
         setGameState({ type: 'none' });
       } else {
-        setHistory(prev => [...prev, { type: 'output', content: "Es ist kein Spiel aktiv, das beendet werden kann." }]);
+        newHistory.push({ type: 'output', content: "Es ist kein Spiel aktiv, das beendet werden kann." });
       }
+      setHistory(newHistory);
       setInput('');
       return;
     }

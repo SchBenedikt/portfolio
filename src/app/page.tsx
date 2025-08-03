@@ -14,7 +14,7 @@ export default function Home() {
   const { unlockAchievement } = useAchievements();
   const [isTerminalView, setIsTerminalView] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true); // Start with header visible logic
 
   useEffect(() => {
     unlockAchievement('FIRST_STEP');
@@ -23,19 +23,7 @@ export default function Home() {
       setIsTerminalView(JSON.parse(savedView));
     }
     setIsMounted(true);
-
-    const handleScroll = () => {
-      if (!isHeaderVisible) {
-        setIsHeaderVisible(true);
-      }
-    };
-
-    window.addEventListener('wheel', handleScroll, { once: true });
-
-    return () => {
-      window.removeEventListener('wheel', handleScroll);
-    };
-  }, [unlockAchievement, isHeaderVisible]);
+  }, [unlockAchievement]);
 
   useEffect(() => {
     if (isMounted) {
@@ -46,11 +34,6 @@ export default function Home() {
   const headerVariants = {
     hidden: { y: -150, opacity: 0 },
     visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: [0.6, 0.05, 0.01, 0.9] } },
-  };
-
-  const contentVariants = {
-    initial: { y: 0 },
-    headerVisible: { y: 80, transition: { duration: 0.6, ease: [0.6, 0.05, 0.01, 0.9] } },
   };
 
   const handleToggleView = () => {
@@ -64,7 +47,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground overflow-hidden">
-      <motion.div initial="hidden" animate={isHeaderVisible ? 'visible' : 'hidden'} variants={headerVariants}>
+       <motion.div initial="hidden" animate={isHeaderVisible ? 'visible' : 'hidden'} variants={headerVariants}>
         <Header>
           <Button
             variant="outline"
@@ -80,12 +63,9 @@ export default function Home() {
           </Button>
         </Header>
       </motion.div>
-      <main className="flex-grow flex flex-col items-center justify-center">
-        <motion.div
+      <main className="flex-grow flex flex-col items-center justify-center pt-20">
+        <div
           className="container mx-auto px-6 sm:px-8 h-full flex items-center justify-center"
-          initial="initial"
-          animate={isHeaderVisible ? 'headerVisible' : 'initial'}
-          variants={contentVariants}
         >
           {isTerminalView ? (
             <motion.div
@@ -120,7 +100,7 @@ export default function Home() {
               </div>
             </motion.section>
           )}
-        </motion.div>
+        </div>
       </main>
     </div>
   );
