@@ -112,8 +112,8 @@ export default function Home() {
                   <h1 className="text-7xl sm:text-8xl md:text-9xl font-black uppercase tracking-tighter font-headline">
                     <div className="flex items-center justify-between">
                       <Image
-                        src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Waving%20Hand.png"
-                        alt="Waving Hand"
+                        src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20professions/Technologist%20Medium-Light%20Skin%20Tone.png"
+                        alt="Technologist Medium-Light Skin Tone"
                         width={100}
                         height={100}
                         className="inline-block"
