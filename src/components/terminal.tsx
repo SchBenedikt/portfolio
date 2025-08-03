@@ -6,6 +6,8 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { useAchievements } from './providers/achievements-provider';
+import { projectData } from '@/lib/projects';
+import { blogData } from '@/lib/blog';
 
 interface HistoryItem {
   type: 'input' | 'output';
@@ -62,6 +64,7 @@ export const Terminal = () => {
   }, [history]);
 
   const handleGameInput = (command: string) => {
+    const newHistory: HistoryItem[] = [...history, { type: 'input', content: command }];
     const guess = parseInt(command, 10);
     let output = '';
 
@@ -82,7 +85,7 @@ export const Terminal = () => {
       setGameState({ isActive: false, secretNumber: 0, attempts: 0 });
     }
     
-    setHistory(prev => [...prev, { type: 'input', content: command }, { type: 'output', content: output }]);
+    setHistory([...newHistory, { type: 'output', content: output }]);
   }
 
   const handleCommand = (command: string) => {
@@ -94,27 +97,49 @@ export const Terminal = () => {
     switch (cmd) {
       case 'help':
         output = `Verfügbare Befehle:\n
-  'nav <seite>'    - Navigiere zu einer Seite (projects, resume, blog)
-  'theme <name>'  - Ändere das Farbschema (dark, light)
-  'whoami'        - Zeige eine kurze Biografie an
-  'socials'       - Zeige Social-Media-Links an
-  'game'          - Starte das Zahlenratespiel
-  'date'          - Zeige das aktuelle Datum und die Uhrzeit an
-  'echo <text>'   - Gib den Text im Terminal aus
-  'matrix'        - Betritt die Matrix...
-  'clear'         - Leere den Terminal-Verlauf`;
+  'ls'              - Zeigt verfügbare Bereiche an (projects, resume, blog).
+  'ls <bereich>'    - Listet den Inhalt eines Bereichs auf.
+  'cat resume'      - Zeigt den Lebenslauf an.
+  'theme <name>'    - Ändere das Farbschema (dark, light).
+  'whoami'          - Zeige eine kurze Biografie an.
+  'socials'         - Zeige Social-Media-Links an.
+  'game'            - Starte das Zahlenratespiel.
+  'date'            - Zeige das aktuelle Datum und die Uhrzeit an.
+  'echo <text>'     - Gib den Text im Terminal aus.
+  'matrix'          - Betritt die Matrix...
+  'clear'           - Leere den Terminal-Verlauf.`;
         break;
       case 'whoami':
         output = 'Benedikt Schächner - Creative Developer & Designer, der einzigartige digitale Erlebnisse gestaltet.';
         break;
-      case 'nav':
-        const page = args[0];
-        if (['projects', 'resume', 'blog', ''].includes(page) || page === undefined) {
-          router.push(`/${page || ''}`);
-          output = `Navigiere zu /${page || ''}...`;
+      case 'ls':
+        const section = args[0];
+        if (!section) {
+          output = "Bereiche: projects, blog, resume. \nBenutze 'ls <bereich>', um den Inhalt aufzulisten.";
+        } else if (section === 'projects') {
+            output = 'Projekte:\n\n' + projectData.map(p => `  - ${p.title}:\n    ${p.description}`).join('\n\n');
+        } else if (section === 'blog') {
+             output = 'Blog:\n\n' + blogData.map(p => `  - ${p.title}:\n    ${p.description}`).join('\n\n');
         } else {
-          output = `Fehler: Seite '${page}' nicht gefunden. Verfügbare Seiten: projects, resume, blog.`;
+            output = `Fehler: Bereich '${section}' nicht gefunden. Verfügbare Bereiche: projects, resume, blog.`;
         }
+        break;
+      case 'cat':
+        if(args[0] === 'resume') {
+            output = `Benedikt Schächner\n`
+            + `Pleiskirchen / Altötting, Bayern\n\n`
+            + `Kompetenzen:\n`
+            + `  - LAMP Stacks, Docker, Supabase, Nextcloud\n`
+            + `  - Ollama / llama3, Open WebUI\n`
+            + `  - WebGL / D3, React, GitOps, UI Motion\n\n`
+            + `Vision & Motivation:\n`
+            + `  - Digitale Souveränität, Edu-Tech mit Storytelling, und Teamwork.`
+        } else {
+            output = `Fehler: 'cat' kann nur mit 'resume' verwendet werden.`;
+        }
+        break;
+      case 'nav':
+        output = "Befehl 'nav' ist veraltet. Benutze 'ls' und 'cat', um Inhalte anzuzeigen.";
         break;
       case 'theme':
         const newTheme = args[0];
@@ -154,12 +179,13 @@ export const Terminal = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    const command = input.trim();
+    if (!command) return;
     
     if (gameState.isActive) {
-      handleGameInput(input.trim());
+      handleGameInput(command);
     } else {
-      handleCommand(input.trim());
+      handleCommand(command);
     }
 
     setInput('');
@@ -190,8 +216,8 @@ export const Terminal = () => {
           <div key={index} className="mb-2">
             {item.type === 'input' ? (
               <div className="flex">
-                <span className="text-primary font-bold mr-2">{item.content.startsWith('>') ? '>' : '$'}</span>
-                <span className="flex-1">{item.content.substring(item.content.startsWith('>') ? 2 : 0)}</span>
+                <span className="text-primary font-bold mr-2">{promptSymbol}</span>
+                <span>{item.content}</span>
               </div>
             ) : (
               <span className="text-muted-foreground whitespace-pre-wrap leading-relaxed">{item.content}</span>
