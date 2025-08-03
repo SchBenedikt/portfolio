@@ -207,7 +207,7 @@ export const Terminal = () => {
   Interaktion & Info:
   'achievements'    - Zeigt deine freigeschalteten Erfolge.
   'theme <name>'    - Ändert Farbschema (dark, light).
-  'whoami'          - Zeigt eine kurze Biografie an.
+  'whoami'          - Zeigt eine kurze Biografie und Systeminformationen an.
   'date'            - Zeigt das aktuelle Datum und die Uhrzeit an.
   'echo <text>'     - Gibt den Text im Terminal aus.
   'matrix'          - Betritt die Matrix...
@@ -218,7 +218,47 @@ export const Terminal = () => {
 `;
         break;
       case 'whoami':
-        output = 'Benedikt Schächner - Creative Developer & Designer, der einzigartige digitale Erlebnisse gestaltet.';
+        const userAgent = navigator.userAgent;
+        let os = "Unbekanntes OS";
+        if (userAgent.indexOf("Win") != -1) os = "Windows";
+        if (userAgent.indexOf("Mac") != -1) os = "Macintosh";
+        if (userAgent.indexOf("Linux") != -1) os = "Linux";
+        if (userAgent.indexOf("Android") != -1) os = "Android";
+        if (userAgent.indexOf("like Mac") != -1) os = "iOS";
+        
+        output = `Benutzer: Gast\n`
+               + `Hostname: benedikt.dev\n`
+               + `IP-Adresse: [Lokal]\n`
+               + `Gerät: ${os}\n`
+               + `Browser: ${userAgent.match(/(Firefox|Chrome|Safari|Opera|Edge)\/[\d\.]+/)?.[0] || 'Unbekannt'}\n`
+               + `Standort: [Wird abgerufen...]`;
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                setHistory(prev => {
+                    const lastOutput = prev[prev.length - 1];
+                    if (lastOutput && typeof lastOutput.content === 'string' && lastOutput.content.includes('Standort: [Wird abgerufen...]')) {
+                        const updatedContent = (lastOutput.content as string).replace('Standort: [Wird abgerufen...]', `Standort: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`);
+                        const updatedHistory = [...prev.slice(0, -1), { ...lastOutput, content: updatedContent }];
+                        return updatedHistory;
+                    }
+                    return prev;
+                });
+            },
+            (error) => {
+                 setHistory(prev => {
+                    const lastOutput = prev[prev.length - 1];
+                    if (lastOutput && typeof lastOutput.content === 'string' && lastOutput.content.includes('Standort: [Wird abgerufen...]')) {
+                        const updatedContent = (lastOutput.content as string).replace('Standort: [Wird abgerufen...]', `Standort: [Zugriff verweigert]`);
+                         const updatedHistory = [...prev.slice(0, -1), { ...lastOutput, content: updatedContent }];
+                        return updatedHistory;
+                    }
+                    return prev;
+                });
+            },
+            { timeout: 5000 }
+        );
         break;
       case 'ls':
         const section = args[0];
