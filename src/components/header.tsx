@@ -10,7 +10,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 py-4 bg-background/80 backdrop-blur-lg shadow-lg'
+        'fixed top-0 left-0 right-0 z-50 py-4 bg-background/80 backdrop-blur-lg'
       )}
     >
       <div className="container mx-auto px-6 sm:px-8 flex justify-between items-center">
