@@ -81,7 +81,7 @@ export default function Home() {
         </Button>
       </Header>
       <main className="flex-grow flex flex-col items-center justify-center">
-        <div className="container mx-auto px-6 sm:px-8 h-full">
+        <div className="container mx-auto px-6 sm:px-8 h-full flex items-center justify-center">
           {isTerminalView ? (
             <motion.div
               key="terminal"
@@ -96,7 +96,7 @@ export default function Home() {
           ) : (
             <motion.section
               key="ui"
-              className="flex flex-col justify-center items-start text-left h-full min-h-screen"
+              className="flex flex-col justify-center items-start text-left w-full"
               variants={containerVariants}
               initial="hidden"
               animate="visible"

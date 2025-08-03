@@ -208,63 +208,70 @@ export const Terminal = () => {
   const promptSymbol = gameState.isActive ? '>' : '$';
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95, y: 20 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
-      className={cn(
-        "relative flex flex-col bg-card/60 backdrop-blur-xl shadow-2xl shadow-primary/10 overflow-hidden transition-all duration-300",
-        isFullScreen
-          ? 'w-screen h-screen rounded-none border-none'
-          : 'h-[75vh] max-w-5xl rounded-2xl border'
-      )}
-      onClick={handleTerminalClick}
-    >
-      <div className="absolute top-0 left-0 w-full flex items-center justify-between gap-2 p-4 bg-card/80 z-10">
-        <div className="flex items-center gap-2">
-            <div className="w-3.5 h-3.5 rounded-full bg-red-500"></div>
-            <div className="w-3.5 h-3.5 rounded-full bg-yellow-500"></div>
-            <div className="w-3.5 h-3.5 rounded-full bg-green-500"></div>
-        </div>
-        <p className="text-center flex-1 text-muted-foreground text-sm font-mono select-none">/bin/bash - benedikt.dev</p>
-        <Button 
-            variant="ghost" 
-            size="icon" 
-            className="w-8 h-8" 
-            onClick={() => setIsFullScreen(prev => !prev)}
-            data-cursor-interactive
-        >
-            {isFullScreen ? <Minimize className="w-4 h-4"/> : <Maximize className="w-4 h-4"/>}
-            <span className="sr-only">Vollbild umschalten</span>
-        </Button>
-      </div>
-      <div className="flex-grow overflow-y-auto pr-4 pt-16 p-6 font-mono text-lg">
-        {history.map((item, index) => (
-          <div key={index} className="mb-2">
-            {item.type === 'input' ? (
-              <div className="flex">
-                <span className="text-primary font-bold mr-2">{promptSymbol}</span>
-                <span>{item.content}</span>
-              </div>
-            ) : (
-              <span className="text-muted-foreground whitespace-pre-wrap leading-relaxed">{item.content}</span>
-            )}
+    <>
+      {isFullScreen && <div className="fixed inset-0 bg-background/90 backdrop-blur-sm z-40" />}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className={cn(
+          "flex flex-col bg-card/60 backdrop-blur-xl shadow-2xl shadow-primary/10 overflow-hidden transition-all duration-300",
+          isFullScreen
+            ? 'fixed inset-0 z-50 w-screen h-screen rounded-none border-none'
+            : 'relative h-[75vh] w-full max-w-5xl rounded-2xl border'
+        )}
+        onClick={handleTerminalClick}
+      >
+        <div className="absolute top-0 left-0 w-full flex items-center justify-between gap-2 p-4 bg-card/80 z-10">
+          <div className="flex items-center gap-2">
+              <div className="w-3.5 h-3.5 rounded-full bg-red-500"></div>
+              <div className="w-3.5 h-3.5 rounded-full bg-yellow-500"></div>
+              <div className="w-3.5 h-3.5 rounded-full bg-green-500"></div>
           </div>
-        ))}
-        <div ref={endOfHistoryRef} />
-      </div>
-      <form onSubmit={handleSubmit} className="flex items-center font-mono text-lg p-6 border-t border-border/50 bg-card/80">
-        <span className="text-primary font-bold mr-2">{promptSymbol}</span>
-        <input
-          ref={inputRef}
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          className="w-full bg-transparent border-none focus:ring-0 outline-none"
-          autoFocus
-          autoComplete="off"
-        />
-      </form>
-    </motion.div>
+          <p className="text-center flex-1 text-muted-foreground text-sm font-mono select-none">/bin/bash - benedikt.dev</p>
+          <Button 
+              variant="ghost" 
+              size="icon" 
+              className="w-8 h-8" 
+              onClick={(e) => {
+                  e.stopPropagation();
+                  setIsFullScreen(prev => !prev);
+                }
+              }
+              data-cursor-interactive
+          >
+              {isFullScreen ? <Minimize className="w-4 h-4"/> : <Maximize className="w-4 h-4"/>}
+              <span className="sr-only">Vollbild umschalten</span>
+          </Button>
+        </div>
+        <div className="flex-grow overflow-y-auto pr-4 pt-16 p-6 font-mono text-lg">
+          {history.map((item, index) => (
+            <div key={index} className="mb-2">
+              {item.type === 'input' ? (
+                <div className="flex">
+                  <span className="text-primary font-bold mr-2">{promptSymbol}</span>
+                  <span>{item.content}</span>
+                </div>
+              ) : (
+                <span className="text-muted-foreground whitespace-pre-wrap leading-relaxed">{item.content}</span>
+              )}
+            </div>
+          ))}
+          <div ref={endOfHistoryRef} />
+        </div>
+        <form onSubmit={handleSubmit} className="flex items-center font-mono text-lg p-6 border-t border-border/50 bg-card/80">
+          <span className="text-primary font-bold mr-2">{promptSymbol}</span>
+          <input
+            ref={inputRef}
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="w-full bg-transparent border-none focus:ring-0 outline-none"
+            autoFocus
+            autoComplete="off"
+          />
+        </form>
+      </motion.div>
+    </>
   );
 };
