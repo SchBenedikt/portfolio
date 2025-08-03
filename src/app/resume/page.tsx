@@ -7,52 +7,50 @@ import { motion } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Download, Award, Briefcase, Lightbulb, Users, Code, ChevronDown } from 'lucide-react';
+import { Download, Award, Briefcase, Lightbulb, Users, Code, ChevronDown, Rocket, GitBranch, Terminal as TerminalIcon } from 'lucide-react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { useEffect } from 'react';
-import Link from 'next/link';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+
+const timelineEvents = [
+    {
+        icon: <Award className="h-5 w-5 text-background" />,
+        iconBg: 'bg-yellow-500',
+        date: "Nov 2024",
+        title: "Hauptpreis, Deutscher Multimedia-Preis mb21",
+        organization: "Kategorie „textbased“",
+        description: "Auszeichnung für das Projekt „Meum Diarium – Ein Feldherr als Influencer“ in der Altersgruppe 11–15 Jahre."
+    },
+     {
+        icon: <Award className="h-5 w-5 text-background" />,
+        iconBg: 'bg-yellow-500',
+        date: "Nov 2024",
+        title: "Nominierung, Crossmedia-Wettbewerb",
+        organization: "Bayerischer Rundfunk",
+        description: "„Meum Diarium“ wurde in der Sparte „textbased“ als herausragender Beitrag nominiert."
+    },
+    {
+        icon: <Users className="h-5 w-5 text-background" />,
+        iconBg: 'bg-blue-500',
+        date: "Sep 2024",
+        title: "Lightning Talk, Nextcloud Conference",
+        organization: "Berlin",
+        description: "Vortrag über Nextcloud-Security, Selfhosting und den Schutz sensibler Daten vor einer internationalen Community."
+    },
+     {
+        icon: <TerminalIcon className="h-5 w-5 text-background" />,
+        iconBg: 'bg-green-500',
+        date: "Seit 2023",
+        title: "Mitgründer der MedienScouts",
+        organization: "König-Karlmann-Gymnasium",
+        description: "Technische und didaktische Leitung von Schulinitiativen, Live-Workshops und Peer-to-Peer-Schulungen."
+    }
+].sort((a, b) => new Date(b.date.split(' ').reverse().join(' ')).getTime() - new Date(a.date.split(' ').reverse().join(' ')).getTime());
+
 
 const skills = [
-  'LAMP Stacks',
-  'Docker',
-  'Supabase',
-  'Nextcloud',
-  'Ollama / llama3',
-  'Open WebUI',
-  'WebGL / D3',
-  'React',
-  'GitOps',
-  'UI Motion',
+  'LAMP Stacks', 'Docker', 'Supabase', 'Nextcloud', 'Ollama / llama3', 'Open WebUI',
+  'WebGL / D3', 'React / Next.js', 'TypeScript', 'GitOps', 'UI Motion (Framer)', 'Linux'
 ];
-
-const competitions = [
-    {
-        title: "Deutscher Multimedia-Preis mb21 2024",
-        project: "„Meum Diarium – Ein Feldherr als Influencer“",
-        result: "Hauptpreis (500 €) in der Kategorie „textbased“, Altersgruppe 11–15 Jahre.",
-        description: "Offizielle Präsentation und Preisverleihung in Dresden im November 2024."
-    },
-    {
-        title: "Crossmedia-Wettbewerb des Bayerischen Rundfunks 2024",
-        project: "„Meum Diarium“",
-        result: "Nominierter Beitrag in der Sparte „textbased“.",
-        description: "Preisverleihung am 21.11.2024 beim BR in Unterföhring."
-    }
-]
-
-const events = [
-    {
-        title: "Nextcloud Community Conference 2024 (Berlin)",
-        role: "Lightning Talk",
-        description: "Fokus: Nextcloud-Security, Selfhosting und Schutz sensibler Daten."
-    },
-    {
-        title: "Medien- & Technik-Engagement (AG-Ebene)",
-        role: "Mitgründer der MedienScouts am KKG",
-        description: "Technisch-didaktische Schulinitiativen, Live-Workshops, Aufbau von Audiotechnik, und peer-to-peer Schulung."
-    }
-]
 
 const motivation = {
     vision: "Digitale Souveränität, Edu-Tech mit Storytelling, und Teamwork.",
@@ -83,32 +81,22 @@ export default function ResumePage() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
-  const AccordionTriggerStyled = ({ icon, title }: { icon: React.ReactNode, title: string }) => (
-    <AccordionTrigger className="text-4xl font-bold font-headline hover:no-underline">
-        <div className="flex items-center">
-            {icon}
-            <span className="ml-4">{title}</span>
-        </div>
-    </AccordionTrigger>
-  );
-
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
       <main className="relative z-10 flex-grow pt-32 pb-16">
-        <div className="container mx-auto px-6 sm:px-8">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-            className="max-w-5xl mx-auto"
-          >
-            <motion.div variants={itemVariants} className="flex justify-between items-start mb-12">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+          className="container mx-auto px-6 sm:px-8 max-w-5xl"
+        >
+            <motion.div variants={itemVariants} className="flex justify-between items-start mb-16">
                 <div>
                     <h1 className="text-7xl md:text-8xl font-black uppercase tracking-tighter font-headline">
-                        Benedikt Schächner
+                        Lebenslauf
                     </h1>
-                    <p className="text-2xl text-muted-foreground mt-2">Pleiskirchen / Altötting, Bayern</p>
+                    <p className="text-2xl text-muted-foreground mt-2">Benedikt Schächner</p>
                 </div>
                 <Button className="rounded-full text-lg py-6 px-8 mt-4 whitespace-nowrap" data-cursor-interactive>
                     <Download className="mr-3"/>
@@ -116,110 +104,71 @@ export default function ResumePage() {
                 </Button>
             </motion.div>
 
+            {/* Timeline Section */}
+            <motion.div variants={itemVariants} className="mb-16">
+                <div className="relative border-l-2 border-border/50 ml-4 pl-4">
+                    {timelineEvents.map((event, index) => (
+                         <motion.div key={index} variants={itemVariants} className="mb-10 ml-8">
+                            <span className={`absolute -left-[18px] flex items-center justify-center w-9 h-9 rounded-full ring-8 ring-background ${event.iconBg}`}>
+                                {event.icon}
+                            </span>
+                            <Card className="rounded-2xl shadow-lg border-border/50 transition-all hover:border-primary/50">
+                                <CardHeader>
+                                    <div className="flex justify-between items-center">
+                                        <CardTitle className="text-2xl font-bold font-headline">{event.title}</CardTitle>
+                                        <Badge variant="secondary" className="text-sm rounded-md whitespace-nowrap">{event.date}</Badge>
+                                    </div>
+                                    <CardDescription className="text-lg pt-1">{event.organization}</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <p className="text-lg text-muted-foreground">{event.description}</p>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
+                    ))}
+                </div>
+            </motion.div>
+
+            {/* Grid for Skills and Vision */}
             <motion.div 
-              className="space-y-4"
-              variants={containerVariants}
+                variants={containerVariants}
+                className="grid grid-cols-1 md:grid-cols-2 gap-12"
             >
                 <motion.div variants={itemVariants}>
-                    <Accordion type="single" collapsible defaultValue="item-1">
-                        <AccordionItem value="item-1" className="border-b-0">
-                             <Card className="rounded-3xl overflow-hidden">
-                                <CardHeader>
-                                    <AccordionTriggerStyled icon={<Award className="text-primary"/>} title="Wettbewerbe & Auszeichnungen"/>
-                                </CardHeader>
-                                <AccordionContent>
-                                    <div className="px-6 pb-6 space-y-6">
-                                        {competitions.map((comp) => (
-                                        <Card key={comp.title} className="rounded-2xl bg-muted/50">
-                                            <CardHeader>
-                                                <CardTitle className="text-2xl font-bold font-headline">{comp.title}</CardTitle>
-                                                <CardDescription className="text-lg pt-1">{comp.project}</CardDescription>
-                                            </CardHeader>
-                                            <CardContent>
-                                                <p className="text-lg text-primary font-semibold">{comp.result}</p>
-                                                <p className="text-lg text-muted-foreground mt-2">{comp.description}</p>
-                                            </CardContent>
-                                        </Card>
-                                        ))}
-                                    </div>
-                                </AccordionContent>
-                            </Card>
-                        </AccordionItem>
-                    </Accordion>
+                    <Card className="rounded-2xl p-8 h-full">
+                        <CardHeader className="p-0 mb-6">
+                            <CardTitle className="flex items-center text-4xl font-bold font-headline">
+                                <Code className="mr-3 text-primary"/> Sprachen & Technologien
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-0">
+                            <div className="flex flex-wrap gap-3">
+                                {skills.map((skill) => (
+                                    <Badge key={skill} variant="secondary" className="text-lg rounded-lg px-4 py-1">
+                                        {skill}
+                                    </Badge>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
                 </motion.div>
-
-                 <motion.div variants={itemVariants}>
-                    <Accordion type="single" collapsible>
-                        <AccordionItem value="item-1" className="border-b-0">
-                             <Card className="rounded-3xl overflow-hidden">
-                                <CardHeader>
-                                    <AccordionTriggerStyled icon={<Users className="text-primary"/>} title="Events & Community"/>
-                                </CardHeader>
-                                <AccordionContent>
-                                    <div className="px-6 pb-6 space-y-6">
-                                        {events.map((event) => (
-                                        <Card key={event.title} className="rounded-2xl bg-muted/50">
-                                            <CardHeader>
-                                                <CardTitle className="text-2xl font-bold font-headline">{event.title}</CardTitle>
-                                                <CardDescription className="text-lg pt-1">{event.role}</CardDescription>
-                                            </CardHeader>
-                                            <CardContent>
-                                                <p className="text-lg text-muted-foreground mt-2">{event.description}</p>
-                                            </CardContent>
-                                        </Card>
-                                        ))}
-                                    </div>
-                                </AccordionContent>
-                            </Card>
-                        </AccordionItem>
-                    </Accordion>
-                </motion.div>
-
                 <motion.div variants={itemVariants}>
-                    <Accordion type="single" collapsible>
-                        <AccordionItem value="item-1" className="border-b-0">
-                             <Card className="rounded-3xl overflow-hidden">
-                                <CardHeader>
-                                    <AccordionTriggerStyled icon={<Code className="text-primary"/>} title="Sprachen & Technologien"/>
-                                </CardHeader>
-                                <AccordionContent>
-                                    <div className="px-6 pb-6">
-                                        <div className="flex flex-wrap gap-3">
-                                            {skills.map((skill) => (
-                                                <Badge key={skill} variant="secondary" className="text-lg rounded-lg px-4 py-1">
-                                                {skill}
-                                                </Badge>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </AccordionContent>
-                            </Card>
-                        </AccordionItem>
-                    </Accordion>
-                </motion.div>
-                
-                <motion.div variants={itemVariants}>
-                    <Accordion type="single" collapsible>
-                        <AccordionItem value="item-1" className="border-b-0">
-                             <Card className="rounded-3xl overflow-hidden">
-                                <CardHeader>
-                                    <AccordionTriggerStyled icon={<Lightbulb className="text-primary"/>} title="Vision & Motivation"/>
-                                </CardHeader>
-                                <AccordionContent>
-                                    <div className="px-6 pb-6">
-                                        <CardTitle className="text-2xl font-bold font-headline mb-4">{motivation.vision}</CardTitle>
-                                        <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground">
-                                            {motivation.points.map((point, i) => <li key={i}>{point}</li>)}
-                                        </ul>
-                                    </div>
-                                </AccordionContent>
-                            </Card>
-                        </AccordionItem>
-                    </Accordion>
+                    <Card className="rounded-2xl p-8 h-full">
+                        <CardHeader className="p-0 mb-6">
+                             <CardTitle className="flex items-center text-4xl font-bold font-headline">
+                                <Rocket className="mr-3 text-primary"/> Vision & Motivation
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-0">
+                             <p className="text-xl font-semibold mb-4">{motivation.vision}</p>
+                             <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground">
+                                {motivation.points.map((point, i) => <li key={i}>{point}</li>)}
+                            </ul>
+                        </CardContent>
+                    </Card>
                 </motion.div>
             </motion.div>
-          </motion.div>
-        </div>
+        </motion.div>
       </main>
       <Footer />
     </div>

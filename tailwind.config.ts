@@ -9,10 +9,13 @@ export default {
   ],
   theme: {
     extend: {
+      fontSize: {
+        '10xl': '10rem',
+      },
       fontFamily: {
         body: ['var(--font-rubik)', 'sans-serif'],
         headline: ['var(--font-rubik)', 'sans-serif'],
-        code: ['monospace'],
+        mono: ['var(--font-mono)', 'monospace'],
       },
       colors: {
         background: 'hsl(var(--background))',

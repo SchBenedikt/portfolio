@@ -5,7 +5,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { useAchievements } from './providers/achievements-provider';
-import { Maximize, Minimize, CheckCircle, Lock } from 'lucide-react';
+import { Maximize, Minimize, CheckCircle, Lock, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { achievementsList, AchievementID } from '@/lib/achievements';
@@ -349,6 +349,12 @@ export const Terminal = () => {
             if (commandLower.startsWith('cd ')) {
                 handleCommand(command, true);
                  output = ''; // Prevent double output
+            } else if(commandLower.startsWith('ls')) {
+                 handleCommand(command, true);
+                 output = ''; // Prevent double output
+            } else if(commandLower.startsWith('cat')) {
+                 handleCommand(command, true);
+                 output = ''; // Prevent double output
             }
 
             const nextStepIndex = gameState.stepIndex! + 1;
@@ -689,20 +695,31 @@ export const Terminal = () => {
              output = `Befehl nicht gefunden: ${command}. Tippe 'help' für eine Liste der Befehle.`;
         }
         break;
+      case 'exit':
+        let exitMessage = '';
+         if (gameState.type !== 'none' && gameState.type !== 'tutorial') {
+           exitMessage = `Aktion '${gameState.type}' wurde abgebrochen.`
+           setGameState({ type: 'none' });
+         } else if (gameState.type === 'tutorial') {
+           exitMessage = `Mission '${gameState.missionId}' wurde abgebrochen.`;
+           setGameState({ type: 'none' });
+         } else {
+           exitMessage = "Es ist keine Aktion aktiv, die beendet werden kann.";
+         }
+         output = exitMessage;
+         break;
       default:
         if (cmd) {
             output = `Befehl nicht gefunden: ${command}. Tippe 'help' für eine Liste der Befehle.`;
         }
     }
 
-    if (output && !fromTutorial) {
+    if (output) {
         if (isComponent) {
             newHistory.push({ type: 'component', content: output });
         } else {
             newHistory.push({ type: 'output', content: output });
         }
-    } else if (fromTutorial && output) {
-        newHistory.push({ type: 'output', content: output });
     }
 
     setHistory(newHistory);
@@ -715,27 +732,10 @@ export const Terminal = () => {
     
     const commandLower = command.toLowerCase();
 
-    // Global commands that work in any state
     if (commandLower === 'clear') {
         setHistory([]);
         setInput('');
         return;
-    }
-    
-    if (commandLower === 'exit') {
-       let newHistory: HistoryItem[] = [...history, { type: 'input', content: command, path: getPathString() }];
-      if (gameState.type !== 'none' && gameState.type !== 'tutorial') {
-        newHistory.push({ type: 'output', content: `Aktion '${gameState.type}' wurde abgebrochen.` });
-        setGameState({ type: 'none' });
-      } else if (gameState.type === 'tutorial') {
-        newHistory.push({ type: 'output', content: `Mission '${gameState.missionId}' wurde abgebrochen.` });
-        setGameState({ type: 'none' });
-      } else {
-        newHistory.push({ type: 'output', content: "Es ist keine Aktion aktiv, die beendet werden kann." });
-      }
-      setHistory(newHistory);
-      setInput('');
-      return;
     }
 
     if (gameState.type !== 'none' && gameState.type !== 'nano') {
@@ -794,22 +794,34 @@ export const Terminal = () => {
   const promptUser = 'guest@benedikt.dev';
   const promptPath = getPathString();
 
+  if (!isMounted) {
+    return <div className="h-[75vh] w-full max-w-5xl rounded-2xl bg-card animate-pulse" />;
+  }
+  
   if (gameState.type === 'nano') {
       return (
-         <div className="fixed inset-0 bg-black text-white font-mono z-[100] flex flex-col p-2">
-            <div className="bg-primary/80 text-primary-foreground text-center text-sm mb-1 font-semibold">
-                Nano Editor - {gameState.nanoFile}
-            </div>
-            <Textarea
-                value={nanoContent}
-                onChange={(e) => setNanoContent(e.target.value)}
-                className="flex-grow bg-black text-white border-none focus:ring-0 whitespace-pre-wrap rounded-none"
-                autoFocus
-            />
-            <div className="bg-card border-t border-border/50 p-2 flex justify-end gap-2">
-                <Button variant="secondary" onClick={() => handleNanoExit(false)} data-cursor-interactive>Abbrechen</Button>
-                <Button onClick={() => handleNanoExit(true)} data-cursor-interactive>Speichern & Schließen</Button>
-            </div>
+         <div className={cn(
+            "fixed inset-0 bg-background/90 backdrop-blur-sm z-[100] p-4 flex items-center justify-center",
+            isFullScreen ? 'p-4' : 'p-8'
+         )}>
+             <motion.div 
+              initial={{opacity: 0, scale: 0.95}}
+              animate={{opacity: 1, scale: 1}}
+              className="flex flex-col bg-card shadow-2xl shadow-primary/10 overflow-hidden rounded-lg border w-full h-full max-w-6xl">
+                <div className="bg-primary/80 text-primary-foreground text-center py-2 text-sm font-semibold">
+                    Nano Editor - {gameState.nanoFile}
+                </div>
+                <Textarea
+                    value={nanoContent}
+                    onChange={(e) => setNanoContent(e.target.value)}
+                    className="flex-grow bg-background text-foreground border-none focus:ring-0 whitespace-pre-wrap rounded-none font-mono text-base"
+                    autoFocus
+                />
+                <div className="bg-card border-t border-border/50 p-2 flex justify-end gap-2">
+                    <Button variant="secondary" onClick={() => handleNanoExit(false)} data-cursor-interactive>Abbrechen</Button>
+                    <Button onClick={() => handleNanoExit(true)} data-cursor-interactive>Speichern & Schließen</Button>
+                </div>
+             </motion.div>
          </div>
       );
   }
@@ -817,8 +829,8 @@ export const Terminal = () => {
 
   return (
     <>
-      {isFullScreen && <div className="fixed inset-0 bg-background/90 backdrop-blur-sm z-40" />}
       <motion.div
+        layout
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -830,11 +842,11 @@ export const Terminal = () => {
         )}
         onClick={handleTerminalClick}
       >
-        <div className="absolute top-0 left-0 w-full flex items-center justify-between gap-2 p-4 bg-card/80 z-10">
+        <div className="flex items-center justify-between gap-2 px-4 py-3 bg-card/80 z-10 border-b">
           <div className="flex items-center gap-2">
-              <div className="w-3.5 h-3.5 rounded-full bg-red-500"></div>
-              <div className="w-3.5 h-3.5 rounded-full bg-yellow-500"></div>
-              <div className="w-3.5 h-3.5 rounded-full bg-green-500"></div>
+              <Button variant="ghost" size="icon" className="w-6 h-6 rounded-full bg-red-500 hover:bg-red-600" onClick={(e) => e.stopPropagation()} data-cursor-interactive><X className="w-3 h-3"/></Button>
+              <div className="w-6 h-6 rounded-full bg-yellow-500"></div>
+              <div className="w-6 h-6 rounded-full bg-green-500"></div>
           </div>
           <p className="text-center flex-1 text-muted-foreground text-sm font-mono select-none">/bin/bash - benedikt.dev</p>
           <Button 
@@ -852,14 +864,14 @@ export const Terminal = () => {
               <span className="sr-only">Vollbild umschalten</span>
           </Button>
         </div>
-        <div className="flex-grow overflow-y-auto pr-4 pt-16 p-6 font-mono text-lg">
+        <div className="flex-grow overflow-y-auto pr-4 pt-4 p-6 font-mono text-lg">
           {history.map((item, index) => (
             <div key={index} className="mb-2">
               {item.type === 'input' ? (
                 <div className="flex flex-wrap">
                     <span className="text-primary">{promptUser}</span>
                     <span className="text-muted-foreground">:</span>
-                    <span className="text-blue-400">{item.path}</span>
+                    <span className="text-cyan-400">{item.path}</span>
                     <span className="text-foreground font-bold mr-2 ml-1">{promptSymbol}</span>
                     <span className="text-foreground break-all">{item.content as string}</span>
                 </div>
@@ -872,20 +884,22 @@ export const Terminal = () => {
           ))}
           <div ref={endOfHistoryRef} />
         </div>
-        <form onSubmit={handleSubmit} className="flex items-center font-mono text-lg p-6 border-t border-border/50 bg-card/80">
-          <span className="text-primary">{promptUser}</span>
-          <span className="text-muted-foreground">:</span>
-          <span className="text-blue-400">{promptPath}</span>
-          <span className="text-foreground font-bold mr-2 ml-1">{promptSymbol}</span>
+        <form onSubmit={handleSubmit} className="flex items-center font-mono text-lg p-4 border-t border-border/50 bg-card/80">
+          <div className="flex-shrink-0 flex items-center">
+            <span className="text-primary">{promptUser}</span>
+            <span className="text-muted-foreground">:</span>
+            <span className="text-cyan-400">{promptPath}</span>
+            <span className="text-foreground font-bold mr-2 ml-1">{promptSymbol}</span>
+          </div>
           <input
             ref={inputRef}
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="w-full bg-transparent border-none focus:ring-0 outline-none text-foreground"
+            className="w-full bg-transparent border-none focus:ring-0 outline-none text-foreground pl-2"
             autoFocus
             autoComplete="off"
-            disabled={gameState.type !== 'none'}
+            disabled={gameState.type !== 'none' && gameState.type !== 'tutorial'}
           />
         </form>
       </motion.div>

@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { Toaster as DefaultToaster } from '@/components/ui/toaster';
-import { Rubik } from 'next/font/google';
+import { Rubik, JetBrains_Mono as FontMono } from 'next/font/google';
 import { AchievementsProvider } from '@/components/providers/achievements-provider';
 import { Toaster as SonnerToaster } from '@/components/ui/sonner';
 import CustomCursor from '@/components/custom-cursor';
@@ -13,6 +13,11 @@ const rubik = Rubik({
   weight: ['400', '500', '700', '900'],
   variable: '--font-rubik',
 });
+
+const fontMono = FontMono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+})
 
 export const metadata: Metadata = {
   title: 'Benedikt Schächner | Portfolio für kreative Entwicklung',
@@ -35,7 +40,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className={`${rubik.variable} font-body antialiased`}>
+      <body className={`${rubik.variable} ${fontMono.variable} font-body antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

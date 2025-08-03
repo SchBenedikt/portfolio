@@ -29,8 +29,7 @@ export default function Home() {
         setIsHeaderVisible(true);
       }
     };
-
-    // Use 'wheel' event as it fires even if the page doesn't have a scrollbar
+    
     window.addEventListener('wheel', handleInteraction, { once: true });
 
     return () => {
@@ -49,6 +48,22 @@ export default function Home() {
     visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: [0.6, 0.05, 0.01, 0.9] } },
   };
 
+  const heroVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const letterVariants = {
+    hidden: { y: 50, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { type: 'spring', damping: 12, stiffness: 100 } },
+  };
+
   const handleToggleView = () => {
     unlockAchievement('VIEW_SWITCHER');
     setIsTerminalView((prev) => !prev);
@@ -57,6 +72,8 @@ export default function Home() {
   if (!isMounted) {
     return null;
   }
+
+  const nameParts = ['Benedikt', 'Schächner'];
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground overflow-hidden">
@@ -100,14 +117,25 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <div className="flex flex-col md:flex-row items-center justify-center gap-16">
-                <motion.div className="text-left">
+                <motion.div 
+                  className="text-left"
+                  variants={heroVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
                   <h1
                     id="hero-title"
                     className="text-8xl md:text-9xl lg:text-10xl font-black uppercase tracking-tighter font-headline"
                   >
-                    Benedikt
-                    <br />
-                    Schächner
+                    {nameParts.map((word, wordIndex) => (
+                       <span key={wordIndex} className="whitespace-nowrap inline-block mr-6">
+                        {word.split('').map((char, charIndex) => (
+                            <motion.span key={charIndex} className="inline-block" variants={letterVariants}>
+                                {char}
+                            </motion.span>
+                        ))}
+                       </span>
+                    ))}
                   </h1>
                 </motion.div>
               </div>
