@@ -258,29 +258,26 @@ export const Terminal = () => {
     }
   };
 
-  const getDirectoryByPath = (path: string[]) => {
-      let current: FileSystemNode | { children: { [key: string]: FileSystemNode } } = { children: fileSystem };
-      for (const part of path) {
-          if (current.type === 'dir' && current.children[part]) {
-              current = current.children[part];
-          } else if (path.length === 0 && fileSystem[part]) {
-              current = fileSystem[part];
-          } else if (current.children && current.children[part] && current.children[part].type === 'dir') {
-             current = current.children[part];
-          } else {
-              return null; // Path does not exist or is not a directory
-          }
+  const getDirectoryByPath = (startNode: any, path: string[]) => {
+    let current = startNode;
+    for (const part of path) {
+      if (current && current.type === 'dir' && current.children[part]) {
+        current = current.children[part];
+      } else {
+        return null; // Path does not exist or is not a directory
       }
-      return current;
+    }
+    return current;
+  };
+
+  const getDirectoryContents = (path: string[]) => {
+    if (path.length === 0) {
+      return fileSystem;
+    }
+    const dir = getDirectoryByPath({ type: 'dir', children: fileSystem }, path);
+    return dir && dir.type === 'dir' ? dir.children : null;
   };
   
-  const getDirectoryContents = (path: string[]) => {
-      if (path.length === 0) {
-        return fileSystem;
-      }
-      const dir = getDirectoryByPath(path);
-      return dir && dir.type === 'dir' ? dir.children : null;
-  };
 
   const handleGameInput = (command: string) => {
     let newHistory: HistoryItem[] = [...history, { type: 'input', content: command, path: getPathString() }];
@@ -351,13 +348,19 @@ export const Terminal = () => {
             // Handle actual command execution within tutorial
             if (commandLower.startsWith('cd ')) {
                 handleCommand(command, true);
+                 output = ''; // Prevent double output
             }
 
             const nextStepIndex = gameState.stepIndex! + 1;
             if (nextStepIndex < mission.steps.length) {
                 const nextStep = mission.steps[nextStepIndex];
                 let prompt = typeof nextStep.prompt === 'function' ? nextStep.prompt(command) : nextStep.prompt;
-                output = prompt;
+                if(output === '') {
+                    output = prompt;
+                } else {
+                    newHistory.push({ type: 'output', content: output });
+                    output = prompt;
+                }
                 setGameState(prev => ({ ...prev, stepIndex: nextStepIndex }));
 
             } else {
@@ -379,13 +382,15 @@ export const Terminal = () => {
 
   const handleCommand = (command: string, fromTutorial = false) => {
     let newHistory = fromTutorial ? [...history] : [...history, { type: 'input', content: command, path: getPathString() }];
-    const [cmd, ...args] = command.toLowerCase().split(' ');
-    if(!fromTutorial) checkCommandAchievement(cmd);
+    const [cmd, ...args] = command.trim().split(' ');
+    const cmdLower = cmd.toLowerCase();
+
+    if(!fromTutorial) checkCommandAchievement(cmdLower);
 
     let output: string | React.ReactNode = '';
     let isComponent = false;
 
-    switch (cmd) {
+    switch (cmdLower) {
       case 'help':
         output = `Verfügbare Befehle:\n
   Lernen & Missionen:
@@ -403,6 +408,7 @@ export const Terminal = () => {
   'mkdir <ordner>'  - Erstellt ein neues Verzeichnis.
   'touch <datei>'   - Erstellt eine neue, leere Datei.
   'rm <datei>'      - Löscht eine Datei.
+  'view <datei>'    - Öffnet eine erstellte Datei in einem neuen Tab.
 
   Grundlagen:
   'clear'           - Leert den Terminal-Verlauf.
@@ -470,23 +476,24 @@ export const Terminal = () => {
             output = Object.entries(dirContents).map(([key, value]) => {
                 return value.type === 'dir' ? `${key}/` : key;
             }).join('  ');
+             if(output === '') output = 'Verzeichnis ist leer.';
         } else {
-            output = 'ls: Fehler beim Lesen des Verzeichnisses.';
+            output = `ls: Fehler beim Lesen des Verzeichnisses: /${currentPath.join('/')}`;
         }
         break;
       case 'cd':
         const targetDir = args[0] || '';
         if (targetDir === '') {
-            setCurrentPath([]); // cd to home
+            setCurrentPath([]);
         } else if (targetDir === '..') {
             if (currentPath.length > 0) {
                 setCurrentPath(prev => prev.slice(0, -1));
             }
         } else {
-            const dir = getDirectoryContents([...currentPath, targetDir]);
-            if (dir && dir.type === 'dir') {
+            const currentDirContents = getDirectoryContents(currentPath);
+            if (currentDirContents && currentDirContents[targetDir] && currentDirContents[targetDir].type === 'dir') {
                  setCurrentPath(prev => [...prev, targetDir]);
-                 if(currentPath.length > 0) {
+                 if(currentPath.length >= 1) { // Achievement for going at least one level deep
                     unlockAchievement('DEEP_DIVER');
                 }
             } else {
@@ -504,8 +511,11 @@ export const Terminal = () => {
         } else {
             const dir = getDirectoryContents(currentPath);
             if (dir && dir[catFile] && dir[catFile].type === 'file') {
-                output = (dir[catFile] as any).content;
-            } else {
+                output = (dir[catFile] as any).content || 'Datei ist leer.';
+            } else if (dir && dir[catFile] && dir[catFile].type === 'dir') {
+                 output = `cat: '${catFile}' ist ein Verzeichnis.`;
+            }
+            else {
                 output = `cat: Datei nicht gefunden: ${catFile}`;
             }
         }
@@ -529,6 +539,7 @@ export const Terminal = () => {
                      nanoInitialContent: fileContent,
                  });
                  setNanoContent(fileContent);
+                 output = ''; // Prevent default output
              }
          }
          break;
@@ -538,14 +549,14 @@ export const Terminal = () => {
             output = 'mkdir: Name für Verzeichnis fehlt.';
         } else {
             const newFs = JSON.parse(JSON.stringify(fileSystem));
-            let current = newFs;
+            let current = { children: newFs };
             for(const part of currentPath) {
-                current = current[part].children;
+                current = current.children[part];
             }
-            if(current[dirName]) {
+            if(current.children[dirName]) {
                 output = `mkdir: '${dirName}' existiert bereits.`;
             } else {
-                current[dirName] = { type: 'dir', children: {} };
+                current.children[dirName] = { type: 'dir', children: {} };
                 setFileSystem(newFs);
             }
         }
@@ -556,12 +567,12 @@ export const Terminal = () => {
             output = 'touch: Dateiname fehlt.';
         } else {
             const newFs = JSON.parse(JSON.stringify(fileSystem));
-            let current = newFs;
-            for(const part of currentPath) {
-                current = current[part].children;
-            }
-            if(!current[touchFile]) {
-                current[touchFile] = { type: 'file', content: '' };
+             let current = { children: newFs };
+             for(const part of currentPath) {
+                 current = current.children[part];
+             }
+            if(!current.children[touchFile]) {
+                current.children[touchFile] = { type: 'file', content: '' };
                 setFileSystem(newFs);
             }
         }
@@ -572,17 +583,32 @@ export const Terminal = () => {
             output = 'rm: Dateiname fehlt.';
         } else {
             const newFs = JSON.parse(JSON.stringify(fileSystem));
-            let current = newFs;
-            for(const part of currentPath) {
-                current = current[part].children;
-            }
-            if (current[rmFile] && current[rmFile].type === 'file') {
-                delete current[rmFile];
+             let current = { children: newFs };
+             for(const part of currentPath) {
+                 current = current.children[part];
+             }
+            if (current.children[rmFile] && current.children[rmFile].type === 'file') {
+                delete current.children[rmFile];
                 setFileSystem(newFs);
-            } else if (current[rmFile] && current[rmFile].type === 'dir') {
+            } else if (current.children[rmFile] && current.children[rmFile].type === 'dir') {
                 output = `rm: '${rmFile}' ist ein Verzeichnis. (Nicht unterstützt)`;
             } else {
                 output = `rm: Datei nicht gefunden: ${rmFile}`;
+            }
+        }
+        break;
+      case 'view':
+        const viewFile = args[0];
+        if(!viewFile) {
+            output = 'view: Dateiname fehlt.';
+        } else {
+            const dir = getDirectoryContents(currentPath);
+            if (dir && dir[viewFile] && dir[viewFile].type === 'file') {
+                const path = [...currentPath, viewFile].join('/');
+                window.open(`/view/${path}`, '_blank');
+                output = `Öffne '${viewFile}' in einem neuen Tab...`;
+            } else {
+                 output = `view: Datei nicht gefunden oder ist ein Verzeichnis: ${viewFile}`;
             }
         }
         break;
@@ -595,7 +621,7 @@ export const Terminal = () => {
                     const isUnlocked = unlockedAchievements.has(ach.id);
                     return (
                         <div key={ach.id} className="flex items-center gap-2">
-                            {isUnlocked ? <CheckCircle className="h-4 w-4 text-green-500" /> : <Lock className="h-4 w-4 text-muted-foreground" />}
+                            {isUnlocked ? <CheckCircle className="h-4 w-4 text-primary" /> : <Lock className="h-4 w-4 text-muted-foreground" />}
                             <span className={cn(isUnlocked ? 'text-foreground' : 'text-muted-foreground')}>{ach.name}</span>
                         </div>
                     )
@@ -630,7 +656,7 @@ export const Terminal = () => {
         break;
       case 'tutorial':
       case 'start':
-        const missionId = cmd === 'tutorial' ? 'basics' : args[0];
+        const missionId = cmdLower === 'tutorial' ? 'basics' : args[0];
         const missionToStart = missions.find(m => m.id === missionId);
         if (missionToStart) {
             setGameState({ type: 'tutorial', missionId: missionToStart.id, stepIndex: 0, missionData: {} });
@@ -655,12 +681,13 @@ export const Terminal = () => {
             output = "Dieser Befehl ist nur in der 'processes' Mission verfügbar.";
          }
          break;
-      case 'git':
-        if(gameState.type === 'tutorial' && gameState.missionId === 'git' && command.includes('clone')) {
+       case 'git':
+        if(gameState.type === 'tutorial' && gameState.missionId === 'git' && command.toLowerCase().includes('clone')) {
             handleGameInput(command);
             return;
+        } else {
+             output = `Befehl nicht gefunden: ${command}. Tippe 'help' für eine Liste der Befehle.`;
         }
-        output = `Befehl nicht gefunden: ${command}. Tippe 'help' für eine Liste der Befehle.`;
         break;
       default:
         if (cmd) {
@@ -684,7 +711,7 @@ export const Terminal = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const command = input.trim();
-    if (!command) return;
+    if (!command && gameState.type !== 'typing_test') return;
     
     const commandLower = command.toLowerCase();
 
@@ -728,22 +755,22 @@ export const Terminal = () => {
 
   const handleNanoExit = (save: boolean) => {
     let newHistory = [...history];
-    if (save) {
+    if (save && gameState.nanoFile) {
         const newFileSystem = JSON.parse(JSON.stringify(fileSystem));
         
         let currentLevel = newFileSystem;
         if (gameState.nanoFilePath && gameState.nanoFilePath.length > 0) {
-            let current = newFileSystem;
-            for (const part of gameState.nanoFilePath) {
-                current = current[part].children;
-            }
-            currentLevel = current;
+            let current = { children: newFileSystem };
+             for (const part of gameState.nanoFilePath) {
+                 current = current.children[part];
+             }
+            currentLevel = current.children;
         }
 
-        if (currentLevel[gameState.nanoFile!]) {
-            currentLevel[gameState.nanoFile!].content = nanoContent;
+        if (currentLevel[gameState.nanoFile]) {
+            (currentLevel[gameState.nanoFile] as FileSystemNode & { content: string }).content = nanoContent;
         } else {
-            currentLevel[gameState.nanoFile!] = { type: 'file', content: nanoContent };
+            currentLevel[gameState.nanoFile] = { type: 'file', content: nanoContent };
         }
 
         setFileSystem(newFileSystem);
@@ -763,14 +790,14 @@ export const Terminal = () => {
 
 
   const getPathString = () => `~${currentPath.length > 0 ? '/' : ''}${currentPath.join('/')}`;
-  const promptSymbol = '>';
+  const promptSymbol = '$';
   const promptUser = 'guest@benedikt.dev';
   const promptPath = getPathString();
 
   if (gameState.type === 'nano') {
       return (
          <div className="fixed inset-0 bg-black text-white font-mono z-[100] flex flex-col p-2">
-            <div className="bg-primary text-primary-foreground text-center text-sm mb-1">
+            <div className="bg-blue-800 text-white text-center text-sm mb-1">
                 Nano Editor - {gameState.nanoFile}
             </div>
             <Textarea
@@ -779,7 +806,7 @@ export const Terminal = () => {
                 className="flex-grow bg-black text-white border-none focus:ring-0 whitespace-pre-wrap rounded-none"
                 autoFocus
             />
-            <div className="bg-primary text-primary-foreground text-sm mt-1 flex justify-center gap-6">
+            <div className="bg-blue-800 text-white text-sm mt-1 flex justify-center gap-6">
                 <button onClick={() => handleNanoExit(true)} className="cursor-pointer bg-transparent border-none">^X Speichern & Schließen</button>
                 <button onClick={() => handleNanoExit(false)} className="cursor-pointer bg-transparent border-none">^C Abbrechen</button>
             </div>
@@ -830,9 +857,10 @@ export const Terminal = () => {
             <div key={index} className="mb-2">
               {item.type === 'input' ? (
                 <div className="flex flex-wrap">
-                    <span className="text-primary">{promptUser}:</span>
-                    <span className="text-muted-foreground mx-1">{item.path}</span>
-                    <span className="text-primary font-bold mr-2">{promptSymbol}</span>
+                    <span className="text-primary">{promptUser}</span>
+                    <span className="text-muted-foreground">:</span>
+                    <span className="text-blue-400">{item.path}</span>
+                    <span className="text-foreground font-bold mr-2 ml-1">{promptSymbol}</span>
                     <span className="text-foreground break-all">{item.content as string}</span>
                 </div>
               ) : item.type === 'output' ? (
@@ -845,9 +873,10 @@ export const Terminal = () => {
           <div ref={endOfHistoryRef} />
         </div>
         <form onSubmit={handleSubmit} className="flex items-center font-mono text-lg p-6 border-t border-border/50 bg-card/80">
-          <span className="text-primary">{promptUser}:</span>
-          <span className="text-muted-foreground mx-1">{promptPath}</span>
-          <span className="text-primary font-bold mr-2">{promptSymbol}</span>
+          <span className="text-primary">{promptUser}</span>
+          <span className="text-muted-foreground">:</span>
+          <span className="text-blue-400">{promptPath}</span>
+          <span className="text-foreground font-bold mr-2 ml-1">{promptSymbol}</span>
           <input
             ref={inputRef}
             type="text"
@@ -856,12 +885,10 @@ export const Terminal = () => {
             className="w-full bg-transparent border-none focus:ring-0 outline-none text-foreground"
             autoFocus
             autoComplete="off"
-            disabled={gameState.type === 'typing_test'}
+            disabled={gameState.type === 'typing_test' || gameState.type === 'tutorial'}
           />
         </form>
       </motion.div>
     </>
   );
 };
-
-    
