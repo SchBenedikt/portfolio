@@ -19,11 +19,12 @@ interface HistoryItem {
 }
 
 type GameState = {
-  type: 'none' | 'number_guesser' | 'typing_test';
+  type: 'none' | 'number_guesser' | 'typing_test' | 'tutorial';
   secretNumber?: number;
   attempts?: number;
   textToType?: string;
   startTime?: number;
+  tutorialStep?: number;
 };
 
 const initialHistory: HistoryItem[] = [
@@ -39,6 +40,25 @@ const typingSentences = [
     "Next.js und React ermöglichen den Bau moderner Webanwendungen."
 ];
 
+const tutorialSteps = [
+    { 
+        prompt: "Willkommen zum Terminal-Tutorial! Lass uns die Grundlagen lernen.\nZuerst: Jede Zeile, die mit '$' beginnt, ist eine Eingabe von dir. Der Rest ist die Ausgabe des Computers.\n\nTippe 'ls' ein und drücke Enter, um die verfügbaren Bereiche aufzulisten.", 
+        expected: "ls" 
+    },
+    { 
+        prompt: "Gut gemacht! 'ls' steht für 'list' und zeigt dir den Inhalt eines Verzeichnisses. Du siehst 'projects', 'blog' und 'resume'.\n\nLass uns nun mehr über mich erfahren. Tippe 'whoami' ein.", 
+        expected: "whoami" 
+    },
+    { 
+        prompt: "Exzellent! 'whoami' gibt normalerweise den aktuellen Benutzer aus. Hier ist es eine kleine Bio.\n\nJetzt wollen wir den Inhalt von 'resume' ansehen. Der Befehl dafür ist 'cat' (concatenate). Tippe 'cat resume'.", 
+        expected: "cat resume" 
+    },
+    {
+        prompt: "Perfekt! Du hast die Grundlagen gelernt. Mit 'clear' kannst du den Bildschirm leeren und mit 'help' alle Befehle sehen.\n\nTutorial abgeschlossen! Du hast einen neuen Erfolg freigeschaltet.",
+        expected: "end"
+    }
+];
+
 export const Terminal = () => {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
@@ -52,7 +72,6 @@ export const Terminal = () => {
   const endOfHistoryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // We don't save or load history anymore to keep it clean.
     try {
       const savedFullScreen = localStorage.getItem('terminalFullScreen');
       if (savedFullScreen) setIsFullScreen(JSON.parse(savedFullScreen));
@@ -147,6 +166,23 @@ export const Terminal = () => {
         }
         setGameState({ type: 'none' });
     }
+
+    if(gameState.type === 'tutorial') {
+        const step = gameState.tutorialStep!;
+        if (command.toLowerCase() === tutorialSteps[step].expected) {
+            const nextStep = step + 1;
+            if (nextStep < tutorialSteps.length) {
+                output = tutorialSteps[nextStep].prompt;
+                setGameState(prev => ({ ...prev, tutorialStep: nextStep }));
+            } else {
+                 output = tutorialSteps[step].prompt; // Show final message
+                 unlockAchievement('TERMINAL_TUTOR');
+                 setGameState({ type: 'none' });
+            }
+        } else {
+            output = `Das war nicht ganz richtig. Versuche es nochmal.\n\n${tutorialSteps[step].prompt}`;
+        }
+    }
     
     setHistory([...newHistory, { type: 'output', content: output }]);
   }
@@ -162,12 +198,13 @@ export const Terminal = () => {
     switch (cmd) {
       case 'help':
         output = `Verfügbare Befehle:\n
-  Grundlagen:
+  Grundlagen & Lernen:
+  'tutorial'        - Startet ein interaktives Tutorial, um die Grundlagen zu lernen.
   'ls'              - Zeigt verfügbare Bereiche an (projects, resume, blog).
   'cat resume'      - Zeigt den Inhalt eines Bereichs an (z.B. den Lebenslauf).
   'clear'           - Leert den Terminal-Verlauf.
   
-  Navigation & Interaktion:
+  Interaktion & Info:
   'achievements'    - Zeigt deine freigeschalteten Erfolge.
   'theme <name>'    - Ändert Farbschema (dark, light).
   'whoami'          - Zeigt eine kurze Biografie an.
@@ -249,10 +286,14 @@ export const Terminal = () => {
         setGameState({ type: 'number_guesser', secretNumber: numberToGuess, attempts: 0 });
         output = "Ich denke an eine Zahl zwischen 1 und 100. Versuche sie zu erraten! Tippe 'exit' zum Beenden.";
         break;
-       case 'typing-test':
+      case 'typing-test':
         const text = typingSentences[Math.floor(Math.random() * typingSentences.length)];
         setGameState({ type: 'typing_test', textToType: text, startTime: Date.now() });
         output = `Tippe den folgenden Satz so schnell wie möglich und drücke Enter:\n\n'${text}'`;
+        break;
+      case 'tutorial':
+        setGameState({ type: 'tutorial', tutorialStep: 0 });
+        output = tutorialSteps[0].prompt;
         break;
       case 'matrix':
         output = "Initialisiere...\n\nFolge dem weißen Kaninchen. 🐇";
@@ -309,7 +350,7 @@ export const Terminal = () => {
         <div className="absolute top-0 left-0 w-full flex items-center justify-between gap-2 p-4 bg-card/80 z-10">
           <div className="flex items-center gap-2">
               <div className="w-3.5 h-3.5 rounded-full bg-red-500"></div>
-              <div className="w-3.5 h-3.5 rounded-full bg-yellow-500"></div>
+              <div className="w-3.h-3.5 rounded-full bg-yellow-500"></div>
               <div className="w-3.5 h-3.5 rounded-full bg-green-500"></div>
           </div>
           <p className="text-center flex-1 text-muted-foreground text-sm font-mono select-none">/bin/bash - benedikt.dev</p>

@@ -13,6 +13,7 @@ export type AchievementID =
   | 'COMMAND_PRO'
   | 'SECRET_FINDER'
   | 'KEYBOARD_VIRTUOSO'
+  | 'TERMINAL_TUTOR'
   | 'COMPLETIONIST';
 
 export interface Achievement {
@@ -86,5 +87,10 @@ export const achievementsList: Achievement[] = [
     id: 'KEYBOARD_VIRTUOSO',
     name: 'Tasten-Virtuose',
     description: 'Den Schreibgeschwindigkeitstest gemeistert.'
+  },
+  {
+    id: 'TERMINAL_TUTOR',
+    name: 'Terminal-Tutor',
+    description: 'Das Terminal-Tutorial abgeschlossen.'
   }
 ];

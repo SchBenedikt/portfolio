@@ -54,8 +54,8 @@ export default function Home() {
   };
 
   const handleToggleView = () => {
-    setIsTerminalView((prev) => !prev);
     unlockAchievement('VIEW_SWITCHER');
+    setIsTerminalView((prev) => !prev);
   };
 
   if (!isMounted) {
