@@ -101,7 +101,7 @@ export default function ResumePage() {
                     </h1>
                     <p className="text-2xl text-muted-foreground mt-2">Pleiskirchen / Altötting, Bayern</p>
                 </div>
-                <Button className="rounded-full text-lg py-6 px-8 mt-4">
+                <Button className="rounded-full text-lg py-6 px-8 mt-4" data-cursor-interactive>
                     <Download className="mr-3"/>
                     CV Herunterladen
                 </Button>

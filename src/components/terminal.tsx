@@ -8,6 +8,9 @@ import { useTheme } from 'next-themes';
 import { useAchievements } from './providers/achievements-provider';
 import { projectData } from '@/lib/projects';
 import { blogData } from '@/lib/blog';
+import { Maximize, Minimize } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Button } from './ui/button';
 
 interface HistoryItem {
   type: 'input' | 'output';
@@ -32,6 +35,7 @@ export const Terminal = () => {
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<HistoryItem[]>(initialHistory);
   const [gameState, setGameState] = useState<GameState>({ isActive: false, secretNumber: 0, attempts: 0 });
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const endOfHistoryRef = useRef<HTMLDivElement>(null);
 
@@ -41,8 +45,12 @@ export const Terminal = () => {
       if (savedHistory) {
         setHistory(JSON.parse(savedHistory));
       }
+      const savedFullScreen = localStorage.getItem('terminalFullScreen');
+      if (savedFullScreen) {
+        setIsFullScreen(JSON.parse(savedFullScreen));
+      }
     } catch (e) {
-      console.error('Fehler beim Laden des Terminal-Verlaufs:', e);
+      console.error('Fehler beim Laden des Terminal-Zustands:', e);
       setHistory(initialHistory);
     }
   }, []);
@@ -50,10 +58,11 @@ export const Terminal = () => {
   useEffect(() => {
     try {
       localStorage.setItem('terminalHistory', JSON.stringify(history));
+      localStorage.setItem('terminalFullScreen', JSON.stringify(isFullScreen));
     } catch (e) {
-      console.error('Fehler beim Speichern des Terminal-Verlaufs:', e);
+      console.error('Fehler beim Speichern des Terminal-Zustands:', e);
     }
-  }, [history]);
+  }, [history, isFullScreen]);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -202,14 +211,31 @@ export const Terminal = () => {
       initial={{ opacity: 0, scale: 0.95, y: 20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="relative flex flex-col h-[75vh] max-w-5xl mx-auto mt-24 border rounded-2xl bg-card/60 backdrop-blur-xl shadow-2xl shadow-primary/10 overflow-hidden"
+      className={cn(
+        "relative flex flex-col bg-card/60 backdrop-blur-xl shadow-2xl shadow-primary/10 overflow-hidden transition-all duration-300",
+        isFullScreen
+          ? 'w-screen h-screen rounded-none border-none'
+          : 'h-[75vh] max-w-5xl rounded-2xl border'
+      )}
       onClick={handleTerminalClick}
     >
-      <div className="absolute top-0 left-0 w-full flex items-center gap-2 p-4 bg-card/80">
-        <div className="w-3.5 h-3.5 rounded-full bg-red-500"></div>
-        <div className="w-3.5 h-3.5 rounded-full bg-yellow-500"></div>
-        <div className="w-3.5 h-3.5 rounded-full bg-green-500"></div>
-        <p className="text-center flex-1 text-muted-foreground text-sm font-mono">/bin/bash - benedikt.dev</p>
+      <div className="absolute top-0 left-0 w-full flex items-center justify-between gap-2 p-4 bg-card/80 z-10">
+        <div className="flex items-center gap-2">
+            <div className="w-3.5 h-3.5 rounded-full bg-red-500"></div>
+            <div className="w-3.5 h-3.5 rounded-full bg-yellow-500"></div>
+            <div className="w-3.5 h-3.5 rounded-full bg-green-500"></div>
+        </div>
+        <p className="text-center flex-1 text-muted-foreground text-sm font-mono select-none">/bin/bash - benedikt.dev</p>
+        <Button 
+            variant="ghost" 
+            size="icon" 
+            className="w-8 h-8" 
+            onClick={() => setIsFullScreen(prev => !prev)}
+            data-cursor-interactive
+        >
+            {isFullScreen ? <Minimize className="w-4 h-4"/> : <Maximize className="w-4 h-4"/>}
+            <span className="sr-only">Vollbild umschalten</span>
+        </Button>
       </div>
       <div className="flex-grow overflow-y-auto pr-4 pt-16 p-6 font-mono text-lg">
         {history.map((item, index) => (

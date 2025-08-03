@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/components/providers/theme-provider';
@@ -5,6 +6,7 @@ import { Toaster as DefaultToaster } from '@/components/ui/toaster';
 import { Rubik } from 'next/font/google';
 import { AchievementsProvider } from '@/components/providers/achievements-provider';
 import { Toaster as SonnerToaster } from '@/components/ui/sonner';
+import CustomCursor from '@/components/custom-cursor';
 
 const rubik = Rubik({
   subsets: ['latin'],
@@ -33,7 +35,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className={`${rubik.variable} font-body antialiased`}>
+      <body className={`${rubik.variable} font-body antialiased cursor-none`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -41,6 +43,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AchievementsProvider>
+            <CustomCursor />
             {children}
             <DefaultToaster />
             <SonnerToaster />

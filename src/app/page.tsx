@@ -73,17 +73,19 @@ export default function Home() {
             className="w-9 h-9"
             onClick={handleToggleView}
             aria-label="Ansicht wechseln"
+            data-cursor-interactive
         >
             <User className={cn("h-[1.2rem] w-[1.2rem] transition-all", isTerminalView && "scale-0" )}/>
             <Bot className={cn("absolute h-[1.2rem] w-[1.2rem] transition-all", !isTerminalView && "scale-0")}/>
             <span className="sr-only">Ansicht wechseln</span>
         </Button>
       </Header>
-      <main className="flex-grow">
+      <main className="flex-grow flex flex-col items-center justify-center">
         <div className="container mx-auto px-6 sm:px-8 h-full">
           {isTerminalView ? (
             <motion.div
               key="terminal"
+              className="w-full h-full flex items-center justify-center"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

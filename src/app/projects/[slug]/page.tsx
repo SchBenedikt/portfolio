@@ -1,3 +1,4 @@
+
 'use client';
 
 import { projectData } from '@/lib/projects';
@@ -39,7 +40,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
             transition={{ duration: 0.6 }}
           >
             <div className="mb-8">
-              <Button asChild variant="outline" className="rounded-full">
+              <Button asChild variant="outline" className="rounded-full" data-cursor-interactive>
                 <Link href="/projects">
                   <ArrowLeft className="mr-2" />
                   Zurück zu den Projekten
@@ -79,7 +80,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                      <p className="text-lg text-muted-foreground mb-6">
                         {project.description}
                      </p>
-                     <Button asChild className="w-full rounded-full text-lg py-8">
+                     <Button asChild className="w-full rounded-full text-lg py-8" data-cursor-interactive>
                         <Link href={`/projects/${project.slug}`}>
                            <Github className="mr-3"/>
                            Auf Github ansehen

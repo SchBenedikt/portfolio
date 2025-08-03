@@ -56,7 +56,7 @@ export default function ProjectsPage() {
             </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {projectData.map((project, index) => (
-                <Link href={`/projects/${project.slug}`} key={project.slug}>
+                <Link href={`/projects/${project.slug}`} key={project.slug} data-cursor-interactive>
                   <MotionCard
                     className="flex flex-col overflow-hidden transition-all duration-300 group rounded-3xl h-full shadow-lg hover:shadow-2xl hover:-translate-y-2"
                     initial={{ opacity: 0, y: 20 }}

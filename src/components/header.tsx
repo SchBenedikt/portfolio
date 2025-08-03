@@ -29,13 +29,13 @@ const Header = ({children}: {children?: React.ReactNode}) => {
       transition={{ duration: 0.6, ease: [0.6, 0.05, -0.01, 0.9] }}
     >
       <div className="container mx-auto px-6 sm:px-8 flex justify-between items-center">
-        <Link href="/" className="text-3xl font-black uppercase tracking-widest font-headline hover:text-accent transition-colors">
+        <Link href="/" className="text-3xl font-black uppercase tracking-widest font-headline hover:text-accent transition-colors" data-cursor-interactive>
           BS
         </Link>
         <nav className="hidden md:flex items-center gap-10 text-xl">
-          <Link href="/projects" className="font-medium hover:text-accent transition-colors">Projekte</Link>
-          <Link href="/resume" className="font-medium hover:text-accent transition-colors">Lebenslauf</Link>
-          <Link href="/blog" className="font-medium hover:text-accent transition-colors">Blog</Link>
+          <Link href="/projects" className="font-medium hover:text-accent transition-colors" data-cursor-interactive>Projekte</Link>
+          <Link href="/resume" className="font-medium hover:text-accent transition-colors" data-cursor-interactive>Lebenslauf</Link>
+          <Link href="/blog" className="font-medium hover:text-accent transition-colors" data-cursor-interactive>Blog</Link>
         </nav>
         <div className="flex items-center gap-4">
           {children}

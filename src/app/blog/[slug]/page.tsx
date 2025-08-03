@@ -39,7 +39,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             transition={{ duration: 0.6 }}
           >
             <div className="mb-8">
-              <Button asChild variant="outline" className="rounded-full">
+              <Button asChild variant="outline" className="rounded-full" data-cursor-interactive>
                 <Link href="/blog">
                   <ArrowLeft className="mr-2" />
                   Zurück zum Blog

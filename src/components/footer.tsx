@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -14,6 +15,7 @@ const Footer = () => {
           <button
             onClick={() => setIsModalOpen(true)}
             className="hover:text-primary transition-colors underline"
+            data-cursor-interactive
           >
             Erfolge ansehen
           </button>
