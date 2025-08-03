@@ -12,7 +12,8 @@ export type AchievementID =
   | 'VIEW_SWITCHER'
   | 'COMMAND_PRO'
   | 'SECRET_FINDER'
-  | 'KEYBOARD_VIRTUOSO';
+  | 'KEYBOARD_VIRTUOSO'
+  | 'TOOL_MASTER';
 
 export interface Achievement {
   id: AchievementID;
@@ -85,5 +86,10 @@ export const achievementsList: Achievement[] = [
     id: 'KEYBOARD_VIRTUOSO',
     name: 'Tasten-Virtuose',
     description: 'Den Schreibgeschwindigkeitstest gemeistert.'
+  },
+  {
+    id: 'TOOL_MASTER',
+    name: 'Werkzeugmeister',
+    description: 'Die Tools-Seite entdeckt.'
   }
 ];

@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { Menu, FolderKanban, UserSquare, Rss } from 'lucide-react';
+import { Menu, FolderKanban, UserSquare, Rss, Wrench } from 'lucide-react';
 
 const Header = ({ children }: { children?: React.ReactNode }) => {
 
@@ -20,6 +20,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
     { href: "/projects", label: "Projekte", icon: <FolderKanban/> },
     { href: "/resume", label: "Lebenslauf", icon: <UserSquare/> },
     { href: "/blog", label: "Blog", icon: <Rss/> },
+    { href: "/tools", label: "Tools", icon: <Wrench/> },
   ]
 
   return (
