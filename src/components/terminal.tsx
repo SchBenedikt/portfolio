@@ -8,6 +8,7 @@ import { useAchievements } from './providers/achievements-provider';
 import { Maximize, Minimize, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
+import { useThemeColor } from '@/hooks/use-theme-color';
 
 interface TerminalProps {
   onExit: () => void;
@@ -52,8 +53,9 @@ const typingSentences = [
 
 
 export const Terminal = ({ onExit }: TerminalProps) => {
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
   const { unlockAchievement } = useAchievements();
+  const { setThemeColor } = useThemeColor();
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<HistoryItem[]>(initialHistory);
   const [gameState, setGameState] = useState<GameType>('none');
@@ -202,12 +204,6 @@ export const Terminal = ({ onExit }: TerminalProps) => {
       }
       return current;
   };
-
-  const getParentNodeByPath = (path: string[]): FileSystemNode | null => {
-    if (path.length === 0) return null;
-    if (path.length === 1) return { type: 'dir', children: fileSystem };
-    return getNodeByPath(path.slice(0, -1));
-  }
   
   const handleGameInput = (command: string) => {
     let newHistory = [...history, { type: 'input', content: command, path: `~/${currentPath.join('/')}` } as HistoryItem];
@@ -280,8 +276,8 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   whoami            - Zeigt den aktuellen Benutzer an
   date              - Zeigt das aktuelle Datum und die Uhrzeit an
   echo <text>       - Gibt den angegebenen Text aus
-  theme <dark|light>  - Ändert das Farbschema des Portfolios
-  terminal <color>    - Ändert die Akzentfarbe des Terminals (z.B. blue, red, green)
+  theme <color>     - Ändert die Akzentfarbe der Seite (z.B. red, blue, green)
+  mode <dark|light>   - Ändert das Farbschema des Portfolios
 
   Dateisystem
   --------------------
@@ -303,28 +299,22 @@ export const Terminal = ({ onExit }: TerminalProps) => {
       case 'whoami':
         output = 'gast@benedikt.dev';
         break;
-      case 'theme':
-        const newTheme = args[0];
-        if (['dark', 'light'].includes(newTheme)) {
-          setTheme(newTheme);
-          output = `Theme zu ${newTheme} geändert.`;
+      case 'mode':
+        const newMode = args[0];
+        if (['dark', 'light'].includes(newMode)) {
+          setTheme(newMode);
+          output = `Theme zu ${newMode} geändert.`;
         } else {
-          output = `Fehler: Theme '${newTheme}' nicht gefunden. Verfügbare Themes: dark, light.`;
+          output = `Fehler: Mode '${newMode}' nicht gefunden. Verfügbare Modes: dark, light.`;
         }
         break;
-      case 'terminal':
+      case 'theme':
         const color = args[0];
-        if (color === 'blue') {
-          setTerminalTheme({ user: 'text-blue-400', path: 'text-cyan-400' });
-          output = 'Terminal-Farbe auf Blau geändert.';
-        } else if (color === 'red') {
-          setTerminalTheme({ user: 'text-red-400', path: 'text-yellow-400' });
-          output = 'Terminal-Farbe auf Rot geändert.';
-        } else if (color === 'green') {
-          setTerminalTheme({ user: 'text-green-400', path: 'text-lime-400' });
-          output = 'Terminal-Farbe auf Grün geändert.';
+        if (['red', 'blue', 'green'].includes(color)) {
+          setThemeColor(color);
+          output = `Akzentfarbe zu ${color} geändert.`;
         } else {
-          output = `Fehler: Farbe '${color}' nicht erkannt. Verfügbar: blue, red, green.`;
+          output = `Fehler: Farbe '${color}' nicht erkannt. Verfügbar: red, blue, green.`;
         }
         break;
       case 'date':

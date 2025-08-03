@@ -67,4 +67,13 @@
     @apply bg-background text-foreground;
     scroll-behavior: smooth;
   }
+  html[data-theme-color="blue"] {
+    --primary: 217.2 91.2% 59.8%;
+  }
+  html[data-theme-color="green"] {
+    --primary: 142.1 76.2% 36.3%;
+  }
+  html[data-theme-color="red"] {
+     --primary: 0 84.2% 60.2%;
+  }
 }
