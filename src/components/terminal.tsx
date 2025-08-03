@@ -56,6 +56,7 @@ type GameState = {
   // Tutorial State
   missionId?: string;
   stepIndex?: number;
+  missionData?: any;
 
   // Nano State
   nanoFile?: string;
@@ -246,7 +247,7 @@ export const Terminal = () => {
   };
 
   const getDirectoryContents = (path: string[]) => {
-      let current = fileSystem;
+      let current = fileSystem as any;
       for (const part of path) {
           if (current[part] && current[part].type === 'dir') {
               current = current[part].children as any;
@@ -495,6 +496,7 @@ export const Terminal = () => {
              if (dir && dir[nanoFile] && dir[nanoFile].type === 'file') {
                 const fileContent = (dir[nanoFile] as any).content;
                  setGameState({
+                     ...gameState,
                      type: 'nano',
                      nanoFile: nanoFile,
                      nanoFilePath: [...currentPath],
@@ -503,6 +505,7 @@ export const Terminal = () => {
                  setNanoContent(fileContent);
              } else if (dir) { // Create new file
                 setGameState({
+                     ...gameState,
                      type: 'nano',
                      nanoFile: nanoFile,
                      nanoFilePath: [...currentPath],
@@ -620,8 +623,11 @@ export const Terminal = () => {
     
     if (commandLower === 'exit') {
        let newHistory: HistoryItem[] = [...history, { type: 'input', content: command, path: getPathString() }];
-      if (gameState.type !== 'none') {
+      if (gameState.type !== 'none' && gameState.type !== 'tutorial') {
         newHistory.push({ type: 'output', content: `Aktion '${gameState.type}' wurde abgebrochen.` });
+        setGameState({ type: 'none' });
+      } else if (gameState.type === 'tutorial') {
+        newHistory.push({ type: 'output', content: `Mission '${gameState.missionId}' wurde abgebrochen.` });
         setGameState({ type: 'none' });
       } else {
         newHistory.push({ type: 'output', content: "Es ist keine Aktion aktiv, die beendet werden kann." });
@@ -649,10 +655,8 @@ export const Terminal = () => {
   const handleNanoExit = (save: boolean) => {
     let newHistory = [...history];
     if (save) {
-        // This is a simplified way to update the file system state.
-        // For a more robust solution, you'd use a deep copy and update utility.
         const newFileSystem = JSON.parse(JSON.stringify(fileSystem));
-        let current = newFileSystem;
+        let current = newFileSystem as any;
         for (const part of gameState.nanoFilePath!) {
             current = current[part].children;
         }
@@ -678,8 +682,8 @@ export const Terminal = () => {
   };
 
 
-  const getPathString = () => `~/${currentPath.join('/')}`;
-  const promptSymbol = gameState.type !== 'none' ? '>' : '$';
+  const getPathString = () => `~${currentPath.length > 0 ? '/' : ''}${currentPath.join('/')}`;
+  const promptSymbol = '>';
   const promptUser = 'guest@benedikt.dev';
   const promptPath = getPathString();
 
@@ -746,10 +750,10 @@ export const Terminal = () => {
             <div key={index} className="mb-2">
               {item.type === 'input' ? (
                 <div className="flex">
-                    <span className="text-green-400">{promptUser}:</span>
-                    <span className="text-blue-400 mx-1">{item.path}</span>
+                    <span className="text-primary">{promptUser}:</span>
+                    <span className="text-muted-foreground mx-1">{item.path}</span>
                     <span className="text-primary font-bold mr-2">{promptSymbol}</span>
-                    <span>{item.content as string}</span>
+                    <span className="text-foreground">{item.content as string}</span>
                 </div>
               ) : item.type === 'output' ? (
                 <span className="text-muted-foreground whitespace-pre-wrap leading-relaxed">{item.content as string}</span>
@@ -761,8 +765,8 @@ export const Terminal = () => {
           <div ref={endOfHistoryRef} />
         </div>
         <form onSubmit={handleSubmit} className="flex items-center font-mono text-lg p-6 border-t border-border/50 bg-card/80">
-          <span className="text-green-400">{promptUser}:</span>
-          <span className="text-blue-400 mx-1">{promptPath}</span>
+          <span className="text-primary">{promptUser}:</span>
+          <span className="text-muted-foreground mx-1">{promptPath}</span>
           <span className="text-primary font-bold mr-2">{promptSymbol}</span>
           <input
             ref={inputRef}
@@ -772,10 +776,12 @@ export const Terminal = () => {
             className="w-full bg-transparent border-none focus:ring-0 outline-none"
             autoFocus
             autoComplete="off"
-            disabled={gameState.type !== 'none'}
+            disabled={gameState.type === 'typing_test'}
           />
         </form>
       </motion.div>
     </>
   );
 };
+
+    
