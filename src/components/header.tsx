@@ -29,7 +29,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 py-4 transition-colors duration-300',
+        'fixed top-0 left-0 right-0 z-50 py-6 transition-colors duration-300',
         scrolled ? 'bg-background/80 backdrop-blur-lg' : 'bg-transparent'
       )}
     >
