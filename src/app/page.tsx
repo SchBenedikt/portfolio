@@ -14,7 +14,7 @@ export default function Home() {
   const { unlockAchievement } = useAchievements();
   const [isTerminalView, setIsTerminalView] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true); // Start with header visible logic
+  const [isHeaderVisible, setIsHeaderVisible] = useState(false);
 
   useEffect(() => {
     unlockAchievement('FIRST_STEP');
@@ -23,7 +23,19 @@ export default function Home() {
       setIsTerminalView(JSON.parse(savedView));
     }
     setIsMounted(true);
-  }, [unlockAchievement]);
+
+    const handleScroll = () => {
+      if (!isHeaderVisible) {
+        setIsHeaderVisible(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { once: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [unlockAchievement, isHeaderVisible]);
 
   useEffect(() => {
     if (isMounted) {
