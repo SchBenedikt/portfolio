@@ -30,6 +30,7 @@ type FileSystemNode = {
 
 
 type GameType = 'none' | 'number_guesser' | 'typing_test' | 'matrix';
+type LoginState = 'prompting' | 'logging_in' | 'loggedin';
 
 const initialFileSystem: { [key: string]: FileSystemNode } = {
     'README.md': { 
@@ -37,11 +38,6 @@ const initialFileSystem: { [key: string]: FileSystemNode } = {
         content: "Willkommen!\n\nDies ist ein interaktives Terminal. Tippe 'help', um mehr zu erfahren.\nDu kannst Dateien und Ordner erstellen und bearbeiten.\n\nProbiere: 'ls', 'cat README.md', 'mkdir projekte', 'touch projekte/idee.txt', 'nano projekte/idee.txt', 'view projekte/idee.txt'" 
     }
 };
-
-const initialHistory: HistoryItem[] = [
-  { type: 'output', content: "Willkommen bei Benedikts interaktivem Terminal.", path: '~' },
-  { type: 'output', content: "Tippe 'help' ein, um eine Liste der verfügbaren Befehle zu sehen.", path: '~' },
-];
 
 const typingSentences = [
     "Der schnelle braune Fuchs springt über den faulen Hund.",
@@ -57,7 +53,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   const { unlockAchievement } = useAchievements();
   const { setThemeColor } = useThemeColor();
   const [input, setInput] = useState('');
-  const [history, setHistory] = useState<HistoryItem[]>(initialHistory);
+  const [history, setHistory] = useState<HistoryItem[]>([]);
   const [gameState, setGameState] = useState<GameType>('none');
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [usedCommands, setUsedCommands] = useState<Set<string>>(new Set());
@@ -66,6 +62,9 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   
   const [isNanoMode, setIsNanoMode] = useState(false);
   const [nanoFile, setNanoFile] = useState<{ path: string[], content: string }>({ path: [], content: '' });
+
+  const [loginState, setLoginState] = useState<LoginState>('prompting');
+  const [username, setUsername] = useState<string | null>(null);
 
   const [terminalTheme, setTerminalTheme] = useState({
     user: 'text-green-400',
@@ -92,9 +91,22 @@ export const Terminal = ({ onExit }: TerminalProps) => {
         if (savedFileSystem) {
             setFileSystem(JSON.parse(savedFileSystem));
         }
+
+        const savedUsername = localStorage.getItem('terminalUsername');
+        if (savedUsername) {
+            setUsername(savedUsername);
+            setHistory([
+                { type: 'output', content: `Willkommen zurück, ${savedUsername}!`, path: '~' },
+                { type: 'output', content: "Tippe 'help' für eine Liste der Befehle.", path: '~' }
+            ]);
+            setLoginState('loggedin');
+        } else {
+            setHistory([{ type: 'output', content: "Bitte gib deinen Namen ein:", path: '~' }]);
+        }
     } catch (e) {
-        console.error("Could not load filesystem from local storage", e)
+        console.error("Could not load from local storage", e)
         setFileSystem(initialFileSystem);
+        setHistory([{ type: 'output', content: "Bitte gib deinen Namen ein:", path: '~' }]);
     }
   }, []);
 
@@ -270,6 +282,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   help              - Zeigt diese Hilfe an
   clear             - Leert den Terminalverlauf
   exit              - Beendet ein laufendes Spiel/Modus
+  logout            - Setzt den Benutzernamen zurück
 
   System
   --------------------
@@ -297,8 +310,14 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   typing-test       - Startet den Schreibgeschwindigkeitstest`;
         break;
       case 'whoami':
-        output = 'gast@benedikt.dev';
+        output = `${username}@benedikt.dev`;
         break;
+      case 'logout':
+        localStorage.removeItem('terminalUsername');
+        setUsername(null);
+        setLoginState('prompting');
+        setHistory([{ type: 'output', content: 'Erfolgreich abgemeldet.', path: '~' }, { type: 'output', content: "Bitte gib deinen Namen ein:", path: '~' }]);
+        return;
       case 'mode':
         const newMode = args[0];
         if (['dark', 'light'].includes(newMode)) {
@@ -521,10 +540,44 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   const handleNanoCancel = () => {
     setIsNanoMode(false);
   };
+  
+  const handleLogin = (name: string) => {
+    setHistory([...history, { type: 'input', content: name, path: '~' }]);
+    setUsername(name);
+    localStorage.setItem('terminalUsername', name);
+    setLoginState('logging_in');
+  
+    const loginSequence = [
+      { delay: 500, text: 'Authentifiziere...' },
+      { delay: 1000, text: 'Prüfe Anmeldeinformationen...' },
+      { delay: 1500, text: 'Zugriff gewährt. Willkommen, ' + name + '!' },
+      { delay: 2000, text: "Tippe 'help' für eine Liste der Befehle." },
+    ];
+  
+    let currentHistory = [...history, { type: 'input', content: name, path: '~' }];
+  
+    loginSequence.forEach(item => {
+      setTimeout(() => {
+        currentHistory = [...currentHistory, { type: 'output', content: item.text, path: '~' }];
+        setHistory(currentHistory);
+      }, item.delay);
+    });
+  
+    setTimeout(() => {
+      setLoginState('loggedin');
+    }, 2500);
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const command = input.trim();
+    
+    if (loginState !== 'loggedin') {
+        if (command) handleLogin(command);
+        setInput('');
+        return;
+    }
+
     if (!command && gameState !== 'typing_test') return;
     
     const commandLower = command.toLowerCase();
@@ -550,7 +603,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
     }
   };
 
-  const promptUser = 'gast@benedikt.dev:';
+  const promptUser = username ? `${username}@benedikt.dev:` : 'gast@benedikt.dev:';
   const promptPath = `~/${currentPath.join('/')}`;
 
   if (isNanoMode) {
@@ -610,9 +663,9 @@ export const Terminal = ({ onExit }: TerminalProps) => {
                     {item.type === 'input' ? (
                         <div>
                         <span>
-                            <span className={terminalTheme.user}>{promptUser}</span>
-                            <span className={terminalTheme.path}>{item.path}</span>
-                            <span className="text-foreground">$ </span>
+                            <span className={terminalTheme.user}>{item.path === '~' && loginState !== 'loggedin' ? 'name:' : promptUser}</span>
+                            {loginState === 'loggedin' && <span className={terminalTheme.path}>{item.path}</span>}
+                            <span className="text-foreground"> $ </span>
                         </span>
                         <span className="text-foreground">{item.content}</span>
                         </div>
@@ -626,23 +679,35 @@ export const Terminal = ({ onExit }: TerminalProps) => {
         )}
         
         <form onSubmit={handleSubmit} className="flex items-center p-4 font-mono text-lg border-t border-border/50 bg-card/80 z-10">
-          <div className="flex-shrink-0">
-            <span className={terminalTheme.user}>{promptUser}</span>
-            <span className={terminalTheme.path}>{promptPath}</span>
-            <span className="text-foreground">$ </span>
-          </div>
-          <input
-            ref={inputRef}
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="w-full bg-transparent border-none focus:ring-0 outline-none text-foreground pl-2"
-            autoFocus
-            autoComplete="off"
-            disabled={gameState === 'matrix'}
-          />
+          {loginState !== 'logging_in' && (
+            <>
+              <div className="flex-shrink-0">
+                {loginState === 'loggedin' ? (
+                   <>
+                    <span className={terminalTheme.user}>{promptUser}</span>
+                    <span className={terminalTheme.path}>{promptPath}</span>
+                   </>
+                ) : (
+                   <span className={terminalTheme.user}>name:</span> 
+                )}
+                <span className="text-foreground">$ </span>
+              </div>
+              <input
+                ref={inputRef}
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                className="w-full bg-transparent border-none focus:ring-0 outline-none text-foreground pl-2"
+                autoFocus
+                autoComplete="off"
+                disabled={gameState === 'matrix' || loginState === 'logging_in'}
+              />
+            </>
+          )}
         </form>
       </motion.div>
     </>
   );
 };
+
+    
