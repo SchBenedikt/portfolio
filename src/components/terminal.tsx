@@ -116,17 +116,10 @@ export const Terminal = () => {
     const newHistory: HistoryItem[] = [...history, { type: 'input', content: command }];
     let output: string | React.ReactNode = '';
 
-    if (command.toLowerCase() === 'exit') {
-        output = 'Das Spiel wurde beendet.';
-        setGameState({ type: 'none' });
-        setHistory([...newHistory, { type: 'output', content: output }]);
-        return;
-    }
-
     if (gameState.type === 'number_guesser') {
       const guess = parseInt(command, 10);
       if (isNaN(guess)) {
-        output = "Das ist keine Zahl. Rate eine Zahl zwischen 1 und 100, oder tippe 'exit'.";
+        output = "Das ist keine Zahl. Rate eine Zahl zwischen 1 und 100.";
       } else if (guess < gameState.secretNumber!) {
         output = 'Höher...';
         setGameState(prev => ({ ...prev, attempts: prev.attempts! + 1 }));
@@ -312,9 +305,6 @@ export const Terminal = () => {
           output = `Fehler: Theme '${newTheme}' nicht gefunden. Verfügbare Themes: dark, light.`;
         }
         break;
-      case 'clear':
-        setHistory([]);
-        return;
       case 'date':
         output = new Date().toLocaleString('de-DE');
         break;
@@ -324,7 +314,7 @@ export const Terminal = () => {
       case 'game':
         const numberToGuess = Math.floor(Math.random() * 100) + 1;
         setGameState({ type: 'number_guesser', secretNumber: numberToGuess, attempts: 0 });
-        output = "Ich denke an eine Zahl zwischen 1 und 100. Versuche sie zu erraten! Tippe 'exit' zum Beenden.";
+        output = "Ich denke an eine Zahl zwischen 1 und 100. Versuche sie zu erraten!";
         break;
       case 'typing-test':
         const text = typingSentences[Math.floor(Math.random() * typingSentences.length)];
@@ -355,10 +345,33 @@ export const Terminal = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const command = input.trim();
-    if (!command && gameState.type === 'none') return;
+    if (!command) return;
+
+    let newHistory: HistoryItem[] = [...history, { type: 'input', content: command }];
+    setHistory(newHistory);
     
+    const commandLower = command.toLowerCase();
+
+    // Global commands that work in any state
+    if (commandLower === 'clear') {
+        setHistory([]);
+        setInput('');
+        return;
+    }
+    
+    if (commandLower === 'exit') {
+      if (gameState.type !== 'none') {
+        setHistory(prev => [...prev, { type: 'output', content: 'Das Spiel wurde beendet.' }]);
+        setGameState({ type: 'none' });
+      } else {
+        setHistory(prev => [...prev, { type: 'output', content: "Es ist kein Spiel aktiv, das beendet werden kann." }]);
+      }
+      setInput('');
+      return;
+    }
+
     if (gameState.type !== 'none') {
-      handleGameInput(input); // use raw input for typing test
+      handleGameInput(input);
     } else {
       handleCommand(command);
     }
