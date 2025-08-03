@@ -23,6 +23,21 @@ export const metadata: Metadata = {
   title: 'Benedikt Schächner | Portfolio für kreative Entwicklung',
   description:
     'Ein Portfolio, das kreative Entwicklungs- und Designprojekte mit 3D-Interaktionen und KI-gesteuerten Animationen zeigt.',
+  manifest: '/manifest.json',
+  openGraph: {
+    title: 'Benedikt Schächner | Portfolio für kreative Entwicklung',
+    description: 'Ein Portfolio, das kreative Entwicklungs- und Designprojekte mit 3D-Interaktionen und KI-gesteuerten Animationen zeigt.',
+    url: 'https://benedikt.xn--schchner-2za.de',
+    type: 'website',
+    images: [
+      {
+        url: 'https://placehold.co/1200x630.png',
+        width: 1200,
+        height: 630,
+        alt: 'Benedikt Schächner Portfolio',
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -39,6 +54,10 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+        <meta name="theme-color" content="#111827" />
       </head>
       <body className={`${rubik.variable} ${fontMono.variable} font-body antialiased`}>
         <ThemeProvider
