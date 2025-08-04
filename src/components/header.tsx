@@ -68,27 +68,38 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
              <div className="flex items-center gap-2 p-1 rounded-full bg-background/80 backdrop-blur-lg border border-border/50 shadow-md">
                 <nav className="flex items-center gap-1">
                     {navLinks.map(link => {
-                        const isActive = pathname.startsWith(link.href);
+                        const showLabel = isLabelVisible(link.href);
                         return (
                             <Button 
                                 key={link.href} 
                                 asChild 
-                                variant={isActive ? 'active' : 'ghost'}
-                                size={!isActive ? 'icon' : 'default'}
-                                className={cn("rounded-full transition-all", !isActive && "w-10 h-10")}
+                                variant={pathname.startsWith(link.href) ? 'active' : 'ghost'}
+                                size={!showLabel ? 'icon' : 'default'}
+                                className={cn("rounded-full transition-all", !showLabel && "w-10 h-10")}
+                                onMouseEnter={() => setHoveredHref(link.href)}
+                                onMouseLeave={() => setHoveredHref(null)}
                                 data-cursor-interactive
                             >
                                 <Link href={link.href}>
                                     {React.cloneElement(link.icon as React.ReactElement, { className: "w-4 h-4" })}
-                                    {isActive && <span>{link.label}</span>}
+                                    <AnimatePresence>
+                                    {showLabel && (
+                                        <motion.span
+                                            initial={{ opacity: 0, width: 0 }}
+                                            animate={{ opacity: 1, width: 'auto' }}
+                                            exit={{ opacity: 0, width: 0 }}
+                                            transition={{ duration: 0.2, ease: 'easeOut' }}
+                                            className="overflow-hidden"
+                                        >
+                                            {link.label}
+                                        </motion.span>
+                                    )}
+                                    </AnimatePresence>
                                 </Link>
                             </Button>
                         )
                     })}
                 </nav>
-                <div className="p-1 rounded-full">
-                    <ThemeToggle />
-                </div>
             </div>
         ) : (
             <>
