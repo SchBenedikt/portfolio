@@ -18,7 +18,7 @@ import Image from 'next/image';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Github, ArrowRight, Link as LinkIcon } from 'lucide-react';
+import { Github, ArrowRight, Link as LinkIcon, ExternalLink } from 'lucide-react';
 
 const MotionCard = motion(Card);
 
@@ -38,7 +38,7 @@ export default function ProjectsPage() {
   };
   
   const hasValidUrl = selectedProject.url && selectedProject.url !== '#';
-  const buttonIcon = hasValidUrl && !selectedProject.url.includes('github.com') ? <LinkIcon className="mr-3"/> : <Github className="mr-3"/>;
+  const buttonIcon = hasValidUrl && !selectedProject.url.includes('github.com') ? <ExternalLink className="mr-3"/> : <Github className="mr-3"/>;
   const buttonText = hasValidUrl ? (selectedProject.url.includes('github.com') ? 'Auf Github ansehen' : 'Projekt ansehen') : 'Nicht verfügbar';
 
 

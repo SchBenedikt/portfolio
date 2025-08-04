@@ -7,7 +7,7 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Github, Calendar, Folder, Tags, Bot, Target, Star, BrainCircuit, Link as LinkIcon } from 'lucide-react';
+import { ArrowLeft, Github, Calendar, Folder, Tags, Bot, Target, Star, BrainCircuit, Link as LinkIcon, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -46,7 +46,7 @@ export default function ProjectPage() {
   };
 
   const hasValidUrl = project.url && project.url !== '#';
-  const buttonIcon = hasValidUrl && !project.url.includes('github.com') ? <LinkIcon className="mr-3"/> : <Github className="mr-3"/>;
+  const buttonIcon = hasValidUrl && !project.url.includes('github.com') ? <ExternalLink className="mr-3"/> : <Github className="mr-3"/>;
   const buttonText = hasValidUrl ? (project.url.includes('github.com') ? 'Auf Github ansehen' : 'Projekt ansehen') : 'Nicht verfügbar';
 
   return (
@@ -126,6 +126,17 @@ export default function ProjectPage() {
                                 </div>
                             </div>
                         </div>
+                        {hasValidUrl && (
+                          <div className="flex items-start">
+                              <LinkIcon className="mr-3 mt-1 text-primary"/>
+                              <div>
+                                  <h4 className="font-semibold">Website</h4>
+                                  <a href={project.url} target="_blank" rel="noopener noreferrer" className="text-muted-foreground text-sm md:text-base hover:text-primary transition-colors break-all">
+                                    {project.url}
+                                  </a>
+                              </div>
+                          </div>
+                        )}
                         {project.details?.usage && (
                           <div className="flex items-start">
                               <Target className="mr-3 mt-1 text-primary"/>

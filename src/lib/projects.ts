@@ -18,6 +18,9 @@ export const projectData = [
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Notenerfassung & -analyse</h3>
       <p>Leistungsnachweise wie Klassenarbeiten, Tests und Referate lassen sich mit wenigen Klicks erfassen. Die Software berechnet automatisch den Notendurchschnitt und visualisiert die Leistung auf Fach- und Gesamtebene. Die Benachrichtigungsfunktion ist derzeit noch in Entwicklung.</p>
       
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Sonderfunktionen</h3>
+      <p>Notio legt besonderen Wert auf intuitive Bedienbarkeit, eine pflegeleichte Oberfläche und mobile Nutzbarkeit, sodass der Zugriff auch unterwegs jederzeit möglich ist.</p>
+
        <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Datenschutz & Sicherheit</h3>
        <p>Sämtliche Nutzerdaten werden DSGVO-konform verarbeitet und sind vor unbefugtem Zugriff geschützt.</p>
       `,
