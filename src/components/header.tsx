@@ -79,31 +79,36 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
         </nav>
 
         <div className={cn("flex items-center gap-2 transition-all duration-300", isScrolled ? "opacity-0 pointer-events-none w-0" : "opacity-100 w-auto")}>
-          {children}
+          <div className="hidden md:flex items-center gap-1 p-1 rounded-full bg-muted/50">
+            {children}
+            <ThemeToggle />
+          </div>
           
           {/* Mobile Navigation */}
           <div className="md:hidden">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" className="w-9 h-9" data-cursor-interactive>
-                  <Menu className="h-5 w-5" />
-                  <span className="sr-only">Menü öffnen</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {navLinks.map(link => (
-                    <DropdownMenuItem key={link.href} asChild>
-                      <Link href={link.href} className="flex items-center gap-2 text-base">
-                         {React.cloneElement(link.icon as React.ReactElement, { className: "text-muted-foreground" })}
-                         {link.label}
-                      </Link>
-                    </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+             <div className="flex items-center gap-2">
+                {children}
+                <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="icon" className="w-9 h-9" data-cursor-interactive>
+                    <Menu className="h-5 w-5" />
+                    <span className="sr-only">Menü öffnen</span>
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    {navLinks.map(link => (
+                        <DropdownMenuItem key={link.href} asChild>
+                        <Link href={link.href} className="flex items-center gap-2 text-base">
+                            {React.cloneElement(link.icon as React.ReactElement, { className: "text-muted-foreground" })}
+                            {link.label}
+                        </Link>
+                        </DropdownMenuItem>
+                    ))}
+                </DropdownMenuContent>
+                </DropdownMenu>
+                <ThemeToggle />
+            </div>
           </div>
-
-          <ThemeToggle />
         </div>
       </div>
     </header>
