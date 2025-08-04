@@ -28,6 +28,12 @@ const nextConfig: NextConfig = {
         hostname: 'api.qrserver.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'technik.xn--schchner-2za.de',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
