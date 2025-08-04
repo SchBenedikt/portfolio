@@ -9,7 +9,6 @@ import { Toaster as SonnerToaster } from '@/components/ui/sonner';
 import CustomCursor from '@/components/custom-cursor';
 import { ChatProvider } from '@/components/providers/chat-provider';
 import { ChatSheet } from '@/components/chat-sheet';
-import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 
 const rubik = Rubik({
   subsets: ['latin'],
@@ -74,7 +73,6 @@ export default function RootLayout({
               <CustomCursor />
               {children}
               <ChatSheet />
-              <ScrollToTopButton />
               <DefaultToaster />
               <SonnerToaster />
             </ChatProvider>

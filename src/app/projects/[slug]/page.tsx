@@ -14,6 +14,12 @@ import Link from 'next/link';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { useEffect, useMemo } from 'react';
 import { useChat } from '@/components/providers/chat-provider';
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 
 export default function ProjectPage() {
   const params = useParams();
@@ -73,16 +79,30 @@ export default function ProjectPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12">
               <div className="md:col-span-3">
-                <div className="aspect-video overflow-hidden rounded-3xl mb-8">
-                   <Image
-                      src={project.image}
-                      alt={project.title}
-                      width={1200}
-                      height={675}
-                      className="object-cover w-full h-full"
-                      data-ai-hint={project.aiHint}
-                    />
-                </div>
+                 <Dialog>
+                  <DialogTrigger asChild>
+                    <div className="aspect-video overflow-hidden rounded-3xl mb-8 cursor-pointer" data-cursor-interactive>
+                       <Image
+                          src={project.image}
+                          alt={project.title}
+                          width={1200}
+                          height={675}
+                          className="object-cover w-full h-full object-top"
+                          data-ai-hint={project.aiHint}
+                        />
+                    </div>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl p-2 bg-transparent border-none">
+                     <Image
+                        src={project.image}
+                        alt={project.title}
+                        width={1920}
+                        height={1080}
+                        className="object-contain w-full h-full rounded-lg"
+                      />
+                  </DialogContent>
+                </Dialog>
+
                 <div className="prose prose-invert prose-lg max-w-none text-muted-foreground text-xl md:text-2xl space-y-6" dangerouslySetInnerHTML={{ __html: project.longDescription }}>
                 </div>
               </div>

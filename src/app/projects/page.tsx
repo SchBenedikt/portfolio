@@ -94,7 +94,7 @@ export default function ProjectsPage() {
                                 alt={selectedProject.title}
                                 width={1200}
                                 height={675}
-                                className="object-cover w-full h-full"
+                                className="object-cover w-full h-full object-top"
                                 data-ai-hint={selectedProject.aiHint}
                             />
                         </div>
