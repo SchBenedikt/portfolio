@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
-import { motion } from 'framer-motion';
+import { motion, Reorder } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search, Wand2, Thermometer, Weight, Ruler, ListTodo, Trash2 } from 'lucide-react';
@@ -24,7 +24,21 @@ import { Loader2 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 type TimerMode = 'pomodoro' | 'shortBreak' | 'longBreak';
-type ToolId = 'pomodoro' | 'password' | 'stopwatch' | 'palette' | 'converter' | 'timer' | 'text-generator' | 'todo' | null;
+
+const initialTools = [
+  { id: 'pomodoro', name: 'Pomodoro Timer', icon: <BookOpen className="w-8 h-8" />, component: PomodoroTimer },
+  { id: 'timer', name: 'Timer', icon: <TimerIcon className="w-8 h-8" />, component: SimpleTimer },
+  { id: 'stopwatch', name: 'Stoppuhr', icon: <Clock className="w-8 h-8" />, component: Stopwatch },
+  { id: 'converter', name: 'Einheitenumrechner', icon: <Scale className="w-8 h-8" />, component: UnitConverter },
+  { id: 'password', name: 'Passwort-Generator', icon: <KeyRound className="w-8 h-8" />, component: PasswordGenerator },
+  { id: 'palette', name: 'Farbpalette', icon: <Palette className="w-8 h-8" />, component: ColorPaletteGenerator },
+  { id: 'text-generator', name: 'KI-Textgenerator', icon: <Wand2 className="w-8 h-8" />, component: TextGenerator },
+  { id: 'todo', name: 'Todo Liste', icon: <ListTodo className="w-8 h-8" />, component: Todo },
+];
+
+type Tool = typeof initialTools[number];
+type ToolId = Tool['id'] | null;
+
 
 const timeSettings = {
   pomodoro: 25 * 60,
@@ -32,7 +46,7 @@ const timeSettings = {
   longBreak: 15 * 60,
 };
 
-const PomodoroTimer = () => {
+function PomodoroTimer() {
   const [mode, setMode] = useState<TimerMode>('pomodoro');
   const [time, setTime] = useState(timeSettings[mode]);
   const [isActive, setIsActive] = useState(false);
@@ -149,7 +163,7 @@ const PomodoroTimer = () => {
   );
 };
 
-const PasswordGenerator = () => {
+function PasswordGenerator() {
     const [password, setPassword] = useState('');
     const [length, setLength] = useState(16);
     const [includeNumbers, setIncludeNumbers] = useState(true);
@@ -210,7 +224,7 @@ const PasswordGenerator = () => {
     );
 };
 
-const Stopwatch = () => {
+function Stopwatch() {
     const [time, setTime] = useState(0);
     const [isActive, setIsActive] = useState(false);
     const [laps, setLaps] = useState<number[]>([]);
@@ -284,7 +298,7 @@ const Stopwatch = () => {
     );
 };
 
-const ColorPaletteGenerator = () => {
+function ColorPaletteGenerator() {
     type PaletteType = 'vibrant' | 'pastel';
     const [palette, setPalette] = useState<string[]>([]);
     const [colorCount, setColorCount] = useState(5);
@@ -414,7 +428,7 @@ const ColorPaletteGenerator = () => {
     );
 };
 
-const SimpleTimer = () => {
+function SimpleTimer() {
     const [initialTime, setInitialTime] = useState(300); // 5 minutes
     const [time, setTime] = useState(initialTime);
     const [isActive, setIsActive] = useState(false);
@@ -485,7 +499,7 @@ const SimpleTimer = () => {
     );
 };
 
-const UnitConverter = () => {
+function UnitConverter() {
     const { unlockAchievement } = useAchievements();
     const [inputValue, setInputValue] = useState('1');
     const [fromUnit, setFromUnit] = useState('m');
@@ -599,7 +613,7 @@ const UnitConverter = () => {
     );
 };
 
-const TextGenerator = () => {
+function TextGenerator() {
     const { unlockAchievement } = useAchievements();
     const [topic, setTopic] = useState('');
     const [type, setType] = useState('Blog-Idee');
@@ -664,7 +678,7 @@ const TextGenerator = () => {
     );
 }
 
-const Todo = () => {
+function Todo() {
     type Task = { id: number; text: string; completed: boolean };
     const [tasks, setTasks] = useState<Task[]>([]);
     const [input, setInput] = useState('');
@@ -756,41 +770,49 @@ const Todo = () => {
 };
 
 
-const availableTools = [
-  { id: 'pomodoro', name: 'Pomodoro Timer', icon: <BookOpen className="w-8 h-8" /> },
-  { id: 'timer', name: 'Timer', icon: <TimerIcon className="w-8 h-8" /> },
-  { id: 'stopwatch', name: 'Stoppuhr', icon: <Clock className="w-8 h-8" /> },
-  { id: 'converter', name: 'Einheitenumrechner', icon: <Scale className="w-8 h-8" /> },
-  { id: 'password', name: 'Passwort-Generator', icon: <KeyRound className="w-8 h-8" /> },
-  { id: 'palette', name: 'Farbpalette', icon: <Palette className="w-8 h-8" /> },
-  { id: 'text-generator', name: 'KI-Textgenerator', icon: <Wand2 className="w-8 h-8" /> },
-  { id: 'todo', name: 'Todo Liste', icon: <ListTodo className="w-8 h-8" /> },
-];
-
 export default function ToolsPage() {
   const { unlockAchievement } = useAchievements();
-  const [selectedTool, setSelectedTool] = useState<ToolId>(null);
+  const [selectedToolId, setSelectedToolId] = useState<ToolId>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [orderedTools, setOrderedTools] = useState<Tool[]>([]);
 
   useEffect(() => {
     unlockAchievement('TOOL_MASTER');
+    try {
+        const savedOrder = localStorage.getItem('toolOrder');
+        if (savedOrder) {
+            const parsedOrder = JSON.parse(savedOrder) as string[];
+            const newOrderedTools = parsedOrder
+                .map(id => initialTools.find(tool => tool.id === id))
+                .filter((tool): tool is Tool => !!tool);
+
+            // Add any new tools that weren't in the saved order
+            initialTools.forEach(initialTool => {
+                if (!newOrderedTools.find(t => t.id === initialTool.id)) {
+                    newOrderedTools.push(initialTool);
+                }
+            });
+            setOrderedTools(newOrderedTools);
+        } else {
+            setOrderedTools(initialTools);
+        }
+    } catch (e) {
+        setOrderedTools(initialTools);
+    }
   }, [unlockAchievement]);
 
-  const renderTool = () => {
-    switch (selectedTool) {
-      case 'pomodoro': return <PomodoroTimer />;
-      case 'password': return <PasswordGenerator />;
-      case 'stopwatch': return <Stopwatch />;
-      case 'palette': return <ColorPaletteGenerator />;
-      case 'converter': return <UnitConverter />;
-      case 'timer': return <SimpleTimer />;
-      case 'text-generator': return <TextGenerator />;
-      case 'todo': return <Todo />;
-      default: return null;
-    }
+  const handleReorder = (newOrder: Tool[]) => {
+      setOrderedTools(newOrder);
+      try {
+        localStorage.setItem('toolOrder', JSON.stringify(newOrder.map(tool => tool.id)));
+      } catch (e) {
+          console.error("Could not save tool order", e);
+      }
   };
+  
+  const selectedTool = orderedTools.find(tool => tool.id === selectedToolId);
 
-  const filteredTools = availableTools.filter(tool => 
+  const filteredTools = orderedTools.filter(tool => 
       tool.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -811,16 +833,16 @@ export default function ToolsPage() {
             
             {selectedTool ? (
               <motion.div
-                key={selectedTool}
+                key={selectedTool.id}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
                 className="flex flex-col items-center gap-8"
               >
-                 <Button variant="outline" onClick={() => setSelectedTool(null)} className="self-start rounded-full" data-cursor-interactive>
+                 <Button variant="outline" onClick={() => setSelectedToolId(null)} className="self-start rounded-full" data-cursor-interactive>
                     <ArrowLeft className="mr-2"/> Zurück zur Auswahl
                  </Button>
-                 {renderTool()}
+                 {React.createElement(selectedTool.component)}
               </motion.div>
             ) : (
               <>
@@ -834,28 +856,29 @@ export default function ToolsPage() {
                    />
                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-6 h-6"/>
                 </div>
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
+                 <Reorder.Group
+                  axis="y"
+                  values={filteredTools}
+                  onReorder={handleReorder}
                   className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
                 >
                   {filteredTools.length > 0 ? filteredTools.map(tool => (
-                    <Card 
-                      key={tool.id} 
-                      className="p-6 rounded-2xl text-center cursor-pointer hover:border-primary transition-all group"
-                      onClick={() => setSelectedTool(tool.id as ToolId)}
-                      data-cursor-interactive
-                    >
-                      <div className="flex flex-col items-center gap-4 text-muted-foreground group-hover:text-primary transition-colors">
-                        {React.cloneElement(tool.icon, { className: "w-10 h-10"})}
-                        <h2 className="text-2xl font-bold font-headline text-foreground">{tool.name}</h2>
-                      </div>
-                    </Card>
+                    <Reorder.Item key={tool.id} value={tool} className="cursor-grab">
+                        <Card 
+                          className="h-full p-6 rounded-2xl text-center cursor-pointer hover:border-primary transition-all group"
+                          onClick={() => setSelectedToolId(tool.id)}
+                          data-cursor-interactive
+                        >
+                          <div className="flex flex-col items-center gap-4 text-muted-foreground group-hover:text-primary transition-colors h-full justify-center">
+                            {React.cloneElement(tool.icon, { className: "w-10 h-10"})}
+                            <h2 className="text-2xl font-bold font-headline text-foreground">{tool.name}</h2>
+                          </div>
+                        </Card>
+                    </Reorder.Item>
                   )) : (
                      <p className="text-center text-muted-foreground col-span-full">Keine Tools gefunden.</p>
                   )}
-                </motion.div>
+                </Reorder.Group>
               </>
             )}
             
@@ -866,3 +889,5 @@ export default function ToolsPage() {
     </div>
   );
 }
+
+    
