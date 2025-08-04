@@ -7,7 +7,7 @@ import Footer from '@/components/footer';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search, Wand2, Thermometer, Weight, Ruler, ListTodo, Trash2, QrCode, Notebook, Download, Plus, Trash } from 'lucide-react';
+import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search, Wand2, Thermometer, Weight, Ruler, ListTodo, Trash2, QrCode, Notebook, Download, Plus, Trash, Edit, Save, Link as LinkIcon, CalendarIcon } from 'lucide-react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -23,14 +23,19 @@ import { Textarea } from '@/components/ui/textarea';
 import { Loader2 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import Image from 'next/image';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { format } from 'date-fns';
+import { de } from 'date-fns/locale';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const initialTools = [
   { id: 'password', name: 'Passwort-Generator', icon: <KeyRound className="w-8 h-8" />, component: PasswordGenerator },
   { id: 'palette', name: 'Farbpalette', icon: <Palette className="w-8 h-8" />, component: ColorPaletteGenerator },
   { id: 'converter', name: 'Einheitenumrechner', icon: <Scale className="w-8 h-8" />, component: UnitConverter },
   { id: 'text-generator', name: 'KI-Textgenerator', icon: <Wand2 className="w-8 h-8" />, component: TextGenerator },
-  { id: 'todo', name: 'Todo Liste', icon: <ListTodo className="w-8 h-8" />, component: Todo },
-  { id: 'notes', name: 'Notizen', icon: <Notebook className="w-8 h-8" />, component: Notes },
+  { id: 'todo', name: 'Workstation: Todos', icon: <ListTodo className="w-8 h-8" />, component: Todo },
+  { id: 'notes', name: 'Workstation: Notizen', icon: <Notebook className="w-8 h-8" />, component: Notes },
   { id: 'qr-code', name: 'QR-Code Generator', icon: <QrCode className="w-8 h-8" />, component: QrCodeGenerator },
 ];
 
@@ -400,7 +405,7 @@ function TextGenerator() {
                 {result && (
                      <div className="p-4 bg-muted rounded-lg space-y-2">
                         <Label>Ergebnis</Label>
-                        <Textarea value={result} readOnly className="w-full bg-transparent p-0 border-none focus:ring-0" />
+                        <Textarea value={result} readOnly rows={5} className="w-full bg-transparent p-0 border-none focus:ring-0" />
                     </div>
                 )}
             </CardContent>
@@ -408,20 +413,33 @@ function TextGenerator() {
     );
 }
 
+type Note = { id: string; title: string; content: string; };
+
+type Task = {
+  id: string;
+  text: string;
+  completed: boolean;
+  description?: string;
+  dueDate?: string;
+  link?: string;
+  noteId?: string;
+};
+
 function Todo() {
-    type Task = { id: number; text: string; completed: boolean };
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [notes, setNotes] = useState<Note[]>([]);
     const [input, setInput] = useState('');
+    const [editingTask, setEditingTask] = useState<Task | null>(null);
     const { unlockAchievement } = useAchievements();
 
     useEffect(() => {
         try {
             const storedTasks = localStorage.getItem('todo-tasks');
-            if (storedTasks) {
-                setTasks(JSON.parse(storedTasks));
-            }
+            if (storedTasks) setTasks(JSON.parse(storedTasks));
+            const storedNotes = localStorage.getItem('user-notes');
+            if (storedNotes) setNotes(JSON.parse(storedNotes));
         } catch (error) {
-            console.error("Fehler beim Laden der Aufgaben:", error);
+            console.error("Fehler beim Laden der Daten:", error);
         }
     }, []);
 
@@ -436,22 +454,34 @@ function Todo() {
     const handleAddTask = (e: React.FormEvent) => {
         e.preventDefault();
         if (input.trim() === '') return;
-        const newTask: Task = { id: Date.now(), text: input, completed: false };
+        const newTask: Task = { id: Date.now().toString(), text: input, completed: false };
         setTasks([...tasks, newTask]);
         setInput('');
         unlockAchievement('TASK_MANAGER');
     };
 
-    const handleToggleTask = (id: number) => {
+    const handleToggleTask = (id: string) => {
         setTasks(tasks.map(task => 
             task.id === id ? { ...task, completed: !task.completed } : task
         ));
     };
 
-    const handleDeleteTask = (id: number) => {
+    const handleDeleteTask = (id: string) => {
         setTasks(tasks.filter(task => task.id !== id));
     };
 
+    const handleSaveEdit = () => {
+        if (!editingTask) return;
+        setTasks(tasks.map(task => task.id === editingTask.id ? editingTask : task));
+        setEditingTask(null);
+    };
+
+    const handleEditChange = (field: keyof Task, value: any) => {
+        if (editingTask) {
+            setEditingTask({ ...editingTask, [field]: value });
+        }
+    };
+    
     return (
         <Card className="rounded-3xl shadow-lg w-full">
             <CardHeader>
@@ -466,33 +496,85 @@ function Todo() {
                     />
                     <Button type="submit">Hinzufügen</Button>
                 </form>
-                <ScrollArea className="h-72 w-full pr-4">
-                    <div className="space-y-2">
+                <ScrollArea className="h-96 w-full pr-4">
+                    <Accordion type="single" collapsible className="w-full">
                         {tasks.map(task => (
-                            <div key={task.id} className={cn(
-                                "flex items-center gap-2 p-2 rounded-lg transition-colors",
-                                task.completed ? "bg-muted/50" : "bg-muted"
-                            )}>
-                                <Checkbox 
-                                    id={`task-${task.id}`}
-                                    checked={task.completed}
-                                    onCheckedChange={() => handleToggleTask(task.id)}
-                                />
-                                <Label htmlFor={`task-${task.id}`} className={cn(
-                                    "flex-grow cursor-pointer",
-                                    task.completed && "line-through text-muted-foreground"
-                                )}>
-                                    {task.text}
-                                </Label>
-                                <Button variant="ghost" size="icon" onClick={() => handleDeleteTask(task.id)}>
-                                    <Trash2 className="h-4 w-4 text-destructive" />
-                                </Button>
-                            </div>
+                            <AccordionItem value={task.id} key={task.id} className="border-b-0">
+                                <div className={cn("flex items-center gap-2 p-2 rounded-lg transition-colors", task.completed ? "bg-muted/50" : "bg-muted")}>
+                                    <Checkbox 
+                                        id={`task-${task.id}`}
+                                        checked={task.completed}
+                                        onCheckedChange={() => handleToggleTask(task.id)}
+                                    />
+                                    <Label htmlFor={`task-${task.id}`} className={cn("flex-grow cursor-pointer", task.completed && "line-through text-muted-foreground")}>
+                                        {task.text}
+                                    </Label>
+                                    <AccordionTrigger className="p-2 hover:no-underline [&[data-state=open]>svg]:text-primary" />
+                                    <Button variant="ghost" size="icon" onClick={() => setEditingTask(task)}>
+                                        <Edit className="h-4 w-4 text-blue-500" />
+                                    </Button>
+                                    <Button variant="ghost" size="icon" onClick={() => handleDeleteTask(task.id)}>
+                                        <Trash2 className="h-4 w-4 text-destructive" />
+                                    </Button>
+                                </div>
+                                <AccordionContent className="p-4 bg-muted/20 rounded-b-lg">
+                                    {editingTask && editingTask.id === task.id ? (
+                                        <div className="space-y-4">
+                                            <div>
+                                                <Label>Titel</Label>
+                                                <Input value={editingTask.text} onChange={e => handleEditChange('text', e.target.value)} />
+                                            </div>
+                                            <div>
+                                                <Label>Beschreibung</Label>
+                                                <Textarea value={editingTask.description || ''} onChange={e => handleEditChange('description', e.target.value)} />
+                                            </div>
+                                            <div>
+                                                <Label>Link</Label>
+                                                <Input value={editingTask.link || ''} onChange={e => handleEditChange('link', e.target.value)} placeholder="https://..." />
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <Label>Fälligkeitsdatum</Label>
+                                                    <Popover>
+                                                        <PopoverTrigger asChild>
+                                                            <Button variant="outline" className={cn("w-full justify-start text-left font-normal", !editingTask.dueDate && "text-muted-foreground")}>
+                                                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                                                {editingTask.dueDate ? format(new Date(editingTask.dueDate), 'PPP', { locale: de }) : <span>Datum wählen</span>}
+                                                            </Button>
+                                                        </PopoverTrigger>
+                                                        <PopoverContent className="w-auto p-0">
+                                                            <Calendar mode="single" selected={editingTask.dueDate ? new Date(editingTask.dueDate) : undefined} onSelect={date => handleEditChange('dueDate', date?.toISOString())} initialFocus />
+                                                        </PopoverContent>
+                                                    </Popover>
+                                                </div>
+                                                <div>
+                                                    <Label>Notiz verknüpfen</Label>
+                                                     <Select value={editingTask.noteId} onValueChange={value => handleEditChange('noteId', value)}>
+                                                        <SelectTrigger><SelectValue placeholder="Notiz wählen..."/></SelectTrigger>
+                                                        <SelectContent>
+                                                            <SelectItem value="none">Keine</SelectItem>
+                                                            {notes.map(note => <SelectItem key={note.id} value={note.id}>{note.title}</SelectItem>)}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+                                            </div>
+                                            <Button onClick={handleSaveEdit}><Save className="mr-2"/>Speichern</Button>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-2 text-sm">
+                                            <p className="text-muted-foreground">{task.description || "Keine Beschreibung."}</p>
+                                            {task.dueDate && <p><strong className="font-semibold">Fällig:</strong> {format(new Date(task.dueDate), 'PPP', { locale: de })}</p>}
+                                            {task.link && <p><strong className="font-semibold">Link:</strong> <a href={task.link} target="_blank" rel="noopener noreferrer" className="text-primary underline">{task.link}</a></p>}
+                                            {task.noteId && notes.find(n => n.id === task.noteId) && <p><strong className="font-semibold">Notiz:</strong> {notes.find(n => n.id === task.noteId)?.title}</p>}
+                                        </div>
+                                    )}
+                                </AccordionContent>
+                            </AccordionItem>
                         ))}
                          {tasks.length === 0 && (
                             <p className="text-center text-muted-foreground py-8">Noch keine Aufgaben vorhanden.</p>
                         )}
-                    </div>
+                    </Accordion>
                 </ScrollArea>
             </CardContent>
         </Card>
@@ -500,8 +582,8 @@ function Todo() {
 };
 
 function Notes() {
-    type Note = { id: string; title: string; content: string };
     const [notes, setNotes] = useState<Note[]>([]);
+    const [tasks, setTasks] = useState<Task[]>([]);
     const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
 
     // Load from localStorage
@@ -511,14 +593,16 @@ function Notes() {
             if (savedNotes) {
                 const parsedNotes = JSON.parse(savedNotes);
                 setNotes(parsedNotes);
-                if (parsedNotes.length > 0) {
+                if (parsedNotes.length > 0 && !activeNoteId) {
                     setActiveNoteId(parsedNotes[0].id);
                 }
             }
+            const savedTasks = localStorage.getItem('todo-tasks');
+            if (savedTasks) setTasks(JSON.parse(savedTasks));
         } catch (error) {
             console.error("Error loading notes:", error);
         }
-    }, []);
+    }, [activeNoteId]);
 
     // Save to localStorage
     useEffect(() => {
@@ -542,6 +626,12 @@ function Notes() {
     const handleDeleteNote = (id: string) => {
         const newNotes = notes.filter(n => n.id !== id);
         setNotes(newNotes);
+        // also remove link from tasks
+        setTasks(prevTasks => {
+            const updatedTasks = prevTasks.map(t => t.noteId === id ? {...t, noteId: undefined} : t);
+            localStorage.setItem('todo-tasks', JSON.stringify(updatedTasks));
+            return updatedTasks;
+        });
         if (activeNoteId === id) {
             setActiveNoteId(newNotes.length > 0 ? newNotes[0].id : null);
         }
@@ -552,9 +642,10 @@ function Notes() {
     };
 
     const activeNote = notes.find(n => n.id === activeNoteId);
+    const linkedTasks = tasks.filter(t => t.noteId === activeNoteId);
 
     return (
-        <Card className="rounded-3xl shadow-lg w-full min-h-[450px]">
+        <Card className="rounded-3xl shadow-lg w-full min-h-[550px]">
             <CardHeader>
                 <CardTitle className="text-2xl text-center font-headline">Notizblock</CardTitle>
             </CardHeader>
@@ -563,7 +654,7 @@ function Notes() {
                      <Button onClick={handleAddNote} className="w-full mb-4">
                         <Plus className="mr-2" /> Neue Notiz
                     </Button>
-                    <ScrollArea className="h-60 md:h-80">
+                    <ScrollArea className="h-96">
                         {notes.map(note => (
                             <div
                                 key={note.id}
@@ -586,7 +677,7 @@ function Notes() {
                 </div>
                 <div className="w-full md:w-2/3">
                     {activeNote ? (
-                        <div className="space-y-2">
+                        <div className="space-y-4">
                              <Input 
                                 value={activeNote.title}
                                 onChange={e => handleNoteChange(activeNote.id, 'title', e.target.value)}
@@ -596,8 +687,20 @@ function Notes() {
                                 value={activeNote.content}
                                 onChange={e => handleNoteChange(activeNote.id, 'content', e.target.value)}
                                 placeholder="Schreib hier deine Gedanken auf..."
-                                className="min-h-[280px] text-base"
+                                className="min-h-[320px] text-base"
                             />
+                            {linkedTasks.length > 0 && (
+                                <div>
+                                    <h4 className="font-semibold mb-2">Verknüpfte Aufgaben:</h4>
+                                    <div className="space-y-1">
+                                    {linkedTasks.map(task => (
+                                        <div key={task.id} className="text-sm p-2 bg-muted/50 rounded-md">
+                                            {task.text}
+                                        </div>
+                                    ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     ) : (
                          <div className="flex items-center justify-center h-full text-muted-foreground">
@@ -761,6 +864,20 @@ export default function ToolsPage() {
       tool.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const renderTool = () => {
+    if (!selectedTool) return null;
+    
+    // We pass Notes and Tasks to the Todo and Notes components
+    if (selectedTool.id === 'todo') {
+        return <Todo />;
+    }
+    if (selectedTool.id === 'notes') {
+        return <Notes />;
+    }
+    return React.createElement(selectedTool.component);
+  };
+
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
@@ -787,7 +904,7 @@ export default function ToolsPage() {
                  <Button variant="outline" onClick={() => setSelectedToolId(null)} className="self-start rounded-full" data-cursor-interactive>
                     <ArrowLeft className="mr-2"/> Zurück zur Auswahl
                  </Button>
-                 {React.createElement(selectedTool.component)}
+                 {renderTool()}
               </motion.div>
             ) : (
               <>
@@ -832,4 +949,3 @@ export default function ToolsPage() {
   );
 }
 
-    
