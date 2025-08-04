@@ -24,7 +24,7 @@ export const projectData = [
        <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Datenschutz & Sicherheit</h3>
        <p>Sämtliche Nutzerdaten werden DSGVO-konform verarbeitet und sind vor unbefugtem Zugriff geschützt.</p>
       `,
-    image: '/photos/Notio_Dashboard.png',
+    image: 'https://raw.githubusercontent.com/firebase/studio-samples/main/multi-page-portfolio/public/photos/Notio_Dashboard.png',
     url: 'https://notio.schächner.de',
     tags: ['Web-App', 'Next.js', 'Datenvisualisierung', 'Bildung', 'Lernmanagement'],
     date: '2024-08-01',
@@ -42,10 +42,9 @@ export const projectData = [
       'Ein kreatives Crossmedia-Projekt, das Julius Cäsars Feldherr-Geschichte im Stil eines modernen Influencer-Blogs erzählt.',
     longDescription:
       '„Meum Diarium – Ein Feldherr als Influencer“ ist ein preisgekröntes Schulprojekt, das Cäsars "De Bello Gallico" als Blog-Posts, Interviews und Social-Media-Storys modern interpretiert. Das Projekt gewann den Hauptpreis beim Deutschen Multimedia-Preis mb21 2024 und wurde beim Crossmedia-Wettbewerb des Bayerischen Rundfunks ausgezeichnet, indem es historische Inhalte mit moderner Netzkultur kreativ verbindet.',
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://technik.xn--schchner-2za.de/wp-content/uploads/2025/08/Meum-Diarium.png',
     url: 'https://www.br.de/medienkompetenz/crossmedia-wettbewerb/gewinner-crossmedia-2024-meum-diarium-100.html',
     tags: ['Crossmedia', 'Storytelling', 'Ausgezeichnet', 'UI/UX'],
-    aiHint: 'roman influencer blog',
     date: '2024-05-10',
     category: 'Schulprojekt / Crossmedia',
   },
@@ -64,7 +63,7 @@ export const projectData = [
     category: 'Web-Anwendung / Bildung',
   },
   {
-    title: 'Technik Schächner!',
+    title: 'Technik Schächner',
     slug: 'technik-blog',
     description: 'Eine digitale Plattform, die technische Anwendungen, Tools und persönliche Experimente aus den Bereichen Programmierung, Cloud und Automatisierung bündelt.',
     longDescription: `
