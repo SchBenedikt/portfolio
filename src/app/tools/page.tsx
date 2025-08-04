@@ -19,7 +19,7 @@ import { toast } from 'sonner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { generateText } from '@/ai/flows/textGeneratorFlow';
 import { GenerateTextInput } from '@/ai/flows/types';
-import TextareaAutosize from 'react-textarea-autosize';
+import { Textarea } from '@/components/ui/textarea';
 import { Loader2 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
@@ -670,7 +670,7 @@ function TextGenerator() {
                 {result && (
                      <div className="p-4 bg-muted rounded-lg space-y-2">
                         <Label>Ergebnis</Label>
-                        <TextareaAutosize value={result} readOnly className="w-full bg-transparent p-0 border-none focus:ring-0" />
+                        <Textarea value={result} readOnly className="w-full bg-transparent p-0 border-none focus:ring-0" />
                     </div>
                 )}
             </CardContent>
