@@ -17,6 +17,9 @@ import { useChat } from '@/components/providers/chat-provider';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
 
@@ -93,6 +96,12 @@ export default function ProjectPage() {
                     </div>
                   </DialogTrigger>
                   <DialogContent className="max-w-4xl p-2 bg-transparent border-none">
+                    <DialogHeader className="sr-only">
+                      <DialogTitle>{project.title}</DialogTitle>
+                      <DialogDescription>
+                        Vergrößerte Ansicht des Projektbildes für {project.title}.
+                      </DialogDescription>
+                    </DialogHeader>
                      <Image
                         src={project.image}
                         alt={project.title}
