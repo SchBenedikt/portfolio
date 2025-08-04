@@ -36,15 +36,45 @@ export const projectData = [
     }
   },
   {
-    title: 'Meum Diarium',
+    title: 'caesar.schächner.de / Meum Diarium',
     slug: 'meum-diarium',
-    description:
-      'Ein kreatives Crossmedia-Projekt, das Julius Cäsars Feldherr-Geschichte im Stil eines modernen Influencer-Blogs erzählt.',
-    longDescription:
-      '„Meum Diarium – Ein Feldherr als Influencer“ ist ein preisgekröntes Schulprojekt, das Cäsars "De Bello Gallico" als Blog-Posts, Interviews und Social-Media-Storys modern interpretiert. Das Projekt gewann den Hauptpreis beim Deutschen Multimedia-Preis mb21 2024 und wurde beim Crossmedia-Wettbewerb des Bayerischen Rundfunks ausgezeichnet, indem es historische Inhalte mit moderner Netzkultur kreativ verbindet.',
+    description: 'Ein preisgekröntes Crossmedia-Projekt, das Julius Cäsars Geschichte im Stil eines modernen Influencer-Blogs erzählt.',
+    longDescription: `
+        <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Überblick</h3>
+        <p>Das Projekt „Meum Diarium“ vereint Geschichtswissen, Latein und moderne Medientechnologien zu einer einzigartigen Online-Präsenz, auf der Gaius Julius Caesar als Blog-Influencer im Stil eines Tagebuchs aus seinem Leben berichtet. Die Website wurde mehrfach mit Preisen wie dem Deutschen Multimediapreis mb21 ausgezeichnet und bietet neben Blogeinträgen auch Presseartikel und einen Merchandise-Shop.</p>
+        
+        <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Schwerpunkte</h3>
+        <ul class="list-disc pl-6 space-y-2">
+            <li><b>Tagebucheinträge aus Cäsars Perspektive:</b> Antike Geschichte wird modern und jugendnah mit Witz und Bezügen zu aktuellen Themen erzählt.</li>
+            <li><b>Multimediale Vielfalt:</b> Integration von Blogs, Wikis, Bildmaterial, KI-generierten Inhalten und einem Caesar-KI-Chat.</li>
+            <li><b>Pressebereich:</b> Umfangreiche Dokumentation von Medienberichten, die das gesellschaftliche Interesse am Projekt belegen.</li>
+            <li><b>Merchandise-Shop:</b> Unter „Meum Merch“ können Besucher originelle Produkte mit Caesar-Bezug kaufen, um das Projekt zu unterstützen.</li>
+        </ul>
+        
+        <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Erfolge und Anerkennung</h3>
+        <p>Das Projekt wurde von der Jury des Deutschen Multimediapreises für seine "herausragende Detailverliebtheit und Witz" gelobt und erhielt eine umfangreiche Berichterstattung in überregionalen Medien, darunter der Bayerische Rundfunk. Es dient als Vorbild für die Verbindung von Kultur und Digitalisierung.</p>
+
+        <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Alleinstellungsmerkmale</h3>
+        <ul class="list-disc pl-6 space-y-2">
+            <li>Verflechtung historischer Inhalte mit popkulturellen Themen.</li>
+            <li>Vielseitigkeit als Tagebuch, interaktive Website, Presseportal und Merch-Store.</li>
+            <li>Vollständig eigenständig auf einem selbstbetriebenen Server umgesetzt.</li>
+        </ul>
+
+        <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Bedeutung für das Portfolio</h3>
+        <p>Das Projekt zeigt Benedikt Schächner als teamfähigen, kreativen und technisch versierten Macher, der erfolgreich Brücken zwischen Geschichte, Bildung und moderner Medienwelt baut.</p>
+
+        <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Pressespiegel (Auswahl)</h3>
+        <ul class="list-disc pl-6 space-y-2">
+            <li><a href="https://www.mb21.de/wettbewerbsjahr_2024.html?articles=meum-diarium" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Deutscher Multimediapreis (mb21): Jurybegründung</a></li>
+            <li><a href="https://www.br.de/medienkompetenzprojekte/inhalt/crossmedia/tagebuch-caesars-heute-feldherr-als-influencer-textbased-crossmedia-2024-gewinnerbeitrag-100.html" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Bayerischer Rundfunk (BR): Bericht und Laudatio</a></li>
+            <li><a href="https://www.koenig-karlmann-gymnasium.de/news/mit-caesars-tagebuch-den-1-preis-geholt/" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">König-Karlmann-Gymnasium: Bericht zum 1. Preis</a></li>
+            <li><a href="https://www.koenig-karlmann-gymnasium.de/news/ein-feldherr-wird-wieder-lebendig/" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">König-Karlmann-Gymnasium: Weitere Berichterstattung</a></li>
+        </ul>
+    `,
     image: 'https://technik.xn--schchner-2za.de/wp-content/uploads/2025/08/Meum-Diarium.png',
-    url: 'https://www.br.de/medienkompetenz/crossmedia-wettbewerb/gewinner-crossmedia-2024-meum-diarium-100.html',
-    tags: ['Crossmedia', 'Storytelling', 'Ausgezeichnet', 'UI/UX'],
+    url: 'https://caesar.schächner.de',
+    tags: ['Crossmedia', 'Storytelling', 'Ausgezeichnet', 'UI/UX', 'KI-Chatbot'],
     date: '2024-05-10',
     category: 'Schulprojekt / Crossmedia',
   },
