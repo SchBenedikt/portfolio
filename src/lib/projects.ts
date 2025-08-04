@@ -30,8 +30,7 @@ export const projectData = [
     date: '2024-08-01',
     category: 'Web-Anwendung / EdTech',
     details: {
-      usage: 'Schüler, Eltern und Lehrkräfte zur digitalen Noten- und Lernverwaltung.',
-      potential: 'Intuitive Bedienbarkeit und mobile Nutzbarkeit für den Schulalltag.'
+      usage: 'Digitale Noten- und Lernverwaltung für Schüler, Eltern und Lehrkräfte.'
     }
   },
   {
@@ -41,13 +40,6 @@ export const projectData = [
     longDescription: `
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Überblick</h3>
       <p>Dieses Projekt umfasst die Mitverwaltung und inhaltliche Gestaltung des Instagram-Kanals der TuS Töging Judoabteilung. Als „Top-Verein“ des Bayerischen Judo-Verbands (2024-2028) ist eine moderne und ansprechende Online-Präsenz entscheidend, um Mitglieder zu informieren und neue Interessenten zu gewinnen.</p>
-      
-      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Kanal-Statistiken (Stand August 2025)</h3>
-      <ul class="list-disc pl-6 space-y-2">
-        <li><b>Beiträge:</b> 10</li>
-        <li><b>Follower:</b> 82</li>
-        <li><b>Gefolgt:</b> 54</li>
-      </ul>
 
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Aufgaben & Inhalte</h3>
       <ul class="list-disc pl-6 space-y-2">
@@ -118,8 +110,8 @@ export const projectData = [
     date: '2024-05-10',
     category: 'Schulprojekt / Crossmedia',
     details: {
-      usage: 'Multimediales Storytelling-Projekt mit Blog, KI-Chat und Merchandise-Shop.',
-      potential: 'Kombiniert Geschichte, Latein und moderne Medientechnologien.'
+      usage: 'Multimediales Storytelling mit Blog, KI-Chat und Merchandise.',
+      potential: 'Kombiniert Geschichte und moderne Medientechnologien.'
     }
   },
   {
@@ -157,7 +149,7 @@ export const projectData = [
     date: '2023-09-01',
     category: 'Web-Anwendung / Bildung',
     details: {
-      usage: 'Schulinterne Plattform zur Förderung von Medienkompetenz und technischem Support.',
+      usage: 'Schulinterne Plattform für Medienkompetenz und technischen Support.',
       potential: 'Direkte Unterstützung für Digitalklassen und Sensibilisierung für Online-Sicherheit.'
     }
   },
