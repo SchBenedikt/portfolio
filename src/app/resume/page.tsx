@@ -13,6 +13,7 @@ import { useAchievements } from '@/components/providers/achievements-provider';
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { useChat } from '@/components/providers/chat-provider';
+import { projectData } from '@/lib/projects';
 
 const about = {
     name: "Benedikt Schächner",
@@ -45,14 +46,16 @@ const timelineEvents = [
         title: "Hauptpreis, Deutscher Multimedia-Preis mb21",
         organization: "Finale in Dresden",
         description: "Gewinn des Hauptpreises (Altersgruppe 11-15) für das Projekt „Meum Diarium – Ein Feldherr als Influencer“ zusammen mit Vinzenz Schächner.",
-        icon: <Award className="text-primary"/>
+        icon: <Award className="text-primary"/>,
+        projectSlug: 'meum-diarium'
     },
     {
         date: "Nov 2024",
         title: "1. Platz, Crossmedia-Wettbewerb",
         organization: "Bayerischer Rundfunk, Unterföhring",
         description: "Auszeichnung für „Meum Diarium“ in der Sparte „textbased“ für Idee, Umsetzung und mediale Aufbereitung.",
-        icon: <Award className="text-primary"/>
+        icon: <Award className="text-primary"/>,
+        projectSlug: 'meum-diarium'
     },
      {
         date: "Nov 2024",
@@ -80,7 +83,8 @@ const timelineEvents = [
         title: "Mitgründer der MedienScouts",
         organization: "König-Karlmann-Gymnasium",
         description: "Technische und didaktische Leitung von Schulinitiativen, Live-Workshops und Peer-to-Peer-Schulungen zur Medienkompetenz.",
-        icon: <Users/>
+        icon: <Users/>,
+        projectSlug: 'medienscouts-kkg'
     },
      {
         date: "Seit 2019",
@@ -184,7 +188,15 @@ export default function ResumePage() {
                             <Card className="rounded-2xl shadow-lg border-border/50 transition-all hover:border-primary/50">
                                 <CardHeader>
                                     <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
-                                        <CardTitle className="text-lg md:text-2xl font-bold font-headline">{event.title}</CardTitle>
+                                        <CardTitle className="text-lg md:text-2xl font-bold font-headline">
+                                          {event.projectSlug ? (
+                                            <Link href={`/projects/${event.projectSlug}`} className="hover:text-primary transition-colors">
+                                              {event.title}
+                                            </Link>
+                                          ) : (
+                                            event.title
+                                          )}
+                                        </CardTitle>
                                         <Badge variant="secondary" className="text-xs md:text-sm rounded-md whitespace-nowrap self-start sm:self-center">{event.date}</Badge>
                                     </div>
                                     <CardDescription className="text-base md:text-lg pt-1 text-primary">{event.organization}</CardDescription>

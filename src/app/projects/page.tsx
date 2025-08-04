@@ -29,7 +29,8 @@ export default function ProjectsPage() {
 
   const filteredProjects = projectData.filter(project => 
     project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    project.description.toLowerCase().includes(searchTerm.toLowerCase())
+    project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    project.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const containerVariants = {
