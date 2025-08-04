@@ -30,7 +30,7 @@ const timelineEvents = [
         date: "Seit 2025",
         title: "Schriftführer",
         organization: "TuS Töging, Abteilung Judo",
-        description: "Verantwortlich für Protokollführung und administrative Aufgaben in der Abteilungsleitung.",
+        description: "Verantwortlich für Protokollführung und Öffentlichkeitsarbeit in der Abteilungsleitung.",
         icon: <Users/>
     },
     {
