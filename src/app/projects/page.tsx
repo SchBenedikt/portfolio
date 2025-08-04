@@ -14,16 +14,23 @@ import { projectData } from '@/lib/projects';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAchievements } from '@/components/providers/achievements-provider';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Github, ArrowRight, ExternalLink } from 'lucide-react';
+import { Github, ArrowRight, ExternalLink, Search } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 
 export default function ProjectsPage() {
   const { unlockAchievement } = useAchievements();
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     unlockAchievement('PROJECTS_EXPLORER');
   }, [unlockAchievement]);
+
+  const filteredProjects = projectData.filter(project => 
+    project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    project.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -57,16 +64,27 @@ export default function ProjectsPage() {
             transition={{ duration: 0.6 }}
             className="max-w-6xl mx-auto"
           >
-            <h1 className="text-6xl md:text-8xl font-black text-center mb-12 md:mb-16 uppercase tracking-tighter font-headline">
+            <h1 className="text-6xl md:text-8xl font-black text-center mb-8 uppercase tracking-tighter font-headline">
               Projekte & Tools
             </h1>
+            <div className="relative mb-12 md:mb-16">
+               <Input 
+                  type="text"
+                  placeholder="Projekte durchsuchen..."
+                  className="w-full p-4 pl-12 text-lg rounded-full"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+               />
+               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-6 h-6"/>
+            </div>
+
             <motion.div 
               className="grid grid-cols-1 md:grid-cols-2 gap-8"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
-              {projectData.map((project) => {
+              {filteredProjects.map((project) => {
                  const hasValidUrl = project.url && project.url !== '#';
                  const buttonIcon = hasValidUrl && !project.url.includes('github.com') ? <ExternalLink className="mr-3"/> : <Github className="mr-3"/>;
                  const buttonText = hasValidUrl ? (project.url.includes('github.com') ? 'Auf Github ansehen' : 'Projekt ansehen') : 'Nicht verfügbar';

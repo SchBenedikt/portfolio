@@ -7,7 +7,7 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Github, Calendar, Folder, Tags, Bot, Target, Star, BrainCircuit, Link as LinkIcon, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Github, Calendar, Folder, Tags, Bot, Target, BrainCircuit, Link as LinkIcon, ExternalLink, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -22,6 +22,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Card, CardContent } from '@/components/ui/card';
 
 
 export default function ProjectPage() {
@@ -29,6 +31,8 @@ export default function ProjectPage() {
   const slug = params.slug as string;
 
   const project = useMemo(() => projectData.find((p) => p.slug === slug), [slug]);
+  const otherProjects = useMemo(() => projectData.filter((p) => p.slug !== slug), [slug]);
+  
   const { unlockAchievement } = useAchievements();
   const { openChat } = useChat();
 
@@ -195,6 +199,50 @@ export default function ProjectPage() {
               </div>
             </div>
           </motion.div>
+        </div>
+
+        <div className="container mx-auto px-6 sm:px-8 mt-16 md:mt-24">
+            <h2 className="text-4xl md:text-5xl font-black text-center mb-12 uppercase tracking-tighter font-headline">
+                Weitere Projekte
+            </h2>
+            <Carousel
+                opts={{
+                    align: "start",
+                    loop: true,
+                }}
+                className="w-full"
+            >
+                <CarouselContent>
+                    {otherProjects.map((proj) => (
+                        <CarouselItem key={proj.slug} className="md:basis-1/2 lg:basis-1/3">
+                            <div className="p-1">
+                                <Card className="rounded-3xl shadow-lg overflow-hidden border-border/50 flex flex-col w-full h-full">
+                                  <div className="aspect-video overflow-hidden border-b">
+                                      <Image
+                                          src={proj.image}
+                                          alt={proj.title}
+                                          width={800}
+                                          height={450}
+                                          className="object-cover w-full h-full object-top"
+                                      />
+                                  </div>
+                                  <CardContent className="p-6 flex flex-col flex-grow">
+                                      <h3 className="text-2xl font-bold font-headline mb-2">{proj.title}</h3>
+                                      <p className="text-muted-foreground text-sm mb-4 flex-grow">{proj.description}</p>
+                                      <Button asChild size="sm" className="rounded-full mt-auto self-start" data-cursor-interactive>
+                                          <Link href={`/projects/${proj.slug}`}>
+                                              Details ansehen <ArrowRight className="ml-2"/>
+                                          </Link>
+                                      </Button>
+                                  </CardContent>
+                                </Card>
+                            </div>
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+                <CarouselPrevious className="hidden md:flex"/>
+                <CarouselNext className="hidden md:flex"/>
+            </Carousel>
         </div>
       </main>
       <Footer />
