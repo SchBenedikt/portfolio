@@ -95,6 +95,59 @@ const timelineEvents = [
     }
 ];
 
+const certificates = [
+    {
+        title: "Mediator",
+        organization: "König-Karlmann-Gymnasium",
+        date: "Feb. 2024 - Juli 2025",
+        skills: ["Mediation", "Streitschlichtung", "Konfliktlösung", "Konfliktprävention"],
+        description: "Im Rahmen des Wahlunterrichts Mediation eine 35-stündige Ausbildung zum Mediator absolviert und die Tätigkeit eines Mediators mit großer Begeisterung ausgeübt."
+    },
+    {
+        title: "Königsdiplom Schach",
+        organization: "Schachklub Töging e. V.",
+        date: "Juli 2025",
+        skills: ["Schach"]
+    },
+    {
+        title: "Strafrechtsseminar",
+        organization: "Friedrich-Alexander-Universität Erlangen-Nürnberg",
+        date: "Nov. 2024",
+        skills: ["Jura", "Strafrecht"]
+    },
+    {
+        title: "Kleines Latinum",
+        organization: "König-Karlmann-Gymnasium",
+        date: "Juli 2024",
+        skills: ["Latein"]
+    },
+    {
+        title: "Young Leaders Akademie",
+        organization: "young leaders GmbH",
+        date: "Nov. 2023",
+        skills: ["Mimik-Resonanz Training"]
+    },
+    {
+        title: "1. Hilfe Kurs",
+        organization: "Bayerisches Rotes Kreuz (BRK)",
+        date: "Sept. 2023",
+        skills: ["Erste Hilfe"]
+    },
+    {
+        title: "Lerntrainerseminar",
+        organization: "König-Karlmann-Gymnasium",
+        date: "Juli 2023",
+        skills: ["Nachhilfe", "Lerntrainer"]
+    },
+    {
+        title: "Trainerassistent Judo",
+        organization: "Bayerischer Judo-Verband e.V.",
+        date: "Juni 2023",
+        skills: ["Trainerassistent"]
+    }
+];
+
+
 const skills = [
   'IT-Management', 'Serververwaltung', 'Netzwerktechnik', 'Next.js', 'React', 'Docker', 'Linux', 'Nextcloud', 'WordPress', 'UI Motion', 'Ollama', 'GitOps', 'Digitale Bildung', 'Mediation', 'Jura/Strafrecht'
 ];
@@ -136,6 +189,7 @@ export default function ResumePage() {
     Titel: ${about.title}
     Zitat: ${about.quote}
     Werdegang: ${timelineEvents.map(e => `${e.date} - ${e.title} bei ${e.organization}: ${e.description}`).join('\n')}
+    Zertifikate: ${certificates.map(c => `${c.title} von ${c.organization}`).join('\n')}
     Fähigkeiten: ${skills.join(', ')}
     Sprachen: ${languages.map(l => `${l.name} (${l.level})`).join(', ')}
   `;
@@ -203,6 +257,33 @@ export default function ResumePage() {
                                 </CardHeader>
                                 <CardContent>
                                     <p className="text-base md:text-lg text-muted-foreground">{event.description}</p>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
+                    ))}
+                </div>
+            </motion.div>
+
+            <motion.div variants={itemVariants} className="mb-16">
+                <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 text-center flex items-center justify-center gap-3"><Award className="text-primary"/> Bescheinigungen & Zertifikate</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {certificates.map((cert, index) => (
+                        <motion.div key={index} variants={itemVariants}>
+                            <Card className="rounded-2xl shadow-lg border-border/50 h-full">
+                                <CardHeader>
+                                    <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+                                        <CardTitle className="text-lg md:text-2xl font-bold font-headline">{cert.title}</CardTitle>
+                                        <Badge variant="secondary" className="text-xs md:text-sm rounded-md whitespace-nowrap self-start sm:self-center">{cert.date}</Badge>
+                                    </div>
+                                    <CardDescription className="text-base md:text-lg pt-1 text-primary">{cert.organization}</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    {cert.description && <p className="text-base md:text-lg text-muted-foreground mb-4">{cert.description}</p>}
+                                    <div className="flex flex-wrap gap-2">
+                                        {cert.skills.map(skill => (
+                                            <Badge key={skill} variant="outline" className="text-xs rounded-md">{skill}</Badge>
+                                        ))}
+                                    </div>
                                 </CardContent>
                             </Card>
                         </motion.div>
