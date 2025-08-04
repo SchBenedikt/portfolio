@@ -13,7 +13,11 @@ export type AchievementID =
   | 'COMMAND_PRO'
   | 'SECRET_FINDER'
   | 'KEYBOARD_VIRTUOSO'
-  | 'TOOL_MASTER';
+  | 'TOOL_MASTER'
+  | 'SECRET_AGENT'
+  | 'COLOR_ARTIST'
+  | 'TIME_STOPPER'
+  | 'DIMENSION_MASTER';
 
 export interface Achievement {
   id: AchievementID;
@@ -91,5 +95,27 @@ export const achievementsList: Achievement[] = [
     id: 'TOOL_MASTER',
     name: 'Werkzeugmeister',
     description: 'Die Tools-Seite entdeckt.'
+  },
+  {
+    id: 'SECRET_AGENT',
+    name: 'Geheimagent',
+    description: 'Ein sicheres Passwort generiert.'
+  },
+  {
+    id: 'COLOR_ARTIST',
+    name: 'Farbkünstler',
+    description: 'Eine Farbpalette generiert.'
+  },
+  {
+    id: 'TIME_STOPPER',
+    name: 'Zeitstopper',
+    description: 'Die Stoppuhr verwendet.'
+  },
+  {
+    id: 'DIMENSION_MASTER',
+    name: 'Meister der Maße',
+    description: 'Den Einheitenumrechner verwendet.'
   }
 ];
+
+    

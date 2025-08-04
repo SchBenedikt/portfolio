@@ -1,27 +1,30 @@
 
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer, ArrowLeft } from 'lucide-react';
+import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search } from 'lucide-react';
 import { useAchievements } from '@/components/providers/achievements-provider';
+import { Slider } from '@/components/ui/slider';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
 type TimerMode = 'pomodoro' | 'shortBreak' | 'longBreak';
-type Tool = 'pomodoro' | null;
+type ToolId = 'pomodoro' | 'password' | 'stopwatch' | 'palette' | 'converter' | 'timer' | null;
 
 const timeSettings = {
   pomodoro: 25 * 60,
   shortBreak: 5 * 60,
   longBreak: 15 * 60,
 };
-
-const availableTools = [
-  { id: 'pomodoro', name: 'Pomodoro Timer', icon: <Timer className="w-8 h-8" /> },
-];
 
 const PomodoroTimer = () => {
   const [mode, setMode] = useState<TimerMode>('pomodoro');
@@ -140,10 +143,406 @@ const PomodoroTimer = () => {
   );
 };
 
+const PasswordGenerator = () => {
+    const [password, setPassword] = useState('');
+    const [length, setLength] = useState(16);
+    const [includeNumbers, setIncludeNumbers] = useState(true);
+    const [includeSymbols, setIncludeSymbols] = useState(true);
+    const { unlockAchievement } = useAchievements();
+
+    const generatePassword = useCallback(() => {
+        let charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        if (includeNumbers) charset += '0123456789';
+        if (includeSymbols) charset += '!@#$%^&*()_+~`|}{[]:;?><,./-=';
+        
+        let newPassword = '';
+        for (let i = 0, n = charset.length; i < length; ++i) {
+            newPassword += charset.charAt(Math.floor(Math.random() * n));
+        }
+        setPassword(newPassword);
+        unlockAchievement('SECRET_AGENT');
+    }, [length, includeNumbers, includeSymbols, unlockAchievement]);
+
+    useEffect(() => {
+        generatePassword();
+    }, [generatePassword]);
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(password);
+        toast.success("Passwort in die Zwischenablage kopiert!");
+    };
+
+    return (
+        <Card className="rounded-3xl shadow-lg w-full">
+            <CardHeader>
+                <CardTitle className="text-2xl text-center font-headline">Passwort-Generator</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center gap-6">
+                <div className="w-full p-4 bg-muted rounded-lg flex justify-between items-center gap-4">
+                    <span className="font-mono text-xl break-all">{password}</span>
+                    <Button variant="ghost" size="icon" onClick={handleCopy} data-cursor-interactive><Copy /></Button>
+                </div>
+                <div className="w-full space-y-6">
+                    <div className="space-y-2">
+                        <Label>Länge: {length}</Label>
+                        <Slider value={[length]} onValueChange={(val) => setLength(val[0])} min={8} max={64} step={1} />
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <Checkbox id="includeNumbers" checked={includeNumbers} onCheckedChange={(checked) => setIncludeNumbers(!!checked)} />
+                        <Label htmlFor="includeNumbers">Zahlen (0-9)</Label>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <Checkbox id="includeSymbols" checked={includeSymbols} onCheckedChange={(checked) => setIncludeSymbols(!!checked)} />
+                        <Label htmlFor="includeSymbols">Sonderzeichen (!@#...)</Label>
+                    </div>
+                </div>
+                <Button onClick={generatePassword} className="rounded-full" data-cursor-interactive>
+                    <RefreshCw className="mr-2" /> Neu generieren
+                </Button>
+            </CardContent>
+        </Card>
+    );
+};
+
+const Stopwatch = () => {
+    const [time, setTime] = useState(0);
+    const [isActive, setIsActive] = useState(false);
+    const [laps, setLaps] = useState<number[]>([]);
+    const { unlockAchievement } = useAchievements();
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+    useEffect(() => {
+        if (isActive) {
+            timerRef.current = setInterval(() => {
+                setTime(prevTime => prevTime + 10);
+            }, 10);
+        } else {
+            if (timerRef.current) clearInterval(timerRef.current);
+        }
+        return () => {
+            if (timerRef.current) clearInterval(timerRef.current);
+        };
+    }, [isActive]);
+
+    const formatTime = (ms: number) => {
+        const minutes = Math.floor(ms / 60000).toString().padStart(2, '0');
+        const seconds = Math.floor((ms % 60000) / 1000).toString().padStart(2, '0');
+        const milliseconds = Math.floor((ms % 1000) / 10).toString().padStart(2, '0');
+        return `${minutes}:${seconds}.${milliseconds}`;
+    };
+
+    const handleToggle = () => {
+        setIsActive(!isActive);
+        if (!isActive) unlockAchievement('TIME_STOPPER');
+    };
+
+    const handleReset = () => {
+        setIsActive(false);
+        setTime(0);
+        setLaps([]);
+    };
+
+    const handleLap = () => {
+        setLaps([time, ...laps]);
+    };
+
+    return (
+        <Card className="rounded-3xl shadow-lg w-full">
+            <CardHeader>
+                <CardTitle className="text-2xl text-center font-headline">Stoppuhr</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center gap-6">
+                <h2 className="text-7xl font-bold font-mono">{formatTime(time)}</h2>
+                <div className="flex gap-4">
+                    <Button onClick={handleToggle} size="lg" className="rounded-full w-32 text-xl py-8" data-cursor-interactive>
+                        {isActive ? <Pause /> : <Play />}
+                        <span className="ml-2">{isActive ? 'Pause' : 'Start'}</span>
+                    </Button>
+                    <Button onClick={handleReset} size="lg" variant="secondary" className="rounded-full w-32 text-xl py-8" data-cursor-interactive>
+                        <RotateCcw /> <span className="ml-2">Reset</span>
+                    </Button>
+                    <Button onClick={handleLap} size="lg" variant="outline" className="rounded-full w-32 text-xl py-8" disabled={!isActive} data-cursor-interactive>
+                        <Flag /> <span className="ml-2">Runde</span>
+                    </Button>
+                </div>
+                <div className="w-full max-h-48 overflow-y-auto space-y-2">
+                    {laps.map((lap, index) => (
+                        <div key={index} className="flex justify-between items-center p-2 bg-muted rounded-lg">
+                            <span className="text-muted-foreground">Runde {laps.length - index}</span>
+                            <span className="font-mono">{formatTime(lap - (laps[index + 1] || 0))}</span>
+                        </div>
+                    ))}
+                </div>
+            </CardContent>
+        </Card>
+    );
+};
+
+const ColorPaletteGenerator = () => {
+    const [palette, setPalette] = useState<string[]>([]);
+    const [colorCount, setColorCount] = useState(5);
+    const [baseColor, setBaseColor] = useState('#ff0000');
+    const { unlockAchievement } = useAchievements();
+
+    const generatePalette = useCallback((useRandomBase = false) => {
+        let startColor = baseColor;
+        if (useRandomBase) {
+            startColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+        }
+        
+        // Super simple hue rotation for palette generation
+        const newPalette: string[] = [];
+        const baseHue = hexToHsl(startColor)[0];
+
+        for (let i = 0; i < colorCount; i++) {
+            const newHue = (baseHue + (i * (360 / (colorCount + 1)))) % 360;
+            newPalette.push(hslToHex(newHue, 70, 60));
+        }
+        
+        setPalette(newPalette);
+        unlockAchievement('COLOR_ARTIST');
+    }, [colorCount, baseColor, unlockAchievement]);
+
+    useEffect(() => {
+        generatePalette(true);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const handleCopy = (color: string) => {
+        navigator.clipboard.writeText(color);
+        toast.success(`Farbe ${color} kopiert!`);
+    };
+
+    function hexToHsl(hex: string): [number, number, number] {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        if (!result) return [0, 0, 0];
+        let r = parseInt(result[1], 16) / 255;
+        let g = parseInt(result[2], 16) / 255;
+        let b = parseInt(result[3], 16) / 255;
+        let max = Math.max(r, g, b), min = Math.min(r, g, b);
+        let h=0, s=0, l = (max + min) / 2;
+        if (max !== min) {
+            let d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+            }
+            h /= 6;
+        }
+        return [h * 360, s * 100, l * 100];
+    }
+    
+    function hslToHex(h: number, s: number, l: number): string {
+        s /= 100; l /= 100;
+        let c = (1 - Math.abs(2 * l - 1)) * s,
+            x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+            m = l - c/2,
+            r = 0, g = 0, b = 0;
+        if (0 <= h && h < 60) { r = c; g = x; b = 0; } 
+        else if (60 <= h && h < 120) { r = x; g = c; b = 0; } 
+        else if (120 <= h && h < 180) { r = 0; g = c; b = x; } 
+        else if (180 <= h && h < 240) { r = 0; g = x; b = c; } 
+        else if (240 <= h && h < 300) { r = x; g = 0; b = c; } 
+        else if (300 <= h && h < 360) { r = c; g = 0; b = x; }
+        let hex = "#" + [r,g,b].map(v => Math.round((v + m) * 255).toString(16).padStart(2, '0')).join('');
+        return hex;
+    }
+
+    return (
+        <Card className="rounded-3xl shadow-lg w-full">
+            <CardHeader>
+                <CardTitle className="text-2xl text-center font-headline">Farbpaletten-Generator</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center gap-6">
+                 <div className="w-full flex flex-col sm:flex-row gap-4">
+                    {palette.map((color, index) => (
+                        <div key={index} className="flex-1 h-32 rounded-lg flex items-end justify-center p-2 cursor-pointer" style={{ backgroundColor: color }} onClick={() => handleCopy(color)}>
+                            <span className="font-mono bg-background/50 text-foreground px-2 py-1 rounded">{color}</span>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="w-full space-y-6">
+                    <div className='flex flex-col sm:flex-row gap-4'>
+                        <div className="space-y-2 flex-1">
+                            <Label>Basisfarbe</Label>
+                            <div className="flex items-center gap-2">
+                                <Input type="color" value={baseColor} onChange={(e) => setBaseColor(e.target.value)} className="p-1 h-10"/>
+                                <Input type="text" value={baseColor} onChange={(e) => setBaseColor(e.target.value)} className="font-mono"/>
+                            </div>
+                        </div>
+                        <div className="space-y-2 flex-1">
+                            <Label>Anzahl Farben: {colorCount}</Label>
+                            <Slider value={[colorCount]} onValueChange={(val) => setColorCount(val[0])} min={2} max={8} step={1} />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="flex gap-4">
+                    <Button onClick={() => generatePalette()} className="rounded-full" data-cursor-interactive>
+                        <Palette className="mr-2" /> Palette von Basisfarbe ableiten
+                    </Button>
+                    <Button onClick={() => generatePalette(true)} variant="outline" className="rounded-full" data-cursor-interactive>
+                        <RefreshCw className="mr-2" /> Zufällige Palette
+                    </Button>
+                </div>
+            </CardContent>
+        </Card>
+    );
+};
+
+const SimpleTimer = () => {
+    const [initialTime, setInitialTime] = useState(300); // 5 minutes
+    const [time, setTime] = useState(initialTime);
+    const [isActive, setIsActive] = useState(false);
+    const audioRef = useRef<HTMLAudioElement>(null);
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout | null = null;
+        if (isActive && time > 0) {
+            interval = setInterval(() => {
+                setTime((prevTime) => prevTime - 1);
+            }, 1000);
+        } else if (isActive && time === 0) {
+            if (audioRef.current) {
+                audioRef.current.play();
+            }
+            setIsActive(false);
+        }
+        return () => {
+            if (interval) clearInterval(interval);
+        };
+    }, [isActive, time]);
+
+    const formatTime = (seconds: number) => {
+        const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+        const s = (seconds % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
+    };
+
+    const handleMinutesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newMinutes = parseInt(e.target.value, 10) || 0;
+        const currentSeconds = initialTime % 60;
+        const newTotalSeconds = newMinutes * 60 + currentSeconds;
+        setInitialTime(newTotalSeconds);
+        if (!isActive) setTime(newTotalSeconds);
+    };
+
+    const handleSecondsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newSeconds = parseInt(e.target.value, 10) || 0;
+        const currentMinutes = Math.floor(initialTime / 60);
+        const newTotalSeconds = currentMinutes * 60 + newSeconds;
+        setInitialTime(newTotalSeconds);
+        if (!isActive) setTime(newTotalSeconds);
+    };
+
+    return (
+        <Card className="rounded-3xl shadow-lg w-full">
+            <CardHeader>
+                <CardTitle className="text-2xl text-center font-headline">Timer</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center gap-6">
+                <h2 className="text-8xl font-bold font-mono">{formatTime(time)}</h2>
+                <div className="flex items-center gap-4 text-xl">
+                    <Input type="number" min="0" max="99" value={Math.floor(initialTime / 60)} onChange={handleMinutesChange} className="w-24 text-center" disabled={isActive}/>
+                    <span>:</span>
+                    <Input type="number" min="0" max="59" value={initialTime % 60} onChange={handleSecondsChange} className="w-24 text-center" disabled={isActive}/>
+                </div>
+                <div className="flex gap-4">
+                    <Button onClick={() => setIsActive(!isActive)} size="lg" className="rounded-full w-32 text-xl py-8" data-cursor-interactive>
+                        {isActive ? <Pause /> : <Play />} <span className="ml-2">{isActive ? 'Pause' : 'Start'}</span>
+                    </Button>
+                    <Button onClick={() => { setIsActive(false); setTime(initialTime); }} size="lg" variant="secondary" className="rounded-full w-32 text-xl py-8" data-cursor-interactive>
+                        <RotateCcw /> <span className="ml-2">Reset</span>
+                    </Button>
+                </div>
+            </CardContent>
+            <audio ref={audioRef} src="https://assets.mixkit.co/sfx/preview/mixkit-clear-announce-tones-2861.mp3" />
+        </Card>
+    );
+};
+
+const UnitConverter = () => {
+    const { unlockAchievement } = useAchievements();
+    const [timeValues, setTimeValues] = useState({ s: '60', m: '1', h: (1/60).toString(), d: (1/1440).toString() });
+    const [speedValues, setSpeedValues] = useState({ 'm/s': '1', 'km/h': '3.6', mph: '2.23694' });
+
+    const timeFactors = { s: 1, m: 60, h: 3600, d: 86400 };
+    const speedFactors = { 'm/s': 1, 'km/h': 3.6, mph: 2.236936 };
+
+    const handleTimeChange = (value: string, unit: keyof typeof timeFactors) => {
+        const numericValue = parseFloat(value) || 0;
+        const inSeconds = numericValue * timeFactors[unit];
+        const newValues = {
+            s: (inSeconds / timeFactors.s).toPrecision(4),
+            m: (inSeconds / timeFactors.m).toPrecision(4),
+            h: (inSeconds / timeFactors.h).toPrecision(4),
+            d: (inSeconds / timeFactors.d).toPrecision(4),
+        };
+        setTimeValues(newValues);
+        unlockAchievement('DIMENSION_MASTER');
+    };
+
+    const handleSpeedChange = (value: string, unit: keyof typeof speedFactors) => {
+        const numericValue = parseFloat(value) || 0;
+        const inMs = numericValue / speedFactors[unit];
+        const newValues = {
+            'm/s': (inMs * speedFactors['m/s']).toPrecision(4),
+            'km/h': (inMs * speedFactors['km/h']).toPrecision(4),
+            mph: (inMs * speedFactors['mph']).toPrecision(4),
+        };
+        setSpeedValues(newValues);
+        unlockAchievement('DIMENSION_MASTER');
+    };
+
+    return (
+        <Card className="rounded-3xl shadow-lg w-full">
+            <CardHeader>
+                <CardTitle className="text-2xl text-center font-headline">Einheitenumrechner</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <Tabs defaultValue="time">
+                    <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="time">Zeit</TabsTrigger>
+                        <TabsTrigger value="speed">Geschwindigkeit</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="time" className="space-y-4 pt-4">
+                        {(Object.keys(timeValues) as Array<keyof typeof timeValues>).map(unit => (
+                            <div key={unit} className="flex items-center gap-4">
+                                <Label htmlFor={`time-${unit}`} className="w-32">{unit}</Label>
+                                <Input id={`time-${unit}`} value={timeValues[unit]} onChange={e => handleTimeChange(e.target.value, unit)} type="number" />
+                            </div>
+                        ))}
+                    </TabsContent>
+                    <TabsContent value="speed" className="space-y-4 pt-4">
+                        {(Object.keys(speedValues) as Array<keyof typeof speedValues>).map(unit => (
+                            <div key={unit} className="flex items-center gap-4">
+                                <Label htmlFor={`speed-${unit}`} className="w-32">{unit}</Label>
+                                <Input id={`speed-${unit}`} value={speedValues[unit]} onChange={e => handleSpeedChange(e.target.value, unit)} type="number" />
+                            </div>
+                        ))}
+                    </TabsContent>
+                </Tabs>
+            </CardContent>
+        </Card>
+    );
+};
+
+
+const availableTools = [
+  { id: 'pomodoro', name: 'Pomodoro Timer', icon: <BookOpen className="w-8 h-8" /> },
+  { id: 'timer', name: 'Timer', icon: <TimerIcon className="w-8 h-8" /> },
+  { id: 'stopwatch', name: 'Stoppuhr', icon: <Clock className="w-8 h-8" /> },
+  { id: 'converter', name: 'Einheitenumrechner', icon: <Scale className="w-8 h-8" /> },
+  { id: 'password', name: 'Passwort-Generator', icon: <KeyRound className="w-8 h-8" /> },
+  { id: 'palette', name: 'Farbpalette', icon: <Palette className="w-8 h-8" /> },
+];
 
 export default function ToolsPage() {
   const { unlockAchievement } = useAchievements();
-  const [selectedTool, setSelectedTool] = useState<Tool>(null);
+  const [selectedTool, setSelectedTool] = useState<ToolId>(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     unlockAchievement('TOOL_MASTER');
@@ -151,12 +550,19 @@ export default function ToolsPage() {
 
   const renderTool = () => {
     switch (selectedTool) {
-      case 'pomodoro':
-        return <PomodoroTimer />;
-      default:
-        return null;
+      case 'pomodoro': return <PomodoroTimer />;
+      case 'password': return <PasswordGenerator />;
+      case 'stopwatch': return <Stopwatch />;
+      case 'palette': return <ColorPaletteGenerator />;
+      case 'converter': return <UnitConverter />;
+      case 'timer': return <SimpleTimer />;
+      default: return null;
     }
   };
+
+  const filteredTools = availableTools.filter(tool => 
+      tool.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
@@ -167,9 +573,9 @@ export default function ToolsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-md mx-auto"
+            className="max-w-4xl mx-auto"
           >
-            <h1 className="text-6xl md:text-8xl font-black text-center mb-12 md:mb-16 uppercase tracking-tighter font-headline">
+            <h1 className="text-6xl md:text-8xl font-black text-center mb-4 md:mb-8 uppercase tracking-tighter font-headline">
               Tools
             </h1>
             
@@ -187,26 +593,40 @@ export default function ToolsPage() {
                  {renderTool()}
               </motion.div>
             ) : (
-              <motion.div
-                 initial={{ opacity: 0 }}
-                 animate={{ opacity: 1 }}
-                 transition={{ duration: 0.5, delay: 0.2 }}
-                 className="grid grid-cols-1 gap-6"
-              >
-                {availableTools.map(tool => (
-                  <Card 
-                    key={tool.id} 
-                    className="p-6 rounded-2xl text-center cursor-pointer hover:border-primary transition-all"
-                    onClick={() => setSelectedTool(tool.id as Tool)}
-                    data-cursor-interactive
-                  >
-                    <div className="flex flex-col items-center gap-4">
-                      {tool.icon}
-                      <h2 className="text-2xl font-bold font-headline">{tool.name}</h2>
-                    </div>
-                  </Card>
-                ))}
-              </motion.div>
+              <>
+                <div className="relative mb-8 md:mb-12">
+                   <Input 
+                      type="text"
+                      placeholder="Tool suchen..."
+                      className="w-full p-4 pl-12 text-lg rounded-full"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                   />
+                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-6 h-6"/>
+                </div>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
+                >
+                  {filteredTools.length > 0 ? filteredTools.map(tool => (
+                    <Card 
+                      key={tool.id} 
+                      className="p-6 rounded-2xl text-center cursor-pointer hover:border-primary transition-all group"
+                      onClick={() => setSelectedTool(tool.id as ToolId)}
+                      data-cursor-interactive
+                    >
+                      <div className="flex flex-col items-center gap-4 text-muted-foreground group-hover:text-primary transition-colors">
+                        {React.cloneElement(tool.icon, { className: "w-10 h-10"})}
+                        <h2 className="text-2xl font-bold font-headline text-foreground">{tool.name}</h2>
+                      </div>
+                    </Card>
+                  )) : (
+                     <p className="text-center text-muted-foreground col-span-full">Keine Tools gefunden.</p>
+                  )}
+                </motion.div>
+              </>
             )}
             
           </motion.div>
@@ -216,3 +636,5 @@ export default function ToolsPage() {
     </div>
   );
 }
+
+    
