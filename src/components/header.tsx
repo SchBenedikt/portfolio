@@ -42,7 +42,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
   ]
 
   const isLabelVisible = (href: string) => {
-    return !isScrolled || pathname.startsWith(href) || hoveredHref === href;
+    return pathname.startsWith(href) || hoveredHref === href;
   }
 
   const navItemVariants = {
@@ -93,7 +93,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
                 exit={{ opacity: 0, x: -20, transition: { duration: 0.2 } }}
               >
                  <div className="p-1 rounded-full bg-muted/50 backdrop-blur-lg">
-                    <Button asChild variant={'active'} className={cn("rounded-full relative")} data-cursor-interactive>
+                    <Button asChild variant={'ghost'} className={cn("rounded-full relative")} data-cursor-interactive>
                        <Link href="/" className="flex items-center gap-1">
                           <span className="font-headline text-base">BS</span>
                        </Link>
