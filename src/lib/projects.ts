@@ -30,9 +30,8 @@ export const projectData = [
     date: '2024-08-01',
     category: 'Web-Anwendung / EdTech',
     details: {
-      usage: 'Notio richtet sich in erster Linie an Schüler und Schülerinnen, kann aber auch von Eltern und Lehrkräften genutzt werden. Die Plattform lässt sich flexibel an individuelle Anforderungen und Klassenstufen anpassen.',
-      strengths: 'Klare Fokuslegung auf die wichtigsten Bedürfnisse im Schulalltag: Übersicht, Transparenz und Einfachheit. Schneller Zugriff auf Lerndaten, automatische Auswertungen und eine unkomplizierte Benutzeroberfläche zeichnen Notio aus.',
-      potential: 'Zukünftige Versionen könnten durch Kollaborationsfunktionen, tiefere Datenanalysen, Schnittstellen zu externen Tools (wie z.B. Google Kalender) oder vertiefte Kommunikationsmöglichkeiten erweitert werden.'
+      usage: 'Schüler, Eltern und Lehrkräfte zur digitalen Noten- und Lernverwaltung.',
+      strengths: 'Zentrales Dashboard, automatische Schnittberechnung, intuitive Bedienung.',
     }
   },
   {
@@ -81,6 +80,11 @@ export const projectData = [
     tags: ['Crossmedia', 'Storytelling', 'Ausgezeichnet', 'UI/UX', 'KI-Chatbot'],
     date: '2024-05-10',
     category: 'Schulprojekt / Crossmedia',
+    details: {
+      usage: 'Multimediales Storytelling-Projekt mit Blog, KI-Chat und Merchandise-Shop.',
+      strengths: 'Mehrfach preisgekrönt (u.a. Deutscher Multimediapreis mb21).',
+      potential: 'Kombiniert Geschichte, Latein und moderne Medientechnologien.'
+    }
   },
   {
     title: 'Medienscouts KKG',
@@ -116,6 +120,11 @@ export const projectData = [
     tags: ['Next.js', 'Chatbot', 'Schulprojekt', 'CI/CD', 'Bildung'],
     date: '2023-09-01',
     category: 'Web-Anwendung / Bildung',
+    details: {
+      usage: 'Schulinterne Plattform zur Förderung von Medienkompetenz und technischem Support.',
+      strengths: 'Peer-to-Peer-Beratung, interaktiver Chatbot, umfangreiche Wissensdatenbank.',
+      potential: 'Direkte Unterstützung für Digitalklassen und Sensibilisierung für Online-Sicherheit.'
+    }
   },
   {
     title: 'Technik Schächner',
@@ -150,5 +159,10 @@ export const projectData = [
     tags: ['Web-Anwendungen', 'Python', 'JavaScript', 'Self-Hosting', 'Docker', 'Open-Source'],
     date: '2024-09-01',
     category: 'Entwicklerplattform / Blog',
+    details: {
+        usage: 'Persönliche Entwicklerplattform und Experimentierfeld für neue Technologien.',
+        strengths: 'Bündelt diverse Eigenentwicklungen, Scripts und technische Anleitungen.',
+        potential: 'Fokus auf Open-Source, Self-Hosting und Wissensvermittlung für die Tech-Community.'
+    }
   },
 ];
