@@ -857,7 +857,6 @@ export default function ToolsPage() {
                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-6 h-6"/>
                 </div>
                  <Reorder.Group
-                  axis="y"
                   values={filteredTools}
                   onReorder={handleReorder}
                   className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
