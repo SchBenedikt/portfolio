@@ -58,18 +58,24 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
       transition: { duration: 0.2, ease: [0.25, 1, 0.5, 1] }
     },
   }
+  
+  const layoutTransition = {
+    type: "spring",
+    stiffness: 300,
+    damping: 30,
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300">
       <motion.div 
-        layout 
-        transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+        layout
+        transition={layoutTransition}
         className={cn(
           "container mx-auto px-6 sm:px-8 flex items-center",
           isScrolled ? "justify-center gap-2" : "justify-between"
         )}
       >
-        <motion.div layout>
+        <motion.div layout transition={layoutTransition}>
           <AnimatePresence>
             {!isScrolled && (
               <motion.div
@@ -94,14 +100,13 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
                 exit={{ opacity: 0, x: -20, transition: { duration: 0.2 } }}
+                className="p-1 rounded-full bg-muted/50 backdrop-blur-lg"
               >
-                 <div className="p-1 rounded-full bg-muted/50 backdrop-blur-lg">
-                    <Button asChild variant={'ghost'} className={cn("rounded-full relative")} data-cursor-interactive>
-                       <Link href="/" className="flex items-center gap-1">
-                          <span className="font-headline text-base">BS</span>
-                       </Link>
-                    </Button>
-                </div>
+                 <Button asChild variant={'ghost'} className={cn("rounded-full relative")} data-cursor-interactive>
+                    <Link href="/" className="flex items-center gap-1">
+                       <span className="font-headline text-base">BS</span>
+                    </Link>
+                 </Button>
               </motion.div>
             )}
           </AnimatePresence>
@@ -110,12 +115,12 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
         {/* Desktop Navigation */}
         <motion.div 
             layout 
-            transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+            transition={layoutTransition}
             className="hidden md:flex items-center"
         >
             <motion.nav 
               layout
-              transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+              transition={layoutTransition}
               className="flex items-center gap-1 p-1 rounded-full bg-muted/50 backdrop-blur-lg"
               onMouseLeave={() => setHoveredHref(null)}
             >
@@ -152,7 +157,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
             </motion.nav>
         </motion.div>
 
-        <motion.div layout>
+        <motion.div layout transition={layoutTransition}>
           <AnimatePresence>
             {!isScrolled && (
               <motion.div
@@ -162,7 +167,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
                 transition={{ duration: 0.4, ease: 'easeOut' }}
                 className="flex items-center"
               >
-                <div className="hidden md:flex items-center gap-1 p-1 rounded-full bg-muted/50">
+                <div className="hidden md:flex items-center gap-1 p-1 rounded-full bg-muted/50 backdrop-blur-lg">
                     {children}
                     <ThemeToggle />
                 </div>
@@ -201,11 +206,9 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
                 exit={{ opacity: 0, x: 20, transition: { duration: 0.2 } }}
-                 className="hidden md:flex"
+                 className="hidden md:flex p-1 rounded-full bg-muted/50 backdrop-blur-lg"
               >
-                <div className="flex items-center gap-1 p-1 rounded-full bg-muted/50 backdrop-blur-lg">
-                    <ThemeToggle />
-                </div>
+                <ThemeToggle />
               </motion.div>
             )}
           </AnimatePresence>

@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
-import { motion, Reorder } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search, Wand2, Thermometer, Weight, Ruler, ListTodo, Trash2 } from 'lucide-react';
@@ -774,45 +774,14 @@ export default function ToolsPage() {
   const { unlockAchievement } = useAchievements();
   const [selectedToolId, setSelectedToolId] = useState<ToolId>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [orderedTools, setOrderedTools] = useState<Tool[]>([]);
 
   useEffect(() => {
     unlockAchievement('TOOL_MASTER');
-    try {
-        const savedOrder = localStorage.getItem('toolOrder');
-        if (savedOrder) {
-            const parsedOrder = JSON.parse(savedOrder) as string[];
-            const newOrderedTools = parsedOrder
-                .map(id => initialTools.find(tool => tool.id === id))
-                .filter((tool): tool is Tool => !!tool);
-
-            // Add any new tools that weren't in the saved order
-            initialTools.forEach(initialTool => {
-                if (!newOrderedTools.find(t => t.id === initialTool.id)) {
-                    newOrderedTools.push(initialTool);
-                }
-            });
-            setOrderedTools(newOrderedTools);
-        } else {
-            setOrderedTools(initialTools);
-        }
-    } catch (e) {
-        setOrderedTools(initialTools);
-    }
   }, [unlockAchievement]);
-
-  const handleReorder = (newOrder: Tool[]) => {
-      setOrderedTools(newOrder);
-      try {
-        localStorage.setItem('toolOrder', JSON.stringify(newOrder.map(tool => tool.id)));
-      } catch (e) {
-          console.error("Could not save tool order", e);
-      }
-  };
   
-  const selectedTool = orderedTools.find(tool => tool.id === selectedToolId);
+  const selectedTool = initialTools.find(tool => tool.id === selectedToolId);
 
-  const filteredTools = orderedTools.filter(tool => 
+  const filteredTools = initialTools.filter(tool => 
       tool.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -856,13 +825,11 @@ export default function ToolsPage() {
                    />
                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-6 h-6"/>
                 </div>
-                 <Reorder.Group
-                  values={filteredTools}
-                  onReorder={handleReorder}
+                 <div
                   className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
                 >
                   {filteredTools.length > 0 ? filteredTools.map(tool => (
-                    <Reorder.Item key={tool.id} value={tool} className="cursor-grab">
+                    <motion.div key={tool.id}>
                         <Card 
                           className="h-full p-6 rounded-2xl text-center cursor-pointer hover:border-primary transition-all group"
                           onClick={() => setSelectedToolId(tool.id)}
@@ -873,11 +840,11 @@ export default function ToolsPage() {
                             <h2 className="text-2xl font-bold font-headline text-foreground">{tool.name}</h2>
                           </div>
                         </Card>
-                    </Reorder.Item>
+                    </motion.div>
                   )) : (
                      <p className="text-center text-muted-foreground col-span-full">Keine Tools gefunden.</p>
                   )}
-                </Reorder.Group>
+                </div>
               </>
             )}
             
@@ -888,5 +855,3 @@ export default function ToolsPage() {
     </div>
   );
 }
-
-    
