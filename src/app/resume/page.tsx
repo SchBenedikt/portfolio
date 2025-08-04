@@ -250,8 +250,8 @@ export default function ResumePage() {
                     <div className="relative border-l-2 border-primary/50 ml-3 md:ml-4 pl-4">
                         {timelineEvents.map((event, index) => (
                             <motion.div key={index} variants={itemVariants} className="mb-10 ml-4 md:ml-8">
-                                <span className={`absolute -left-[18px] flex items-center justify-center w-9 h-9 rounded-full ring-8 ring-background bg-secondary`}>
-                                    {React.cloneElement(event.icon, { className: "h-5 w-5 text-secondary-foreground" })}
+                                <span className={`absolute -left-[18px] flex items-center justify-center w-9 h-9 rounded-full ring-8 ring-background ${event.isCurrent ? 'bg-primary/20' : 'bg-secondary'}`}>
+                                    {React.cloneElement(event.icon, { className: "h-5 w-5 text-primary" })}
                                 </span>
                                 <Card className="rounded-2xl shadow-lg border-border/50 transition-all hover:border-primary/50">
                                     <CardHeader>
@@ -280,9 +280,9 @@ export default function ResumePage() {
 
                 <motion.div variants={itemVariants} className="mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 text-center flex items-center justify-center gap-3"><Award className="text-primary"/> Bescheinigungen & Zertifikate</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="md:columns-2 md:gap-8 space-y-8">
                         {certificates.map((cert, index) => (
-                            <motion.div key={index} variants={itemVariants}>
+                            <motion.div key={index} variants={itemVariants} className="break-inside-avoid">
                                 <Card className="rounded-2xl shadow-lg border-border/50">
                                     <CardHeader>
                                         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
@@ -339,9 +339,9 @@ export default function ResumePage() {
                 </div>
               </TabsContent>
               <TabsContent value="current">
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                 <div className="md:columns-2 md:gap-8 space-y-8">
                     {currentActivities.map((item: any, index) => (
-                       <motion.div key={index} variants={itemVariants}>
+                       <motion.div key={index} variants={itemVariants} className="break-inside-avoid">
                            <Card className="rounded-2xl shadow-lg border-border/50">
                                <CardHeader>
                                    <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
