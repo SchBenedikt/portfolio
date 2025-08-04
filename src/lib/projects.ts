@@ -1,6 +1,20 @@
 
 export const projectData = [
   {
+    title: 'Notio – Digitale Notenverwaltung',
+    slug: 'notio',
+    description:
+      'Eine webbasierte Applikation zur Verwaltung und Analyse schulischer Leistungsdaten, individuell konzipiert für Schüler.',
+    longDescription:
+      'Notio ist eine webbasierte Applikation zur Verwaltung und Analyse schulischer Leistungsdaten, individuell konzipiert für Schüler an weiterführenden Schulen in Deutschland. Die Software bietet ein zentrales, übersichtlich gestaltetes Dashboard, über das alle relevanten Informationen auf einen Blick sichtbar sind. Nutzer können Lernzettel, Aufgaben und Prüfungen verwalten, Noten erfassen und sich den Durchschnitt automatisch berechnen lassen. Die Benachrichtigungsfunktion ist derzeit noch in Entwicklung.',
+    image: 'https://placehold.co/600x400.png',
+    url: '#',
+    tags: ['Web-App', 'Next.js', 'Datenvisualisierung', 'Bildung', 'Lernmanagement'],
+    aiHint: 'student grade dashboard',
+    date: '2024-08-01',
+    category: 'Web-Anwendung / EdTech',
+  },
+  {
     title: 'Meum Diarium',
     slug: 'meum-diarium',
     description:
