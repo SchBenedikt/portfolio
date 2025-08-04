@@ -7,7 +7,7 @@ import Footer from '@/components/footer';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search, Wand2, Thermometer, Weight, Ruler, ListTodo, Trash2, QrCode, Notebook } from 'lucide-react';
+import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search, Wand2, Thermometer, Weight, Ruler, ListTodo, Trash2, QrCode, Notebook, Download } from 'lucide-react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -543,8 +543,15 @@ function Notes() {
 function QrCodeGenerator() {
     const [qrData, setQrData] = useState('https://benedikt.xn--schchner-2za.de');
     const [qrColor, setQrColor] = useState('000000');
-    
-    const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}&color=${qrColor}`;
+    const [qrBgColor, setQrBgColor] = useState('ffffff');
+    const [qrMargin, setQrMargin] = useState(1);
+    const [qrEcc, setQrEcc] = useState('L');
+
+    const getBaseUrl = (format = 'png') => {
+        return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}&color=${qrColor}&bgcolor=${qrBgColor}&margin=${qrMargin}&ecc=${qrEcc}&format=${format}`;
+    };
+
+    const exportFormats = ['png', 'jpg', 'svg', 'pdf'];
 
     return (
         <Card className="rounded-3xl shadow-lg w-full">
@@ -555,7 +562,7 @@ function QrCodeGenerator() {
                 {qrData && (
                     <div className="p-4 bg-white rounded-lg">
                         <Image
-                            src={qrApiUrl}
+                            src={getBaseUrl()}
                             alt="Generated QR Code"
                             width={200}
                             height={200}
@@ -572,21 +579,71 @@ function QrCodeGenerator() {
                             placeholder="z.B. https://example.com"
                         />
                     </div>
-                    <div>
-                        <Label htmlFor="qr-color">Farbe (Hex-Code ohne #)</Label>
-                         <div className="flex items-center gap-2">
-                            <Input
-                                type="color"
-                                value={`#${qrColor}`}
-                                onChange={(e) => setQrColor(e.target.value.substring(1))}
-                                className="p-1 h-10 w-12"
-                            />
-                            <Input
-                                id="qr-color"
-                                value={qrColor}
-                                onChange={(e) => setQrColor(e.target.value)}
-                                className="font-mono"
-                            />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                         <div>
+                            <Label htmlFor="qr-color">Vordergrund</Label>
+                            <div className="flex items-center gap-2">
+                                <Input
+                                    type="color"
+                                    value={`#${qrColor}`}
+                                    onChange={(e) => setQrColor(e.target.value.substring(1))}
+                                    className="p-1 h-10 w-12"
+                                />
+                                <Input
+                                    id="qr-color"
+                                    value={qrColor}
+                                    onChange={(e) => setQrColor(e.target.value)}
+                                    className="font-mono"
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <Label htmlFor="qr-bgcolor">Hintergrund</Label>
+                            <div className="flex items-center gap-2">
+                                <Input
+                                    type="color"
+                                    value={`#${qrBgColor}`}
+                                    onChange={(e) => setQrBgColor(e.target.value.substring(1))}
+                                    className="p-1 h-10 w-12"
+                                />
+                                <Input
+                                    id="qr-bgcolor"
+                                    value={qrBgColor}
+                                    onChange={(e) => setQrBgColor(e.target.value)}
+                                    className="font-mono"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <Label>Fehlerkorrektur</Label>
+                            <Select value={qrEcc} onValueChange={setQrEcc}>
+                                <SelectTrigger><SelectValue/></SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="L">Niedrig (L)</SelectItem>
+                                    <SelectItem value="M">Mittel (M)</SelectItem>
+                                    <SelectItem value="Q">Quartil (Q)</SelectItem>
+                                    <SelectItem value="H">Hoch (H)</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                         <div>
+                            <Label>Rand (Quiet Zone): {qrMargin}px</Label>
+                            <Slider value={[qrMargin]} onValueChange={(v) => setQrMargin(v[0])} min={0} max={20} step={1}/>
+                        </div>
+                    </div>
+                     <div>
+                        <Label>Exportieren</Label>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                            {exportFormats.map(format => (
+                                <Button asChild key={format} variant="outline" size="sm">
+                                    <a href={getBaseUrl(format)} download={`qr-code.${format}`}>
+                                        <Download className="mr-2 h-4 w-4" />
+                                        {format.toUpperCase()}
+                                    </a>
+                                </Button>
+                            ))}
                         </div>
                     </div>
                 </div>
