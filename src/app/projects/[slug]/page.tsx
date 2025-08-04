@@ -175,15 +175,6 @@ export default function ProjectPage() {
                               </div>
                           </div>
                         )}
-                        {project.details?.strengths && (
-                           <div className="flex items-start">
-                              <Star className="mr-3 mt-1 text-primary"/>
-                              <div>
-                                  <h4 className="font-semibold">Stärken</h4>
-                                  <p className="text-muted-foreground text-sm md:text-base">{project.details.strengths}</p>
-                              </div>
-                          </div>
-                        )}
                         {project.details?.potential && (
                            <div className="flex items-start">
                               <BrainCircuit className="mr-3 mt-1 text-primary"/>
@@ -194,7 +185,7 @@ export default function ProjectPage() {
                           </div>
                         )}
                      </div>
-                     <Button asChild className="w-full rounded-full text-base md:text-lg py-6 md:py-8" data-cursor-interactive disabled={!hasValidUrl}>
+                     <Button asChild variant="outline" className="w-full rounded-full" data-cursor-interactive disabled={!hasValidUrl}>
                         <Link href={project.url} target="_blank" rel="noopener noreferrer">
                            {buttonIcon}
                            {buttonText}

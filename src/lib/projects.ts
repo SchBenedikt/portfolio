@@ -31,7 +31,6 @@ export const projectData = [
     category: 'Web-Anwendung / EdTech',
     details: {
       usage: 'Schüler, Eltern und Lehrkräfte zur digitalen Noten- und Lernverwaltung.',
-      strengths: 'Zentrales Dashboard, automatische Schnittberechnung, intuitive Bedienung.',
     }
   },
   {
@@ -82,7 +81,6 @@ export const projectData = [
     category: 'Schulprojekt / Crossmedia',
     details: {
       usage: 'Multimediales Storytelling-Projekt mit Blog, KI-Chat und Merchandise-Shop.',
-      strengths: 'Mehrfach preisgekrönt (u.a. Deutscher Multimediapreis mb21).',
       potential: 'Kombiniert Geschichte, Latein und moderne Medientechnologien.'
     }
   },
@@ -122,7 +120,6 @@ export const projectData = [
     category: 'Web-Anwendung / Bildung',
     details: {
       usage: 'Schulinterne Plattform zur Förderung von Medienkompetenz und technischem Support.',
-      strengths: 'Peer-to-Peer-Beratung, interaktiver Chatbot, umfangreiche Wissensdatenbank.',
       potential: 'Direkte Unterstützung für Digitalklassen und Sensibilisierung für Online-Sicherheit.'
     }
   },
@@ -161,7 +158,6 @@ export const projectData = [
     category: 'Entwicklerplattform / Blog',
     details: {
         usage: 'Persönliche Entwicklerplattform und Experimentierfeld für neue Technologien.',
-        strengths: 'Bündelt diverse Eigenentwicklungen, Scripts und technische Anleitungen.',
         potential: 'Fokus auf Open-Source, Self-Hosting und Wissensvermittlung für die Tech-Community.'
     }
   },
