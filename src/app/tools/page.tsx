@@ -18,6 +18,7 @@ import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { generateText } from '@/ai/flows/textGeneratorFlow';
+import { GenerateTextInput } from '@/ai/flows/types';
 import TextareaAutosize from 'react-textarea-autosize';
 import { Loader2 } from 'lucide-react';
 
@@ -770,5 +771,3 @@ export default function ToolsPage() {
     </div>
   );
 }
-
-    

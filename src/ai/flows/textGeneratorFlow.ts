@@ -4,17 +4,11 @@
  * @fileOverview A simple text generator flow.
  *
  * - generateText - A function that generates text based on a topic and type.
- * - GenerateTextInput - The input type for the generateText function.
  */
 
 import { ai } from '@/ai/genkit';
-import { z } from 'zod';
+import { GenerateTextInput, GenerateTextInputSchema } from './types';
 
-export const GenerateTextInputSchema = z.object({
-    topic: z.string().describe('The topic for the text generation.'),
-    type: z.string().describe('The type of text to generate (e.g., "Blog-Idee", "Tweet", "Gedicht").'),
-});
-export type GenerateTextInput = z.infer<typeof GenerateTextInputSchema>;
 
 const prompt = ai.definePrompt({
     name: 'textGeneratorPrompt',
