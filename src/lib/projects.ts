@@ -1,12 +1,14 @@
 
 export const projectData = [
   {
-    title: 'Notio – Digitale Noten- und Lernverwaltung für Schüler',
+    title: 'Notio',
     slug: 'notio',
     description:
-      'Eine webbasierte Applikation zur Verwaltung und Analyse schulischer Leistungsdaten, individuell konzipiert für Schüler.',
+      'Eine webbasierte Applikation zur Verwaltung und Analyse schulischer Leistungsdaten, individuell konzipiert für Schüler an weiterführenden Schulen in Deutschland.',
     longDescription:
       `
+      <p class="text-xl md:text-2xl">Notio ist eine webbasierte Applikation zur Verwaltung und Analyse schulischer Leistungsdaten, individuell konzipiert für Schüler an weiterführenden Schulen in Deutschland. Die Software bietet ein zentrales, übersichtlich gestaltetes Dashboard, über das alle relevanten Informationen auf einen Blick sichtbar sind.</p>
+
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Dashboard & Übersicht</h3>
       <p>Nach dem Login gelangt der Nutzer direkt in das persönliche Notencockpit. Hier werden der aktuelle Gesamtnotenschnitt (auf Basis gewichteter Fächer), die Anzahl der ordentlich geführten Fächer sowie sämtliche eingetragenen Leistungsnachweise angezeigt.</p>
       
@@ -20,7 +22,7 @@ export const projectData = [
        <p>Sämtliche Nutzerdaten werden DSGVO-konform verarbeitet und sind vor unbefugtem Zugriff geschützt.</p>
       `,
     image: 'https://placehold.co/600x400.png',
-    url: '#',
+    url: 'https://notio.schächner.de',
     tags: ['Web-App', 'Next.js', 'Datenvisualisierung', 'Bildung', 'Lernmanagement'],
     aiHint: 'student grade dashboard',
     date: '2024-08-01',

@@ -7,7 +7,7 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Github, Calendar, Folder, Tags, Bot, Target, Star, BrainCircuit } from 'lucide-react';
+import { ArrowLeft, Github, Calendar, Folder, Tags, Bot, Target, Star, BrainCircuit, Link as LinkIcon } from 'lucide-react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -37,13 +37,17 @@ export default function ProjectPage() {
   const handleAskAI = () => {
     const context = `
       Projekttitel: ${project.title}
-      Beschreibung: ${project.longDescription}
+      Beschreibung: ${project.longDescription.replace(/<[^>]*>?/gm, '')}
       Technologien: ${project.tags.join(', ')}
       Kategorie: ${project.category}
       Datum: ${project.date}
     `;
     openChat(context);
   };
+
+  const hasValidUrl = project.url && project.url !== '#';
+  const buttonIcon = hasValidUrl && !project.url.includes('github.com') ? <LinkIcon className="mr-3"/> : <Github className="mr-3"/>;
+  const buttonText = hasValidUrl ? (project.url.includes('github.com') ? 'Auf Github ansehen' : 'Projekt ansehen') : 'Nicht verfügbar';
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
@@ -150,10 +154,10 @@ export default function ProjectPage() {
                           </div>
                         )}
                      </div>
-                     <Button asChild className="w-full rounded-full text-base md:text-lg py-6 md:py-8" data-cursor-interactive>
-                        <Link href="#">
-                           <Github className="mr-3"/>
-                           Auf Github ansehen
+                     <Button asChild className="w-full rounded-full text-base md:text-lg py-6 md:py-8" data-cursor-interactive disabled={!hasValidUrl}>
+                        <Link href={project.url} target="_blank" rel="noopener noreferrer">
+                           {buttonIcon}
+                           {buttonText}
                         </Link>
                     </Button>
                  </div>

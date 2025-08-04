@@ -18,7 +18,7 @@ import Image from 'next/image';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Github, ArrowRight } from 'lucide-react';
+import { Github, ArrowRight, Link as LinkIcon } from 'lucide-react';
 
 const MotionCard = motion(Card);
 
@@ -34,9 +34,13 @@ export default function ProjectsPage() {
     const project = projectData.find((p) => p.slug === slug);
     if (project) {
       setSelectedProject(project);
-      unlockAchievement('PROJECT_INSPECTOR');
     }
   };
+  
+  const hasValidUrl = selectedProject.url && selectedProject.url !== '#';
+  const buttonIcon = hasValidUrl && !selectedProject.url.includes('github.com') ? <LinkIcon className="mr-3"/> : <Github className="mr-3"/>;
+  const buttonText = hasValidUrl ? (selectedProject.url.includes('github.com') ? 'Auf Github ansehen' : 'Projekt ansehen') : 'Nicht verfügbar';
+
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
@@ -107,7 +111,7 @@ export default function ProjectsPage() {
                           ))}
                         </div>
                         <p className="text-muted-foreground text-lg md:text-xl mb-6">
-                          {selectedProject.longDescription}
+                          {selectedProject.description}
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4">
                           <Button asChild className="rounded-full text-lg py-6" data-cursor-interactive>
@@ -115,10 +119,10 @@ export default function ProjectsPage() {
                                 Details ansehen <ArrowRight className="ml-2"/>
                             </Link>
                           </Button>
-                           <Button asChild variant="outline" className="rounded-full text-lg py-6" data-cursor-interactive>
-                                <a href="#" target="_blank">
-                                    <Github className="mr-3"/>
-                                    Auf Github ansehen
+                           <Button asChild variant="outline" className="rounded-full text-lg py-6" data-cursor-interactive disabled={!hasValidUrl}>
+                                <a href={selectedProject.url} target="_blank" rel="noopener noreferrer">
+                                    {buttonIcon}
+                                    {buttonText}
                                 </a>
                            </Button>
                         </div>
