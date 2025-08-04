@@ -24,7 +24,7 @@ export const projectData = [
        <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Datenschutz & Sicherheit</h3>
        <p>Sämtliche Nutzerdaten werden DSGVO-konform verarbeitet und sind vor unbefugtem Zugriff geschützt.</p>
       `,
-    image: '/photos/Notio_Dashboard.png',
+    image: 'https://raw.githubusercontent.com/firebase/studio-samples/main/multi-page-portfolio/public/photos/Notio_Dashboard.png',
     url: 'https://notio.schächner.de',
     tags: ['Web-App', 'Next.js', 'Datenvisualisierung', 'Bildung', 'Lernmanagement'],
     date: '2024-08-01',
