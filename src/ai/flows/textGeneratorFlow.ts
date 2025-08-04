@@ -23,6 +23,9 @@ const prompt = ai.definePrompt({
 });
 
 export async function generateText(input: GenerateTextInput): Promise<string> {
-    const llmResponse = await prompt(input);
+    const llmResponse = await ai.generate({
+        model: 'gemini-1.5-flash',
+        prompt: await prompt.render({input}),
+    });
     return llmResponse.text;
 }
