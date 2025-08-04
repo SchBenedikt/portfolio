@@ -31,6 +31,44 @@ export const projectData = [
     category: 'Web-Anwendung / EdTech',
     details: {
       usage: 'Schüler, Eltern und Lehrkräfte zur digitalen Noten- und Lernverwaltung.',
+      potential: 'Intuitive Bedienbarkeit und mobile Nutzbarkeit für den Schulalltag.'
+    }
+  },
+  {
+    title: 'Instagram TuS Töging Judo',
+    slug: 'tus-toeging-judo-instagram',
+    description: 'Verwaltung und Gestaltung des offiziellen Instagram-Kanals der Judoabteilung des TuS Töging, ausgezeichnet als „Top-Verein“ des Bayerischen Judo-Verbands.',
+    longDescription: `
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Überblick</h3>
+      <p>Dieses Projekt umfasst die Mitverwaltung und inhaltliche Gestaltung des Instagram-Kanals der TuS Töging Judoabteilung. Als „Top-Verein“ des Bayerischen Judo-Verbands (2024-2028) ist eine moderne und ansprechende Online-Präsenz entscheidend, um Mitglieder zu informieren und neue Interessenten zu gewinnen.</p>
+      
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Kanal-Statistiken (Stand August 2025)</h3>
+      <ul class="list-disc pl-6 space-y-2">
+        <li><b>Beiträge:</b> 10</li>
+        <li><b>Follower:</b> 82</li>
+        <li><b>Gefolgt:</b> 54</li>
+      </ul>
+
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Aufgaben & Inhalte</h3>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>Regelmäßige Beiträge zu Vereinsaktivitäten, Ligabetrieb, Turnieren und dem Judo-Alltag.</li>
+        <li>Pflege der Profil-Highlights (Jugend, Vereinsleben, 100 Jahre TuS, Gürtel, Training).</li>
+        <li>Vorstellung von Trainingszeiten und Verlinkung aktueller Aktionen wie dem Ferienprogramm.</li>
+        <li>Die Verwaltung erfolgt im Team, um eine kontinuierliche und vielfältige Berichterstattung zu gewährleisten.</li>
+      </ul>
+
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Bedeutung für das Portfolio</h3>
+      <p>Dieses Projekt zeigt Engagement im Ehrenamt und die Fähigkeit, eine Marke in sozialen Medien zu repräsentieren. Es verbindet sportliche Gemeinschaft mit modernen Kommunikationsstrategien und unterstreicht die Kompetenz in der Teamarbeit und im Content-Management.</p>
+    `,
+    image: 'https://placehold.co/1200x675.png',
+    aiHint: 'judo sport',
+    url: 'https://www.instagram.com/judo_tus_toeging/',
+    tags: ['Social Media', 'Content Management', 'Vereinsarbeit', 'Community'],
+    date: '2024-01-01',
+    category: 'Social Media Management',
+    details: {
+      usage: 'Offizieller Social-Media-Kanal eines Sportvereins zur Mitgliedergewinnung und -information.',
+      potential: 'Wachstum und Engagement durch gezielte Content-Strategien fördern.'
     }
   },
   {
@@ -143,7 +181,7 @@ export const projectData = [
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Alleinstellungsmerkmale</h3>
          <ul class="list-disc pl-6 space-y-2">
             <li>Authentisch, praxisnah und technologiebegeistert von Grund auf eigenständig entwickelt.</li>
-            <li>Stetige Erweiterung durch neue Projekte und Features basierend auf aktuellen IT-Trends.</li>
+            <li>Stetige Erweiterung durch neue Projekte und Features basierend auf aktuellen IT-trends.</li>
             <li>Integration in das persönliche Portfolio von Benedikt Schächner und Bezug zur digitalen Bildung sowie zu Open-Source.</li>
             <li>Plattform dient auch der eigenen Weiterbildung, Förderung von Teamwork und Motivation zur aktiven Mitgestaltung in digitalen Communities.</li>
         </ul>
