@@ -1,18 +1,35 @@
 
 export const projectData = [
   {
-    title: 'Notio – Digitale Notenverwaltung',
+    title: 'Notio – Digitale Noten- und Lernverwaltung für Schüler',
     slug: 'notio',
     description:
       'Eine webbasierte Applikation zur Verwaltung und Analyse schulischer Leistungsdaten, individuell konzipiert für Schüler.',
     longDescription:
-      'Notio ist eine webbasierte Applikation zur Verwaltung und Analyse schulischer Leistungsdaten, individuell konzipiert für Schüler an weiterführenden Schulen in Deutschland. Die Software bietet ein zentrales, übersichtlich gestaltetes Dashboard, über das alle relevanten Informationen auf einen Blick sichtbar sind. Nutzer können Lernzettel, Aufgaben und Prüfungen verwalten, Noten erfassen und sich den Durchschnitt automatisch berechnen lassen. Die Benachrichtigungsfunktion ist derzeit noch in Entwicklung.',
+      `
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Dashboard & Übersicht</h3>
+      <p>Nach dem Login gelangt der Nutzer direkt in das persönliche Notencockpit. Hier werden der aktuelle Gesamtnotenschnitt (auf Basis gewichteter Fächer), die Anzahl der ordentlich geführten Fächer sowie sämtliche eingetragenen Leistungsnachweise angezeigt.</p>
+      
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Lernmanagement & Aufgaben</h3>
+      <p>Notio ermöglicht die strukturierte Erfassung von Lernzetteln, Aufgaben und anstehenden Prüfungen. Nutzer können ausstehende Arbeiten verwalten, erledigte Aufgaben abhaken und Lernfortschritte jederzeit einsehen.</p>
+      
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Notenerfassung & -analyse</h3>
+      <p>Leistungsnachweise wie Klassenarbeiten, Tests und Referate lassen sich mit wenigen Klicks erfassen. Die Software berechnet automatisch den Notendurchschnitt und visualisiert die Leistung auf Fach- und Gesamtebene. Die Benachrichtigungsfunktion ist derzeit noch in Entwicklung.</p>
+      
+       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Datenschutz & Sicherheit</h3>
+       <p>Sämtliche Nutzerdaten werden DSGVO-konform verarbeitet und sind vor unbefugtem Zugriff geschützt.</p>
+      `,
     image: 'https://placehold.co/600x400.png',
     url: '#',
     tags: ['Web-App', 'Next.js', 'Datenvisualisierung', 'Bildung', 'Lernmanagement'],
     aiHint: 'student grade dashboard',
     date: '2024-08-01',
     category: 'Web-Anwendung / EdTech',
+    details: {
+      usage: 'Notio richtet sich in erster Linie an Schüler und Schülerinnen, kann aber auch von Eltern und Lehrkräften genutzt werden. Die Plattform lässt sich flexibel an individuelle Anforderungen und Klassenstufen anpassen.',
+      strengths: 'Klare Fokuslegung auf die wichtigsten Bedürfnisse im Schulalltag: Übersicht, Transparenz und Einfachheit. Schneller Zugriff auf Lerndaten, automatische Auswertungen und eine unkomplizierte Benutzeroberfläche zeichnen Notio aus.',
+      potential: 'Zukünftige Versionen könnten durch Kollaborationsfunktionen, tiefere Datenanalysen, Schnittstellen zu externen Tools (wie z.B. Google Kalender) oder vertiefte Kommunikationsmöglichkeiten erweitert werden.'
+    }
   },
   {
     title: 'Meum Diarium',

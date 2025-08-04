@@ -7,7 +7,7 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Github, Calendar, Folder, Tags, Bot } from 'lucide-react';
+import { ArrowLeft, Github, Calendar, Folder, Tags, Bot, Target, Star, BrainCircuit } from 'lucide-react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -79,8 +79,7 @@ export default function ProjectPage() {
                       data-ai-hint={project.aiHint}
                     />
                 </div>
-                <div className="prose prose-invert prose-lg max-w-none text-muted-foreground text-xl md:text-2xl space-y-6">
-                  <p>{project.longDescription}</p>
+                <div className="prose prose-invert prose-lg max-w-none text-muted-foreground text-xl md:text-2xl space-y-6" dangerouslySetInnerHTML={{ __html: project.longDescription }}>
                 </div>
               </div>
               <div className="md:col-span-2">
@@ -123,6 +122,33 @@ export default function ProjectPage() {
                                 </div>
                             </div>
                         </div>
+                        {project.details?.usage && (
+                          <div className="flex items-start">
+                              <Target className="mr-3 mt-1 text-primary"/>
+                              <div>
+                                  <h4 className="font-semibold">Einsatzbereich</h4>
+                                  <p className="text-muted-foreground text-sm md:text-base">{project.details.usage}</p>
+                              </div>
+                          </div>
+                        )}
+                        {project.details?.strengths && (
+                           <div className="flex items-start">
+                              <Star className="mr-3 mt-1 text-primary"/>
+                              <div>
+                                  <h4 className="font-semibold">Stärken</h4>
+                                  <p className="text-muted-foreground text-sm md:text-base">{project.details.strengths}</p>
+                              </div>
+                          </div>
+                        )}
+                        {project.details?.potential && (
+                           <div className="flex items-start">
+                              <BrainCircuit className="mr-3 mt-1 text-primary"/>
+                              <div>
+                                  <h4 className="font-semibold">Verbesserungspotenzial</h4>
+                                  <p className="text-muted-foreground text-sm md:text-base">{project.details.potential}</p>
+                              </div>
+                          </div>
+                        )}
                      </div>
                      <Button asChild className="w-full rounded-full text-base md:text-lg py-6 md:py-8" data-cursor-interactive>
                         <Link href="#">
