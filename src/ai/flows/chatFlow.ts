@@ -26,7 +26,7 @@ Frage des Benutzers: ${input.question}
 
     const llmResponse = await ai.generate({
       prompt: prompt,
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.0-flash',
       config: {
         temperature: 0.5,
       },
