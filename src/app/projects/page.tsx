@@ -92,7 +92,7 @@ export default function ProjectsPage() {
 
                 return (
                   <motion.div key={project.slug} variants={itemVariants} className="flex">
-                    <Card className="rounded-3xl shadow-lg overflow-hidden border-border/50 flex flex-col w-full">
+                    <Card className="rounded-3xl overflow-hidden border-border/50 flex flex-col w-full">
                        <CardHeader className="p-0">
                          <div className="aspect-video overflow-hidden border-b">
                             <Image
