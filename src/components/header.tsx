@@ -64,7 +64,10 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
       <motion.div 
         layout 
         transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-        className="container mx-auto px-6 sm:px-8 flex items-center justify-between"
+        className={cn(
+          "container mx-auto px-6 sm:px-8 flex items-center",
+          isScrolled ? "justify-center gap-2" : "justify-between"
+        )}
       >
         <motion.div layout>
           <AnimatePresence>
@@ -108,7 +111,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
         <motion.div 
             layout 
             transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-            className="hidden md:flex items-center gap-2"
+            className="hidden md:flex items-center"
         >
             <motion.nav 
               layout
