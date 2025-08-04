@@ -65,7 +65,7 @@ export default function ProjectsPage() {
             className="max-w-6xl mx-auto"
           >
             <h1 className="text-6xl md:text-8xl font-black text-center mb-8 uppercase tracking-tighter font-headline">
-              Projekte & Tools
+              Projekte
             </h1>
             <div className="relative mb-12 md:mb-16">
                <Input 
