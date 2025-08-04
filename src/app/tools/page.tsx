@@ -616,9 +616,18 @@ function QrCodeGenerator() {
     const [qrBgColor, setQrBgColor] = useState('ffffff');
     const [qrMargin, setQrMargin] = useState(1);
     const [qrEcc, setQrEcc] = useState('L');
+    const [logo, setLogo] = useState<string | null>(null);
 
     const getBaseUrl = (format = 'png') => {
         return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}&color=${qrColor}&bgcolor=${qrBgColor}&margin=${qrMargin}&ecc=${qrEcc}&format=${format}`;
+    };
+    
+    const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (e) => setLogo(e.target?.result as string);
+            reader.readAsDataURL(event.target.files[0]);
+        }
     };
 
     const exportFormats = ['png', 'jpg', 'svg', 'pdf'];
@@ -629,14 +638,24 @@ function QrCodeGenerator() {
                 <CardTitle className="text-2xl text-center font-headline">QR-Code Generator</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col items-center gap-6">
-                {qrData && (
-                    <div className="p-4 bg-white rounded-lg">
+                 {qrData && (
+                    <div className="p-4 bg-white rounded-lg relative">
                         <Image
                             src={getBaseUrl()}
                             alt="Generated QR Code"
                             width={200}
                             height={200}
+                            priority
                         />
+                        {logo && (
+                             <Image 
+                                src={logo} 
+                                alt="Logo" 
+                                width={50} 
+                                height={50} 
+                                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-1 rounded-md"
+                             />
+                        )}
                     </div>
                 )}
                 <div className="w-full space-y-4">
@@ -662,7 +681,7 @@ function QrCodeGenerator() {
                                 <Input
                                     id="qr-color"
                                     value={qrColor}
-                                    onChange={(e) => setQrColor(e.target.value)}
+                                    onChange={(e) => setQrColor(e.target.value.replace(/#/g, ''))}
                                     className="font-mono"
                                 />
                             </div>
@@ -679,7 +698,7 @@ function QrCodeGenerator() {
                                 <Input
                                     id="qr-bgcolor"
                                     value={qrBgColor}
-                                    onChange={(e) => setQrBgColor(e.target.value)}
+                                    onChange={(e) => setQrBgColor(e.target.value.replace(/#/g, ''))}
                                     className="font-mono"
                                 />
                             </div>
@@ -703,8 +722,12 @@ function QrCodeGenerator() {
                             <Slider value={[qrMargin]} onValueChange={(v) => setQrMargin(v[0])} min={0} max={20} step={1}/>
                         </div>
                     </div>
+                    <div>
+                        <Label htmlFor="logo-upload">Logo (optional, nur für Anzeige)</Label>
+                        <Input id="logo-upload" type="file" onChange={handleLogoUpload} accept="image/*" />
+                    </div>
                      <div>
-                        <Label>Exportieren</Label>
+                        <Label>Exportieren (ohne Logo)</Label>
                         <div className="flex flex-wrap gap-2 mt-2">
                             {exportFormats.map(format => (
                                 <Button asChild key={format} variant="outline" size="sm">
@@ -808,3 +831,5 @@ export default function ToolsPage() {
     </div>
   );
 }
+
+    
