@@ -55,10 +55,9 @@ export const projectData = [
       'Als Teil der Medienscouts am König-Karlmann-Gymnasium unterstütze ich Mitschüler beim sicheren Umgang mit digitalen Medien.',
     longDescription:
       'Auf medienscouts-kkg.de stellen wir als Gruppe digitale Werkzeuge vor, organisieren Workshops und beraten zu Datenschutz und Online-Sicherheit. Wir unterstützen die Digitalklassen, in denen ab der 8. Klasse papierlos gearbeitet wird, und stehen als Ansprechpartner für Schüler, Lehrer und Eltern zur Verfügung, um die digitale Bildung und Sicherheit an der Schule zu fördern.',
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://technik.xn--schchner-2za.de/wp-content/uploads/2025/08/Medienscouts.png',
     url: 'https://medienscouts-kkg.de/',
     tags: ['Next.js', 'Chatbot', 'Schulprojekt', 'CI/CD'],
-    aiHint: 'school media lab',
     date: '2023-09-01',
     category: 'Web-Anwendung / Bildung',
   },
@@ -84,10 +83,9 @@ export const projectData = [
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Bedeutung für das Portfolio</h3>
         <p>Dieses Projekt unterstreicht die Fähigkeit, Herausforderungen mit modernen Werkzeugen kreativ zu lösen, kontinuierlich zu lernen und eigene Ideen selbstständig umzusetzen. Es zeigt ein tiefes Engagement für Technik, Wissensvermittlung und die Open-Source-Community.</p>
     `,
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://technik.xn--schchner-2za.de/wp-content/uploads/2025/08/Technik.png',
     url: 'https://technik.xn--schchner-2za.de/',
     tags: ['Web-Anwendungen', 'Python', 'JavaScript', 'Self-Hosting', 'Docker', 'Open-Source'],
-    aiHint: 'server code terminal',
     date: '2024-09-01',
     category: 'Entwicklerplattform / Blog',
   },
