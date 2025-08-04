@@ -27,6 +27,13 @@ const about = {
 
 const timelineEvents = [
     {
+        date: "Seit 2025",
+        title: "Schriftführer",
+        organization: "TuS Töging, Abteilung Judo",
+        description: "Verantwortlich für Protokollführung und administrative Aufgaben in der Abteilungsleitung.",
+        icon: <Users/>
+    },
+    {
         date: "April 2025",
         title: "Freiwilliges Schülerpraktikum",
         organization: "OMV Burghausen",
