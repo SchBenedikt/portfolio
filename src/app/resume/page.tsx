@@ -57,13 +57,6 @@ const timelineEvents = [
         icon: <Award className="text-primary"/>,
         projectSlug: 'meum-diarium'
     },
-     {
-        date: "Nov 2024",
-        title: "Zertifikat in Jugendstrafrecht",
-        organization: "Friedrich-Alexander-Universität Erlangen-Nürnberg",
-        description: "Erfolgreiche Teilnahme am Seminar und Erwerb des Zertifikats.",
-        icon: <GraduationCap/>
-    },
     {
         date: "Sep 2024",
         title: "Lightning Talk, Nextcloud Conference",
