@@ -283,7 +283,7 @@ export default function ResumePage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {certificates.map((cert, index) => (
                             <motion.div key={index} variants={itemVariants}>
-                                <Card className="rounded-2xl shadow-lg border-border/50 h-full">
+                                <Card className="rounded-2xl shadow-lg border-border/50">
                                     <CardHeader>
                                         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
                                             <CardTitle className="text-lg md:text-2xl font-bold font-headline">{cert.title}</CardTitle>
@@ -342,7 +342,7 @@ export default function ResumePage() {
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {currentActivities.map((item: any, index) => (
                        <motion.div key={index} variants={itemVariants}>
-                           <Card className="rounded-2xl shadow-lg border-border/50 h-full">
+                           <Card className="rounded-2xl shadow-lg border-border/50">
                                <CardHeader>
                                    <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
                                        <CardTitle className="text-lg md:text-2xl font-bold font-headline">{item.title}</CardTitle>
