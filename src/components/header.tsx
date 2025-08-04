@@ -14,10 +14,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Menu, FolderKanban, UserSquare, Rss, Wrench } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+
 
 const Header = ({ children }: { children?: React.ReactNode }) => {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [hoveredHref, setHoveredHref] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,6 +39,10 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
     { href: "/blog", label: "Blog", icon: <Rss/> },
     { href: "/tools", label: "Tools", icon: <Wrench/> },
   ]
+
+  const isLabelVisible = (href: string) => {
+    return pathname.startsWith(href) || hoveredHref === href;
+  }
 
   return (
     <header
@@ -57,59 +64,98 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
             </Link>
         </div>
 
-        {/* Desktop Navigation */}
-        <nav className={cn(
-            "hidden md:flex items-center gap-2 p-1 rounded-full transition-all duration-300",
-            isScrolled ? "bg-background/80 backdrop-blur-lg border border-border/50 shadow-md" : "bg-muted/50"
-        )}>
-          {navLinks.map(link => (
-             <Button 
-                key={link.href} 
-                asChild 
-                variant={pathname.startsWith(link.href) ? 'active' : 'ghost'}
-                className="rounded-full"
-                data-cursor-interactive
-              >
-                <Link href={link.href}>
-                    {React.cloneElement(link.icon as React.ReactElement, { className: "w-4 h-4" })}
-                    {link.label}
-                </Link>
-              </Button>
-          ))}
-        </nav>
-
-        <div className={cn("flex items-center gap-2 transition-all duration-300", isScrolled ? "opacity-0 pointer-events-none w-0" : "opacity-100 w-auto")}>
-          <div className="hidden md:flex items-center gap-1 p-1 rounded-full bg-muted/50">
-            {children}
-            <ThemeToggle />
-          </div>
-          
-          {/* Mobile Navigation */}
-          <div className="md:hidden">
-             <div className="flex items-center gap-2">
-                {children}
-                <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="icon" className="w-9 h-9" data-cursor-interactive>
-                    <Menu className="h-5 w-5" />
-                    <span className="sr-only">Menü öffnen</span>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    {navLinks.map(link => (
-                        <DropdownMenuItem key={link.href} asChild>
-                        <Link href={link.href} className="flex items-center gap-2 text-base">
-                            {React.cloneElement(link.icon as React.ReactElement, { className: "text-muted-foreground" })}
-                            {link.label}
-                        </Link>
-                        </DropdownMenuItem>
-                    ))}
-                </DropdownMenuContent>
-                </DropdownMenu>
-                <ThemeToggle />
+        {isScrolled ? (
+             <div className="flex items-center gap-2 p-1 rounded-full bg-background/80 backdrop-blur-lg border border-border/50 shadow-md">
+                <nav className="flex items-center gap-1">
+                    {navLinks.map(link => {
+                        const isActive = pathname.startsWith(link.href);
+                        return (
+                            <Button 
+                                key={link.href} 
+                                asChild 
+                                variant={isActive ? 'active' : 'ghost'}
+                                size={!isActive ? 'icon' : 'default'}
+                                className={cn("rounded-full transition-all", !isActive && "w-10 h-10")}
+                                data-cursor-interactive
+                            >
+                                <Link href={link.href}>
+                                    {React.cloneElement(link.icon as React.ReactElement, { className: "w-4 h-4" })}
+                                    {isActive && <span>{link.label}</span>}
+                                </Link>
+                            </Button>
+                        )
+                    })}
+                </nav>
+                <div className="p-1 rounded-full">
+                    <ThemeToggle />
+                </div>
             </div>
-          </div>
-        </div>
+        ) : (
+            <>
+                <nav className="hidden md:flex items-center gap-2 p-1 rounded-full bg-muted/50">
+                {navLinks.map(link => (
+                    <Button 
+                        key={link.href} 
+                        asChild 
+                        variant={pathname.startsWith(link.href) ? 'active' : 'ghost'}
+                        className="rounded-full"
+                        onMouseEnter={() => setHoveredHref(link.href)}
+                        onMouseLeave={() => setHoveredHref(null)}
+                        data-cursor-interactive
+                    >
+                        <Link href={link.href}>
+                            {React.cloneElement(link.icon as React.ReactElement, { className: "w-4 h-4" })}
+                            <AnimatePresence>
+                            {isLabelVisible(link.href) && (
+                                <motion.span
+                                    initial={{ opacity: 0, width: 0 }}
+                                    animate={{ opacity: 1, width: 'auto' }}
+                                    exit={{ opacity: 0, width: 0 }}
+                                    transition={{ duration: 0.2, ease: 'easeOut' }}
+                                    className="overflow-hidden"
+                                >
+                                    {link.label}
+                                </motion.span>
+                            )}
+                            </AnimatePresence>
+                        </Link>
+                    </Button>
+                ))}
+                </nav>
+
+                <div className={cn("flex items-center gap-2 transition-all duration-300", isScrolled ? "opacity-0 pointer-events-none w-0" : "opacity-100 w-auto")}>
+                    <div className="hidden md:flex items-center gap-1 p-1 rounded-full bg-muted/50">
+                        {children}
+                        <ThemeToggle />
+                    </div>
+                
+                    <div className="md:hidden">
+                        <div className="flex items-center gap-2">
+                            {children}
+                            <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" size="icon" className="w-9 h-9" data-cursor-interactive>
+                                <Menu className="h-5 w-5" />
+                                <span className="sr-only">Menü öffnen</span>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                {navLinks.map(link => (
+                                    <DropdownMenuItem key={link.href} asChild>
+                                    <Link href={link.href} className="flex items-center gap-2 text-base">
+                                        {React.cloneElement(link.icon as React.ReactElement, { className: "text-muted-foreground" })}
+                                        {link.label}
+                                    </Link>
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuContent>
+                            </DropdownMenu>
+                            <ThemeToggle />
+                        </div>
+                    </div>
+                </div>
+            </>
+        )}
       </div>
     </header>
   );
