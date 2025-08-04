@@ -7,7 +7,7 @@ import Footer from '@/components/footer';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search, Wand2, Thermometer, Weight, Ruler, ListTodo, Trash2 } from 'lucide-react';
+import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search, Wand2, Thermometer, Weight, Ruler, ListTodo, Trash2, QrCode, Notebook } from 'lucide-react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -22,6 +22,7 @@ import { GenerateTextInput } from '@/ai/flows/types';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import Image from 'next/image';
 
 const initialTools = [
   { id: 'password', name: 'Passwort-Generator', icon: <KeyRound className="w-8 h-8" />, component: PasswordGenerator },
@@ -29,6 +30,8 @@ const initialTools = [
   { id: 'converter', name: 'Einheitenumrechner', icon: <Scale className="w-8 h-8" />, component: UnitConverter },
   { id: 'text-generator', name: 'KI-Textgenerator', icon: <Wand2 className="w-8 h-8" />, component: TextGenerator },
   { id: 'todo', name: 'Todo Liste', icon: <ListTodo className="w-8 h-8" />, component: Todo },
+  { id: 'notes', name: 'Notizen', icon: <Notebook className="w-8 h-8" />, component: Notes },
+  { id: 'qr-code', name: 'QR-Code Generator', icon: <QrCode className="w-8 h-8" />, component: QrCodeGenerator },
 ];
 
 type Tool = typeof initialTools[number];
@@ -495,6 +498,102 @@ function Todo() {
         </Card>
     );
 };
+
+function Notes() {
+    const [note, setNote] = useState('');
+
+    useEffect(() => {
+        try {
+            const savedNote = localStorage.getItem('user-note');
+            if (savedNote) {
+                setNote(savedNote);
+            }
+        } catch (error) {
+            console.error("Fehler beim Laden der Notiz:", error);
+        }
+    }, []);
+
+    const handleNoteChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const newNote = e.target.value;
+        setNote(newNote);
+        try {
+            localStorage.setItem('user-note', newNote);
+        } catch (error) {
+            console.error("Fehler beim Speichern der Notiz:", error);
+        }
+    };
+
+    return (
+        <Card className="rounded-3xl shadow-lg w-full">
+            <CardHeader>
+                <CardTitle className="text-2xl text-center font-headline">Notizblock</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <Textarea
+                    value={note}
+                    onChange={handleNoteChange}
+                    placeholder="Schreib hier deine Gedanken auf..."
+                    className="min-h-[300px] text-lg"
+                />
+            </CardContent>
+        </Card>
+    );
+}
+
+function QrCodeGenerator() {
+    const [qrData, setQrData] = useState('https://benedikt.xn--schchner-2za.de');
+    const [qrColor, setQrColor] = useState('000000');
+    
+    const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}&color=${qrColor}`;
+
+    return (
+        <Card className="rounded-3xl shadow-lg w-full">
+            <CardHeader>
+                <CardTitle className="text-2xl text-center font-headline">QR-Code Generator</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center gap-6">
+                {qrData && (
+                    <div className="p-4 bg-white rounded-lg">
+                        <Image
+                            src={qrApiUrl}
+                            alt="Generated QR Code"
+                            width={200}
+                            height={200}
+                        />
+                    </div>
+                )}
+                <div className="w-full space-y-4">
+                    <div>
+                        <Label htmlFor="qr-data">Daten (URL oder Text)</Label>
+                        <Input
+                            id="qr-data"
+                            value={qrData}
+                            onChange={(e) => setQrData(e.target.value)}
+                            placeholder="z.B. https://example.com"
+                        />
+                    </div>
+                    <div>
+                        <Label htmlFor="qr-color">Farbe (Hex-Code ohne #)</Label>
+                         <div className="flex items-center gap-2">
+                            <Input
+                                type="color"
+                                value={`#${qrColor}`}
+                                onChange={(e) => setQrColor(e.target.value.substring(1))}
+                                className="p-1 h-10 w-12"
+                            />
+                            <Input
+                                id="qr-color"
+                                value={qrColor}
+                                onChange={(e) => setQrColor(e.target.value)}
+                                className="font-mono"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+    );
+}
 
 
 export default function ToolsPage() {
