@@ -24,7 +24,7 @@ export const projectData = [
        <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Datenschutz & Sicherheit</h3>
        <p>Sämtliche Nutzerdaten werden DSGVO-konform verarbeitet und sind vor unbefugtem Zugriff geschützt.</p>
       `,
-    image: 'https://technik.xn--schchner-2za.de/wp-content/uploads/2025/08/Notio_Dashboard.png',
+    image: '/photos/Notio_Dashboard.png',
     url: 'https://notio.schächner.de',
     tags: ['Web-App', 'Next.js', 'Datenvisualisierung', 'Bildung', 'Lernmanagement'],
     date: '2024-08-01',
@@ -64,17 +64,32 @@ export const projectData = [
     category: 'Web-Anwendung / Bildung',
   },
   {
-    title: 'Technik- & Konferenz-Blog',
+    title: 'technik.schächner.de',
     slug: 'technik-blog',
-    description:
-      'Ein Self-Hosting Blog mit Anleitungen und Berichten von Events wie der Nextcloud Community Conference.',
-    longDescription:
-      'Auf meiner technischen Website teile ich mein Wissen über digitale Souveränität, Open-Source-Software und Self-Hosting. Dort finden sich detaillierte Anleitungen, zum Beispiel zum lokalen Betrieb von KI-Modellen, aber auch Erfahrungsberichte und Rückblicke auf Konferenzen wie die Nextcloud Conference, wo ich als Speaker aufgetreten bin.',
+    description: 'Eine digitale Plattform, die technische Anwendungen, Tools und persönliche Experimente aus den Bereichen Programmierung, Cloud und Automatisierung bündelt.',
+    longDescription: `
+        <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Überblick</h3>
+        <p>technik.schächner.de dient als digitales Schaufenster für eigenständig entwickelte Webprojekte, Open-Source-Beiträge und technische Demonstrationslösungen. Es ist eine Experimentierplattform, die innovative Ansätze und praktische Lösungen für die Tech-Community bereitstellt.</p>
+        
+        <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Schwerpunkte</h3>
+        <ul class="list-disc pl-6 space-y-2">
+            <li>Sammlung und Präsentation eigener Softwareentwicklungen und Tools.</li>
+            <li>Umsetzung von Webanwendungen mit aktuellen Technologien wie Python und JavaScript.</li>
+            <li>Dokumentation und Wissenstransfer zu Technikthemen und IT-Education.</li>
+            <li>Sichere Bereitstellung von Scripts, Apps und Anleitungen ohne kommerziellen Hintergrund.</li>
+        </ul>
+
+        <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Alleinstellungsmerkmale</h3>
+        <p>Das Projekt ist authentisch, praxisnah und von Grund auf eigenständig entwickelt. Es wird stetig durch neue Projekte erweitert, die auf aktuellen IT-Trends basieren und die eigene Weiterbildung sowie die aktive Mitgestaltung in digitalen Communities fördern.</p>
+
+        <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Bedeutung für das Portfolio</h3>
+        <p>Dieses Projekt unterstreicht die Fähigkeit, Herausforderungen mit modernen Werkzeugen kreativ zu lösen, kontinuierlich zu lernen und eigene Ideen selbstständig umzusetzen. Es zeigt ein tiefes Engagement für Technik, Wissensvermittlung und die Open-Source-Community.</p>
+    `,
     image: 'https://placehold.co/600x400.png',
-    url: 'https://github.com/Benedikt-Schaechner/selfhosting',
-    tags: ['Selfhosting', 'Speaker', 'Docker', 'Linux'],
+    url: 'https://technik.xn--schchner-2za.de/',
+    tags: ['Web-Anwendungen', 'Python', 'JavaScript', 'Self-Hosting', 'Docker', 'Open-Source'],
     aiHint: 'server code terminal',
-    date: '2024-01-15',
-    category: 'Blog / Wissensmanagement',
+    date: '2024-09-01',
+    category: 'Entwicklerplattform / Blog',
   },
 ];
