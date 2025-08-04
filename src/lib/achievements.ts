@@ -17,7 +17,8 @@ export type AchievementID =
   | 'SECRET_AGENT'
   | 'COLOR_ARTIST'
   | 'TIME_STOPPER'
-  | 'DIMENSION_MASTER';
+  | 'DIMENSION_MASTER'
+  | 'WORD_SMITH';
 
 export interface Achievement {
   id: AchievementID;
@@ -115,6 +116,11 @@ export const achievementsList: Achievement[] = [
     id: 'DIMENSION_MASTER',
     name: 'Meister der Maße',
     description: 'Den Einheitenumrechner verwendet.'
+  },
+  {
+    id: 'WORD_SMITH',
+    name: 'Wortschöpfer',
+    description: 'Den KI-Textgenerator verwendet.'
   }
 ];
 

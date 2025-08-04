@@ -7,7 +7,7 @@ import Footer from '@/components/footer';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search } from 'lucide-react';
+import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search, Wand2, Thermometer, Weight, Ruler } from 'lucide-react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -16,9 +16,13 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { generateText } from '@/ai/flows/textGeneratorFlow';
+import TextareaAutosize from 'react-textarea-autosize';
+import { Loader2 } from 'lucide-react';
 
 type TimerMode = 'pomodoro' | 'shortBreak' | 'longBreak';
-type ToolId = 'pomodoro' | 'password' | 'stopwatch' | 'palette' | 'converter' | 'timer' | null;
+type ToolId = 'pomodoro' | 'password' | 'stopwatch' | 'palette' | 'converter' | 'timer' | 'text-generator' | null;
 
 const timeSettings = {
   pomodoro: 25 * 60,
@@ -279,29 +283,33 @@ const Stopwatch = () => {
 };
 
 const ColorPaletteGenerator = () => {
+    type PaletteType = 'vibrant' | 'pastel';
     const [palette, setPalette] = useState<string[]>([]);
     const [colorCount, setColorCount] = useState(5);
     const [baseColor, setBaseColor] = useState('#ff0000');
+    const [paletteType, setPaletteType] = useState<PaletteType>('vibrant');
     const { unlockAchievement } = useAchievements();
 
     const generatePalette = useCallback((useRandomBase = false) => {
         let startColor = baseColor;
         if (useRandomBase) {
             startColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+            setBaseColor(startColor);
         }
         
-        // Super simple hue rotation for palette generation
         const newPalette: string[] = [];
-        const baseHue = hexToHsl(startColor)[0];
+        const baseHsl = hexToHsl(startColor);
 
         for (let i = 0; i < colorCount; i++) {
-            const newHue = (baseHue + (i * (360 / (colorCount + 1)))) % 360;
-            newPalette.push(hslToHex(newHue, 70, 60));
+            const newHue = (baseHsl[0] + (i * (360 / (colorCount)))) % 360;
+            const saturation = paletteType === 'pastel' ? 45 + Math.random() * 10 : 70 + Math.random() * 10;
+            const lightness = paletteType === 'pastel' ? 80 + Math.random() * 5 : 60 + Math.random() * 5;
+            newPalette.push(hslToHex(newHue, saturation, lightness));
         }
         
         setPalette(newPalette);
         unlockAchievement('COLOR_ARTIST');
-    }, [colorCount, baseColor, unlockAchievement]);
+    }, [colorCount, baseColor, paletteType, unlockAchievement]);
 
     useEffect(() => {
         generatePalette(true);
@@ -371,6 +379,18 @@ const ColorPaletteGenerator = () => {
                                 <Input type="color" value={baseColor} onChange={(e) => setBaseColor(e.target.value)} className="p-1 h-10"/>
                                 <Input type="text" value={baseColor} onChange={(e) => setBaseColor(e.target.value)} className="font-mono"/>
                             </div>
+                        </div>
+                         <div className="space-y-2 flex-1">
+                            <Label>Paletten-Typ</Label>
+                            <Select value={paletteType} onValueChange={(value) => setPaletteType(value as PaletteType)}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Typ auswählen" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="vibrant">Lebhaft</SelectItem>
+                                    <SelectItem value="pastel">Pastell</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
                         <div className="space-y-2 flex-1">
                             <Label>Anzahl Farben: {colorCount}</Label>
@@ -465,36 +485,74 @@ const SimpleTimer = () => {
 
 const UnitConverter = () => {
     const { unlockAchievement } = useAchievements();
-    const [timeValues, setTimeValues] = useState({ s: '60', m: '1', h: (1/60).toString(), d: (1/1440).toString() });
-    const [speedValues, setSpeedValues] = useState({ 'm/s': '1', 'km/h': '3.6', mph: '2.23694' });
+    const [inputValue, setInputValue] = useState('1');
+    const [fromUnit, setFromUnit] = useState('m');
+    const [toUnit, setToUnit] = useState('ft');
+    const [result, setResult] = useState('');
+    const [currentTab, setCurrentTab] = useState('length');
 
-    const timeFactors = { s: 1, m: 60, h: 3600, d: 86400 };
-    const speedFactors = { 'm/s': 1, 'km/h': 3.6, mph: 2.236936 };
-
-    const handleTimeChange = (value: string, unit: keyof typeof timeFactors) => {
-        const numericValue = parseFloat(value) || 0;
-        const inSeconds = numericValue * timeFactors[unit];
-        const newValues = {
-            s: (inSeconds / timeFactors.s).toPrecision(4),
-            m: (inSeconds / timeFactors.m).toPrecision(4),
-            h: (inSeconds / timeFactors.h).toPrecision(4),
-            d: (inSeconds / timeFactors.d).toPrecision(4),
-        };
-        setTimeValues(newValues);
-        unlockAchievement('DIMENSION_MASTER');
+    const conversionFactors: { [key: string]: { [key: string]: number } } = {
+        length: { m: 1, cm: 0.01, mm: 0.001, km: 1000, mile: 1609.34, yard: 0.9144, ft: 0.3048, in: 0.0254 },
+        mass: { kg: 1, g: 0.001, mg: 0.000001, t: 1000, lb: 0.453592, oz: 0.0283495 },
+        speed: { 'm/s': 1, 'km/h': 0.277778, mph: 0.44704, knot: 0.514444 },
+        time: { s: 1, min: 60, h: 3600, d: 86400, week: 604800 },
+        temperature: {}
     };
 
-    const handleSpeedChange = (value: string, unit: keyof typeof speedFactors) => {
-        const numericValue = parseFloat(value) || 0;
-        const inMs = numericValue / speedFactors[unit];
-        const newValues = {
-            'm/s': (inMs * speedFactors['m/s']).toPrecision(4),
-            'km/h': (inMs * speedFactors['km/h']).toPrecision(4),
-            mph: (inMs * speedFactors['mph']).toPrecision(4),
-        };
-        setSpeedValues(newValues);
-        unlockAchievement('DIMENSION_MASTER');
+    const units: { [key: string]: string[] } = {
+        length: ['m', 'cm', 'mm', 'km', 'mile', 'yard', 'ft', 'in'],
+        mass: ['kg', 'g', 'mg', 't', 'lb', 'oz'],
+        speed: ['m/s', 'km/h', 'mph', 'knot'],
+        time: ['s', 'min', 'h', 'd', 'week']
     };
+
+    const convert = useCallback(() => {
+        const value = parseFloat(inputValue);
+        if (isNaN(value)) {
+            setResult('');
+            return;
+        }
+
+        let conversionResult;
+        if (currentTab === 'temperature') {
+            if (fromUnit === toUnit) {
+                conversionResult = value;
+            } else if (fromUnit === 'celsius' && toUnit === 'fahrenheit') {
+                conversionResult = (value * 9/5) + 32;
+            } else if (fromUnit === 'fahrenheit' && toUnit === 'celsius') {
+                conversionResult = (value - 32) * 5/9;
+            } else if (fromUnit === 'celsius' && toUnit === 'kelvin') {
+                conversionResult = value + 273.15;
+            } else if (fromUnit === 'kelvin' && toUnit === 'celsius') {
+                conversionResult = value - 273.15;
+            } else if (fromUnit === 'fahrenheit' && toUnit === 'kelvin') {
+                conversionResult = (value - 32) * 5/9 + 273.15;
+            } else if (fromUnit === 'kelvin' && toUnit === 'fahrenheit') {
+                conversionResult = (value - 273.15) * 9/5 + 32;
+            }
+        } else {
+            const factors = conversionFactors[currentTab];
+            const valueInBase = value * factors[fromUnit];
+            conversionResult = valueInBase / factors[toUnit];
+        }
+
+        setResult(conversionResult.toFixed(4));
+        unlockAchievement('DIMENSION_MASTER');
+    }, [inputValue, fromUnit, toUnit, currentTab, unlockAchievement]);
+
+    useEffect(() => {
+        convert();
+    }, [convert]);
+    
+    useEffect(() => {
+        if(currentTab === 'temperature') {
+            setFromUnit('celsius');
+            setToUnit('fahrenheit');
+        } else {
+            setFromUnit(units[currentTab][0]);
+            setToUnit(units[currentTab][1]);
+        }
+    }, [currentTab]);
 
     return (
         <Card className="rounded-3xl shadow-lg w-full">
@@ -502,33 +560,107 @@ const UnitConverter = () => {
                 <CardTitle className="text-2xl text-center font-headline">Einheitenumrechner</CardTitle>
             </CardHeader>
             <CardContent>
-                <Tabs defaultValue="time">
-                    <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger value="time">Zeit</TabsTrigger>
+                <Tabs value={currentTab} onValueChange={setCurrentTab}>
+                    <TabsList className="grid w-full grid-cols-5">
+                        <TabsTrigger value="length">Länge</TabsTrigger>
+                        <TabsTrigger value="mass">Masse</TabsTrigger>
+                        <TabsTrigger value="temperature">Temperatur</TabsTrigger>
                         <TabsTrigger value="speed">Geschwindigkeit</TabsTrigger>
+                        <TabsTrigger value="time">Zeit</TabsTrigger>
                     </TabsList>
-                    <TabsContent value="time" className="space-y-4 pt-4">
-                        {(Object.keys(timeValues) as Array<keyof typeof timeValues>).map(unit => (
-                            <div key={unit} className="flex items-center gap-4">
-                                <Label htmlFor={`time-${unit}`} className="w-32">{unit}</Label>
-                                <Input id={`time-${unit}`} value={timeValues[unit]} onChange={e => handleTimeChange(e.target.value, unit)} type="number" />
-                            </div>
-                        ))}
-                    </TabsContent>
-                    <TabsContent value="speed" className="space-y-4 pt-4">
-                        {(Object.keys(speedValues) as Array<keyof typeof speedValues>).map(unit => (
-                            <div key={unit} className="flex items-center gap-4">
-                                <Label htmlFor={`speed-${unit}`} className="w-32">{unit}</Label>
-                                <Input id={`speed-${unit}`} value={speedValues[unit]} onChange={e => handleSpeedChange(e.target.value, unit)} type="number" />
-                            </div>
-                        ))}
-                    </TabsContent>
+                    <div className="pt-6 space-y-4">
+                        <div className="flex items-center gap-4">
+                            <Input type="number" value={inputValue} onChange={e => setInputValue(e.target.value)} className="text-lg"/>
+                            <Select value={fromUnit} onValueChange={setFromUnit}>
+                                <SelectTrigger><SelectValue/></SelectTrigger>
+                                <SelectContent>
+                                    {(currentTab === 'temperature' ? ['celsius', 'fahrenheit', 'kelvin'] : units[currentTab]).map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="flex items-center justify-center">
+                            <p className="text-2xl font-bold">=</p>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <Input value={result} readOnly className="text-lg font-bold bg-muted"/>
+                             <Select value={toUnit} onValueChange={setToUnit}>
+                                <SelectTrigger><SelectValue/></SelectTrigger>
+                                <SelectContent>
+                                     {(currentTab === 'temperature' ? ['celsius', 'fahrenheit', 'kelvin'] : units[currentTab]).map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    </div>
                 </Tabs>
             </CardContent>
         </Card>
     );
 };
 
+const TextGenerator = () => {
+    const { unlockAchievement } = useAchievements();
+    const [topic, setTopic] = useState('');
+    const [type, setType] = useState('Blog-Idee');
+    const [result, setResult] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleGenerate = async () => {
+        if (!topic) {
+            toast.warning('Bitte gib ein Thema ein.');
+            return;
+        }
+        setIsLoading(true);
+        setResult('');
+        try {
+            const generatedText = await generateText({ topic, type });
+            setResult(generatedText);
+            unlockAchievement('WORD_SMITH');
+        } catch (error) {
+            toast.error('Fehler beim Generieren des Textes.');
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    
+    return (
+        <Card className="rounded-3xl shadow-lg w-full">
+            <CardHeader>
+                <CardTitle className="text-2xl text-center font-headline">KI-Textgenerator</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                     <div className="md:col-span-2">
+                         <Label htmlFor="topic">Thema / Stichwort</Label>
+                         <Input id="topic" value={topic} onChange={e => setTopic(e.target.value)} placeholder="z.B. Die Zukunft von KI"/>
+                    </div>
+                    <div>
+                        <Label htmlFor="type">Text-Art</Label>
+                        <Select value={type} onValueChange={setType}>
+                            <SelectTrigger id="type"><SelectValue/></SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="Blog-Idee">Blog-Idee</SelectItem>
+                                <SelectItem value="Tweet">Tweet</SelectItem>
+                                <SelectItem value="Gedicht">Gedicht</SelectItem>
+                                <SelectItem value="Marketing-Slogan">Marketing-Slogan</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div>
+                <Button onClick={handleGenerate} disabled={isLoading} className="w-full rounded-full">
+                    {isLoading ? <Loader2 className="animate-spin" /> : <Wand2 className="mr-2" />}
+                    Text generieren
+                </Button>
+                {result && (
+                     <div className="p-4 bg-muted rounded-lg space-y-2">
+                        <Label>Ergebnis</Label>
+                        <TextareaAutosize value={result} readOnly className="w-full bg-transparent p-0 border-none focus:ring-0" />
+                    </div>
+                )}
+            </CardContent>
+        </Card>
+    );
+}
 
 const availableTools = [
   { id: 'pomodoro', name: 'Pomodoro Timer', icon: <BookOpen className="w-8 h-8" /> },
@@ -537,6 +669,7 @@ const availableTools = [
   { id: 'converter', name: 'Einheitenumrechner', icon: <Scale className="w-8 h-8" /> },
   { id: 'password', name: 'Passwort-Generator', icon: <KeyRound className="w-8 h-8" /> },
   { id: 'palette', name: 'Farbpalette', icon: <Palette className="w-8 h-8" /> },
+  { id: 'text-generator', name: 'KI-Textgenerator', icon: <Wand2 className="w-8 h-8" /> },
 ];
 
 export default function ToolsPage() {
@@ -556,6 +689,7 @@ export default function ToolsPage() {
       case 'palette': return <ColorPaletteGenerator />;
       case 'converter': return <UnitConverter />;
       case 'timer': return <SimpleTimer />;
+      case 'text-generator': return <TextGenerator />;
       default: return null;
     }
   };
