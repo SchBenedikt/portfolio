@@ -2,6 +2,7 @@
 'use server';
 
 import { ai } from '@/ai/genkit';
+import { googleAI } from '@genkit-ai/googleai';
 import { z } from 'zod';
 
 export type ChatInput = z.infer<typeof ChatInputSchema>;
@@ -26,7 +27,7 @@ Frage des Benutzers: ${input.question}
 
     const llmResponse = await ai.generate({
       prompt: prompt,
-      model: 'gemini-pro',
+      model: googleAI.model('gemini-pro'),
       config: {
         temperature: 0.5,
       },

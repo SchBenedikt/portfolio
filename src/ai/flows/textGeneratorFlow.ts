@@ -7,6 +7,7 @@
  */
 
 import { ai } from '@/ai/genkit';
+import { googleAI } from '@genkit-ai/googleai';
 import { GenerateTextInput, GenerateTextInputSchema } from './types';
 
 
@@ -24,7 +25,7 @@ const prompt = ai.definePrompt({
 
 export async function generateText(input: GenerateTextInput): Promise<string> {
     const llmResponse = await ai.generate({
-        model: 'gemini-pro',
+        model: googleAI.model('gemini-pro'),
         prompt: await prompt.render({input}),
     });
     return llmResponse.text;
