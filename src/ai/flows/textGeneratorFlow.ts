@@ -24,5 +24,5 @@ const prompt = ai.definePrompt({
 
 export async function generateText(input: GenerateTextInput): Promise<string> {
     const llmResponse = await prompt(input);
-    return llmResponse.text();
+    return llmResponse.text;
 }

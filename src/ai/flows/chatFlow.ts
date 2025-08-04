@@ -32,5 +32,5 @@ Frage des Benutzers: ${input.question}
       },
     });
 
-    return llmResponse.text();
+    return llmResponse.text;
 }
