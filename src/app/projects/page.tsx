@@ -55,13 +55,13 @@ export default function ProjectsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto"
+            className="max-w-6xl mx-auto"
           >
             <h1 className="text-6xl md:text-8xl font-black text-center mb-12 md:mb-16 uppercase tracking-tighter font-headline">
               Projekte & Tools
             </h1>
             <motion.div 
-              className="flex flex-col gap-12 md:gap-16"
+              className="grid grid-cols-1 md:grid-cols-2 gap-8"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -72,8 +72,8 @@ export default function ProjectsPage() {
                  const buttonText = hasValidUrl ? (project.url.includes('github.com') ? 'Auf Github ansehen' : 'Projekt ansehen') : 'Nicht verfügbar';
 
                 return (
-                  <motion.div key={project.slug} variants={itemVariants}>
-                    <Card className="rounded-3xl shadow-lg overflow-hidden border-border/50">
+                  <motion.div key={project.slug} variants={itemVariants} className="flex">
+                    <Card className="rounded-3xl shadow-lg overflow-hidden border-border/50 flex flex-col w-full">
                        <CardHeader className="p-0">
                          <div className="aspect-video overflow-hidden border-b">
                             <Image
@@ -82,31 +82,30 @@ export default function ProjectsPage() {
                                 width={1200}
                                 height={675}
                                 className="object-cover w-full h-full object-top"
-                                data-ai-hint={project.aiHint}
                             />
                         </div>
                       </CardHeader>
-                      <CardContent className="p-6 md:p-8">
-                        <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter font-headline mb-4">
+                      <CardContent className="p-6 md:p-8 flex flex-col flex-grow">
+                        <h2 className="text-4xl font-black uppercase tracking-tighter font-headline mb-4">
                           {project.title}
                         </h2>
                         <div className="flex flex-wrap gap-2 mb-6">
                           {project.tags.map((tag) => (
-                            <Badge key={tag} variant="secondary" className="text-sm md:text-md rounded-lg">
+                            <Badge key={tag} variant="secondary" className="text-sm rounded-lg">
                               {tag}
                             </Badge>
                           ))}
                         </div>
-                        <p className="text-muted-foreground text-lg md:text-xl mb-6">
+                        <p className="text-muted-foreground text-lg mb-6 flex-grow">
                           {project.description}
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4">
-                          <Button asChild className="rounded-full text-lg py-6" data-cursor-interactive>
+                        <div className="flex flex-col sm:flex-row gap-4 mt-auto">
+                          <Button asChild className="rounded-full" data-cursor-interactive>
                             <Link href={`/projects/${project.slug}`}>
                                 Details ansehen <ArrowRight className="ml-2"/>
                             </Link>
                           </Button>
-                           <Button asChild variant="outline" className="rounded-full text-lg py-6" data-cursor-interactive disabled={!hasValidUrl}>
+                           <Button asChild variant="outline" className="rounded-full" data-cursor-interactive disabled={!hasValidUrl}>
                                 <a href={project.url} target="_blank" rel="noopener noreferrer">
                                     {buttonIcon}
                                     {buttonText}
