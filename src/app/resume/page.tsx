@@ -28,6 +28,13 @@ const about = {
 
 const timelineEvents = [
     {
+        date: "Seit April 2025",
+        title: "Schriftführer",
+        organization: "Judoabteilung TuS Töging",
+        description: "Seit April 2025 bin ich Schriftführer der Judoabteilung vom TuS Töging.",
+        icon: <Users/>,
+    },
+    {
         date: "April 2025",
         title: "Freiwilliges Schülerpraktikum",
         organization: "OMV Burghausen",
@@ -35,17 +42,10 @@ const timelineEvents = [
         icon: <Briefcase/>
     },
     {
-        date: "Seit 2025",
-        title: "Schriftführer",
-        organization: "TuS Töging, Abteilung Judo",
-        description: "Verantwortlich für Protokollführung und Öffentlichkeitsarbeit in der Abteilungsleitung.",
-        icon: <Users/>
-    },
-    {
         date: "Nov 2024",
         title: "Hauptpreis, Deutscher Multimedia-Preis mb21",
         organization: "Finale in Dresden",
-        description: "Gewinn des Hauptpreises (Altersgruppe 11-15) für das Projekt „Meum Diarium – Ein Feldherr als Influencer“ zusammen mit Vinzenz Schächner.",
+        description: "Gewinn des Hauptpreises (Altersgruppe 11-15) für das Projekt „Meum Diarium“ zusammen mit Vinzenz Schächner.",
         icon: <Award className="text-primary"/>,
         projectSlug: 'meum-diarium'
     },
@@ -57,7 +57,7 @@ const timelineEvents = [
         icon: <Award className="text-primary"/>,
         projectSlug: 'meum-diarium'
     },
-    {
+     {
         date: "Sep 2024",
         title: "Lightning Talk, Nextcloud Conference",
         organization: "Berlin",
@@ -71,15 +71,22 @@ const timelineEvents = [
         description: "Praktische Arbeit an IT-Projekten und Einblicke in die Netzwerksicherheit.",
         icon: <Briefcase/>
     },
-     {
+    {
+        date: "Seit Aug 2022",
+        title: "Gründer",
+        organization: "Technik Schächner",
+        description: "Bildung",
+        icon: <Code/>
+    },
+    {
         date: "Seit 2023",
-        title: "Mitgründer der MedienScouts",
+        title: "Administrator & Mitgründer der MedienScouts",
         organization: "König-Karlmann-Gymnasium",
         description: "Technische und didaktische Leitung von Schulinitiativen, Live-Workshops und Peer-to-Peer-Schulungen zur Medienkompetenz.",
         icon: <Users/>,
         projectSlug: 'medienscouts-kkg'
     },
-     {
+    {
         date: "Seit 2019",
         title: "Schüler am König-Karlmann-Gymnasium",
         organization: "Altötting",
