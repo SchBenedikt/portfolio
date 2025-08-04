@@ -34,8 +34,8 @@ const initialTools = [
   { id: 'palette', name: 'Farbpalette', icon: <Palette className="w-8 h-8" />, component: ColorPaletteGenerator },
   { id: 'converter', name: 'Einheitenumrechner', icon: <Scale className="w-8 h-8" />, component: UnitConverter },
   { id: 'text-generator', name: 'KI-Textgenerator', icon: <Wand2 className="w-8 h-8" />, component: TextGenerator },
-  { id: 'todo', name: 'Workstation: Todos', icon: <ListTodo className="w-8 h-8" />, component: Todo },
-  { id: 'notes', name: 'Workstation: Notizen', icon: <Notebook className="w-8 h-8" />, component: Notes },
+  { id: 'todo', name: 'Todo Liste', icon: <ListTodo className="w-8 h-8" />, component: Todo },
+  { id: 'notes', name: 'Notizblock', icon: <Notebook className="w-8 h-8" />, component: Notes },
   { id: 'qr-code', name: 'QR-Code Generator', icon: <QrCode className="w-8 h-8" />, component: QrCodeGenerator },
 ];
 
@@ -246,8 +246,7 @@ function UnitConverter() {
         length: { m: 1, cm: 0.01, mm: 0.001, km: 1000, mile: 1609.34, yard: 0.9144, ft: 0.3048, in: 0.0254 },
         mass: { kg: 1, g: 0.001, mg: 0.000001, t: 1000, lb: 0.453592, oz: 0.0283495 },
         speed: { 'm/s': 1, 'km/h': 0.277778, mph: 0.44704, knot: 0.514444 },
-        time: { s: 1, min: 60, h: 3600, d: 86400, week: 604800 },
-        temperature: {}
+        time: { s: 1, min: 60, h: 3600, d: 86400, week: 604800 }
     };
 
     const units: { [key: string]: string[] } = {
@@ -499,7 +498,7 @@ function Todo() {
                 <ScrollArea className="h-96 w-full pr-4">
                     <Accordion type="single" collapsible className="w-full">
                         {tasks.map(task => (
-                            <AccordionItem value={task.id} key={task.id} className="border-b-0">
+                            <AccordionItem value={task.id} key={task.id} className="border-b-0 my-1">
                                 <div className={cn("flex items-center gap-2 p-2 rounded-lg transition-colors", task.completed ? "bg-muted/50" : "bg-muted")}>
                                     <Checkbox 
                                         id={`task-${task.id}`}
@@ -561,11 +560,15 @@ function Todo() {
                                             <Button onClick={handleSaveEdit}><Save className="mr-2"/>Speichern</Button>
                                         </div>
                                     ) : (
-                                        <div className="space-y-2 text-sm">
-                                            <p className="text-muted-foreground">{task.description || "Keine Beschreibung."}</p>
-                                            {task.dueDate && <p><strong className="font-semibold">Fällig:</strong> {format(new Date(task.dueDate), 'PPP', { locale: de })}</p>}
-                                            {task.link && <p><strong className="font-semibold">Link:</strong> <a href={task.link} target="_blank" rel="noopener noreferrer" className="text-primary underline">{task.link}</a></p>}
-                                            {task.noteId && notes.find(n => n.id === task.noteId) && <p><strong className="font-semibold">Notiz:</strong> {notes.find(n => n.id === task.noteId)?.title}</p>}
+                                        <div className="space-y-3 text-sm">
+                                            {task.description ? (
+                                              <p className="text-muted-foreground whitespace-pre-wrap">{task.description}</p>
+                                            ) : (
+                                              <p className="text-muted-foreground italic">Keine Beschreibung.</p>
+                                            )}
+                                            {task.dueDate && <div className="flex items-center gap-2"><CalendarIcon className="w-4 h-4" /><p><strong className="font-semibold">Fällig:</strong> {format(new Date(task.dueDate), 'PPP', { locale: de })}</p></div>}
+                                            {task.link && <div className="flex items-center gap-2"><LinkIcon className="w-4 h-4" /><p><strong className="font-semibold">Link:</strong> <a href={task.link} target="_blank" rel="noopener noreferrer" className="text-primary underline">{task.link}</a></p></div>}
+                                            {task.noteId && notes.find(n => n.id === task.noteId) && <div className="flex items-center gap-2"><Notebook className="w-4 h-4" /><p><strong className="font-semibold">Notiz:</strong> {notes.find(n => n.id === task.noteId)?.title}</p></div>}
                                         </div>
                                     )}
                                 </AccordionContent>
@@ -602,7 +605,7 @@ function Notes() {
         } catch (error) {
             console.error("Error loading notes:", error);
         }
-    }, [activeNoteId]);
+    }, []);
 
     // Save to localStorage
     useEffect(() => {
@@ -619,7 +622,8 @@ function Notes() {
             title: 'Neue Notiz',
             content: ''
         };
-        setNotes([newNote, ...notes]);
+        const newNotes = [newNote, ...notes];
+        setNotes(newNotes);
         setActiveNoteId(newNote.id);
     };
 
@@ -627,11 +631,10 @@ function Notes() {
         const newNotes = notes.filter(n => n.id !== id);
         setNotes(newNotes);
         // also remove link from tasks
-        setTasks(prevTasks => {
-            const updatedTasks = prevTasks.map(t => t.noteId === id ? {...t, noteId: undefined} : t);
-            localStorage.setItem('todo-tasks', JSON.stringify(updatedTasks));
-            return updatedTasks;
-        });
+        const updatedTasks = tasks.map(t => t.noteId === id ? {...t, noteId: undefined} : t);
+        setTasks(updatedTasks);
+        localStorage.setItem('todo-tasks', JSON.stringify(updatedTasks));
+        
         if (activeNoteId === id) {
             setActiveNoteId(newNotes.length > 0 ? newNotes[0].id : null);
         }
@@ -659,7 +662,7 @@ function Notes() {
                             <div
                                 key={note.id}
                                 className={cn(
-                                    "p-2 rounded-lg cursor-pointer flex justify-between items-center",
+                                    "p-2 rounded-lg cursor-pointer flex justify-between items-center my-1",
                                     activeNoteId === note.id ? "bg-muted" : "hover:bg-muted/50"
                                 )}
                                 onClick={() => setActiveNoteId(note.id)}
@@ -694,8 +697,9 @@ function Notes() {
                                     <h4 className="font-semibold mb-2">Verknüpfte Aufgaben:</h4>
                                     <div className="space-y-1">
                                     {linkedTasks.map(task => (
-                                        <div key={task.id} className="text-sm p-2 bg-muted/50 rounded-md">
-                                            {task.text}
+                                        <div key={task.id} className="text-sm p-2 bg-muted/50 rounded-md flex items-center gap-2">
+                                            <ListTodo className='w-4 h-4' />
+                                            <span>{task.text}</span>
                                         </div>
                                     ))}
                                     </div>
@@ -719,20 +723,11 @@ function QrCodeGenerator() {
     const [qrBgColor, setQrBgColor] = useState('ffffff');
     const [qrMargin, setQrMargin] = useState(1);
     const [qrEcc, setQrEcc] = useState('L');
-    const [logo, setLogo] = useState<string | null>(null);
 
     const getBaseUrl = (format = 'png') => {
         return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}&color=${qrColor}&bgcolor=${qrBgColor}&margin=${qrMargin}&ecc=${qrEcc}&format=${format}`;
     };
     
-    const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files[0]) {
-            const reader = new FileReader();
-            reader.onload = (e) => setLogo(e.target?.result as string);
-            reader.readAsDataURL(event.target.files[0]);
-        }
-    };
-
     const exportFormats = ['png', 'jpg', 'svg', 'pdf'];
 
     return (
@@ -742,7 +737,7 @@ function QrCodeGenerator() {
             </CardHeader>
             <CardContent className="flex flex-col items-center gap-6">
                  {qrData && (
-                    <div className="p-4 bg-white rounded-lg relative">
+                    <div className="p-4 bg-white rounded-lg">
                         <Image
                             src={getBaseUrl()}
                             alt="Generated QR Code"
@@ -750,15 +745,6 @@ function QrCodeGenerator() {
                             height={200}
                             priority
                         />
-                        {logo && (
-                             <Image 
-                                src={logo} 
-                                alt="Logo" 
-                                width={50} 
-                                height={50} 
-                                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-1 rounded-md"
-                             />
-                        )}
                     </div>
                 )}
                 <div className="w-full space-y-4">
@@ -825,12 +811,8 @@ function QrCodeGenerator() {
                             <Slider value={[qrMargin]} onValueChange={(v) => setQrMargin(v[0])} min={0} max={20} step={1}/>
                         </div>
                     </div>
-                    <div>
-                        <Label htmlFor="logo-upload">Logo (optional, nur für Anzeige)</Label>
-                        <Input id="logo-upload" type="file" onChange={handleLogoUpload} accept="image/*" />
-                    </div>
                      <div>
-                        <Label>Exportieren (ohne Logo)</Label>
+                        <Label>Exportieren</Label>
                         <div className="flex flex-wrap gap-2 mt-2">
                             {exportFormats.map(format => (
                                 <Button asChild key={format} variant="outline" size="sm">
@@ -866,14 +848,6 @@ export default function ToolsPage() {
 
   const renderTool = () => {
     if (!selectedTool) return null;
-    
-    // We pass Notes and Tasks to the Todo and Notes components
-    if (selectedTool.id === 'todo') {
-        return <Todo />;
-    }
-    if (selectedTool.id === 'notes') {
-        return <Notes />;
-    }
     return React.createElement(selectedTool.component);
   };
 
@@ -948,4 +922,3 @@ export default function ToolsPage() {
     </div>
   );
 }
-
