@@ -18,7 +18,8 @@ export type AchievementID =
   | 'COLOR_ARTIST'
   | 'TIME_STOPPER'
   | 'DIMENSION_MASTER'
-  | 'WORD_SMITH';
+  | 'WORD_SMITH'
+  | 'TASK_MANAGER';
 
 export interface Achievement {
   id: AchievementID;
@@ -121,6 +122,11 @@ export const achievementsList: Achievement[] = [
     id: 'WORD_SMITH',
     name: 'Wortschöpfer',
     description: 'Den KI-Textgenerator verwendet.'
+  },
+  {
+    id: 'TASK_MANAGER',
+    name: 'Task-Manager',
+    description: 'Eine Aufgabe zur Todo-Liste hinzugefügt.'
   }
 ];
 

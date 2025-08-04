@@ -7,7 +7,7 @@ import Footer from '@/components/footer';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search, Wand2, Thermometer, Weight, Ruler } from 'lucide-react';
+import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search, Wand2, Thermometer, Weight, Ruler, ListTodo, Trash2 } from 'lucide-react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -21,9 +21,10 @@ import { generateText } from '@/ai/flows/textGeneratorFlow';
 import { GenerateTextInput } from '@/ai/flows/types';
 import TextareaAutosize from 'react-textarea-autosize';
 import { Loader2 } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 type TimerMode = 'pomodoro' | 'shortBreak' | 'longBreak';
-type ToolId = 'pomodoro' | 'password' | 'stopwatch' | 'palette' | 'converter' | 'timer' | 'text-generator' | null;
+type ToolId = 'pomodoro' | 'password' | 'stopwatch' | 'palette' | 'converter' | 'timer' | 'text-generator' | 'todo' | null;
 
 const timeSettings = {
   pomodoro: 25 * 60,
@@ -663,6 +664,98 @@ const TextGenerator = () => {
     );
 }
 
+const Todo = () => {
+    type Task = { id: number; text: string; completed: boolean };
+    const [tasks, setTasks] = useState<Task[]>([]);
+    const [input, setInput] = useState('');
+    const { unlockAchievement } = useAchievements();
+
+    useEffect(() => {
+        try {
+            const storedTasks = localStorage.getItem('todo-tasks');
+            if (storedTasks) {
+                setTasks(JSON.parse(storedTasks));
+            }
+        } catch (error) {
+            console.error("Fehler beim Laden der Aufgaben:", error);
+        }
+    }, []);
+
+    useEffect(() => {
+        try {
+            localStorage.setItem('todo-tasks', JSON.stringify(tasks));
+        } catch (error) {
+            console.error("Fehler beim Speichern der Aufgaben:", error);
+        }
+    }, [tasks]);
+
+    const handleAddTask = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (input.trim() === '') return;
+        const newTask: Task = { id: Date.now(), text: input, completed: false };
+        setTasks([...tasks, newTask]);
+        setInput('');
+        unlockAchievement('TASK_MANAGER');
+    };
+
+    const handleToggleTask = (id: number) => {
+        setTasks(tasks.map(task => 
+            task.id === id ? { ...task, completed: !task.completed } : task
+        ));
+    };
+
+    const handleDeleteTask = (id: number) => {
+        setTasks(tasks.filter(task => task.id !== id));
+    };
+
+    return (
+        <Card className="rounded-3xl shadow-lg w-full">
+            <CardHeader>
+                <CardTitle className="text-2xl text-center font-headline">Todo Liste</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-4">
+                <form onSubmit={handleAddTask} className="flex gap-2">
+                    <Input 
+                        value={input}
+                        onChange={e => setInput(e.target.value)}
+                        placeholder="Neue Aufgabe hinzufügen..."
+                    />
+                    <Button type="submit">Hinzufügen</Button>
+                </form>
+                <ScrollArea className="h-72 w-full pr-4">
+                    <div className="space-y-2">
+                        {tasks.map(task => (
+                            <div key={task.id} className={cn(
+                                "flex items-center gap-2 p-2 rounded-lg transition-colors",
+                                task.completed ? "bg-muted/50" : "bg-muted"
+                            )}>
+                                <Checkbox 
+                                    id={`task-${task.id}`}
+                                    checked={task.completed}
+                                    onCheckedChange={() => handleToggleTask(task.id)}
+                                />
+                                <Label htmlFor={`task-${task.id}`} className={cn(
+                                    "flex-grow cursor-pointer",
+                                    task.completed && "line-through text-muted-foreground"
+                                )}>
+                                    {task.text}
+                                </Label>
+                                <Button variant="ghost" size="icon" onClick={() => handleDeleteTask(task.id)}>
+                                    <Trash2 className="h-4 w-4 text-destructive" />
+                                </Button>
+                            </div>
+                        ))}
+                         {tasks.length === 0 && (
+                            <p className="text-center text-muted-foreground py-8">Noch keine Aufgaben vorhanden.</p>
+                        )}
+                    </div>
+                </ScrollArea>
+            </CardContent>
+        </Card>
+    );
+};
+
+
 const availableTools = [
   { id: 'pomodoro', name: 'Pomodoro Timer', icon: <BookOpen className="w-8 h-8" /> },
   { id: 'timer', name: 'Timer', icon: <TimerIcon className="w-8 h-8" /> },
@@ -671,6 +764,7 @@ const availableTools = [
   { id: 'password', name: 'Passwort-Generator', icon: <KeyRound className="w-8 h-8" /> },
   { id: 'palette', name: 'Farbpalette', icon: <Palette className="w-8 h-8" /> },
   { id: 'text-generator', name: 'KI-Textgenerator', icon: <Wand2 className="w-8 h-8" /> },
+  { id: 'todo', name: 'Todo Liste', icon: <ListTodo className="w-8 h-8" /> },
 ];
 
 export default function ToolsPage() {
@@ -691,6 +785,7 @@ export default function ToolsPage() {
       case 'converter': return <UnitConverter />;
       case 'timer': return <SimpleTimer />;
       case 'text-generator': return <TextGenerator />;
+      case 'todo': return <Todo />;
       default: return null;
     }
   };
