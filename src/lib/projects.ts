@@ -24,10 +24,9 @@ export const projectData = [
        <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Datenschutz & Sicherheit</h3>
        <p>Sämtliche Nutzerdaten werden DSGVO-konform verarbeitet und sind vor unbefugtem Zugriff geschützt.</p>
       `,
-    image: 'https://placehold.co/600x400.png',
+    image: '/photos/Notio_Dashboard.png',
     url: 'https://notio.schächner.de',
     tags: ['Web-App', 'Next.js', 'Datenvisualisierung', 'Bildung', 'Lernmanagement'],
-    aiHint: 'student grade dashboard',
     date: '2024-08-01',
     category: 'Web-Anwendung / EdTech',
     details: {
