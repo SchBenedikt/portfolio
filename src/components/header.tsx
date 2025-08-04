@@ -206,7 +206,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
                 exit={{ opacity: 0, x: 20, transition: { duration: 0.2 } }}
-                 className="hidden md:flex p-1 rounded-full bg-muted/50 backdrop-blur-lg"
+                 className="p-1 rounded-full bg-muted/50 backdrop-blur-lg"
               >
                 <ThemeToggle />
               </motion.div>
