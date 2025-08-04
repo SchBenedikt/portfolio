@@ -7,6 +7,7 @@ import { useTheme } from 'next-themes';
 
 import { Button } from '@/components/ui/button';
 import { useAchievements } from './providers/achievements-provider';
+import { cn } from '@/lib/utils';
 
 export function ThemeToggle() {
   const { setTheme, theme } = useTheme();
@@ -28,13 +29,14 @@ export function ThemeToggle() {
   };
 
   if (!mounted) {
-    return <Button variant="ghost" className="rounded-full" disabled />;
+    return <Button variant="ghost" className="rounded-full w-9 h-9" size="icon" disabled />;
   }
 
   return (
     <Button
       variant="ghost"
-      className="rounded-full"
+      size="icon"
+      className={cn("rounded-full w-9 h-9")}
       onClick={handleThemeChange}
       aria-label="Toggle theme"
       data-cursor-interactive
