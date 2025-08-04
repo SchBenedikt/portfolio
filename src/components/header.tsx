@@ -42,7 +42,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
   ]
 
   const isLabelVisible = (href: string) => {
-    return pathname.startsWith(href) || hoveredHref === href;
+    return !isScrolled || pathname.startsWith(href) || hoveredHref === href;
   }
 
   const navItemVariants = {
@@ -92,7 +92,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
                 animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
                 exit={{ opacity: 0, x: -20, transition: { duration: 0.2 } }}
               >
-                 <div className="p-1 rounded-full bg-muted/50">
+                 <div className="p-1 rounded-full bg-muted/50 backdrop-blur-lg">
                     <Button asChild variant={'active'} className={cn("rounded-full relative")} data-cursor-interactive>
                        <Link href="/" className="flex items-center gap-1">
                           <span className="font-headline text-base">BS</span>
@@ -113,11 +113,11 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
             <motion.nav 
               layout
               transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-              className="flex items-center gap-1 p-1 rounded-full bg-muted/50"
+              className="flex items-center gap-1 p-1 rounded-full bg-muted/50 backdrop-blur-lg"
               onMouseLeave={() => setHoveredHref(null)}
             >
               {navLinks.map(link => {
-                  const showLabel = isLabelVisible(link.href) || (isScrolled && pathname.startsWith(link.href) && hoveredHref === null) || (!isScrolled);
+                  const showLabel = isLabelVisible(link.href)
                   return (
                       <Button 
                           key={link.href} 
@@ -200,7 +200,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
                 exit={{ opacity: 0, x: 20, transition: { duration: 0.2 } }}
                  className="hidden md:flex"
               >
-                <div className="flex items-center gap-1 p-1 rounded-full bg-muted/50">
+                <div className="flex items-center gap-1 p-1 rounded-full bg-muted/50 backdrop-blur-lg">
                     <ThemeToggle />
                 </div>
               </motion.div>
