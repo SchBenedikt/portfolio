@@ -1,11 +1,8 @@
-
 export type AchievementID =
   | 'FIRST_STEP'
   | 'PROJECTS_EXPLORER'
   | 'PROJECT_INSPECTOR'
   | 'RESUME_VIEWER'
-  | 'BLOG_EXPLORER'
-  | 'BLOG_POST_READER'
   | 'NIGHT_OWL'
   | 'EARLY_BIRD'
   | 'GAMER'
@@ -47,16 +44,6 @@ export const achievementsList: Achievement[] = [
     id: 'RESUME_VIEWER',
     name: 'Der Historiker',
     description: 'Den Lebenslauf angesehen.',
-  },
-  {
-    id: 'BLOG_EXPLORER',
-    name: 'Der Leser',
-    description: 'Den Blog besucht.',
-  },
-  {
-    id: 'BLOG_POST_READER',
-    name: 'Belesen',
-    description: 'Einen Blogbeitrag gelesen.',
   },
   {
     id: 'NIGHT_OWL',

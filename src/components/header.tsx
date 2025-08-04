@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -13,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { Menu, FolderKanban, UserSquare, Rss, Wrench } from 'lucide-react';
+import { Menu, FolderKanban, UserSquare, Wrench } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 
@@ -37,7 +36,6 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
   const navLinks = [
     { href: "/projects", label: "Projekte", icon: <FolderKanban/> },
     { href: "/resume", label: "Lebenslauf", icon: <UserSquare/> },
-    { href: "/blog", label: "Blog", icon: <Rss/> },
     { href: "/tools", label: "Tools", icon: <Wrench/> },
   ]
 
