@@ -40,12 +40,14 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300',
-        isScrolled ? 'bg-background/80 backdrop-blur-lg border-b border-border/50' : ''
+        'fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300'
       )}
     >
-      <div className="container mx-auto px-6 sm:px-8 flex justify-between items-center transition-all duration-300">
-        <div className={cn("transition-all duration-300", isScrolled ? "opacity-0 pointer-events-none" : "opacity-100")}>
+      <div className={cn(
+          "container mx-auto px-6 sm:px-8 flex items-center transition-all duration-300",
+          isScrolled ? "justify-center" : "justify-between"
+      )}>
+        <div className={cn("transition-all duration-300", isScrolled ? "opacity-0 pointer-events-none w-0" : "opacity-100 w-auto")}>
             <Link
               href="/"
               className="text-2xl md:text-3xl font-black uppercase tracking-widest font-headline hover:text-primary transition-colors"
@@ -58,7 +60,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
         {/* Desktop Navigation */}
         <nav className={cn(
             "hidden md:flex items-center gap-2 p-1 rounded-full transition-all duration-300",
-            isScrolled ? "bg-muted/0" : "bg-muted/50"
+            isScrolled ? "bg-background/80 backdrop-blur-lg border border-border/50 shadow-md" : "bg-muted/50"
         )}>
           {navLinks.map(link => (
              <Button 
@@ -76,7 +78,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
           ))}
         </nav>
 
-        <div className={cn("flex items-center gap-2 transition-all duration-300", isScrolled ? "opacity-0 pointer-events-none" : "opacity-100")}>
+        <div className={cn("flex items-center gap-2 transition-all duration-300", isScrolled ? "opacity-0 pointer-events-none w-0" : "opacity-100 w-auto")}>
           {children}
           
           {/* Mobile Navigation */}
