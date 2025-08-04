@@ -44,130 +44,135 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
     return pathname.startsWith(href) || hoveredHref === href;
   }
 
+  const navItemVariants = {
+    hidden: { opacity: 0, width: 0 },
+    visible: { 
+      opacity: 1, 
+      width: 'auto',
+      transition: { duration: 0.3, ease: [0.25, 1, 0.5, 1] } 
+    },
+    exit: { 
+      opacity: 0, 
+      width: 0,
+      transition: { duration: 0.2, ease: [0.25, 1, 0.5, 1] }
+    },
+  }
+
   return (
-    <header
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300'
-      )}
-    >
-      <div className={cn(
-          "container mx-auto px-6 sm:px-8 flex items-center transition-all duration-300",
-          isScrolled ? "justify-center" : "justify-between"
-      )}>
-        <div className={cn("transition-all duration-300", isScrolled ? "opacity-0 pointer-events-none w-0" : "opacity-100 w-auto")}>
-            <Link
-              href="/"
-              className="text-2xl md:text-3xl font-black uppercase tracking-widest font-headline hover:text-primary transition-colors"
-              data-cursor-interactive
+    <header className="fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300">
+      <motion.div 
+        layout 
+        transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+        className="container mx-auto px-6 sm:px-8 flex items-center"
+        style={{ justifyContent: isScrolled ? 'center' : 'space-between' }}
+      >
+        <AnimatePresence>
+          {!isScrolled && (
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
             >
-              BS
-            </Link>
-        </div>
+              <Link
+                href="/"
+                className="text-2xl md:text-3xl font-black uppercase tracking-widest font-headline hover:text-primary transition-colors"
+                data-cursor-interactive
+              >
+                BS
+              </Link>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        
+        {/* Desktop Navigation */}
+        <motion.div 
+            layout 
+            transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+            className="hidden md:flex items-center gap-2"
+        >
+            <motion.nav 
+              layout
+              transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+              className="flex items-center gap-1 p-1 rounded-full bg-muted/50"
+              onMouseLeave={() => setHoveredHref(null)}
+            >
+              {navLinks.map(link => {
+                  const showLabel = isLabelVisible(link.href) || (isScrolled && pathname.startsWith(link.href));
+                  return (
+                      <Button 
+                          key={link.href} 
+                          asChild 
+                          variant={pathname.startsWith(link.href) ? 'active' : 'ghost'}
+                          className={cn("rounded-full relative")}
+                          onMouseEnter={() => setHoveredHref(link.href)}
+                          data-cursor-interactive
+                      >
+                          <Link href={link.href} className="flex items-center gap-1">
+                              {React.cloneElement(link.icon as React.ReactElement, { className: "w-4 h-4" })}
+                              <AnimatePresence>
+                              {(showLabel || (!isScrolled && hoveredHref === link.href)) && (
+                                  <motion.span
+                                      variants={navItemVariants}
+                                      initial="hidden"
+                                      animate="visible"
+                                      exit="exit"
+                                      className="overflow-hidden whitespace-nowrap"
+                                  >
+                                      {link.label}
+                                  </motion.span>
+                              )}
+                              </AnimatePresence>
+                          </Link>
+                      </Button>
+                  )
+              })}
+            </motion.nav>
+        </motion.div>
 
-        {isScrolled ? (
-             <div className="flex items-center gap-2 p-1 rounded-full bg-background/80 backdrop-blur-lg border border-border/50 shadow-md">
-                <nav className="flex items-center gap-1">
-                    {navLinks.map(link => {
-                        const showLabel = isLabelVisible(link.href);
-                        return (
-                            <Button 
-                                key={link.href} 
-                                asChild 
-                                variant={pathname.startsWith(link.href) ? 'active' : 'ghost'}
-                                size={!showLabel ? 'icon' : 'default'}
-                                className={cn("rounded-full transition-all", !showLabel && "w-10 h-10")}
-                                onMouseEnter={() => setHoveredHref(link.href)}
-                                onMouseLeave={() => setHoveredHref(null)}
-                                data-cursor-interactive
-                            >
-                                <Link href={link.href}>
-                                    {React.cloneElement(link.icon as React.ReactElement, { className: "w-4 h-4" })}
-                                    <AnimatePresence>
-                                    {showLabel && (
-                                        <motion.span
-                                            initial={{ opacity: 0, width: 0 }}
-                                            animate={{ opacity: 1, width: 'auto' }}
-                                            exit={{ opacity: 0, width: 0 }}
-                                            transition={{ duration: 0.2, ease: 'easeOut' }}
-                                            className="overflow-hidden"
-                                        >
-                                            {link.label}
-                                        </motion.span>
-                                    )}
-                                    </AnimatePresence>
-                                </Link>
-                            </Button>
-                        )
-                    })}
-                </nav>
-            </div>
-        ) : (
-            <>
-                <nav className="hidden md:flex items-center gap-2 p-1 rounded-full bg-muted/50">
-                {navLinks.map(link => (
-                    <Button 
-                        key={link.href} 
-                        asChild 
-                        variant={pathname.startsWith(link.href) ? 'active' : 'ghost'}
-                        className="rounded-full"
-                        onMouseEnter={() => setHoveredHref(link.href)}
-                        onMouseLeave={() => setHoveredHref(null)}
-                        data-cursor-interactive
-                    >
-                        <Link href={link.href}>
-                            {React.cloneElement(link.icon as React.ReactElement, { className: "w-4 h-4" })}
-                            <AnimatePresence>
-                            {isLabelVisible(link.href) && (
-                                <motion.span
-                                    initial={{ opacity: 0, width: 0 }}
-                                    animate={{ opacity: 1, width: 'auto' }}
-                                    exit={{ opacity: 0, width: 0 }}
-                                    transition={{ duration: 0.2, ease: 'easeOut' }}
-                                    className="overflow-hidden"
-                                >
-                                    {link.label}
-                                </motion.span>
-                            )}
-                            </AnimatePresence>
-                        </Link>
-                    </Button>
-                ))}
-                </nav>
-
-                <div className={cn("flex items-center gap-2 transition-all duration-300", isScrolled ? "opacity-0 pointer-events-none w-0" : "opacity-100 w-auto")}>
-                    <div className="hidden md:flex items-center gap-1 p-1 rounded-full bg-muted/50">
-                        {children}
-                        <ThemeToggle />
-                    </div>
-                
-                    <div className="md:hidden">
-                        <div className="flex items-center gap-2">
-                            {children}
-                            <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline" size="icon" className="w-9 h-9" data-cursor-interactive>
-                                <Menu className="h-5 w-5" />
-                                <span className="sr-only">Menü öffnen</span>
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                {navLinks.map(link => (
-                                    <DropdownMenuItem key={link.href} asChild>
-                                    <Link href={link.href} className="flex items-center gap-2 text-base">
-                                        {React.cloneElement(link.icon as React.ReactElement, { className: "text-muted-foreground" })}
-                                        {link.label}
-                                    </Link>
-                                    </DropdownMenuItem>
-                                ))}
-                            </DropdownMenuContent>
-                            </DropdownMenu>
-                            <ThemeToggle />
-                        </div>
-                    </div>
-                </div>
-            </>
-        )}
-      </div>
+        <AnimatePresence>
+          {!isScrolled && (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+              className="flex items-center"
+            >
+              <div className="hidden md:flex items-center gap-1 p-1 rounded-full bg-muted/50">
+                  {children}
+                  <ThemeToggle />
+              </div>
+              
+              {/* Mobile Menu */}
+              <div className="md:hidden">
+                  <div className="flex items-center gap-2">
+                      {children}
+                      <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                          <Button variant="outline" size="icon" className="w-9 h-9" data-cursor-interactive>
+                          <Menu className="h-5 w-5" />
+                          <span className="sr-only">Menü öffnen</span>
+                          </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                          {navLinks.map(link => (
+                              <DropdownMenuItem key={link.href} asChild>
+                              <Link href={link.href} className="flex items-center gap-2 text-base">
+                                  {React.cloneElement(link.icon as React.ReactElement, { className: "text-muted-foreground" })}
+                                  {link.label}
+                              </Link>
+                              </DropdownMenuItem>
+                          ))}
+                      </DropdownMenuContent>
+                      </DropdownMenu>
+                      <ThemeToggle />
+                  </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </header>
   );
 };
