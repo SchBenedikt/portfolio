@@ -1,7 +1,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -17,6 +17,18 @@ import { Menu, FolderKanban, UserSquare, Rss, Wrench } from 'lucide-react';
 
 const Header = ({ children }: { children?: React.ReactNode }) => {
   const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const navLinks = [
     { href: "/projects", label: "Projekte", icon: <FolderKanban/> },
@@ -28,20 +40,26 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 py-4 transition-colors duration-300 bg-background/80 backdrop-blur-lg border-b border-border/50'
+        'fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300',
+        isScrolled ? 'bg-background/80 backdrop-blur-lg border-b border-border/50' : ''
       )}
     >
-      <div className="container mx-auto px-6 sm:px-8 flex justify-between items-center">
-        <Link
-          href="/"
-          className="text-2xl md:text-3xl font-black uppercase tracking-widest font-headline hover:text-primary transition-colors"
-          data-cursor-interactive
-        >
-          BS
-        </Link>
+      <div className="container mx-auto px-6 sm:px-8 flex justify-between items-center transition-all duration-300">
+        <div className={cn("transition-all duration-300", isScrolled ? "opacity-0 pointer-events-none" : "opacity-100")}>
+            <Link
+              href="/"
+              className="text-2xl md:text-3xl font-black uppercase tracking-widest font-headline hover:text-primary transition-colors"
+              data-cursor-interactive
+            >
+              BS
+            </Link>
+        </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-2 p-1 rounded-full bg-muted/50">
+        <nav className={cn(
+            "hidden md:flex items-center gap-2 p-1 rounded-full transition-all duration-300",
+            isScrolled ? "bg-muted/0" : "bg-muted/50"
+        )}>
           {navLinks.map(link => (
              <Button 
                 key={link.href} 
@@ -58,7 +76,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className={cn("flex items-center gap-2 transition-all duration-300", isScrolled ? "opacity-0 pointer-events-none" : "opacity-100")}>
           {children}
           
           {/* Mobile Navigation */}
