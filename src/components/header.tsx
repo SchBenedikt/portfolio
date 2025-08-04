@@ -3,6 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { cn } from '@/lib/utils';
 import {
@@ -15,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Menu, FolderKanban, UserSquare, Rss, Wrench } from 'lucide-react';
 
 const Header = ({ children }: { children?: React.ReactNode }) => {
+  const pathname = usePathname();
 
   const navLinks = [
     { href: "/projects", label: "Projekte", icon: <FolderKanban/> },
@@ -39,11 +41,20 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6 md:gap-8 text-base md:text-lg">
+        <nav className="hidden md:flex items-center gap-2 p-1 rounded-full bg-muted/50">
           {navLinks.map(link => (
-             <Link key={link.href} href={link.href} className="font-medium text-foreground/80 hover:text-foreground transition-colors" data-cursor-interactive>
-                {link.label}
-              </Link>
+             <Button 
+                key={link.href} 
+                asChild 
+                variant={pathname.startsWith(link.href) ? 'active' : 'ghost'}
+                className="rounded-full"
+                data-cursor-interactive
+              >
+                <Link href={link.href}>
+                    {React.cloneElement(link.icon as React.ReactElement, { className: "w-4 h-4" })}
+                    {link.label}
+                </Link>
+              </Button>
           ))}
         </nav>
 
