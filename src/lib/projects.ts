@@ -64,7 +64,7 @@ export const projectData = [
     category: 'Web-Anwendung / Bildung',
   },
   {
-    title: 'technik.schächner.de',
+    title: 'Technik Schächner!',
     slug: 'technik-blog',
     description: 'Eine digitale Plattform, die technische Anwendungen, Tools und persönliche Experimente aus den Bereichen Programmierung, Cloud und Automatisierung bündelt.',
     longDescription: `
