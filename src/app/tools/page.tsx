@@ -7,7 +7,7 @@ import Footer from '@/components/footer';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search, Wand2, Thermometer, Weight, Ruler, ListTodo, Trash2, QrCode, Notebook, Download } from 'lucide-react';
+import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search, Wand2, Thermometer, Weight, Ruler, ListTodo, Trash2, QrCode, Notebook, Download, Plus, Trash } from 'lucide-react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -500,41 +500,111 @@ function Todo() {
 };
 
 function Notes() {
-    const [note, setNote] = useState('');
+    type Note = { id: string; title: string; content: string };
+    const [notes, setNotes] = useState<Note[]>([]);
+    const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
 
+    // Load from localStorage
     useEffect(() => {
         try {
-            const savedNote = localStorage.getItem('user-note');
-            if (savedNote) {
-                setNote(savedNote);
+            const savedNotes = localStorage.getItem('user-notes');
+            if (savedNotes) {
+                const parsedNotes = JSON.parse(savedNotes);
+                setNotes(parsedNotes);
+                if (parsedNotes.length > 0) {
+                    setActiveNoteId(parsedNotes[0].id);
+                }
             }
         } catch (error) {
-            console.error("Fehler beim Laden der Notiz:", error);
+            console.error("Error loading notes:", error);
         }
     }, []);
 
-    const handleNoteChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const newNote = e.target.value;
-        setNote(newNote);
+    // Save to localStorage
+    useEffect(() => {
         try {
-            localStorage.setItem('user-note', newNote);
+            localStorage.setItem('user-notes', JSON.stringify(notes));
         } catch (error) {
-            console.error("Fehler beim Speichern der Notiz:", error);
+            console.error("Error saving notes:", error);
+        }
+    }, [notes]);
+
+    const handleAddNote = () => {
+        const newNote: Note = {
+            id: Date.now().toString(),
+            title: 'Neue Notiz',
+            content: ''
+        };
+        setNotes([newNote, ...notes]);
+        setActiveNoteId(newNote.id);
+    };
+
+    const handleDeleteNote = (id: string) => {
+        const newNotes = notes.filter(n => n.id !== id);
+        setNotes(newNotes);
+        if (activeNoteId === id) {
+            setActiveNoteId(newNotes.length > 0 ? newNotes[0].id : null);
         }
     };
 
+    const handleNoteChange = (id: string, field: 'title' | 'content', value: string) => {
+        setNotes(notes.map(n => n.id === id ? { ...n, [field]: value } : n));
+    };
+
+    const activeNote = notes.find(n => n.id === activeNoteId);
+
     return (
-        <Card className="rounded-3xl shadow-lg w-full">
+        <Card className="rounded-3xl shadow-lg w-full min-h-[450px]">
             <CardHeader>
                 <CardTitle className="text-2xl text-center font-headline">Notizblock</CardTitle>
             </CardHeader>
-            <CardContent>
-                <Textarea
-                    value={note}
-                    onChange={handleNoteChange}
-                    placeholder="Schreib hier deine Gedanken auf..."
-                    className="min-h-[300px] text-lg"
-                />
+            <CardContent className="flex flex-col md:flex-row gap-4 h-full">
+                <div className="w-full md:w-1/3 border-r-0 md:border-r pr-0 md:pr-4">
+                     <Button onClick={handleAddNote} className="w-full mb-4">
+                        <Plus className="mr-2" /> Neue Notiz
+                    </Button>
+                    <ScrollArea className="h-60 md:h-80">
+                        {notes.map(note => (
+                            <div
+                                key={note.id}
+                                className={cn(
+                                    "p-2 rounded-lg cursor-pointer flex justify-between items-center",
+                                    activeNoteId === note.id ? "bg-muted" : "hover:bg-muted/50"
+                                )}
+                                onClick={() => setActiveNoteId(note.id)}
+                            >
+                                <span className="truncate pr-2">{note.title}</span>
+                                 <Button variant="ghost" size="icon" className="h-7 w-7" onClick={(e) => { e.stopPropagation(); handleDeleteNote(note.id)}}>
+                                    <Trash className="h-4 w-4 text-destructive" />
+                                </Button>
+                            </div>
+                        ))}
+                        {notes.length === 0 && (
+                             <p className="text-center text-muted-foreground py-8">Keine Notizen.</p>
+                        )}
+                    </ScrollArea>
+                </div>
+                <div className="w-full md:w-2/3">
+                    {activeNote ? (
+                        <div className="space-y-2">
+                             <Input 
+                                value={activeNote.title}
+                                onChange={e => handleNoteChange(activeNote.id, 'title', e.target.value)}
+                                className="text-lg font-bold"
+                            />
+                            <Textarea
+                                value={activeNote.content}
+                                onChange={e => handleNoteChange(activeNote.id, 'content', e.target.value)}
+                                placeholder="Schreib hier deine Gedanken auf..."
+                                className="min-h-[280px] text-base"
+                            />
+                        </div>
+                    ) : (
+                         <div className="flex items-center justify-center h-full text-muted-foreground">
+                            <p>Wähle eine Notiz aus oder erstelle eine neue.</p>
+                        </div>
+                    )}
+                </div>
             </CardContent>
         </Card>
     );
