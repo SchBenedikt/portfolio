@@ -36,33 +36,37 @@ export const projectData = [
     }
   },
   {
-    title: 'caesar.schächner.de / Meum Diarium',
+    title: 'Meum Diarium',
     slug: 'meum-diarium',
     description: 'Ein preisgekröntes Crossmedia-Projekt, das Julius Cäsars Geschichte im Stil eines modernen Influencer-Blogs erzählt.',
     longDescription: `
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Überblick</h3>
-        <p>Das Projekt „Meum Diarium“ vereint Geschichtswissen, Latein und moderne Medientechnologien zu einer einzigartigen Online-Präsenz, auf der Gaius Julius Caesar als Blog-Influencer im Stil eines Tagebuchs aus seinem Leben berichtet. Die Website wurde mehrfach mit Preisen wie dem Deutschen Multimediapreis mb21 ausgezeichnet und bietet neben Blogeinträgen auch Presseartikel und einen Merchandise-Shop.</p>
+        <p>Das Projekt „Meum Diarium“ vereint Geschichtswissen, Latein und moderne Medientechnologien zu einer einzigartigen Online-Präsenz, auf der Gaius Julius Caesar als Blog-Influencer im Stil eines Tagebuchs aus seinem Leben berichtet. Die Website entstand im Rahmen des Schulunterrichts und wurde bereits mehrfach mit bedeutenden Preisen – etwa dem Deutschen Multimediapreis mb21 und Preisen beim Crossmedia-Wettbewerb – ausgezeichnet. Neben den ironisch-historischen Blogeinträgen finden sich eine Vielzahl an Presseartikeln, eine Übersicht der Medienresonanz sowie Produkte zum Kaufen (Merch).</p>
         
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Schwerpunkte</h3>
         <ul class="list-disc pl-6 space-y-2">
-            <li><b>Tagebucheinträge aus Cäsars Perspektive:</b> Antike Geschichte wird modern und jugendnah mit Witz und Bezügen zu aktuellen Themen erzählt.</li>
-            <li><b>Multimediale Vielfalt:</b> Integration von Blogs, Wikis, Bildmaterial, KI-generierten Inhalten und einem Caesar-KI-Chat.</li>
-            <li><b>Pressebereich:</b> Umfangreiche Dokumentation von Medienberichten, die das gesellschaftliche Interesse am Projekt belegen.</li>
-            <li><b>Merchandise-Shop:</b> Unter „Meum Merch“ können Besucher originelle Produkte mit Caesar-Bezug kaufen, um das Projekt zu unterstützen.</li>
+            <li><b>Tagebucheinträge aus Cäsars Perspektive:</b> Authentisch und mit Witz wird antike Geschichte modern, jugendnah und oftmals mit Bezügen zu aktuellen Persönlichkeiten (z.B. Elon Musk) erzählt.</li>
+            <li><b>Multimediale Vielfalt:</b> Integration von Blogbeiträgen, Wiki-Texten, Datenbanken, Bildmaterial, KI-generierten Inhalten und Interaktionstools (z.B. ein Caesar-KI-Chat).</li>
+            <li><b>Pressebereich:</b> Eine ausführliche Dokumentation zahlreicher Medienberichte, Interviews und Pressestimmen, die die kreative Leistung und das gesellschaftliche Interesse an dem Projekt hervorheben.</li>
+            <li><b>Merchandise-Shop:</b> Unter „Meum Merch“ können Besucher originelle Produkte mit Caesar-Bezug kaufen – von T-Shirts bis zu Tassen, um das Projekt zu unterstützen.</li>
         </ul>
         
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Erfolge und Anerkennung</h3>
-        <p>Das Projekt wurde von der Jury des Deutschen Multimediapreises für seine "herausragende Detailverliebtheit und Witz" gelobt und erhielt eine umfangreiche Berichterstattung in überregionalen Medien, darunter der Bayerische Rundfunk. Es dient als Vorbild für die Verbindung von Kultur und Digitalisierung.</p>
+         <ul class="list-disc pl-6 space-y-2">
+            <li>Hervorragend aufgenommen von der Jury des Deutschen Multimediapreises ("herausragende Detailverliebtheit und Witz", "authentisches, multimediales Erlebnis, das antike und moderne Welt verbindet").</li>
+            <li>Umfangreiche Berichterstattung in überregionalen Medien inkl. Bayerischem Rundfunk, lokalen Zeitungen und Kulturanbietern.</li>
+            <li>Vermittlung historischer Themen für eine junge Zielgruppe im handlungsorientierten, medialen Kontext; didaktischer Mehrwert und Vorbildfunktion für die Verbindung von Kultur und Digitalisierung.</li>
+        </ul>
 
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Alleinstellungsmerkmale</h3>
         <ul class="list-disc pl-6 space-y-2">
-            <li>Verflechtung historischer Inhalte mit popkulturellen Themen.</li>
-            <li>Vielseitigkeit als Tagebuch, interaktive Website, Presseportal und Merch-Store.</li>
-            <li>Vollständig eigenständig auf einem selbstbetriebenen Server umgesetzt.</li>
+            <li>Historische Inhalte werden mit popkulturellen und gesellschaftlichen Themen verflochten.</li>
+            <li>Vielseitig: Tagebuch, interaktive Website, Presseportal und Merch-Store in einem.</li>
+            <li>Völlig eigenständig auf selbstbetriebenem Server umgesetzt – technische Kompetenz und Kreativität geraten ins Rampenlicht.</li>
         </ul>
 
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Bedeutung für das Portfolio</h3>
-        <p>Das Projekt zeigt Benedikt Schächner als teamfähigen, kreativen und technisch versierten Macher, der erfolgreich Brücken zwischen Geschichte, Bildung und moderner Medienwelt baut.</p>
+        <p>Das Projekt zeigt Benedikt Schächner neben Teamfähigkeit und Kreativität auch als technisch versierten und gesellschaftlich sensiblen Macher, der erfolgreich Brücken zwischen Geschichte, Bildung und moderner Medienwelt baut. Die Resonanz in der Presse wie die Anerkennung im Wettbewerb stellen die Relevanz und Qualität des Projekts eindrucksvoll unter Beweis.</p>
 
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Pressespiegel (Auswahl)</h3>
         <ul class="list-disc pl-6 space-y-2">
@@ -82,12 +86,34 @@ export const projectData = [
     title: 'Medienscouts KKG',
     slug: 'medienscouts-kkg',
     description:
-      'Als Teil der Medienscouts am König-Karlmann-Gymnasium unterstütze ich Mitschüler beim sicheren Umgang mit digitalen Medien.',
+      'Ein digitales Zukunftsprojekt und Schülerengagement am König-Karlmann-Gymnasium Altötting (KKG) zur Förderung digitaler Kompetenzen.',
     longDescription:
-      'Auf medienscouts-kkg.de stellen wir als Gruppe digitale Werkzeuge vor, organisieren Workshops und beraten zu Datenschutz und Online-Sicherheit. Wir unterstützen die Digitalklassen, in denen ab der 8. Klasse papierlos gearbeitet wird, und stehen als Ansprechpartner für Schüler, Lehrer und Eltern zur Verfügung, um die digitale Bildung und Sicherheit an der Schule zu fördern.',
+      `
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Überblick</h3>
+      <p>Medienscouts am KKG ist ein Projekt von und für Schülerinnen und Schüler, das es sich zur Aufgabe gemacht hat, digitale Kompetenzen zu fördern, Hilfestellung im Umgang mit Technik und Digitalität zu bieten und für ein sicheres Miteinander im Netz zu sorgen. Die Plattform vermittelt praxisnahe Tipps – insbesondere für die immer beliebter werdenden Digitalklassen – und bietet eine Anlaufstelle für technische, didaktische und sicherheitsrelevante Fragestellungen im Schulalltag.</p>
+      
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Schwerpunkte</h3>
+       <ul class="list-disc pl-6 space-y-2">
+            <li><b>Schüler-helfen-Schülern-Prinzip:</b> Medienscouts geben als speziell ausgebildete Schülerinnen und Schüler ihr Wissen an Mitschüler, Lehrkräfte und Eltern weiter.</li>
+            <li><b>Digitalklasse:</b> Informationen und spezifische Unterstützung rund um das Konzept der Digitalklassen ab Jahrgangsstufe 8. Schwerpunkt auf dem Umgang mit digitalen Endgeräten (z.B. Windows 2-in-1-Geräte), Gerätenutzung im Unterricht und Herausforderungen beim digitalen Lernen.</li>
+            <li><b>Hilfestellung & Schulungen:</b> Unterstützung bei technischen Problemen, individuelle Beratung bei digitalen Fragen und Sensibilisierung für Gefahren und den verantwortungsvollen Umgang im Internet.</li>
+            <li><b>Interaktive Tools:</b> Ein neu eingeführter Chatbot unterstützt bei Routinefragen; für spezifische Probleme können direkt Screenshots und Bilder hochgeladen werden, um gezielte Hilfe zu erhalten.</li>
+            <li><b>Content und Aktionen:</b> Laufend neue Artikel, Tipps, Workshops und Aktionen. Aktuell bereits fast 40 hilfreiche Blogartikel zu digitalen Themen, Microsoft- und Office-Tipps, sowie News rund um digitale Bildung am KKG.</li>
+        </ul>
+
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Alleinstellungsmerkmale</h3>
+        <ul class="list-disc pl-6 space-y-2">
+            <li>Gelebte digitale Selbsthilfe durch engagierte, gut geschulte Jugendliche.</li>
+            <li>Kombination aus persönlicher Beratung, interaktiven Online-Tools und regelmäßiger Wissensvermittlung über den Schulblog.</li>
+            <li>Starke Fokussierung auf die Integration digitaler Medienbildung im Unterricht und das nachhaltige Erlernen sicherer Internetkompetenzen.</li>
+        </ul>
+
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Bedeutung für das Portfolio</h3>
+        <p>Das Medienscouts-Projekt unterstreicht, wie Schülerengagement, digitale Kompetenzen, Teamarbeit und Innovationsgeist an Schulen aktiv vorangetrieben werden können. Es steht für moderne Wertevermittlung und die Förderung eigenverantwortlicher Tech-Kompetenz – zentral für den weiteren Bildungsweg und das spätere Berufsleben.</p>
+      `,
     image: 'https://technik.xn--schchner-2za.de/wp-content/uploads/2025/08/Medienscouts.png',
     url: 'https://medienscouts-kkg.de/',
-    tags: ['Next.js', 'Chatbot', 'Schulprojekt', 'CI/CD'],
+    tags: ['Next.js', 'Chatbot', 'Schulprojekt', 'CI/CD', 'Bildung'],
     date: '2023-09-01',
     category: 'Web-Anwendung / Bildung',
   },
@@ -97,21 +123,27 @@ export const projectData = [
     description: 'Eine digitale Plattform, die technische Anwendungen, Tools und persönliche Experimente aus den Bereichen Programmierung, Cloud und Automatisierung bündelt.',
     longDescription: `
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Überblick</h3>
-        <p>technik.schächner.de dient als digitales Schaufenster für eigenständig entwickelte Webprojekte, Open-Source-Beiträge und technische Demonstrationslösungen. Es ist eine Experimentierplattform, die innovative Ansätze und praktische Lösungen für die Tech-Community bereitstellt.</p>
+        <p>technik.schächner.de dient als digitale Plattform, die verschiedene technische und digitale Anwendungen, Tools sowie persönliche Experimente von Benedikt Schächner präsentiert und bündelt. Die Seite fungiert als Schaufenster für eigenständig entwickelte Webprojekte, Open-Source-Beiträge und technische Demonstrationslösungen im Bereich Programmierung, Cloud-Technologien und Automatisierung.</p>
         
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Schwerpunkte</h3>
         <ul class="list-disc pl-6 space-y-2">
             <li>Sammlung und Präsentation eigener Softwareentwicklungen und Tools.</li>
-            <li>Umsetzung von Webanwendungen mit aktuellen Technologien wie Python und JavaScript.</li>
-            <li>Dokumentation und Wissenstransfer zu Technikthemen und IT-Education.</li>
-            <li>Sichere Bereitstellung von Scripts, Apps und Anleitungen ohne kommerziellen Hintergrund.</li>
+            <li>Umsetzung von Webanwendungen mit aktuellen Technologien (z. B. Python, JavaScript).</li>
+            <li>Experimentierplattform zur Demonstration technischer Lösungen und innovativer Ansätze.</li>
+            <li>Bereich für Dokumentation und Wissenstransfer zu Technikthemen sowie IT-Education, insbesondere für junge Technikinteressierte.</li>
+            <li>Sichere Bereitstellung von nützlichen Scripts, Webanwendungen und Anleitungen für die Community – ohne kommerziellen Hintergrund.</li>
         </ul>
 
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Alleinstellungsmerkmale</h3>
-        <p>Das Projekt ist authentisch, praxisnah und von Grund auf eigenständig entwickelt. Es wird stetig durch neue Projekte erweitert, die auf aktuellen IT-Trends basieren und die eigene Weiterbildung sowie die aktive Mitgestaltung in digitalen Communities fördern.</p>
+         <ul class="list-disc pl-6 space-y-2">
+            <li>Authentisch, praxisnah und technologiebegeistert von Grund auf eigenständig entwickelt.</li>
+            <li>Stetige Erweiterung durch neue Projekte und Features basierend auf aktuellen IT-Trends.</li>
+            <li>Integration in das persönliche Portfolio von Benedikt Schächner und Bezug zur digitalen Bildung sowie zu Open-Source.</li>
+            <li>Plattform dient auch der eigenen Weiterbildung, Förderung von Teamwork und Motivation zur aktiven Mitgestaltung in digitalen Communities.</li>
+        </ul>
 
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Bedeutung für das Portfolio</h3>
-        <p>Dieses Projekt unterstreicht die Fähigkeit, Herausforderungen mit modernen Werkzeugen kreativ zu lösen, kontinuierlich zu lernen und eigene Ideen selbstständig umzusetzen. Es zeigt ein tiefes Engagement für Technik, Wissensvermittlung und die Open-Source-Community.</p>
+        <p>Das Projekt zeigt Benedikt Schächner als engagierten Entwickler und Ideengeber, der seine Begeisterung für Technik praktisch vermittelt, sein Wissen weitergibt und aktiv an der offenen Tech-Community teilnimmt. Es unterstreicht die Fähigkeit, Herausforderungen mit modernen Werkzeugen kreativ zu lösen, kontinuierlich zu lernen und eigene Projekte selbständig umzusetzen.</p>
     `,
     image: 'https://technik.xn--schchner-2za.de/wp-content/uploads/2025/08/Technik.png',
     url: 'https://technik.xn--schchner-2za.de/',
