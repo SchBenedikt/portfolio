@@ -28,14 +28,13 @@ export function ThemeToggle() {
   };
 
   if (!mounted) {
-    return <Button variant="outline" size="icon" className="w-9 h-9" disabled />;
+    return <Button variant="ghost" className="rounded-full" disabled />;
   }
 
   return (
     <Button
-      variant="outline"
-      size="icon"
-      className="w-9 h-9"
+      variant="ghost"
+      className="rounded-full"
       onClick={handleThemeChange}
       aria-label="Toggle theme"
       data-cursor-interactive

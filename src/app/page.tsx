@@ -76,9 +76,8 @@ export default function Home() {
        <motion.div initial="hidden" animate={isHeaderVisible ? 'visible' : 'hidden'} variants={headerVariants}>
         <Header>
           <Button
-            variant="outline"
-            size="icon"
-            className="w-9 h-9"
+            variant="ghost"
+            className="rounded-full"
             onClick={() => handleToggleView()}
             aria-label="Ansicht wechseln"
             data-cursor-interactive
