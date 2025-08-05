@@ -1,3 +1,4 @@
+
 export type AchievementID =
   | 'FIRST_STEP'
   | 'PROJECTS_EXPLORER'
@@ -16,7 +17,8 @@ export type AchievementID =
   | 'TIME_STOPPER'
   | 'DIMENSION_MASTER'
   | 'WORD_SMITH'
-  | 'TASK_MANAGER';
+  | 'TASK_MANAGER'
+  | 'GALLERY_VIEWER';
 
 export interface Achievement {
   id: AchievementID;
@@ -44,6 +46,11 @@ export const achievementsList: Achievement[] = [
     id: 'RESUME_VIEWER',
     name: 'Der Historiker',
     description: 'Den Lebenslauf angesehen.',
+  },
+  {
+    id: 'GALLERY_VIEWER',
+    name: 'Der Kurator',
+    description: 'Die Bildergalerie besucht.',
   },
   {
     id: 'NIGHT_OWL',
@@ -116,5 +123,3 @@ export const achievementsList: Achievement[] = [
     description: 'Eine Aufgabe zur Todo-Liste hinzugefügt.'
   }
 ];
-
-    
