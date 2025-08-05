@@ -57,14 +57,14 @@ export default function OrganizationPage() {
                 </h1>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-                <div className="lg:col-span-1 space-y-16">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
+                <div className="lg:col-span-2 space-y-16">
                     {relatedTimelineEvents.length > 0 && (
                         <section>
                         <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 flex items-center gap-3"><Briefcase className="text-primary"/> Werdegang</h2>
-                        <div className="relative border-l-2 border-border ml-3 md:ml-4 pl-4">
+                        <div className="relative border-l-2 border-border ml-3 md:ml-4">
                             {relatedTimelineEvents.map((event, index) => (
-                                <div key={index} className="mb-10 ml-4 md:ml-8">
+                                <div key={index} className="mb-10 ml-4 md:ml-8 pl-4">
                                     <span className="absolute -left-[18px] flex items-center justify-center w-9 h-9 bg-background rounded-full ring-8 ring-background">
                                         <div className="flex items-center justify-center w-full h-full bg-secondary rounded-full">
                                             {event.icon}
@@ -86,6 +86,32 @@ export default function OrganizationPage() {
                         </div>
                         </section>
                     )}
+                     {relatedArticles.length > 0 && (
+                        <section>
+                            <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 flex items-center gap-3"><Newspaper className="text-primary"/> Presseartikel</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                {relatedArticles.map((article) => (
+                                <div key={article.url}>
+                                    <Link href={article.url} target="_blank" rel="noopener noreferrer" data-cursor-interactive className="h-full flex">
+                                        <Card className="group rounded-2xl overflow-hidden transition-all hover:border-primary/50 hover:bg-muted/30 w-full flex flex-col">
+                                        <CardHeader className="p-6 md:p-8">
+                                            <CardTitle className="text-2xl font-bold font-headline mb-2">{article.title}</CardTitle>
+                                            <CardDescription className="text-base text-primary">{article.source}</CardDescription>
+                                        </CardHeader>
+                                        <CardContent className="p-6 md:p-8 pt-0 flex-grow flex flex-col">
+                                            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+                                                <Calendar className="w-4 h-4" />
+                                                <span>{new Date(article.date).toLocaleDateString('de-DE')}</span>
+                                            </div>
+                                            <p className="text-muted-foreground text-base flex-grow">{article.description}</p>
+                                        </CardContent>
+                                        </Card>
+                                    </Link>
+                                </div>
+                                ))}
+                            </div>
+                        </section>
+                        )}
                 </div>
 
                 <div className="lg:col-span-1 space-y-16">
@@ -112,33 +138,6 @@ export default function OrganizationPage() {
                         </section>
                     )}
                 </div>
-
-                {relatedArticles.length > 0 && (
-                <section className="lg:col-span-2">
-                    <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 flex items-center gap-3"><Newspaper className="text-primary"/> Presseartikel</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {relatedArticles.map((article) => (
-                        <div key={article.url}>
-                            <Link href={article.url} target="_blank" rel="noopener noreferrer" data-cursor-interactive className="h-full flex">
-                                <Card className="group rounded-2xl overflow-hidden transition-all hover:border-primary/50 hover:bg-muted/30 w-full flex flex-col">
-                                <CardHeader className="p-6 md:p-8">
-                                    <CardTitle className="text-2xl font-bold font-headline mb-2">{article.title}</CardTitle>
-                                    <CardDescription className="text-base text-primary">{article.source}</CardDescription>
-                                </CardHeader>
-                                <CardContent className="p-6 md:p-8 pt-0 flex-grow flex flex-col">
-                                    <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                                        <Calendar className="w-4 h-4" />
-                                        <span>{new Date(article.date).toLocaleDateString('de-DE')}</span>
-                                    </div>
-                                    <p className="text-muted-foreground text-base flex-grow">{article.description}</p>
-                                </CardContent>
-                                </Card>
-                            </Link>
-                        </div>
-                        ))}
-                    </div>
-                </section>
-                )}
             </div>
           </motion.div>
         </div>
