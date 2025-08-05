@@ -9,6 +9,7 @@ import { Maximize, Minimize, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { useThemeColor } from '@/hooks/use-theme-color';
+import { articlesData } from '@/lib/articles';
 
 interface TerminalProps {
   onExit: () => void;
@@ -35,7 +36,23 @@ type LoginState = 'prompting' | 'logging_in' | 'loggedin';
 const initialFileSystem: { [key: string]: FileSystemNode } = {
     'README.md': { 
         type: 'file', 
-        content: "Willkommen!\n\nDies ist ein interaktives Terminal. Tippe 'help', um mehr zu erfahren.\nDu kannst Dateien und Ordner erstellen und bearbeiten.\n\nProbiere: 'ls', 'cat README.md', 'mkdir projekte', 'touch projekte/idee.txt', 'nano projekte/idee.txt', 'view projekte/idee.txt'" 
+        content: "Willkommen!\n\nDies ist ein interaktives Terminal. Tippe 'help', um mehr zu erfahren.\nDu kannst Dateien und Ordner erstellen und bearbeiten.\n\nProbiere: 'ls', 'cd presse', 'ls', 'cat <artikelname>', 'cd ..'" 
+    },
+    'projekte': {
+        type: 'dir',
+        children: {
+            'notio.txt': { type: 'file', content: 'Notio - Webbasierte App zur Verwaltung schulischer Leistungsdaten. Mehr unter /projects/notio' },
+            'meum-diarium.txt': { type: 'file', content: 'Meum Diarium - Preisgekröntes Crossmedia-Projekt. Mehr unter /projects/meum-diarium' }
+        }
+    },
+    'presse': {
+        type: 'dir',
+        children: articlesData.reduce((acc, article) => {
+            const fileName = article.title.toLowerCase().replace(/[^a-z0-9]/g, '-').substring(0, 50) + '.txt';
+            const fileContent = `Titel: ${article.title}\nQuelle: ${article.source}\nDatum: ${article.date}\nLink: ${article.url}\n\n${article.description}`;
+            acc[fileName] = { type: 'file', content: fileContent };
+            return acc;
+        }, {} as { [key: string]: FileSystemNode })
     }
 };
 
@@ -89,7 +106,19 @@ export const Terminal = ({ onExit }: TerminalProps) => {
     try {
         const savedFileSystem = localStorage.getItem('terminalFileSystem');
         if (savedFileSystem) {
-            setFileSystem(JSON.parse(savedFileSystem));
+            // Merge saved FS with initial FS to get new articles
+            const parsedFS = JSON.parse(savedFileSystem);
+            // a bit complex merge, for now just override
+            // A better approach would be to only store user-created files
+            // and merge them with a static initial file system.
+            // For now, let's just use the initial one if new articles are present.
+            if (!parsedFS.presse) {
+                 setFileSystem({...parsedFS, ...initialFileSystem});
+            } else {
+                 setFileSystem(parsedFS);
+            }
+        } else {
+            setFileSystem(initialFileSystem);
         }
 
         const savedUsername = localStorage.getItem('terminalUsername');
@@ -191,14 +220,16 @@ export const Terminal = ({ onExit }: TerminalProps) => {
     }
   };
 
-  const resolvePath = (path: string) => {
-    const segments = path.split('/').filter(p => p);
+  const resolvePath = (path: string): string[] => {
+    const segments = path.split('/').filter(p => p && p !== '.');
     let newPath = path.startsWith('/') ? [] : [...currentPath];
 
     for (const segment of segments) {
         if (segment === '..') {
-            newPath.pop();
-        } else if (segment !== '.') {
+            if (newPath.length > 0) {
+              newPath.pop();
+            }
+        } else {
             newPath.push(segment);
         }
     }
@@ -206,9 +237,9 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   };
 
   const getNodeByPath = (path: string[]): FileSystemNode | null => {
-      let current: any = { type: 'dir', children: fileSystem };
+      let current: FileSystemNode = { type: 'dir', children: fileSystem };
       for (const part of path) {
-          if (current && current.type === 'dir' && current.children[part]) {
+          if (current.type === 'dir' && current.children[part]) {
               current = current.children[part];
           } else {
               return null;
@@ -300,7 +331,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   cat <datei>       - Zeigt den Inhalt einer Datei an
   touch <datei>     - Erstellt eine leere Datei
   mkdir <ordner>    - Erstellt einen neuen Ordner
-  rm <datei>        - Löscht eine Datei
+  rm <datei>        - Löscht eine Datei oder einen leeren Ordner
   nano <datei>      - Öffnet einen einfachen Texteditor
   view <datei>      - Öffnet die Datei in einem neuen Tab
 
@@ -383,12 +414,17 @@ export const Terminal = ({ onExit }: TerminalProps) => {
             output = Object.keys(nodeLs.children).map(name => {
                 return nodeLs.children[name].type === 'dir' ? `${name}/` : name;
             }).join('  ');
+            if (!output) output = "Leerer Ordner";
         } else {
             output = `ls: '${args[0] || '.'}': Kein solcher Ordner`;
         }
         break;
       case 'cd':
-        const targetPathCd = resolvePath(args[0] || '');
+        if (!args[0] || args[0] === '~' || args[0] === '~/') {
+            setCurrentPath([]);
+            break;
+        }
+        const targetPathCd = resolvePath(args[0]);
         const nodeCd = getNodeByPath(targetPathCd);
         if (nodeCd && nodeCd.type === 'dir') {
             setCurrentPath(targetPathCd);
@@ -406,7 +442,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
         if (nodeCat && nodeCat.type === 'file') {
             output = nodeCat.content;
         } else {
-            output = `cat: ${args[0]}: Keine solche Datei`;
+            output = `cat: ${args[0]}: Keine solche Datei oder ist ein Ordner.`;
         }
         break;
       case 'touch':
@@ -419,79 +455,80 @@ export const Terminal = ({ onExit }: TerminalProps) => {
             output = `${cmd}: Bitte gib einen Pfad an.`;
             break;
         }
-        const newPath = resolvePath(pathArg);
-        const parentPath = newPath.slice(0, -1);
-        const parentNode = getNodeByPath(parentPath);
-        const itemName = newPath[newPath.length - 1];
 
-        if (!parentNode || parentNode.type !== 'dir') {
-            output = `${cmd}: ${pathArg}: Kein solcher Pfad`;
-            break;
-        }
-
+        // Create deep copy to modify
         const newFileSystem = JSON.parse(JSON.stringify(fileSystem));
-        let parentRef: any = { type: 'dir', children: newFileSystem }; // Start from the root
-        let currentRef = parentRef.children;
+        const resolvedPath = resolvePath(pathArg);
+        const itemName = resolvedPath[resolvedPath.length - 1];
+        const parentPath = resolvedPath.slice(0, -1);
+        
+        let parentRef: { [key: string]: FileSystemNode } = newFileSystem;
+        let parentNode: FileSystemNode | null = { type: 'dir', children: newFileSystem };
 
         for (const part of parentPath) {
-            if (currentRef[part] && currentRef[part].type === 'dir') {
-                currentRef = currentRef[part].children;
+            const current = parentRef[part];
+            if (current && current.type === 'dir') {
+                parentRef = current.children;
+                parentNode = current;
             } else {
-                currentRef = null;
+                parentNode = null;
                 break;
             }
         }
         
-        if (!currentRef) {
-            output = `${cmd}: ${pathArg}: Kein solcher Pfad`;
+        if (!parentNode || parentNode.type !== 'dir') {
+            output = `${cmd}: ${pathArg}: Pfad nicht gefunden.`;
             break;
         }
-        
+
+        const targetRef = parentNode.children;
+
         switch(cmd) {
             case 'touch':
-                if (currentRef[itemName]) {
+                if (targetRef[itemName]) {
                     output = `touch: '${pathArg}' existiert bereits.`;
                 } else {
-                    currentRef[itemName] = { type: 'file', content: '' };
+                    targetRef[itemName] = { type: 'file', content: '' };
                     setFileSystem(newFileSystem);
                     saveFileSystem(newFileSystem);
                 }
                 break;
             case 'mkdir':
-                if (currentRef[itemName]) {
+                if (targetRef[itemName]) {
                     output = `mkdir: '${pathArg}' existiert bereits.`;
                 } else {
-                    currentRef[itemName] = { type: 'dir', children: {} };
+                    targetRef[itemName] = { type: 'dir', children: {} };
                     setFileSystem(newFileSystem);
                     saveFileSystem(newFileSystem);
                 }
                 break;
             case 'rm':
-                if (!currentRef[itemName]) {
+                const itemToRemove = targetRef[itemName];
+                if (!itemToRemove) {
                     output = `rm: '${pathArg}': Keine solche Datei oder Ordner`;
-                } else if (currentRef[itemName].type === 'dir') {
-                     output = `rm: '${pathArg}' ist ein Ordner. Löschen von Ordnern wird nicht unterstützt.`;
+                } else if (itemToRemove.type === 'dir' && Object.keys(itemToRemove.children).length > 0) {
+                     output = `rm: '${pathArg}': Ordner ist nicht leer.`;
                 }
                 else {
-                    delete currentRef[itemName];
+                    delete targetRef[itemName];
                     setFileSystem(newFileSystem);
                     saveFileSystem(newFileSystem);
                 }
                 break;
             case 'nano':
-                const nodeToEdit = currentRef[itemName];
+                const nodeToEdit = targetRef[itemName];
                 if (nodeToEdit && nodeToEdit.type === 'dir') {
                     output = `nano: ${pathArg}: Ist ein Ordner.`;
                 } else {
                     const content = nodeToEdit ? nodeToEdit.content : '';
-                    setNanoFile({ path: newPath, content: content });
+                    setNanoFile({ path: resolvedPath, content: content });
                     setIsNanoMode(true);
                 }
                 break;
             case 'view':
-                 const nodeToView = getNodeByPath(newPath);
+                 const nodeToView = getNodeByPath(resolvedPath);
                  if (nodeToView && nodeToView.type === 'file') {
-                    window.open(`/view/${newPath.join('/')}`, '_blank');
+                    window.open(`/view/${resolvedPath.join('/')}`, '_blank');
                     output = `Datei wird in neuem Tab geöffnet...`;
                  } else {
                     output = `view: ${pathArg}: Datei nicht gefunden oder ist ein Ordner.`
@@ -523,28 +560,20 @@ export const Terminal = ({ onExit }: TerminalProps) => {
 
   const handleNanoSave = () => {
     const { path, content } = nanoFile;
-    const parentPath = path.slice(0, -1);
-    const itemName = path[path.length - 1];
-
     const newFileSystem = JSON.parse(JSON.stringify(fileSystem));
-    
-    let parentRef: any = { type: 'dir', children: newFileSystem }; // Start from the root
-    let currentRef = parentRef.children;
 
-    for (const part of parentPath) {
-        if (currentRef && currentRef[part] && currentRef[part].type === 'dir') {
-            currentRef = currentRef[part].children;
-        } else {
-           // If a directory in the path doesn't exist, you might want to handle this.
-           // For simplicity, we assume the parent directory exists, as mkdir should be used first.
-           currentRef = null;
-           break;
+    let currentRef: any = { children: newFileSystem };
+    for (let i = 0; i < path.length - 1; i++) {
+        const part = path[i];
+        if (!currentRef.children[part] || currentRef.children[part].type !== 'dir') {
+             // This case should ideally not be hit if nano is called on valid paths
+            currentRef.children[part] = { type: 'dir', children: {} };
         }
+        currentRef = currentRef.children[part];
     }
     
-    if (currentRef) {
-      currentRef[itemName] = { type: 'file', content: content };
-    }
+    const itemName = path[path.length - 1];
+    currentRef.children[itemName] = { type: 'file', content: content };
     
     setFileSystem(newFileSystem);
     saveFileSystem(newFileSystem);
@@ -557,7 +586,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   };
   
   const handleLogin = (name: string) => {
-    setHistory([...history, { type: 'input', content: name, path: '~' }]);
+    setHistory(prev => [...prev, { type: 'input', content: name, path: '~' }]);
     setUsername(name);
     try {
         localStorage.setItem('terminalUsername', name);
@@ -566,25 +595,28 @@ export const Terminal = ({ onExit }: TerminalProps) => {
     }
     setLoginState('logging_in');
   
-    const loginSequence = [
-      { delay: 500, text: 'Authentifiziere...' },
-      { delay: 1000, text: 'Prüfe Anmeldeinformationen...' },
-      { delay: 1500, text: `Zugriff gewährt.` },
-      { delay: 2000, text: `Willkommen, ${name}!` },
-      { delay: 2500, text: "Tippe 'help' für eine Liste der Befehle." },
-    ];
-  
-    let currentHistory = [...history, { type: 'input', content: name, path: '~' }];
-  
-    loginSequence.forEach((item, index) => {
-      setTimeout(() => {
-        currentHistory = [...currentHistory, { type: 'output', content: item.text, path: '~' }];
-        setHistory(currentHistory);
-        if (index === loginSequence.length -1) {
-             setLoginState('loggedin');
-        }
-      }, item.delay);
-    });
+    let tempHistory = [...history, { type: 'input', content: name, path: '~' }];
+    
+    const showMessage = (text: string, delay: number) => {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                tempHistory.push({ type: 'output', content: text, path: '~' });
+                setHistory([...tempHistory]);
+                resolve(null);
+            }, delay);
+        });
+    };
+
+    async function runLoginSequence() {
+        await showMessage('Authentifiziere...', 500);
+        await showMessage('Prüfe Anmeldeinformationen...', 1000);
+        await showMessage(`Zugriff gewährt.`, 500);
+        await showMessage(`Willkommen, ${name}!`, 500);
+        await showMessage("Tippe 'help' für eine Liste der Befehle.", 500);
+        setLoginState('loggedin');
+    }
+    
+    runLoginSequence();
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -693,6 +725,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
                     )}
                     </div>
                 ))}
+                 {loginState === 'logging_in' && <span className="text-muted-foreground animate-pulse">_</span>}
                  <div ref={endOfHistoryRef} />
             </div>
         )}
@@ -728,3 +761,5 @@ export const Terminal = ({ onExit }: TerminalProps) => {
     </>
   );
 };
+
+    
