@@ -9,6 +9,13 @@ export interface Article {
 
 export const articlesData: Article[] = [
     {
+        title: 'Judoka ziehen positive Bilanz',
+        source: 'TuS Töging',
+        url: 'https://www.tustoeging.de/neuigkeiten.htm?n=147',
+        date: '2025-04-04',
+        description: 'Bericht von der Jahreshauptversammlung der Judoabteilung mit positivem Rückblick auf Erfolge, engagierten Nachwuchs und Neuwahlen der Abteilungsleitung.',
+    },
+    {
         title: 'Titelverteidigung beim Bezirksfinale',
         source: 'König-Karlmann-Gymnasium',
         url: 'https://www.koenig-karlmann-gymnasium.de/news/titelverteidigung-beim-bezirksfinale/',
