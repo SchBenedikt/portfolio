@@ -58,6 +58,13 @@ export const articlesData: Article[] = [
         description: 'Offizielle Jurybegründung und Vorstellung des Gewinnerprojekts „Meum Diarium“ beim Deutschen Multimediapreis.',
     },
     {
+        title: 'Ein Feldherr als Influencer',
+        source: 'Bayerischer Rundfunk',
+        url: 'https://www.br.de/medienkompetenzprojekte/inhalt/crossmedia/tagebuch-caesars-heute-feldherr-als-influencer-textbased-crossmedia-2024-gewinnerbeitrag-100.html',
+        date: '2024-11-21',
+        description: 'Der Bayerische Rundfunk berichtet über das prämierte Projekt "Meum Diarium" und hebt die kreative Verbindung von historischer Figur und modernem Medienumfeld hervor.',
+    },
+    {
         title: 'Ein Feldherr wird wieder lebendig',
         source: 'König-Karlmann-Gymnasium',
         url: 'https://www.koenig-karlmann-gymnasium.de/news/ein-feldherr-wird-wieder-lebendig/',
