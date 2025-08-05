@@ -59,7 +59,7 @@ export const QuoteCard = ({ topic }: QuoteCardProps) => {
             )
             )}
         </div>
-        <div className="w-full flex justify-between items-center mt-4 pt-4 border-t border-dashed">
+        <div className="w-full flex justify-between items-center mt-4">
             <p className="text-xs text-muted-foreground flex items-center gap-1.5">
                 <Wand2 className="w-3 h-3"/>
                 <span>Zitat von KI ausgewählt & übersetzt</span>
