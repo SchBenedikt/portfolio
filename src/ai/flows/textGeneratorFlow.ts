@@ -13,7 +13,7 @@ import { GenerateTextInput, GenerateTextInputSchema } from './types';
 
 const prompt = ai.definePrompt({
     name: 'textGeneratorPrompt',
-    model: googleAI.model('gemini-pro'),
+    model: googleAI.model('gemini-1.5-flash-latest'),
     input: { schema: GenerateTextInputSchema },
     prompt: `Du bist ein kreativer Autor. Erstelle einen kurzen Text basierend auf dem folgenden Thema und Typ.
     Antworte immer auf Deutsch.
