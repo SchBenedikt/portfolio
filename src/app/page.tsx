@@ -16,7 +16,7 @@ export default function Home() {
   const { unlockAchievement } = useAchievements();
   const [isTerminalView, setIsTerminalView] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
 
   useEffect(() => {
     unlockAchievement('FIRST_STEP');
@@ -25,21 +25,7 @@ export default function Home() {
       setIsTerminalView(JSON.parse(savedView));
     }
     setIsMounted(true);
-
-    const handleInteraction = () => {
-      if (!isHeaderVisible) {
-        setIsHeaderVisible(true);
-      }
-    };
-    
-    window.addEventListener('wheel', handleInteraction, { once: true });
-    window.addEventListener('touchmove', handleInteraction, { once: true });
-
-    return () => {
-      window.removeEventListener('wheel', handleInteraction);
-      window.removeEventListener('touchmove', handleInteraction);
-    };
-  }, [unlockAchievement, isHeaderVisible]);
+  }, [unlockAchievement]);
 
   useEffect(() => {
     if (isMounted) {
