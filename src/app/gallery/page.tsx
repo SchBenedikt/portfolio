@@ -91,7 +91,7 @@ export default function GalleryPage() {
                             </div>
                         </Card>
                       </DialogTrigger>
-                      <DialogContent className="max-w-4xl p-2 bg-transparent border-none">
+                      <DialogContent className="max-w-7xl w-full h-screen max-h-screen p-4 bg-transparent border-none flex items-center justify-center">
                          <DialogHeader className="sr-only">
                             <DialogTitle>{item.title}</DialogTitle>
                             <DialogDescription>{item.description}</DialogDescription>
@@ -101,7 +101,7 @@ export default function GalleryPage() {
                             alt={item.alt}
                             width={1920}
                             height={1080}
-                            className="object-contain w-full h-full rounded-lg"
+                            className="object-contain w-auto h-auto max-w-full max-h-[90vh] rounded-lg"
                           />
                       </DialogContent>
                     </Dialog>
