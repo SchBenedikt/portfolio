@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -5,14 +6,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { cn } from '@/lib/utils';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { Menu, FolderKanban, UserSquare, Wrench, Link as LinkIcon } from 'lucide-react';
+import { FolderKanban, UserSquare, Wrench, Link as LinkIcon, Home } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 
@@ -34,6 +29,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
   }, []);
 
   const navLinks = [
+    { href: "/", label: "Home", icon: <Home/> },
     { href: "/projects", label: "Projekte", icon: <FolderKanban/> },
     { href: "/resume", label: "Lebenslauf", icon: <UserSquare/> },
     { href: "/tools", label: "Tools", icon: <Wrench/> },
@@ -65,155 +61,146 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300">
-      <motion.div 
-        layout
-        transition={layoutTransition}
-        className={cn(
-          "container mx-auto px-6 sm:px-8 flex items-center",
-          isScrolled ? "justify-center gap-2" : "justify-between"
-        )}
-      >
-        <motion.div layout transition={layoutTransition}>
-          <AnimatePresence>
-            {!isScrolled && (
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20, transition: { duration: 0.2 } }}
-                transition={{ duration: 0.4, ease: 'easeOut' }}
-              >
-                <Link
-                  href="/"
-                  className="text-2xl md:text-3xl font-black uppercase tracking-widest font-headline hover:text-primary transition-colors"
-                  data-cursor-interactive
-                >
-                  BS
-                </Link>
-              </motion.div>
-            )}
-          </AnimatePresence>
-           <AnimatePresence>
-            {isScrolled && (
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
-                exit={{ opacity: 0, x: -20, transition: { duration: 0.2 } }}
-                className="p-1 rounded-full bg-muted/50 backdrop-blur-lg"
-              >
-                 <Button asChild variant={'ghost'} className={cn("rounded-full relative")} data-cursor-interactive>
-                    <Link href="/" className="flex items-center gap-1">
-                       <span className="font-headline text-base">BS</span>
-                    </Link>
-                 </Button>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-        
-        {/* Desktop Navigation */}
+    <>
+      {/* Desktop Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300 hidden md:block">
         <motion.div 
-            layout 
-            transition={layoutTransition}
-            className="hidden md:flex items-center"
+          layout
+          transition={layoutTransition}
+          className={cn(
+            "container mx-auto px-6 sm:px-8 flex items-center",
+            isScrolled ? "justify-center gap-2" : "justify-between"
+          )}
         >
-            <motion.nav 
-              layout
+          <motion.div layout transition={layoutTransition}>
+            <AnimatePresence>
+              {!isScrolled && (
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20, transition: { duration: 0.2 } }}
+                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                >
+                  <Link
+                    href="/"
+                    className="text-2xl md:text-3xl font-black uppercase tracking-widest font-headline hover:text-primary transition-colors"
+                    data-cursor-interactive
+                  >
+                    BS
+                  </Link>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <AnimatePresence>
+              {isScrolled && (
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
+                  exit={{ opacity: 0, x: -20, transition: { duration: 0.2 } }}
+                  className="p-1 rounded-full bg-muted/50 backdrop-blur-lg"
+                >
+                  <Button asChild variant={'ghost'} className={cn("rounded-full relative")} data-cursor-interactive>
+                      <Link href="/" className="flex items-center gap-1">
+                        <span className="font-headline text-base">BS</span>
+                      </Link>
+                  </Button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+          
+          <motion.div 
+              layout 
               transition={layoutTransition}
-              className="flex items-center gap-1 p-1 rounded-full bg-muted/50 backdrop-blur-lg"
-              onMouseLeave={() => setHoveredHref(null)}
-            >
-              {navLinks.map(link => {
-                  const showLabel = isLabelVisible(link.href)
-                  return (
-                      <Button 
-                          key={link.href} 
-                          asChild 
-                          variant={pathname.startsWith(link.href) ? 'active' : 'ghost'}
-                          className={cn("rounded-full relative")}
-                          onMouseEnter={() => setHoveredHref(link.href)}
-                          data-cursor-interactive
-                      >
-                          <Link href={link.href} className="flex items-center gap-1">
-                              {React.cloneElement(link.icon as React.ReactElement, { className: "w-4 h-4" })}
-                              <AnimatePresence>
-                              {showLabel && (
-                                  <motion.span
-                                      variants={navItemVariants}
-                                      initial="hidden"
-                                      animate="visible"
-                                      exit="exit"
-                                      className="overflow-hidden whitespace-nowrap"
-                                  >
-                                      {link.label}
-                                  </motion.span>
-                              )}
-                              </AnimatePresence>
-                          </Link>
-                      </Button>
-                  )
-              })}
-            </motion.nav>
-        </motion.div>
+              className="flex items-center"
+          >
+              <motion.nav 
+                layout
+                transition={layoutTransition}
+                className="flex items-center gap-1 p-1 rounded-full bg-muted/50 backdrop-blur-lg"
+                onMouseLeave={() => setHoveredHref(null)}
+              >
+                {navLinks.slice(1).map(link => { // Slice to exclude Home from main nav
+                    const showLabel = isLabelVisible(link.href)
+                    return (
+                        <Button 
+                            key={link.href} 
+                            asChild 
+                            variant={pathname.startsWith(link.href) ? 'active' : 'ghost'}
+                            className={cn("rounded-full relative")}
+                            onMouseEnter={() => setHoveredHref(link.href)}
+                            data-cursor-interactive
+                        >
+                            <Link href={link.href} className="flex items-center gap-1">
+                                {React.cloneElement(link.icon as React.ReactElement, { className: "w-4 h-4" })}
+                                <AnimatePresence>
+                                {showLabel && (
+                                    <motion.span
+                                        variants={navItemVariants}
+                                        initial="hidden"
+                                        animate="visible"
+                                        exit="exit"
+                                        className="overflow-hidden whitespace-nowrap"
+                                    >
+                                        {link.label}
+                                    </motion.span>
+                                )}
+                                </AnimatePresence>
+                            </Link>
+                        </Button>
+                    )
+                })}
+              </motion.nav>
+          </motion.div>
 
-        <motion.div layout transition={layoutTransition}>
-          <AnimatePresence>
-            {!isScrolled && (
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20, transition: { duration: 0.2 } }}
-                transition={{ duration: 0.4, ease: 'easeOut' }}
-                className="flex items-center"
-              >
-                <div className="hidden md:flex items-center gap-1 p-1 rounded-full bg-muted/50 backdrop-blur-lg">
-                    {children}
-                    <ThemeToggle />
-                </div>
-                
-                {/* Mobile Menu */}
-                <div className="md:hidden">
-                    <div className="flex items-center gap-2">
-                        {children}
-                        <ThemeToggle />
-                        <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="outline" size="icon" className="w-9 h-9" data-cursor-interactive>
-                            <Menu className="h-5 w-5" />
-                            <span className="sr-only">Menü öffnen</span>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            {navLinks.map(link => (
-                                <DropdownMenuItem key={link.href} asChild>
-                                <Link href={link.href} className="flex items-center gap-2 text-base">
-                                    {React.cloneElement(link.icon as React.ReactElement, { className: "text-muted-foreground" })}
-                                    {link.label}
-                                </Link>
-                                </DropdownMenuItem>
-                            ))}
-                        </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-           <AnimatePresence>
-            {isScrolled && (
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
-                exit={{ opacity: 0, x: 20, transition: { duration: 0.2 } }}
-                 className="p-1 rounded-full bg-muted/50 backdrop-blur-lg"
-              >
-                <ThemeToggle />
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <motion.div layout transition={layoutTransition}>
+            <AnimatePresence>
+              {!isScrolled && (
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20, transition: { duration: 0.2 } }}
+                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                  className="flex items-center"
+                >
+                  <div className="flex items-center gap-1 p-1 rounded-full bg-muted/50 backdrop-blur-lg">
+                      {children}
+                      <ThemeToggle />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <AnimatePresence>
+              {isScrolled && (
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
+                  exit={{ opacity: 0, x: 20, transition: { duration: 0.2 } }}
+                  className="p-1 rounded-full bg-muted/50 backdrop-blur-lg"
+                >
+                  <ThemeToggle />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
         </motion.div>
-      </motion.div>
-    </header>
+      </header>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-t border-border/50">
+          <div className="flex justify-around items-center h-16">
+              {navLinks.map(link => (
+                  <Link href={link.href} key={link.href} className={cn(
+                    "flex flex-col items-center justify-center gap-1 w-full h-full transition-colors",
+                    pathname === link.href ? "text-primary" : "text-muted-foreground hover:text-primary"
+                  )}>
+                      {React.cloneElement(link.icon as React.ReactElement, { className: "w-6 h-6" })}
+                      <span className="text-xs font-medium">{link.label}</span>
+                  </Link>
+              ))}
+          </div>
+      </nav>
+    </>
   );
 };
 

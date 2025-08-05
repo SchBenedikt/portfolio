@@ -59,7 +59,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground overflow-hidden">
-       <motion.div initial="hidden" animate={isHeaderVisible ? 'visible' : 'hidden'} variants={headerVariants}>
+       <motion.div initial="visible" animate={isHeaderVisible ? 'visible' : 'hidden'} variants={headerVariants}>
         <Header>
           <Button
             variant="ghost"
@@ -74,7 +74,7 @@ export default function Home() {
           </Button>
         </Header>
       </motion.div>
-      <main className="flex-grow flex flex-col items-center justify-center pt-20">
+      <main className="flex-grow flex flex-col items-center justify-center pt-20 pb-24 md:pb-0">
         <div
           className="container mx-auto px-6 sm:px-8 h-full flex items-center justify-center"
         >

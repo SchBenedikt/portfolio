@@ -194,7 +194,7 @@ export default function ResumePage() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
-      <main className="relative z-10 flex-grow pt-24 md:pt-32 pb-16">
+      <main className="relative z-10 flex-grow pt-24 md:pt-32 pb-24 md:pb-16">
         <motion.div
           initial="hidden"
           animate="visible"
