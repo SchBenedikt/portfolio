@@ -248,10 +248,10 @@ export default function ResumePage() {
             <motion.div variants={itemVariants} className="mb-12">
               <Card className="rounded-2xl border-border/50">
                 <CardContent className="p-4 text-center flex flex-col items-center justify-center relative min-h-[10rem]">
-                  <blockquote className="text-base md:text-lg font-medium">
+                  <blockquote className="text-2xl md:text-3xl font-medium">
                       „Arbeite hart, habe Spaß und schreibe Geschichte.“
                   </blockquote>
-                  <cite className="text-sm text-muted-foreground mt-2 block">
+                  <cite className="text-base text-muted-foreground mt-4 block md:text-lg">
                       – Jeff Bezos
                   </cite>
                 </CardContent>
