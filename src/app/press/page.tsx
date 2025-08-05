@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -95,23 +96,36 @@ export default function PressPage() {
               Presse
             </h1>
             
-            <div className="mb-12">
-              <div className="relative mb-4">
+            <div className="mb-12 flex flex-col sm:flex-row gap-4">
+              <div className="relative flex-grow">
                  <Input 
                     type="text"
                     placeholder="Artikel durchsuchen..."
-                    className="w-full p-4 pl-12 text-lg rounded-full"
+                    className="w-full p-4 pl-12 text-lg rounded-full h-12"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                  />
                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-6 h-6"/>
               </div>
-              <div className="flex flex-wrap justify-center gap-2">
+              <div className="sm:hidden">
+                 <Select value={selectedSource} onValueChange={setSelectedSource}>
+                    <SelectTrigger className="w-full rounded-full h-12">
+                      <SelectValue placeholder="Quelle wählen..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {sources.map(source => (
+                        <SelectItem key={source} value={source}>{source}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+              </div>
+              <div className="hidden sm:flex flex-wrap justify-center items-center gap-2">
                 {sources.map(source => (
                   <Button
                     key={source}
                     variant={selectedSource === source ? 'default' : 'outline'}
                     className="rounded-full"
+                    size="sm"
                     onClick={() => setSelectedSource(source)}
                   >
                     {source}
@@ -119,6 +133,7 @@ export default function PressPage() {
                 ))}
               </div>
             </div>
+
 
             {sortedYears.length > 0 ? (
               <motion.div

@@ -31,7 +31,7 @@ export const articlesData: Article[] = [
     },
     {
         title: 'Ein Feldherr als Influencer',
-        source: 'Alt-Neuöttinger Anzeiger',
+        source: 'Passauer Neue Presse',
         url: 'https://www.facebook.com/altneuoettingeranzeiger/posts/mit-ihrem-multimedialen-projekt-meum-diarium-ein-feldherr-als-influencer-haben-d/1209892657393185/',
         date: '2024-11-26',
         description: 'Der Alt-Neuöttinger Anzeiger hebt auf Facebook das preisgekrönte Multimediaprojekt „Meum Diarium“ hervor.',
