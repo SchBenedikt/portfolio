@@ -116,21 +116,21 @@ export default function ProjectPage() {
                      </p>
                      <div className="space-y-4 mb-8">
                         <div className="flex items-start">
-                            <Calendar className="mr-3 mt-1 text-primary"/>
+                            <Calendar className="w-5 h-5 mr-3 mt-1 text-primary"/>
                             <div>
                                 <h4 className="font-semibold">Datum</h4>
                                 <p className="text-muted-foreground text-sm md:text-base">{new Date(project.date).toLocaleDateString('de-DE')}</p>
                             </div>
                         </div>
                          <div className="flex items-start">
-                            <Folder className="mr-3 mt-1 text-primary"/>
+                            <Folder className="w-5 h-5 mr-3 mt-1 text-primary"/>
                             <div>
                                 <h4 className="font-semibold">Kategorie</h4>
                                 <p className="text-muted-foreground text-sm md:text-base">{project.category}</p>
                             </div>
                         </div>
                         <div className="flex items-start">
-                            <Tags className="mr-3 mt-1 text-primary"/>
+                            <Tags className="w-5 h-5 mr-3 mt-1 text-primary"/>
                             <div>
                                 <h4 className="font-semibold">Technologien</h4>
                                 <div className="flex flex-wrap gap-2 mt-2">
@@ -144,7 +144,7 @@ export default function ProjectPage() {
                         </div>
                         {hasValidUrl && (
                           <div className="flex items-start">
-                              <LinkIcon className="mr-3 mt-1 text-primary"/>
+                              <LinkIcon className="w-5 h-5 mr-3 mt-1 text-primary"/>
                               <div>
                                   <h4 className="font-semibold">Website</h4>
                                   <a href={project.url} target="_blank" rel="noopener noreferrer" className="text-muted-foreground text-sm md:text-base hover:text-primary transition-colors break-all">
@@ -155,7 +155,7 @@ export default function ProjectPage() {
                         )}
                         {project.details?.usage && (
                           <div className="flex items-start">
-                              <Target className="mr-3 mt-1 text-primary"/>
+                              <Target className="w-5 h-5 mr-3 mt-1 text-primary"/>
                               <div>
                                   <h4 className="font-semibold">Einsatzbereich</h4>
                                   <p className="text-muted-foreground text-sm md:text-base">{project.details.usage}</p>
@@ -164,7 +164,7 @@ export default function ProjectPage() {
                         )}
                         {project.details?.potential && (
                            <div className="flex items-start">
-                              <BrainCircuit className="mr-3 mt-1 text-primary"/>
+                              <BrainCircuit className="w-5 h-5 mr-3 mt-1 text-primary"/>
                               <div>
                                   <h4 className="font-semibold">Verbesserungspotenzial</h4>
                                   <p className="text-muted-foreground text-sm md:text-base">{project.details.potential}</p>
