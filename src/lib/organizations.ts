@@ -19,7 +19,8 @@ export const organizationData: Organization[] = [
     { slug: 'young-leaders', name: 'young leaders GmbH' },
     { slug: 'brk', name: 'Bayerisches Rotes Kreuz (BRK)' },
     { slug: 'bayerischer-judo-verband', name: 'Bayerischer Judo-Verband e.V.' },
-    { slug: 'schachklub-toeging', name: 'Schachklub Töging e.V.'}
+    { slug: 'schachklub-toeging', name: 'Schachklub Töging e. V.'},
+    { slug: 'ovb-heimatzeitungen', name: 'OVB Heimatzeitungen' }
 ];
 
 export const getOrganizationBySlug = (slug: string) => {
@@ -42,4 +43,5 @@ export const resumeOrgToSlug: { [key: string]: string } = {
     "Bayerisches Rotes Kreuz (BRK)": "brk",
     "Bayerischer Judo-Verband e.V.": "bayerischer-judo-verband",
     "Schachklub Töging e. V.": "schachklub-toeging",
+    "OVB Heimatzeitungen": "ovb-heimatzeitungen"
 };

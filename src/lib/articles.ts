@@ -99,6 +99,14 @@ export const articlesData: Article[] = [
         date: '2024-02-22',
         description: 'Erfolgreicher Wettkampftag für die Judoka des KKG, die sich den Sieg im Bezirksfinale sicherten.',
     },
+     {
+        title: 'Schachjugend zeigt ihr Können',
+        source: 'OVB Heimatzeitungen',
+        organizationSlug: 'schachklub-toeging',
+        url: 'https://www.ovb-heimatzeitungen.de/muehldorf/2021/09/28/schachjugend-zeigt-ihr-koennen.ovb',
+        date: '2021-10-05',
+        description: 'Bericht über das Sommertraining und die erfolgreichen Diplomprüfungen der Schachjugend des Schachklub Töging, bei denen die Kinder und Jugendlichen ihr Können unter Beweis stellten.',
+    },
     {
         title: 'Nestgeflüster – wia ma da Schnåbl gwachsn is',
         source: 'König-Karlmann-Gymnasium',
