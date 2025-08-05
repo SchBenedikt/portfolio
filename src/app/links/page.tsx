@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
 const mainLinks = [
