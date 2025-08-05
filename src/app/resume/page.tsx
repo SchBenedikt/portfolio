@@ -8,14 +8,12 @@ import { motion } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Award, Briefcase, Lightbulb, Users, Code, Rocket, GitBranch, Terminal as TerminalIcon, Rss, Link as LinkIcon, GraduationCap, Instagram, Linkedin, Home, School, Mail, Phone, Calendar, CodeSquare, Star, Bot } from 'lucide-react';
+import { Award, Briefcase, Lightbulb, Users, Code, Rocket, GitBranch, Terminal as TerminalIcon, Rss, Link as LinkIcon, GraduationCap, Instagram, Linkedin, Home, School, Mail, Phone, Calendar, CodeSquare, Star } from 'lucide-react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useChat } from '@/components/providers/chat-provider';
 import { projectData } from '@/lib/projects';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { getDailyQuote, Quote } from '@/ai/flows/quoteGeneratorFlow';
 
 const about = {
     name: "Benedikt Schächner",
@@ -173,31 +171,10 @@ const languages = [
 
 export default function ResumePage() {
   const { unlockAchievement } = useAchievements();
-  const { openChat } = useChat();
-  const [dailyQuote, setDailyQuote] = useState<Quote | null>(null);
 
   useEffect(() => {
     unlockAchievement('RESUME_VIEWER');
-    
-    async function fetchQuote() {
-        try {
-            const quote = await getDailyQuote();
-            setDailyQuote(quote);
-        } catch (error) {
-            console.error("Failed to fetch daily quote:", error);
-            // Fallback quote
-            setDailyQuote({
-                quote: "Die Zukunft gehört denen, die an die Schönheit ihrer Träume glauben.",
-                author: "Eleanor Roosevelt"
-            });
-        }
-    }
-    fetchQuote();
   }, [unlockAchievement]);
-
-  const handleAskAI = (context: string) => {
-    openChat(context);
-  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -211,15 +188,6 @@ export default function ResumePage() {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
-
-  const fullResumeContext = `
-    Name: ${about.name}
-    Titel: ${about.title}
-    Werdegang: ${timelineEvents.map(e => `${e.date} - ${e.title} bei ${e.organization}: ${e.description}`).join('\n')}
-    Zertifikate: ${certificates.map(c => `${c.title} von ${c.organization}`).join('\n')}
-    Fähigkeiten: ${skills.join(', ')}
-    Sprachen: ${languages.map(l => `${l.name} (${l.level})`).join(', ')}
-  `;
 
   const currentActivities = [...timelineEvents, ...certificates].filter(item => (item as any).isCurrent);
 
@@ -238,10 +206,6 @@ export default function ResumePage() {
                   <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter font-headline">
                       {about.name}
                   </h1>
-                  <Button variant="outline" size="icon" onClick={() => handleAskAI(fullResumeContext)} data-cursor-interactive>
-                    <Bot className="w-6 h-6"/>
-                    <span className="sr-only">Frag die KI zu diesem Lebenslauf</span>
-                  </Button>
                 </div>
                 <p className="text-xl md:text-2xl text-primary mt-2">{about.title}</p>
             </motion.div>
@@ -255,26 +219,6 @@ export default function ResumePage() {
                         </Link>
                     </Button>
                 ))}
-            </motion.div>
-
-             <motion.div variants={itemVariants} className="mb-16">
-                <Card className="rounded-2xl border-border/50 text-center">
-                    <CardHeader>
-                        <CardTitle className="text-lg font-semibold text-primary/80 not-italic tracking-wider uppercase">Zitat des Tages</CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-lg md:text-xl italic min-h-[56px] flex flex-col justify-center">
-                         {dailyQuote ? (
-                            <blockquote >
-                                „{dailyQuote.quote}“
-                                <footer className="mt-2 not-italic text-base text-muted-foreground">— {dailyQuote.author}</footer>
-                            </blockquote>
-                        ) : (
-                            <div className="flex justify-center items-center">
-                                <div className="w-6 h-6 border-2 border-muted-foreground border-t-transparent rounded-full animate-spin"></div>
-                            </div>
-                        )}
-                    </CardContent>
-                </Card>
             </motion.div>
 
             <Tabs defaultValue="resume" className="w-full">
@@ -412,5 +356,3 @@ export default function ResumePage() {
     </div>
   );
 }
-
-    

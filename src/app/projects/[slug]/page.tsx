@@ -13,7 +13,6 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { useEffect, useMemo } from 'react';
-import { useChat } from '@/components/providers/chat-provider';
 import {
   Dialog,
   DialogContent,
@@ -34,7 +33,6 @@ export default function ProjectPage() {
   const otherProjects = useMemo(() => projectData.filter((p) => p.slug !== slug), [slug]);
   
   const { unlockAchievement } = useAchievements();
-  const { openChat } = useChat();
 
   useEffect(() => {
     if (project) {
@@ -46,17 +44,6 @@ export default function ProjectPage() {
   if (!project) {
     notFound();
   }
-
-  const handleAskAI = () => {
-    const context = `
-      Projekttitel: ${project.title}
-      Beschreibung: ${project.longDescription.replace(/<[^>]*>?/gm, '')}
-      Technologien: ${project.tags.join(', ')}
-      Kategorie: ${project.category}
-      Datum: ${project.date}
-    `;
-    openChat(context);
-  };
 
   const hasValidUrl = project.url && project.url !== '#';
   const buttonIcon = hasValidUrl && !project.url.includes('github.com') ? <ExternalLink className="mr-3"/> : <Github className="mr-3"/>;
@@ -123,10 +110,6 @@ export default function ProjectPage() {
                  <div className="sticky top-32 bg-card/50 backdrop-blur-lg p-6 md:p-8 rounded-3xl border border-border/50">
                     <div className="flex justify-between items-start mb-6">
                       <h3 className="text-2xl md:text-3xl font-bold font-headline">Projekt-Infos</h3>
-                      <Button variant="outline" size="icon" onClick={handleAskAI} data-cursor-interactive>
-                        <Bot className="w-5 h-5"/>
-                        <span className="sr-only">Frag die KI zu diesem Projekt</span>
-                      </Button>
                     </div>
                      <p className="text-base md:text-lg text-muted-foreground mb-6">
                         {project.description}

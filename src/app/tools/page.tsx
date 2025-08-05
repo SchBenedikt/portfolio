@@ -17,8 +17,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { generateText } from '@/ai/flows/textGeneratorFlow';
-import { GenerateTextInput } from '@/ai/flows/types';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -33,7 +31,6 @@ const initialTools = [
   { id: 'password', name: 'Passwort-Generator', icon: <KeyRound className="w-8 h-8" />, component: PasswordGenerator },
   { id: 'palette', name: 'Farbpalette', icon: <Palette className="w-8 h-8" />, component: ColorPaletteGenerator },
   { id: 'converter', name: 'Einheitenumrechner', icon: <Scale className="w-8 h-8" />, component: UnitConverter },
-  { id: 'text-generator', name: 'KI-Textgenerator', icon: <Wand2 className="w-8 h-8" />, component: TextGenerator },
   { id: 'todo', name: 'Todo Liste', icon: <ListTodo className="w-8 h-8" />, component: Todo },
   { id: 'notes', name: 'Notizblock', icon: <Notebook className="w-8 h-8" />, component: Notes },
   { id: 'qr-code', name: 'QR-Code Generator', icon: <QrCode className="w-8 h-8" />, component: QrCodeGenerator },
@@ -73,7 +70,7 @@ function PasswordGenerator() {
     };
 
     return (
-        <Card className="rounded-3xl shadow-lg w-full">
+        <Card className="rounded-3xl w-full">
             <CardHeader>
                 <CardTitle className="text-2xl text-center font-headline">Passwort-Generator</CardTitle>
             </CardHeader>
@@ -180,7 +177,7 @@ function ColorPaletteGenerator() {
     }
 
     return (
-        <Card className="rounded-3xl shadow-lg w-full">
+        <Card className="rounded-3xl w-full">
             <CardHeader>
                 <CardTitle className="text-2xl text-center font-headline">Farbpaletten-Generator</CardTitle>
             </CardHeader>
@@ -305,7 +302,7 @@ function UnitConverter() {
     }, [currentTab]);
 
     return (
-        <Card className="rounded-3xl shadow-lg w-full">
+        <Card className="rounded-3xl w-full">
             <CardHeader>
                 <CardTitle className="text-2xl text-center font-headline">Einheitenumrechner</CardTitle>
             </CardHeader>
@@ -346,83 +343,6 @@ function UnitConverter() {
         </Card>
     );
 };
-
-function TextGenerator() {
-    const { unlockAchievement } = useAchievements();
-    const [topic, setTopic] = useState('');
-    const [type, setType] = useState('Blog-Idee');
-    const [result, setResult] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-    const handleGenerate = async () => {
-        if (!topic) {
-            toast.warning('Bitte gib ein Thema ein.');
-            return;
-        }
-        setIsLoading(true);
-        setResult('');
-        try {
-            const generatedText = await generateText({ topic, type });
-            setResult(generatedText);
-            unlockAchievement('WORD_SMITH');
-        } catch (error) {
-            toast.error('Fehler beim Generieren des Textes.');
-            console.error(error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-    
-    useEffect(() => {
-        if (textareaRef.current) {
-            textareaRef.current.style.height = 'auto';
-            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-        }
-    }, [result]);
-
-    return (
-        <Card className="rounded-3xl shadow-lg w-full">
-            <CardHeader>
-                <CardTitle className="text-2xl text-center font-headline">KI-Textgenerator</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                     <div className="md:col-span-2">
-                         <Label htmlFor="topic">Thema / Stichwort</Label>
-                         <Input id="topic" value={topic} onChange={e => setTopic(e.target.value)} placeholder="z.B. Die Zukunft von KI"/>
-                    </div>
-                    <div>
-                        <Label htmlFor="type">Text-Art</Label>
-                        <Select value={type} onValueChange={setType}>
-                            <SelectTrigger id="type"><SelectValue/></SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="Blog-Idee">Blog-Idee</SelectItem>
-                                <SelectItem value="Tweet">Tweet</SelectItem>
-                                <SelectItem value="Gedicht">Gedicht</SelectItem>
-                                <SelectItem value="Marketing-Slogan">Marketing-Slogan</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                </div>
-                <Button onClick={handleGenerate} disabled={isLoading} className="w-full rounded-full">
-                    {isLoading ? <Loader2 className="animate-spin" /> : <Wand2 className="mr-2" />}
-                    Text generieren
-                </Button>
-                {result && (
-                     <div className="p-4 bg-muted rounded-lg space-y-2">
-                        <Textarea
-                            ref={textareaRef} 
-                            value={result}
-                            readOnly
-                            className="w-full bg-transparent p-0 border-none focus:ring-0 resize-none overflow-hidden" 
-                        />
-                    </div>
-                )}
-            </CardContent>
-        </Card>
-    );
-}
 
 type Note = { id: string; title: string; content: string; };
 
@@ -494,7 +414,7 @@ function Todo() {
     };
     
     return (
-        <Card className="rounded-3xl shadow-lg w-full">
+        <Card className="rounded-3xl w-full">
             <CardHeader>
                 <CardTitle className="text-2xl text-center font-headline">Todo Liste</CardTitle>
             </CardHeader>
@@ -660,7 +580,7 @@ function Notes() {
     const linkedTasks = tasks.filter(t => t.noteId === activeNoteId);
 
     return (
-        <Card className="rounded-3xl shadow-lg w-full min-h-[550px]">
+        <Card className="rounded-3xl w-full min-h-[550px]">
             <CardHeader>
                 <CardTitle className="text-2xl text-center font-headline">Notizblock</CardTitle>
             </CardHeader>
@@ -743,7 +663,7 @@ function QrCodeGenerator() {
     const exportFormats = ['png', 'jpg', 'svg', 'pdf'];
 
     return (
-        <Card className="rounded-3xl shadow-lg w-full">
+        <Card className="rounded-3xl w-full">
             <CardHeader>
                 <CardTitle className="text-2xl text-center font-headline">QR-Code Generator</CardTitle>
             </CardHeader>
