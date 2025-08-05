@@ -10,16 +10,16 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Award, Briefcase, Lightbulb, Users, Code, Rocket, GitBranch, Terminal as TerminalIcon, Rss, Link as LinkIcon, GraduationCap, Instagram, Linkedin, Home, School, Mail, Phone, Calendar, CodeSquare, Star, Bot } from 'lucide-react';
 import { useAchievements } from '@/components/providers/achievements-provider';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useChat } from '@/components/providers/chat-provider';
 import { projectData } from '@/lib/projects';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { getDailyQuote, Quote } from '@/ai/flows/quoteGeneratorFlow';
 
 const about = {
     name: "Benedikt Schächner",
     title: "Schüler, Entwickler & digitaler Pionier",
-    quote: "„Arbeite hart, habe Spaß und schreibe Geschichte“ – Jeff Bezos",
     links: [
         { name: "Website", url: "https://benedikt.xn--schchner-2za.de", icon: <LinkIcon/> },
         { name: "LinkedIn", url: "https://de.linkedin.com/in/benedikt-schächner-a22632299/", icon: <Linkedin/> },
@@ -174,9 +174,25 @@ const languages = [
 export default function ResumePage() {
   const { unlockAchievement } = useAchievements();
   const { openChat } = useChat();
+  const [dailyQuote, setDailyQuote] = useState<Quote | null>(null);
 
   useEffect(() => {
     unlockAchievement('RESUME_VIEWER');
+    
+    async function fetchQuote() {
+        try {
+            const quote = await getDailyQuote();
+            setDailyQuote(quote);
+        } catch (error) {
+            console.error("Failed to fetch daily quote:", error);
+            // Fallback quote
+            setDailyQuote({
+                quote: "Die Zukunft gehört denen, die an die Schönheit ihrer Träume glauben.",
+                author: "Eleanor Roosevelt"
+            });
+        }
+    }
+    fetchQuote();
   }, [unlockAchievement]);
 
   const handleAskAI = (context: string) => {
@@ -199,7 +215,6 @@ export default function ResumePage() {
   const fullResumeContext = `
     Name: ${about.name}
     Titel: ${about.title}
-    Zitat: ${about.quote}
     Werdegang: ${timelineEvents.map(e => `${e.date} - ${e.title} bei ${e.organization}: ${e.description}`).join('\n')}
     Zertifikate: ${certificates.map(c => `${c.title} von ${c.organization}`).join('\n')}
     Fähigkeiten: ${skills.join(', ')}
@@ -229,9 +244,20 @@ export default function ResumePage() {
                   </Button>
                 </div>
                 <p className="text-xl md:text-2xl text-primary mt-2">{about.title}</p>
-                <blockquote className="mt-6 text-lg md:text-xl text-muted-foreground italic">
-                    {about.quote}
-                </blockquote>
+                 <div className="mt-6 text-lg md:text-xl text-muted-foreground italic min-h-[56px] flex flex-col justify-center">
+                    {dailyQuote ? (
+                        <>
+                            <span className="text-xs text-primary/80 not-italic font-semibold tracking-wider uppercase mb-1">Zitat des Tages</span>
+                            <blockquote >
+                                „{dailyQuote.quote}“ – {dailyQuote.author}
+                            </blockquote>
+                        </>
+                    ) : (
+                        <div className="flex justify-center items-center">
+                            <div className="w-4 h-4 border-2 border-muted-foreground border-t-transparent rounded-full animate-spin"></div>
+                        </div>
+                    )}
+                </div>
             </motion.div>
 
             <motion.div variants={itemVariants} className="flex justify-center gap-2 md:gap-4 mb-16 flex-wrap">
