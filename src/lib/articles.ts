@@ -37,13 +37,6 @@ export const articlesData: Article[] = [
         description: 'Der Alt-Neuöttinger Anzeiger hebt auf Facebook das preisgekrönte Multimediaprojekt „Meum Diarium“ hervor.',
     },
     {
-        title: 'KKG-Judomannschaft siegt beim Bezirksfinale',
-        source: 'König-Karlmann-Gymnasium',
-        url: 'https://www.koenig-karlmann-gymnasium.de/news/kkg-judomannschaft-siegt-beim-bezirksfinale/',
-        date: '2024-02-22',
-        description: 'Erfolgreicher Wettkampftag für die Judoka des KKG, die sich den Sieg im Bezirksfinale sicherten.',
-    },
-    {
         title: 'Mit Cäsars Tagebuch den 1. Preis geholt',
         source: 'König-Karlmann-Gymnasium',
         url: 'https://www.koenig-karlmann-gymnasium.de/news/mit-caesars-tagebuch-den-1-preis-geholt/',
@@ -70,6 +63,20 @@ export const articlesData: Article[] = [
         url: 'https://www.koenig-karlmann-gymnasium.de/news/ein-feldherr-wird-wieder-lebendig/',
         date: '2024-11-19',
         description: 'Vorstellung des Projekts „Meum Diarium“, bei dem Julius Cäsar als moderner Influencer auftritt.',
+    },
+     {
+        title: 'Lightning Talk bei der Nextcloud Conference',
+        source: 'Nextcloud (YouTube)',
+        url: 'https://www.youtube.com/watch?v=zMfyJDge7is',
+        date: '2024-10-25',
+        description: 'Ein Vortrag über die Absicherung von privat gehosteten Nextcloud-Instanzen, Vor- und Nachteile von Sicherheitsmaßnahmen und den sinnvollen Einsatz in der Familie.'
+    },
+    {
+        title: 'KKG-Judomannschaft siegt beim Bezirksfinale',
+        source: 'König-Karlmann-Gymnasium',
+        url: 'https://www.koenig-karlmann-gymnasium.de/news/kkg-judomannschaft-siegt-beim-bezirksfinale/',
+        date: '2024-02-22',
+        description: 'Erfolgreicher Wettkampftag für die Judoka des KKG, die sich den Sieg im Bezirksfinale sicherten.',
     },
     {
         title: 'Nestgeflüster – wia ma da Schnåbl gwachsn is',
