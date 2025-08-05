@@ -46,7 +46,7 @@ export const timelineEvents = [
     {
         date: "Nov 2024",
         title: "Hauptpreis, Deutscher Multimedia-Preis mb21",
-        organization: "Finale in Dresden",
+        organization: "Deutscher Multimediapreis mb21",
         description: "Gewinn des Hauptpreises (Altersgruppe 11-15) für das Projekt „Meum Diarium“ zusammen mit Vinzenz Schächner.",
         icon: <Award />,
         projectSlug: 'meum-diarium'
@@ -54,7 +54,7 @@ export const timelineEvents = [
     {
         date: "Nov 2024",
         title: "1. Platz, Crossmedia-Wettbewerb",
-        organization: "Bayerischer Rundfunk, Unterföhring",
+        organization: "Bayerischer Rundfunk",
         description: "Auszeichnung für „Meum Diarium“ in der Sparte „textbased“ für Idee, Umsetzung und mediale Aufbereitung.",
         icon: <Award />,
         projectSlug: 'meum-diarium'
@@ -62,14 +62,14 @@ export const timelineEvents = [
      {
         date: "Sep 2024",
         title: "Lightning Talk, Nextcloud Conference",
-        organization: "Berlin",
+        organization: "Nextcloud Conference",
         description: "Vortrag über Nextcloud-Security, Selfhosting und den Schutz sensibler Daten vor einer internationalen Community.",
         icon: <Rocket/>
     },
     {
         date: "Juli 2024",
         title: "Praktikum Informatik & Netzwerktechnik",
-        organization: "Rohde & Schwarz Cybersecurity, München",
+        organization: "Rohde & Schwarz Cybersecurity",
         description: "Praktische Arbeit an IT-Projekten und Einblicke in die Netzwerksicherheit.",
         icon: <Briefcase/>
     },
@@ -93,7 +93,7 @@ export const timelineEvents = [
     {
         date: "Seit 2019",
         title: "Schüler am König-Karlmann-Gymnasium",
-        organization: "Altötting",
+        organization: "König-Karlmann-Gymnasium",
         description: "Aktive Teilnahme an Digitalklassen, Medienscouts und MINT-Angeboten.",
         icon: <School/>,
         isCurrent: true
