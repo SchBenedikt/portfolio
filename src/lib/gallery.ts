@@ -11,7 +11,7 @@ export interface GalleryImage {
 
 export const galleryData: GalleryImage[] = [
   {
-    src: 'https://github.com/SchBenedikt/portfolio/blob/master/src/app/photos/benedikt/IMG_7331.jpg?raw=true',
+    src: 'https://raw.githubusercontent.com/SchBenedikt/portfolio/master/src/app/photos/benedikt/IMG_7331.jpg',
     width: 600,
     height: 800,
     alt: 'Porträtfoto von Benedikt Schächner',
@@ -20,48 +20,30 @@ export const galleryData: GalleryImage[] = [
     aiHint: 'portrait person'
   },
   {
-    src: 'https://placehold.co/800x600.png',
-    width: 800,
-    height: 600,
-    alt: 'Benedikt Schächner bei der Arbeit an einem Projekt',
-    title: 'Bei der Arbeit',
-    description: 'Fokussiert bei der Entwicklung einer neuen Anwendung.',
-    aiHint: 'person working'
-  },
-  {
-    src: 'https://placehold.co/600x600.png',
-    width: 600,
-    height: 600,
-    alt: 'Benedikt Schächner in der Natur',
-    title: 'Naturverbunden',
-    description: 'Entspannung und Inspiration in der Natur finden.',
-    aiHint: 'person nature'
-  },
-  {
-    src: 'https://placehold.co/600x800.png',
+    src: 'https://raw.githubusercontent.com/SchBenedikt/portfolio/master/src/app/photos/benedikt/IMG_1677.JPG',
     width: 600,
     height: 800,
-    alt: 'Benedikt Schächner in einer städtischen Umgebung',
-    title: 'Urban Explorer',
-    description: 'Unterwegs in der Stadt, immer auf der Suche nach neuen Ideen.',
-    aiHint: 'person city'
+    alt: 'Benedikt Schächner bei einer Präsentation',
+    title: 'Vortrag',
+    description: 'Bei einem Vortrag über Technik-Themen.',
+    aiHint: 'person presentation'
   },
   {
-    src: 'https://placehold.co/800x600.png',
+    src: 'https://raw.githubusercontent.com/SchBenedikt/portfolio/master/src/app/photos/benedikt/IMG_8516.JPG',
     width: 800,
     height: 600,
-    alt: 'Benedikt Schächner beim Judo',
-    title: 'Sportlicher Ausgleich',
-    description: 'Konzentration und Disziplin beim Judo-Training.',
-    aiHint: 'person hobby'
+    alt: 'Benedikt Schächner in legerer Kleidung',
+    title: 'Lässig',
+    description: 'Ein entspannter Moment.',
+    aiHint: 'person casual'
   },
   {
-    src: 'https://placehold.co/600x600.png',
+    src: 'https://raw.githubusercontent.com/SchBenedikt/portfolio/master/src/app/photos/benedikt/IMG_8836.JPG',
     width: 600,
-    height: 600,
-    alt: 'Ein lächelnder Benedikt Schächner',
-    title: 'Positiv',
-    description: 'Mit einem Lächeln geht alles leichter.',
-    aiHint: 'person smiling'
+    height: 800,
+    alt: 'Benedikt Schächner im Anzug',
+    title: 'Formell',
+    description: 'Bereit für das nächste Event.',
+    aiHint: 'person formal'
   },
 ];
