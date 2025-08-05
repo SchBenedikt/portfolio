@@ -34,6 +34,12 @@ const nextConfig: NextConfig = {
         hostname: 'technik.xn--schchner-2za.de',
         port: '',
         pathname: '/**',
+      },
+       {
+        protocol: 'https',
+        hostname: 'github.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },

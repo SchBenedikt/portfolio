@@ -52,7 +52,7 @@ export const projectData = [
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Bedeutung für das Portfolio</h3>
       <p>Dieses Projekt zeigt Engagement im Ehrenamt und die Fähigkeit, eine Marke in sozialen Medien zu repräsentieren. Es verbindet sportliche Gemeinschaft mit modernen Kommunikationsstrategien und unterstreicht die Kompetenz in der Teamarbeit und im Content-Management.</p>
     `,
-    image: 'https://placehold.co/1200x675.png',
+    image: 'https://github.com/SchBenedikt/portfolio/blob/master/src/app/photos/judo-instagram.png?raw=true',
     aiHint: 'judo sport',
     url: 'https://www.instagram.com/judo_tus_toeging/',
     tags: ['Social Media', 'Content Management', 'Vereinsarbeit', 'Community'],
@@ -192,5 +192,3 @@ export const projectData = [
     }
   },
 ];
-
-    
