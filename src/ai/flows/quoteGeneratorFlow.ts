@@ -29,7 +29,7 @@ export async function generateQuote(input: QuoteInput): Promise<QuoteOutput> {
 
 const prompt = ai.definePrompt({
   name: 'quotePrompt',
-  model: googleAI.model('gemini-pro'),
+  model: googleAI.model('gemini-1.5-flash-latest'),
   input: { schema: QuoteInputSchema },
   output: { schema: QuoteOutputSchema },
   prompt: `Generate a short, inspiring, and witty quote related to the user's role: {{{topic}}}. 
