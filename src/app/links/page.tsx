@@ -18,7 +18,7 @@ const mainLinks = [
     title: 'Portfolio',
     href: '/',
     icon: <Home className="w-8 h-8" />,
-    color: 'bg-blue-500/10 text-blue-500',
+    color: 'bg-primary/10 text-primary',
   },
   {
     title: 'Lebenslauf',

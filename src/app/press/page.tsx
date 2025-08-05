@@ -41,31 +41,19 @@ type GroupedArticles = { [year: string]: typeof articlesData };
 export default function PressPage() {
   const { unlockAchievement } = useAchievements();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedSource, setSelectedSource] = useState('Alle');
 
   useEffect(() => {
     unlockAchievement('PRESS_READER');
   }, [unlockAchievement]);
 
-  const sources = useMemo(() => {
-    const allSources = articlesData.map(article => article.source);
-    return ['Alle', ...Array.from(new Set(allSources))];
-  }, []);
-
   const filteredArticles = useMemo(() => {
     return articlesData
       .filter(article => {
         const term = searchTerm.toLowerCase();
-        const matchesTerm = 
-          article.title.toLowerCase().includes(term) || 
-          article.description.toLowerCase().includes(term);
-        
-        const matchesSource = 
-          selectedSource === 'Alle' || article.source === selectedSource;
-
-        return matchesTerm && matchesSource;
+        return article.title.toLowerCase().includes(term) || 
+               article.description.toLowerCase().includes(term);
       });
-  }, [searchTerm, selectedSource]);
+  }, [searchTerm]);
 
   const groupedArticles = useMemo(() => {
     const sorted = [...filteredArticles].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -106,31 +94,6 @@ export default function PressPage() {
                     onChange={(e) => setSearchTerm(e.target.value)}
                  />
                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-6 h-6"/>
-              </div>
-              <div className="sm:hidden">
-                 <Select value={selectedSource} onValueChange={setSelectedSource}>
-                    <SelectTrigger className="w-full rounded-full h-12">
-                      <SelectValue placeholder="Quelle wählen..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {sources.map(source => (
-                        <SelectItem key={source} value={source}>{source}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-              </div>
-              <div className="hidden sm:flex flex-wrap justify-center items-center gap-2">
-                {sources.map(source => (
-                  <Button
-                    key={source}
-                    variant={selectedSource === source ? 'default' : 'outline'}
-                    className="rounded-full"
-                    size="sm"
-                    onClick={() => setSelectedSource(source)}
-                  >
-                    {source}
-                  </Button>
-                ))}
               </div>
             </div>
 

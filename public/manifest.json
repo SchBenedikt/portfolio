@@ -1,8 +1,7 @@
-
 {
-  "name": "Benedikt Schächner | Portfolio für kreative Entwicklung",
-  "short_name": "Benedikt Schächner",
-  "description": "Ein Portfolio, das kreative Entwicklungs- und Designprojekte mit 3D-Interaktionen und KI-gesteuerten Animationen zeigt.",
+  "name": "Benedikt Schächner | Portfolio",
+  "short_name": "BS Portfolio",
+  "description": "Ein Portfolio, das kreative Entwicklungs- und Designprojekte von Benedikt Schächner zeigt.",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
