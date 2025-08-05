@@ -48,7 +48,7 @@ const timelineEvents = [
         title: "Hauptpreis, Deutscher Multimedia-Preis mb21",
         organization: "Finale in Dresden",
         description: "Gewinn des Hauptpreises (Altersgruppe 11-15) für das Projekt „Meum Diarium“ zusammen mit Vinzenz Schächner.",
-        icon: <Award className="text-primary"/>,
+        icon: <Award />,
         projectSlug: 'meum-diarium'
     },
     {
@@ -56,7 +56,7 @@ const timelineEvents = [
         title: "1. Platz, Crossmedia-Wettbewerb",
         organization: "Bayerischer Rundfunk, Unterföhring",
         description: "Auszeichnung für „Meum Diarium“ in der Sparte „textbased“ für Idee, Umsetzung und mediale Aufbereitung.",
-        icon: <Award className="text-primary"/>,
+        icon: <Award />,
         projectSlug: 'meum-diarium'
     },
      {
@@ -247,11 +247,13 @@ export default function ResumePage() {
               <TabsContent value="resume">
                 <motion.div variants={itemVariants} className="mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 text-center flex items-center justify-center gap-3"><Briefcase className="text-primary"/> Werdegang</h2>
-                    <div className="relative border-l-2 border-primary/50 ml-3 md:ml-4 pl-4">
+                    <div className="relative border-l-2 border-border ml-3 md:ml-4 pl-4">
                         {timelineEvents.map((event, index) => (
                             <motion.div key={index} variants={itemVariants} className="mb-10 ml-4 md:ml-8">
-                                <span className={`absolute -left-[18px] flex items-center justify-center w-9 h-9 rounded-full ring-8 ring-background ${event.isCurrent ? 'bg-primary/20' : 'bg-secondary'}`}>
-                                    {React.cloneElement(event.icon, { className: "h-5 w-5 text-primary" })}
+                                <span className="absolute -left-[18px] flex items-center justify-center w-9 h-9 bg-background rounded-full ring-8 ring-background">
+                                    <div className="flex items-center justify-center w-full h-full bg-secondary rounded-full">
+                                      {React.cloneElement(event.icon, { className: "h-5 w-5 text-muted-foreground" })}
+                                    </div>
                                 </span>
                                 <Card className="rounded-2xl shadow-lg border-border/50 transition-all hover:border-primary/50">
                                     <CardHeader>
@@ -372,3 +374,5 @@ export default function ResumePage() {
     </div>
   );
 }
+
+    
