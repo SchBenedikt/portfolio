@@ -244,23 +244,9 @@ export default function ResumePage() {
                   </Button>
                 </div>
                 <p className="text-xl md:text-2xl text-primary mt-2">{about.title}</p>
-                 <div className="mt-6 text-lg md:text-xl text-muted-foreground italic min-h-[56px] flex flex-col justify-center">
-                    {dailyQuote ? (
-                        <>
-                            <span className="text-xs text-primary/80 not-italic font-semibold tracking-wider uppercase mb-1">Zitat des Tages</span>
-                            <blockquote >
-                                „{dailyQuote.quote}“ – {dailyQuote.author}
-                            </blockquote>
-                        </>
-                    ) : (
-                        <div className="flex justify-center items-center">
-                            <div className="w-4 h-4 border-2 border-muted-foreground border-t-transparent rounded-full animate-spin"></div>
-                        </div>
-                    )}
-                </div>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="flex justify-center gap-2 md:gap-4 mb-16 flex-wrap">
+            <motion.div variants={itemVariants} className="flex justify-center gap-2 md:gap-4 mb-12 flex-wrap">
                 {about.links.map(link => (
                     <Button key={link.name} asChild variant="outline" className="rounded-full" data-cursor-interactive>
                         <Link href={link.url} target="_blank">
@@ -269,6 +255,26 @@ export default function ResumePage() {
                         </Link>
                     </Button>
                 ))}
+            </motion.div>
+
+             <motion.div variants={itemVariants} className="mb-16">
+                <Card className="rounded-2xl border-border/50 text-center">
+                    <CardHeader>
+                        <CardTitle className="text-lg font-semibold text-primary/80 not-italic tracking-wider uppercase">Zitat des Tages</CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-lg md:text-xl italic min-h-[56px] flex flex-col justify-center">
+                         {dailyQuote ? (
+                            <blockquote >
+                                „{dailyQuote.quote}“
+                                <footer className="mt-2 not-italic text-base text-muted-foreground">— {dailyQuote.author}</footer>
+                            </blockquote>
+                        ) : (
+                            <div className="flex justify-center items-center">
+                                <div className="w-6 h-6 border-2 border-muted-foreground border-t-transparent rounded-full animate-spin"></div>
+                            </div>
+                        )}
+                    </CardContent>
+                </Card>
             </motion.div>
 
             <Tabs defaultValue="resume" className="w-full">
@@ -406,3 +412,5 @@ export default function ResumePage() {
     </div>
   );
 }
+
+    
