@@ -11,7 +11,7 @@ export interface GalleryImage {
 
 export const galleryData: GalleryImage[] = [
   {
-    src: 'https://placehold.co/600x800.png',
+    src: 'https://github.com/SchBenedikt/portfolio/blob/master/src/app/photos/benedikt/IMG_7331.jpg?raw=true',
     width: 600,
     height: 800,
     alt: 'Porträtfoto von Benedikt Schächner',
