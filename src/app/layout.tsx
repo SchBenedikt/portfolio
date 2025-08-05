@@ -20,13 +20,13 @@ const fontMono = FontMono({
 })
 
 export const metadata: Metadata = {
-  title: 'Benedikt Schächner | Portfolio für kreative Entwicklung',
+  title: 'Benedikt Schächner | Digitaler Entwickler & Kreativtechnologe',
   description:
-    'Ein Portfolio, das kreative Entwicklungs- und Designprojekte mit 3D-Interaktionen und KI-gesteuerten Animationen zeigt.',
+    'Entdecken Sie das interaktive Portfolio von Benedikt Schächner. Eine Sammlung innovativer Webprojekte, die modernes Design, Full-Stack-Entwicklung und KI-Integration vereinen.',
   manifest: '/manifest.json',
   openGraph: {
-    title: 'Benedikt Schächner | Portfolio für kreative Entwicklung',
-    description: 'Ein Portfolio, das kreative Entwicklungs- und Designprojekte mit 3D-Interaktionen und KI-gesteuerten Animationen zeigt.',
+    title: 'Benedikt Schächner | Digitaler Entwickler & Kreativtechnologe',
+    description: 'Entdecken Sie das interaktive Portfolio von Benedikt Schächner. Eine Sammlung innovativer Webprojekte, die modernes Design, Full-Stack-Entwicklung und KI-Integration vereinen.',
     url: 'https://benedikt.xn--schchner-2za.de',
     type: 'website',
     images: [
