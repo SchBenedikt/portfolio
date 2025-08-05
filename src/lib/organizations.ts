@@ -42,5 +42,7 @@ export const resumeOrgToSlug: { [key: string]: string } = {
     "Bayerisches Rotes Kreuz (BRK)": "brk",
     "Bayerischer Judo-Verband e.V.": "bayerischer-judo-verband",
     "Schachklub Töging e. V.": "schachklub-toeging",
-    "OVB Heimatzeitungen": "ovb-heimatzeitungen"
+    "OVB Heimatzeitungen": "ovb-heimatzeitungen",
+    "Passauer Neue Presse": "pnp",
+    "TuS Töging": "tus-toeging"
 };

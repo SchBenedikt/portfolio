@@ -22,7 +22,7 @@ export const articlesData: Article[] = [
     {
         title: 'Judokas des TuS stolz auf ihre engagierte Jugend',
         source: 'Passauer Neue Presse',
-        organizationSlug: 'pnp',
+        organizationSlug: 'tus-toeging',
         url: 'https://www.pnp.de/lokales/landkreis-altoetting/judokas-des-tus-stolz-auf-ihre-engagierte-jugend-18451253',
         date: '2025-04-16',
         description: 'Rückblick auf sportliche Erfolge bei der Jahreshauptversammlung – Stefan Franzl als Abteilungsleiter im Amt bestätigt.'
@@ -53,7 +53,7 @@ export const articlesData: Article[] = [
     },
     {
         title: 'Laudatio zum Hauptpreis „Meum Diarium“',
-        source: 'YouTube',
+        source: 'Deutscher Multimediapreis mb21',
         organizationSlug: 'mb21',
         url: 'https://www.youtube.com/watch?v=l-50niYLKXo',
         date: '2024-11-23',
@@ -93,7 +93,7 @@ export const articlesData: Article[] = [
     },
      {
         title: 'Lightning Talk bei der Nextcloud Conference',
-        source: 'YouTube',
+        source: 'Nextcloud Conference',
         organizationSlug: 'nextcloud',
         url: 'https://www.youtube.com/watch?v=zMfyJDge7is',
         date: '2024-10-25',
