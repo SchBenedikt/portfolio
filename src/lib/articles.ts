@@ -12,7 +12,7 @@ export interface Article {
 
 export const articlesData: Article[] = [
     {
-        title: 'Judoka ziehen positive Bilanz',
+        title: 'Bericht zur Jahreshauptversammlung der Judoabteilung im TuS Töging',
         source: 'TuS Töging',
         organizationSlug: 'tus-toeging',
         url: 'https://www.tustoeging.de/neuigkeiten.htm?n=147',
