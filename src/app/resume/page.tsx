@@ -255,7 +255,7 @@ export default function ResumePage() {
                                       {React.cloneElement(event.icon, { className: "h-5 w-5 text-muted-foreground" })}
                                     </div>
                                 </span>
-                                <Card className="rounded-2xl shadow-lg border-border/50 transition-all hover:border-primary/50">
+                                <Card className="rounded-2xl border-border/50 transition-all hover:border-primary/50">
                                     <CardHeader>
                                         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
                                             <CardTitle className="text-lg md:text-2xl font-bold font-headline">
@@ -285,7 +285,7 @@ export default function ResumePage() {
                     <div className="md:columns-2 md:gap-8 space-y-8">
                         {certificates.map((cert, index) => (
                             <motion.div key={index} variants={itemVariants} className="break-inside-avoid">
-                                <Card className="rounded-2xl shadow-lg border-border/50">
+                                <Card className="rounded-2xl border-border/50">
                                     <CardHeader>
                                         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
                                             <CardTitle className="text-lg md:text-2xl font-bold font-headline">{cert.title}</CardTitle>
@@ -344,7 +344,7 @@ export default function ResumePage() {
                  <div className="md:columns-2 md:gap-8 space-y-8">
                     {currentActivities.map((item: any, index) => (
                        <motion.div key={index} variants={itemVariants} className="break-inside-avoid">
-                           <Card className="rounded-2xl shadow-lg border-border/50">
+                           <Card className="rounded-2xl border-border/50">
                                <CardHeader>
                                    <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
                                        <CardTitle className="text-lg md:text-2xl font-bold font-headline">{item.title}</CardTitle>
@@ -374,5 +374,3 @@ export default function ResumePage() {
     </div>
   );
 }
-
-    
