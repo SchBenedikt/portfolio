@@ -33,7 +33,7 @@ const prompt = ai.definePrompt({
   model: googleAI.model('gemini-1.5-flash-latest'),
   input: { schema: QuoteInputSchema },
   output: { schema: QuoteOutputSchema },
-  prompt: `Provide a famous quote about success from a well-known person.
+  prompt: `Provide a random, famous quote from a well-known person about one of the following topics: success, technology, innovation, creativity, or learning.
   The quote must be translated into German.
   Provide the original author of the quote.`,
 });
