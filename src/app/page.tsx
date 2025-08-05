@@ -74,7 +74,7 @@ export default function Home() {
           </Button>
         </Header>
       </motion.div>
-      <main className="flex-grow flex flex-col items-center justify-center pt-20 pb-24 md:pb-0">
+      <main className="flex-grow flex flex-col items-center justify-center pt-16 md:pt-20 pb-24 md:pb-0">
         <div
           className="container mx-auto px-6 sm:px-8 h-full flex items-center justify-center"
         >

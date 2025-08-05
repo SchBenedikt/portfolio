@@ -84,7 +84,7 @@ export default function LinksPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
         <Header />
-        <main className="flex-grow flex items-center justify-center pt-24 md:pt-32 pb-16 md:pb-16">
+        <main className="flex-grow flex items-center justify-center pt-16 md:pt-32 pb-16 md:pb-16">
             <motion.div
                 className="container mx-auto px-6 sm:px-8 max-w-md"
                 variants={containerVariants}
