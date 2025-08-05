@@ -37,6 +37,13 @@ export const articlesData: Article[] = [
         description: 'Der Alt-Neuöttinger Anzeiger hebt auf Facebook das preisgekrönte Multimediaprojekt „Meum Diarium“ hervor.',
     },
     {
+        title: 'Laudatio zum Hauptpreis „Meum Diarium“',
+        source: 'Deutscher Multimediapreis mb21 (YouTube)',
+        url: 'https://www.youtube.com/watch?v=l-50niYLKXo',
+        date: '2024-11-23',
+        description: 'Die offizielle Laudatio zum Gewinn des Hauptpreises. Die Jury lobt den Witz, die Detailverliebtheit und die kreative Verbindung von Antike und Moderne.'
+    },
+    {
         title: 'Mit Cäsars Tagebuch den 1. Preis geholt',
         source: 'König-Karlmann-Gymnasium',
         url: 'https://www.koenig-karlmann-gymnasium.de/news/mit-caesars-tagebuch-den-1-preis-geholt/',
