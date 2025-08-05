@@ -9,6 +9,7 @@
  */
 
 import { ai } from '@/ai/genkit';
+import { googleAI } from '@genkit-ai/googleai';
 import { z } from 'zod';
 
 const QuoteInputSchema = z.object({
@@ -28,6 +29,7 @@ export async function generateQuote(input: QuoteInput): Promise<QuoteOutput> {
 
 const prompt = ai.definePrompt({
   name: 'quotePrompt',
+  model: googleAI.model('gemini-pro'),
   input: { schema: QuoteInputSchema },
   output: { schema: QuoteOutputSchema },
   prompt: `Generate a short, inspiring, and witty quote related to the user's role: {{{topic}}}. 
