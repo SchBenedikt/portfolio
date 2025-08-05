@@ -22,7 +22,21 @@ export const articlesData: Article[] = [
         date: '2025-02-23',
         description: 'Bericht über den sportlichen Erfolg beim Schach-Bezirksfinale.',
     },
-     {
+    {
+        title: 'Bundesregierung ehrt Schächner-Brüder',
+        source: 'Passauer Neue Presse',
+        url: 'https://www.pnp.de/lokales/landkreis-altoetting/vertreterin-der-bundesregierung-ehrt-in-dresden-vinzenz-und-benedikt-schaechner-aus-pleiskirchen-17504456',
+        date: '2024-11-26',
+        description: 'Die Passauer Neue Presse berichtet über die Ehrung in Dresden durch eine Vertreterin der Bundesregierung für das Projekt „Meum Diarium“.',
+    },
+    {
+        title: 'Ein Feldherr als Influencer',
+        source: 'Alt-Neuöttinger Anzeiger (Facebook)',
+        url: 'https://www.facebook.com/altneuoettingeranzeiger/posts/mit-ihrem-multimedialen-projekt-meum-diarium-ein-feldherr-als-influencer-haben-d/1209892657393185/',
+        date: '2024-11-26',
+        description: 'Der Alt-Neuöttinger Anzeiger hebt auf Facebook das preisgekrönte Multimediaprojekt „Meum Diarium“ hervor.',
+    },
+    {
         title: 'KKG-Judomannschaft siegt beim Bezirksfinale',
         source: 'König-Karlmann-Gymnasium',
         url: 'https://www.koenig-karlmann-gymnasium.de/news/kkg-judomannschaft-siegt-beim-bezirksfinale/',
