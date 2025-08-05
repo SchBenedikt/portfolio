@@ -37,6 +37,9 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
     { href: "/tools", label: "Tools", icon: <Wrench/> },
     { href: "/links", label: "Links", icon: <LinkIcon/> },
   ]
+  
+  const mobileNavLinks = navLinks.filter(l => ["/", "/projects", "/resume", "/links"].includes(l.href));
+
 
   const isLabelVisible = (href: string) => {
     return pathname.startsWith(href) || hoveredHref === href;
@@ -191,7 +194,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
       {/* Mobile Bottom Navigation */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-t border-border/50">
           <div className="flex justify-around items-center h-16">
-              {navLinks.map(link => (
+              {mobileNavLinks.map(link => (
                   <Link href={link.href} key={link.href} className={cn(
                     "flex flex-col items-center justify-center gap-1 w-full h-full transition-colors",
                     pathname === link.href ? "text-primary" : "text-muted-foreground hover:text-primary"

@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { 
-  Briefcase, Code, Home, Instagram, Linkedin, Notebook, Rss, User, ArrowUpRight 
+  Briefcase, Code, Home, Instagram, Linkedin, Notebook, Rss, User, ArrowUpRight, GalleryHorizontal, Wrench, Newspaper 
 } from 'lucide-react';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
@@ -39,6 +39,12 @@ const mainLinks = [
      color: 'bg-pink-500/10 text-pink-500',
   },
 ];
+
+const secondaryLinks = [
+  { title: 'Galerie', href: '/gallery', icon: <GalleryHorizontal /> },
+  { title: 'Presse', href: '/press', icon: <Newspaper /> },
+  { title: 'Tools', href: '/tools', icon: <Wrench /> },
+]
 
 const projectLinks = [
   {
@@ -84,7 +90,7 @@ export default function LinksPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
         <Header />
-        <main className="flex-grow flex items-center justify-center pt-16 md:pt-32 pb-16 md:pb-16">
+        <main className="flex-grow flex items-center justify-center pt-16 md:pt-32 pb-24 md:pb-16">
             <motion.div
                 className="container mx-auto px-6 sm:px-8 max-w-md"
                 variants={containerVariants}
@@ -113,6 +119,24 @@ export default function LinksPage() {
                               <ArrowUpRight className="absolute top-3 right-3 w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                             </Card>
                         </Link>
+                      ))}
+                    </div>
+                </motion.div>
+
+                <motion.div variants={itemVariants} className="mb-10">
+                    <div className="space-y-3">
+                      {secondaryLinks.map((link) => (
+                          <div key={link.href}>
+                            <Link href={link.href} target={link.href.startsWith('http') ? '_blank' : '_self'} data-cursor-interactive>
+                               <Card className="group relative p-4 rounded-xl hover:bg-muted/50 transition-colors">
+                                  <div className="flex items-center">
+                                    <div className="w-6 mr-4 text-muted-foreground">{link.icon}</div>
+                                    <span className="font-medium flex-grow">{link.title}</span>
+                                    <ArrowUpRight className="w-5 h-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                                  </div>
+                               </Card>
+                            </Link>
+                          </div>
                       ))}
                     </div>
                 </motion.div>
