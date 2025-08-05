@@ -21,6 +21,9 @@ export const projectData = [
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Sonderfunktionen</h3>
       <p>Notio legt besonderen Wert auf intuitive Bedienbarkeit, eine pflegeleichte Oberfläche und mobile Nutzbarkeit, sodass der Zugriff auch unterwegs jederzeit möglich ist.</p>
 
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Dokumentation</h3>
+      <p>Eine ausführliche technische Dokumentation des Projekts kann <a href="https://raw.githubusercontent.com/SchBenedikt/portfolio/master/src/app/documents/Dokumentation_Notio.pdf" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">hier</a> eingesehen werden.</p>
+
        <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Datenschutz & Sicherheit</h3>
        <p>Sämtliche Nutzerdaten werden DSGVO-konform verarbeitet und sind vor unbefugtem Zugriff geschützt.</p>
       `,
@@ -145,7 +148,7 @@ export const projectData = [
       `,
     image: 'https://technik.xn--schchner-2za.de/wp-content/uploads/2025/08/Medienscouts.png',
     url: 'https://medienscouts-kkg.de/',
-    tags: ['Next.js', 'Chatbot', 'Schulprojekt', 'CI/CD', 'Bildung'],
+    tags: ['Chatbot', 'Schulprojekt', 'Bildung'],
     date: '2023-09-01',
     category: 'Web-Anwendung / Bildung',
     details: {
