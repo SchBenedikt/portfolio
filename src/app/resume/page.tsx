@@ -154,6 +154,30 @@ const certificates = [
         organization: "Bayerischer Judo-Verband e.V.",
         date: "Juni 2023",
         skills: ["Trainerassistent"]
+    },
+    {
+        title: "Turmdiplom Schach",
+        organization: "Schachklub Töging e. V.",
+        date: "Dez. 2022",
+        skills: ["Schach"]
+    },
+    {
+        title: "Läuferdiplom Schach",
+        organization: "Schachklub Töging e. V.",
+        date: "Sep. 2021",
+        skills: ["Schach"]
+    },
+    {
+        title: "Springerdiplom Schach",
+        organization: "Schachklub Töging e. V.",
+        date: "Sep. 2020",
+        skills: ["Schach"]
+    },
+    {
+        title: "Bauerndiplom Schach",
+        organization: "Schachklub Töging e. V.",
+        date: "Jan. 2020",
+        skills: ["Schach"]
     }
 ];
 
