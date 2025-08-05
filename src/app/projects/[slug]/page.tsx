@@ -7,7 +7,7 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Github, Calendar, Folder, Tags, Bot, Target, BrainCircuit, Link as LinkIcon, ExternalLink, ArrowRight } from 'lucide-react';
+import { ArrowLeft, Github, Calendar, Folder, Tags, Target, BrainCircuit, Link as LinkIcon, ExternalLink, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -199,7 +199,7 @@ export default function ProjectPage() {
                     {otherProjects.map((proj) => (
                         <CarouselItem key={proj.slug} className="md:basis-1/2 lg:basis-1/3">
                             <div className="p-1">
-                                <Card className="rounded-3xl shadow-lg overflow-hidden border-border/50 flex flex-col w-full h-full">
+                                <Card className="rounded-3xl overflow-hidden border-border/50 flex flex-col w-full h-full">
                                   <div className="aspect-video overflow-hidden border-b">
                                       <Image
                                           src={proj.image}
