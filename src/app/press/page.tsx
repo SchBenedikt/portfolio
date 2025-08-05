@@ -109,9 +109,9 @@ export default function PressPage() {
                 {sortedYears.map((year) => (
                   <motion.div key={year} variants={itemVariants}>
                     <h2 className="text-4xl md:text-5xl font-black mb-8 border-b pb-4">{year}</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="columns-1 md:columns-2 gap-8 space-y-8">
                       {groupedArticles[year].map((article) => (
-                        <motion.div key={article.url} variants={itemVariants}>
+                        <motion.div key={article.url} variants={itemVariants} className="break-inside-avoid">
                            <Card className="group rounded-2xl overflow-hidden transition-all hover:border-primary/50 hover:bg-muted/30 w-full flex flex-col">
                             <CardHeader className="p-6 md:p-8">
                               <div className="flex flex-col-reverse sm:flex-row justify-between sm:items-start gap-4">
