@@ -100,36 +100,40 @@ export default function LinksPage() {
                   <p className="text-muted-foreground mt-1">Schüler, Entwickler & digitaler Pionier</p>
                 </motion.div>
 
-                <motion.div className="grid grid-cols-2 gap-4 mb-4" variants={containerVariants}>
-                  {mainLinks.map((link) => (
-                    <motion.div key={link.href} variants={itemVariants}>
-                      <Link href={link.href} target={link.href.startsWith('http') ? '_blank' : '_self'} data-cursor-interactive>
-                        <Card className="group relative rounded-2xl overflow-hidden text-center h-32 flex flex-col justify-center items-center hover:bg-muted/50 transition-colors">
-                          <div className={cn("p-3 rounded-full mb-2 transition-colors", link.color)}>
-                            {link.icon}
-                          </div>
-                          <p className="font-semibold text-sm">{link.title}</p>
-                          <ArrowUpRight className="absolute top-3 right-3 w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </Card>
-                      </Link>
-                    </motion.div>
-                  ))}
+                <motion.div variants={itemVariants} className="mb-10">
+                    <h2 className="text-sm font-semibold uppercase text-muted-foreground tracking-wider text-center mb-4">Wichtige Links</h2>
+                    <div className="grid grid-cols-2 gap-4">
+                      {mainLinks.map((link) => (
+                        <Link href={link.href} key={link.href} target={link.href.startsWith('http') ? '_blank' : '_self'} data-cursor-interactive>
+                            <Card className="group relative rounded-2xl overflow-hidden text-center h-32 flex flex-col justify-center items-center hover:bg-muted/50 transition-colors">
+                              <div className={cn("p-3 rounded-full mb-2 transition-colors", link.color)}>
+                                {link.icon}
+                              </div>
+                              <p className="font-semibold text-sm">{link.title}</p>
+                              <ArrowUpRight className="absolute top-3 right-3 w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </Card>
+                        </Link>
+                      ))}
+                    </div>
                 </motion.div>
 
-                <motion.div className="space-y-3" variants={containerVariants}>
-                  {projectLinks.map((link) => (
-                      <motion.div key={link.href} variants={itemVariants}>
-                        <Link href={link.href} target={link.href.startsWith('http') ? '_blank' : '_self'} data-cursor-interactive>
-                           <Card className="group relative p-4 rounded-xl hover:bg-muted/50 transition-colors">
-                              <div className="flex items-center">
-                                <div className="w-6 mr-4 text-muted-foreground">{link.icon}</div>
-                                <span className="font-medium flex-grow">{link.title}</span>
-                                <ArrowUpRight className="w-5 h-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                              </div>
-                           </Card>
-                        </Link>
-                      </motion.div>
-                  ))}
+                <motion.div variants={itemVariants}>
+                    <h2 className="text-sm font-semibold uppercase text-muted-foreground tracking-wider text-center mb-4">Projekte</h2>
+                    <div className="space-y-3">
+                      {projectLinks.map((link) => (
+                          <div key={link.href}>
+                            <Link href={link.href} target={link.href.startsWith('http') ? '_blank' : '_self'} data-cursor-interactive>
+                               <Card className="group relative p-4 rounded-xl hover:bg-muted/50 transition-colors">
+                                  <div className="flex items-center">
+                                    <div className="w-6 mr-4 text-muted-foreground">{link.icon}</div>
+                                    <span className="font-medium flex-grow">{link.title}</span>
+                                    <ArrowUpRight className="w-5 h-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                                  </div>
+                               </Card>
+                            </Link>
+                          </div>
+                      ))}
+                    </div>
                 </motion.div>
 
             </motion.div>
