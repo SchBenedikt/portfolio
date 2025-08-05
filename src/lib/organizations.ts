@@ -1,0 +1,45 @@
+
+export interface Organization {
+    slug: string;
+    name: string;
+    logo?: string; // URL to the logo
+}
+
+export const organizationData: Organization[] = [
+    { slug: 'tus-toeging', name: 'TuS Töging', logo: 'https://www.tustoeging.de/sgm/online/web/downloads/logo_tus_toeging.png' },
+    { slug: 'kkg', name: 'König-Karlmann-Gymnasium', logo: 'https://www.koenig-karlmann-gymnasium.de/fileadmin/user_upload/logo-kkg.png' },
+    { slug: 'pnp', name: 'Passauer Neue Presse' },
+    { slug: 'mb21', name: 'Deutscher Multimediapreis mb21', logo: 'https://www.mb21.de/fileadmin/mb21_2021/Design/mb21_logo_2021.svg'},
+    { slug: 'br', name: 'Bayerischer Rundfunk', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Logo-br-2017.svg/1024px-Logo-br-2017.svg.png' },
+    { slug: 'nextcloud', name: 'Nextcloud Conference', logo: 'https://nextcloud.com/wp-content/themes/nextcloud-theme/assets/img/logo-dark.svg' },
+    { slug: 'omv-burghausen', name: 'OMV Burghausen' },
+    { slug: 'rohde-schwarz', name: 'Rohde & Schwarz Cybersecurity' },
+    { slug: 'technik-schaechner', name: 'Technik Schächner' },
+    { slug: 'fau', name: 'Friedrich-Alexander-Universität Erlangen-Nürnberg', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/FAU_logo.svg/1920px-FAU_logo.svg.png'},
+    { slug: 'young-leaders', name: 'young leaders GmbH' },
+    { slug: 'brk', name: 'Bayerisches Rotes Kreuz (BRK)' },
+    { slug: 'bayerischer-judo-verband', name: 'Bayerischer Judo-Verband e.V.' },
+    { slug: 'schachklub-toeging', name: 'Schachklub Töging e.V.'}
+];
+
+export const getOrganizationBySlug = (slug: string) => {
+    return organizationData.find(org => org.slug === slug);
+};
+
+// A mapping for resume organizations to slugs
+export const resumeOrgToSlug: { [key: string]: string } = {
+    "Judoabteilung TuS Töging": "tus-toeging",
+    "OMV Burghausen": "omv-burghausen",
+    "Finale in Dresden": "mb21",
+    "Bayerischer Rundfunk, Unterföhring": "br",
+    "Berlin": "nextcloud",
+    "Rohde & Schwarz Cybersecurity, München": "rohde-schwarz",
+    "Technik Schächner": "technik-schaechner",
+    "König-Karlmann-Gymnasium": "kkg",
+    "Altötting": "kkg",
+    "Friedrich-Alexander-Universität Erlangen-Nürnberg": "fau",
+    "young leaders GmbH": "young-leaders",
+    "Bayerisches Rotes Kreuz (BRK)": "brk",
+    "Bayerischer Judo-Verband e.V.": "bayerischer-judo-verband",
+    "Schachklub Töging e. V.": "schachklub-toeging",
+};

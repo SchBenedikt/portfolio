@@ -14,6 +14,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { projectData } from '@/lib/projects';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { resumeOrgToSlug } from '@/lib/organizations';
+
 
 const about = {
     name: "Benedikt Schächner",
@@ -25,7 +27,7 @@ const about = {
     ]
 }
 
-const timelineEvents = [
+export const timelineEvents = [
     {
         date: "Seit April 2025",
         title: "Schriftführer",
@@ -98,7 +100,7 @@ const timelineEvents = [
     }
 ];
 
-const certificates = [
+export const certificates = [
     {
         title: "Mediator",
         organization: "König-Karlmann-Gymnasium",
@@ -156,27 +158,27 @@ const certificates = [
         skills: ["Trainerassistent"]
     },
     {
-        title: "Turmdiplom Schach",
+        title: "Bauerndiplom",
         organization: "Schachklub Töging e. V.",
-        date: "Dez. 2022",
+        date: "03. Jan. 2020",
         skills: ["Schach"]
     },
     {
-        title: "Läuferdiplom Schach",
+        title: "Springerdiplom",
         organization: "Schachklub Töging e. V.",
-        date: "Sep. 2021",
+        date: "25. Sep. 2020",
         skills: ["Schach"]
     },
     {
-        title: "Springerdiplom Schach",
+        title: "Läuferdiplom",
         organization: "Schachklub Töging e. V.",
-        date: "Sep. 2020",
+        date: "17. Sep. 2021",
         skills: ["Schach"]
     },
     {
-        title: "Bauerndiplom Schach",
+        title: "Turmdiplom",
         organization: "Schachklub Töging e. V.",
-        date: "Jan. 2020",
+        date: "09. Dez. 2022",
         skills: ["Schach"]
     }
 ];
@@ -288,7 +290,11 @@ export default function ResumePage() {
                                             </CardTitle>
                                             <Badge variant="secondary" className="text-xs md:text-sm rounded-md whitespace-nowrap self-start sm:self-center">{event.date}</Badge>
                                         </div>
-                                        <CardDescription className="text-base md:text-lg pt-1 text-primary">{event.organization}</CardDescription>
+                                        <CardDescription className="text-base md:text-lg pt-1 text-primary">
+                                            <Link href={`/organization/${resumeOrgToSlug[event.organization]}`} data-cursor-interactive className="hover:underline">
+                                                {event.organization}
+                                            </Link>
+                                        </CardDescription>
                                     </CardHeader>
                                     <CardContent>
                                         <p className="text-base md:text-lg text-muted-foreground">{event.description}</p>
@@ -310,7 +316,11 @@ export default function ResumePage() {
                                             <CardTitle className="text-lg md:text-2xl font-bold font-headline">{cert.title}</CardTitle>
                                             <Badge variant="secondary" className="text-xs md:text-sm rounded-md whitespace-nowrap self-start sm:self-center">{cert.date}</Badge>
                                         </div>
-                                        <CardDescription className="text-base md:text-lg pt-1 text-primary">{cert.organization}</CardDescription>
+                                        <CardDescription className="text-base md:text-lg pt-1 text-primary">
+                                            <Link href={`/organization/${resumeOrgToSlug[cert.organization]}`} data-cursor-interactive className="hover:underline">
+                                                {cert.organization}
+                                            </Link>
+                                        </CardDescription>
                                     </CardHeader>
                                     <CardContent>
                                         {cert.description && <p className="text-base md:text-lg text-muted-foreground mb-4">{cert.description}</p>}
@@ -369,7 +379,11 @@ export default function ResumePage() {
                                        <CardTitle className="text-lg md:text-2xl font-bold font-headline">{item.title}</CardTitle>
                                        <Badge variant="secondary" className="text-xs md:text-sm rounded-md whitespace-nowrap self-start sm:self-center">{item.date}</Badge>
                                    </div>
-                                   <CardDescription className="text-base md:text-lg pt-1 text-primary">{item.organization}</CardDescription>
+                                    <CardDescription className="text-base md:text-lg pt-1 text-primary">
+                                       <Link href={`/organization/${resumeOrgToSlug[item.organization]}`} data-cursor-interactive className="hover:underline">
+                                            {item.organization}
+                                       </Link>
+                                    </CardDescription>
                                </CardHeader>
                                <CardContent>
                                    {item.description && <p className="text-base md:text-lg text-muted-foreground mb-4">{item.description}</p>}

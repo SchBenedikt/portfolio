@@ -14,6 +14,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { getOrganizationBySlug } from '@/lib/organizations';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -117,7 +118,9 @@ export default function PressPage() {
                                   <div className="flex flex-col-reverse sm:flex-row justify-between sm:items-start gap-4">
                                      <div>
                                           <CardTitle className="text-2xl font-bold font-headline mb-2">{article.title}</CardTitle>
-                                          <CardDescription className="text-base text-primary">{article.source}</CardDescription>
+                                           <Link href={`/organization/${article.organizationSlug}`} data-cursor-interactive className="text-base text-primary hover:underline">
+                                                {getOrganizationBySlug(article.organizationSlug)?.name || article.source}
+                                           </Link>
                                      </div>
                                      <div className="flex items-center gap-2 text-sm text-muted-foreground whitespace-nowrap self-start sm:self-auto">
                                           <Calendar className="w-4 h-4" />
