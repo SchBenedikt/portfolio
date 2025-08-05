@@ -22,6 +22,13 @@ export const articlesData: Article[] = [
         date: '2025-02-23',
         description: 'Bericht über den sportlichen Erfolg beim Schach-Bezirksfinale.',
     },
+     {
+        title: 'KKG-Judomannschaft siegt beim Bezirksfinale',
+        source: 'König-Karlmann-Gymnasium',
+        url: 'https://www.koenig-karlmann-gymnasium.de/news/kkg-judomannschaft-siegt-beim-bezirksfinale/',
+        date: '2024-02-22',
+        description: 'Erfolgreicher Wettkampftag für die Judoka des KKG, die sich den Sieg im Bezirksfinale sicherten.',
+    },
     {
         title: 'Mit Cäsars Tagebuch den 1. Preis geholt',
         source: 'König-Karlmann-Gymnasium',
