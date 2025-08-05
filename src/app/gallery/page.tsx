@@ -92,6 +92,10 @@ export default function GalleryPage() {
                         </Card>
                       </DialogTrigger>
                       <DialogContent className="max-w-4xl p-2 bg-transparent border-none">
+                         <DialogHeader className="sr-only">
+                            <DialogTitle>{item.title}</DialogTitle>
+                            <DialogDescription>{item.description}</DialogDescription>
+                         </DialogHeader>
                          <Image
                             src={item.src}
                             alt={item.alt}
