@@ -353,6 +353,7 @@ function TextGenerator() {
     const [type, setType] = useState('Blog-Idee');
     const [result, setResult] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const handleGenerate = async () => {
         if (!topic) {
@@ -373,6 +374,13 @@ function TextGenerator() {
         }
     };
     
+    useEffect(() => {
+        if (textareaRef.current) {
+            textareaRef.current.style.height = 'auto';
+            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+        }
+    }, [result]);
+
     return (
         <Card className="rounded-3xl shadow-lg w-full">
             <CardHeader>
@@ -403,8 +411,12 @@ function TextGenerator() {
                 </Button>
                 {result && (
                      <div className="p-4 bg-muted rounded-lg space-y-2">
-                        <Label>Ergebnis</Label>
-                        <Textarea value={result} readOnly rows={5} className="w-full bg-transparent p-0 border-none focus:ring-0" />
+                        <Textarea
+                            ref={textareaRef} 
+                            value={result}
+                            readOnly
+                            className="w-full bg-transparent p-0 border-none focus:ring-0 resize-none overflow-hidden" 
+                        />
                     </div>
                 )}
             </CardContent>
