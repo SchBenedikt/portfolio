@@ -20,6 +20,14 @@ export const articlesData: Article[] = [
         description: 'Bericht von der Jahreshauptversammlung der Judoabteilung mit positivem Rückblick auf Erfolge, engagierten Nachwuchs und Neuwahlen der Abteilungsleitung.',
     },
     {
+        title: 'Judokas des TuS stolz auf ihre engagierte Jugend',
+        source: 'Passauer Neue Presse',
+        organizationSlug: 'pnp',
+        url: 'https://www.pnp.de/lokales/landkreis-altoetting/judokas-des-tus-stolz-auf-ihre-engagierte-jugend-18451253',
+        date: '2025-04-16',
+        description: 'Rückblick auf sportliche Erfolge bei der Jahreshauptversammlung – Stefan Franzl als Abteilungsleiter im Amt bestätigt.'
+    },
+    {
         title: 'Titelverteidigung beim Bezirksfinale',
         source: 'König-Karlmann-Gymnasium',
         organizationSlug: 'kkg',
