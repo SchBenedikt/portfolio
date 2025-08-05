@@ -36,7 +36,7 @@ export const QuoteCard = ({ topic }: QuoteCardProps) => {
   }, [fetchQuote]);
 
   return (
-    <Card className="rounded-2xl border-dashed border-primary/50 bg-primary/5">
+    <Card className="rounded-2xl border-border/50">
       <CardContent className="p-6 text-center flex flex-col items-center justify-center min-h-[10rem]">
         {loading ? (
           <div className="space-y-3 w-full">
