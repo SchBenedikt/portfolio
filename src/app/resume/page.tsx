@@ -261,9 +261,9 @@ export default function ResumePage() {
             </motion.div>
 
             <Tabs defaultValue="resume" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-12">
-                <TabsTrigger value="resume">Lebenslauf</TabsTrigger>
-                <TabsTrigger value="current">Aktuelle Tätigkeiten</TabsTrigger>
+              <TabsList className="flex justify-center gap-4 mb-12 bg-transparent p-0">
+                <TabsTrigger value="resume" className="text-lg rounded-full px-6 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=inactive]:bg-muted">Lebenslauf</TabsTrigger>
+                <TabsTrigger value="current" className="text-lg rounded-full px-6 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=inactive]:bg-muted">Aktuelle Tätigkeiten</TabsTrigger>
               </TabsList>
               <TabsContent value="resume">
                 <motion.div variants={itemVariants} className="mb-16">
