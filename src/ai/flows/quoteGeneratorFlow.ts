@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview A flow to generate a daily quote.
@@ -25,20 +26,13 @@ const prompt = ai.definePrompt({
 });
 
 export async function getDailyQuote(): Promise<Quote> {
-  const llmResponse = await ai.generate({
-    model: googleAI.model('gemini-pro'),
-    prompt: await prompt.render(),
-    config: {
-        temperature: 0.9,
+    const { output } = await prompt();
+    
+    if (!output) {
+        return {
+            quote: "Die Zukunft gehört denen, die an die Schönheit ihrer Träume glauben.",
+            author: "Eleanor Roosevelt"
+        }
     }
-  });
-
-  const structuredResponse = llmResponse.output();
-  if (!structuredResponse) {
-    return {
-        quote: "Die Zukunft gehört denen, die an die Schönheit ihrer Träume glauben.",
-        author: "Eleanor Roosevelt"
-    }
-  }
-  return structuredResponse;
+    return output;
 }
