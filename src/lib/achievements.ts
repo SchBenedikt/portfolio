@@ -18,7 +18,8 @@ export type AchievementID =
   | 'DIMENSION_MASTER'
   | 'WORD_SMITH'
   | 'TASK_MANAGER'
-  | 'GALLERY_VIEWER';
+  | 'GALLERY_VIEWER'
+  | 'PRESS_READER';
 
 export interface Achievement {
   id: AchievementID;
@@ -51,6 +52,11 @@ export const achievementsList: Achievement[] = [
     id: 'GALLERY_VIEWER',
     name: 'Der Kurator',
     description: 'Die Bildergalerie besucht.',
+  },
+    {
+    id: 'PRESS_READER',
+    name: 'Im Rampenlicht',
+    description: 'Die Presseseite besucht.',
   },
   {
     id: 'NIGHT_OWL',
