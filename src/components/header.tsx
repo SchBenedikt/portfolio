@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { Menu, FolderKanban, UserSquare, Wrench } from 'lucide-react';
+import { Menu, FolderKanban, UserSquare, Wrench, Link as LinkIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 
@@ -37,6 +37,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
     { href: "/projects", label: "Projekte", icon: <FolderKanban/> },
     { href: "/resume", label: "Lebenslauf", icon: <UserSquare/> },
     { href: "/tools", label: "Tools", icon: <Wrench/> },
+    { href: "/links", label: "Links", icon: <LinkIcon/> },
   ]
 
   const isLabelVisible = (href: string) => {
