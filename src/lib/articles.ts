@@ -20,7 +20,7 @@ export const articlesData: Article[] = [
         source: 'König-Karlmann-Gymnasium',
         url: 'https://www.koenig-karlmann-gymnasium.de/news/titelverteidigung-beim-bezirksfinale/',
         date: '2025-02-23',
-        description: 'Bericht über den sportlichen Erfolg beim Schach-Bezirksfinale.',
+        description: 'Die Judo-Schulmannschaft qualifiziert sich nach einem spannenden Wettkampf gegen das Gymnasium Puchheim für das Landesfinale in München.',
     },
     {
         title: 'Bundesregierung ehrt Schächner-Brüder',
