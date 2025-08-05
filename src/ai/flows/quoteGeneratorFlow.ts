@@ -19,11 +19,14 @@ export type Quote = z.infer<typeof QuoteSchema>;
 
 const prompt = ai.definePrompt({
   name: 'quoteGeneratorPrompt',
-  model: googleAI.model('gemini-pro'),
+  model: googleAI.model('gemini-1.5-flash-latest'),
   output: { schema: QuoteSchema },
   prompt: `Generiere ein inspirierendes, kurzes Zitat von einer berühmten Persönlichkeit (z.B. Unternehmer, Wissenschaftler, Künstler) über die Themen Arbeit, Erfolg oder Zukunft.
   
   Antworte immer auf Deutsch. Gib nur das Zitat und den Autor zurück.`,
+  config: {
+    temperature: 1,
+  }
 });
 
 export async function getDailyQuote(): Promise<Quote> {
