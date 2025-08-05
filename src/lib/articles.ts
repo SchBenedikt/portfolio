@@ -23,7 +23,7 @@ export const articlesData: Article[] = [
         description: 'Die Judo-Schulmannschaft qualifiziert sich nach einem spannenden Wettkampf gegen das Gymnasium Puchheim für das Landesfinale in München.',
     },
     {
-        title: 'Bundesregierung ehrt Schächner-Brüder',
+        title: 'Vertreterin der Bundesregierung ehrt in Dresden Vinzenz und Benedikt Schächner aus Pleiskirchen',
         source: 'Passauer Neue Presse',
         url: 'https://www.pnp.de/lokales/landkreis-altoetting/vertreterin-der-bundesregierung-ehrt-in-dresden-vinzenz-und-benedikt-schaechner-aus-pleiskirchen-17504456',
         date: '2024-11-26',
@@ -31,14 +31,14 @@ export const articlesData: Article[] = [
     },
     {
         title: 'Ein Feldherr als Influencer',
-        source: 'Alt-Neuöttinger Anzeiger (Facebook)',
+        source: 'Alt-Neuöttinger Anzeiger',
         url: 'https://www.facebook.com/altneuoettingeranzeiger/posts/mit-ihrem-multimedialen-projekt-meum-diarium-ein-feldherr-als-influencer-haben-d/1209892657393185/',
         date: '2024-11-26',
         description: 'Der Alt-Neuöttinger Anzeiger hebt auf Facebook das preisgekrönte Multimediaprojekt „Meum Diarium“ hervor.',
     },
     {
         title: 'Laudatio zum Hauptpreis „Meum Diarium“',
-        source: 'Deutscher Multimediapreis mb21 (YouTube)',
+        source: 'Deutscher Multimediapreis mb21',
         url: 'https://www.youtube.com/watch?v=l-50niYLKXo',
         date: '2024-11-23',
         description: 'Die offizielle Laudatio zum Gewinn des Hauptpreises. Die Jury lobt den Witz, die Detailverliebtheit und die kreative Verbindung von Antike und Moderne.'
@@ -73,7 +73,7 @@ export const articlesData: Article[] = [
     },
      {
         title: 'Lightning Talk bei der Nextcloud Conference',
-        source: 'Nextcloud (YouTube)',
+        source: 'YouTube',
         url: 'https://www.youtube.com/watch?v=zMfyJDge7is',
         date: '2024-10-25',
         description: 'Ein Vortrag über die Absicherung von privat gehosteten Nextcloud-Instanzen, Vor- und Nachteile von Sicherheitsmaßnahmen und den sinnvollen Einsatz in der Familie.'
