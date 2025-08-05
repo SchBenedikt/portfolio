@@ -72,6 +72,13 @@ export const articlesData: Article[] = [
         description: 'Vorstellung des Projekts „Meum Diarium“, bei dem Julius Cäsar als moderner Influencer auftritt.',
     },
     {
+        title: 'Nestgeflüster – wia ma da Schnåbl gwachsn is',
+        source: 'König-Karlmann-Gymnasium',
+        url: 'https://www.koenig-karlmann-gymnasium.de/news/nestgefluester-wia-ma-da-schnabl-gwachsn-is/',
+        date: '2020-06-09',
+        description: 'Bericht über die Teilnahme am Dialektwettbewerb „Nestgeflüster“, bei dem ein selbst verfasstes und vertontes Gstanzl eingereicht wurde.',
+    },
+    {
         title: 'Lesen was geht!',
         source: 'König-Karlmann-Gymnasium',
         url: 'https://www.koenig-karlmann-gymnasium.de/news/lesen-was-geht/',
