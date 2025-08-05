@@ -13,7 +13,8 @@ import { useAchievements } from '@/components/providers/achievements-provider';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { projectData } from '@/lib/projects';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { QuoteCard } from '@/components/quote-card';
 
 const about = {
     name: "Benedikt Schächner",
@@ -219,6 +220,10 @@ export default function ResumePage() {
                         </Link>
                     </Button>
                 ))}
+            </motion.div>
+
+            <motion.div variants={itemVariants} className="mb-12">
+              <QuoteCard topic={about.title} />
             </motion.div>
 
             <Tabs defaultValue="resume" className="w-full">
