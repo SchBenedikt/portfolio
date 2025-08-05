@@ -14,7 +14,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { projectData } from '@/lib/projects';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { QuoteCard } from '@/components/quote-card';
 
 const about = {
     name: "Benedikt Schächner",
@@ -223,7 +222,16 @@ export default function ResumePage() {
             </motion.div>
 
             <motion.div variants={itemVariants} className="mb-12">
-              <QuoteCard topic={about.title} />
+              <Card className="rounded-2xl border-border/50">
+                <CardContent className="p-4 text-center flex flex-col items-center justify-center relative min-h-[10rem]">
+                  <blockquote className="text-base md:text-lg font-medium">
+                      „Arbeite hart, habe Spaß und schreibe Geschichte.“
+                  </blockquote>
+                  <cite className="text-sm text-muted-foreground mt-2 block">
+                      – Jeff Bezos
+                  </cite>
+                </CardContent>
+              </Card>
             </motion.div>
 
             <Tabs defaultValue="resume" className="w-full">
@@ -361,5 +369,3 @@ export default function ResumePage() {
     </div>
   );
 }
-
-    
