@@ -32,10 +32,9 @@ const prompt = ai.definePrompt({
   model: googleAI.model('gemini-1.5-flash-latest'),
   input: { schema: QuoteInputSchema },
   output: { schema: QuoteOutputSchema },
-  prompt: `Generate a short, inspiring, and witty quote related to the user's role: {{{topic}}}. 
-  The quote should be suitable for a creative portfolio. It can be a real quote or an original one. 
-  If it's a real quote, provide the author. If it's an AI-generated original, set the author to "AI". 
-  Keep the quote to a maximum of 25 words.`,
+  prompt: `Provide a famous quote about success from a well-known person.
+  The quote must be translated into German.
+  Provide the original author of the quote.`,
 });
 
 const quoteFlow = ai.defineFlow(
