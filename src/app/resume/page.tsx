@@ -110,6 +110,12 @@ const certificates = [
         isCurrent: true
     },
     {
+        title: "Großes Latinum",
+        organization: "König-Karlmann-Gymnasium",
+        date: "Juli 2025",
+        skills: ["Latein"],
+    },
+    {
         title: "Königsdiplom Schach",
         organization: "Schachklub Töging e. V.",
         date: "Juli 2025",
