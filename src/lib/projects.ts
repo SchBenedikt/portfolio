@@ -36,7 +36,7 @@ export const projectData = [
   {
     title: '@judo_tus_toeging',
     slug: 'tus-toeging-judo-instagram',
-    description: 'Verwaltung und Gestaltung des offiziellen Instagram-Kanals der Judoabteilung des TuS Töging, ausgezeichnet als „Top-Verein“ des Bayerischen Judo-Verbands.',
+    description: 'Verwaltung und Gestaltung des offiziellen Instagram-Kanals der Judoabteilung des TuS Töging. Der Verein wurde als „Top-Verein“ des Bayerischen Judo-Verbands ausgezeichnet.',
     longDescription: `
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Überblick</h3>
       <p>Dieses Projekt umfasst die Mitverwaltung und inhaltliche Gestaltung des Instagram-Kanals der TuS Töging Judoabteilung. Als „Top-Verein“ des Bayerischen Judo-Verbands (2024-2028) ist eine moderne und ansprechende Online-Präsenz entscheidend, um Mitglieder zu informieren und neue Interessenten zu gewinnen.</p>
@@ -192,3 +192,5 @@ export const projectData = [
     }
   },
 ];
+
+    
