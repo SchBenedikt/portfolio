@@ -38,28 +38,28 @@ export const QuoteCard = ({ topic }: QuoteCardProps) => {
 
   return (
     <Card className="rounded-2xl border-border/50">
-      <CardContent className="p-6 text-center flex flex-col items-center justify-center relative min-h-[12rem]">
+      <CardContent className="p-4 text-center flex flex-col items-center justify-center relative min-h-[10rem]">
         <div className="flex-grow flex flex-col items-center justify-center">
             {loading ? (
             <div className="space-y-3 w-full">
-                <Skeleton className="h-5 w-3/4 mx-auto" />
-                <Skeleton className="h-5 w-1/2 mx-auto" />
-                <Skeleton className="h-4 w-1/4 mx-auto mt-2" />
+                <Skeleton className="h-4 w-3/4 mx-auto" />
+                <Skeleton className="h-4 w-1/2 mx-auto" />
+                <Skeleton className="h-3 w-1/4 mx-auto mt-2" />
             </div>
             ) : (
             quote && (
                 <>
-                <blockquote className="text-lg md:text-xl font-medium">
+                <blockquote className="text-base md:text-lg font-medium">
                     „{quote.quote}“
                 </blockquote>
-                <cite className="text-sm text-muted-foreground mt-3 block">
+                <cite className="text-sm text-muted-foreground mt-2 block">
                     – {quote.author}
                 </cite>
                 </>
             )
             )}
         </div>
-        <div className="absolute bottom-4 right-4">
+        <div className="absolute bottom-2 right-2">
             <Button
                 variant="ghost"
                 size="icon"
