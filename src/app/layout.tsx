@@ -63,7 +63,7 @@ export default function RootLayout({
       <body className={`${rubik.variable} ${fontMono.variable} font-body antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
