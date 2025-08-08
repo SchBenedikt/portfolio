@@ -7,6 +7,7 @@ import { Rubik, JetBrains_Mono as FontMono } from 'next/font/google';
 import { AchievementsProvider } from '@/components/providers/achievements-provider';
 import { Toaster as SonnerToaster } from '@/components/ui/sonner';
 import CustomCursor from '@/components/custom-cursor';
+import Link from 'next/link';
 
 const rubik = Rubik({
   subsets: ['latin'],
@@ -39,6 +40,16 @@ export const metadata: Metadata = {
     ],
   },
 };
+
+const pagesToPrefetch = [
+    '/',
+    '/projects',
+    '/resume',
+    '/gallery',
+    '/press',
+    '/tools',
+    '/links',
+];
 
 export default function RootLayout({
   children,
@@ -74,6 +85,11 @@ export default function RootLayout({
               <SonnerToaster />
           </AchievementsProvider>
         </ThemeProvider>
+         <div style={{ display: 'none' }}>
+            {pagesToPrefetch.map(page => (
+                <Link key={page} href={page} prefetch={true} />
+            ))}
+        </div>
       </body>
     </html>
   );
