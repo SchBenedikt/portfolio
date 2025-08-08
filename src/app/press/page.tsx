@@ -117,11 +117,11 @@ export default function PressPage() {
                               <div className="flex flex-col-reverse sm:flex-row justify-between sm:items-start gap-4">
                                   <div>
                                       <CardTitle className="text-2xl font-bold font-headline mb-2">
-                                        <Link href={article.url} target="_blank" rel="noopener noreferrer" data-cursor-interactive className="hover:text-primary transition-colors">
+                                        <Link href={article.url} target="_blank" rel="noopener noreferrer" data-cursor-interactive className="hover:text-primary transition-colors" prefetch>
                                           {article.title}
                                         </Link>
                                       </CardTitle>
-                                      <Link href={`/organization/${article.organizationSlug}`} data-cursor-interactive className="text-base text-primary hover:underline">
+                                      <Link href={`/organization/${article.organizationSlug}`} data-cursor-interactive className="text-base text-primary hover:underline" prefetch>
                                           {getOrganizationBySlug(article.organizationSlug)?.name || article.source}
                                       </Link>
                                   </div>
@@ -134,7 +134,7 @@ export default function PressPage() {
                             <CardContent className="p-6 md:p-8 pt-0 flex-grow flex flex-col">
                                 <p className="text-muted-foreground text-base flex-grow">{article.description}</p>
                                 <Button asChild variant="outline" className="rounded-full mt-4 self-start group-hover:bg-accent group-hover:text-accent-foreground" data-cursor-interactive>
-                                  <Link href={article.url} target="_blank" rel="noopener noreferrer">
+                                  <Link href={article.url} target="_blank" rel="noopener noreferrer" prefetch>
                                     <span>Artikel lesen</span>
                                     <ArrowUpRight className="ml-2 w-5 h-5 transform-gpu transition-transform group-hover:rotate-45" />
                                   </Link>

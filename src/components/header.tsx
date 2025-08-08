@@ -90,6 +90,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
                     href="/"
                     className="text-2xl md:text-3xl font-black uppercase tracking-widest font-headline hover:text-primary transition-colors"
                     data-cursor-interactive
+                    prefetch
                   >
                     BS
                   </Link>
@@ -105,7 +106,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
                   className="p-1 rounded-full bg-muted/50 backdrop-blur-lg"
                 >
                   <Button asChild variant={'ghost'} className={cn("rounded-full relative")} data-cursor-interactive>
-                      <Link href="/" className="flex items-center gap-1">
+                      <Link href="/" className="flex items-center gap-1" prefetch>
                         <span className="font-headline text-base">BS</span>
                       </Link>
                   </Button>
@@ -136,7 +137,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
                             onMouseEnter={() => setHoveredHref(link.href)}
                             data-cursor-interactive
                         >
-                            <Link href={link.href} className="flex items-center gap-1">
+                            <Link href={link.href} className="flex items-center gap-1" prefetch>
                                 {React.cloneElement(link.icon as React.ReactElement, { className: "w-4 h-4" })}
                                 <AnimatePresence>
                                 {showLabel && (
@@ -198,7 +199,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
                   <Link href={link.href} key={link.href} className={cn(
                     "flex flex-col items-center justify-center gap-1 w-full h-full transition-colors",
                     pathname === link.href ? "text-primary" : "text-muted-foreground hover:text-primary"
-                  )}>
+                  )} prefetch>
                       {React.cloneElement(link.icon as React.ReactElement, { className: "w-6 h-6" })}
                       <span className="text-xs font-medium">{link.label}</span>
                   </Link>

@@ -110,7 +110,7 @@ export default function LinksPage() {
                     <h2 className="text-sm font-semibold uppercase text-muted-foreground tracking-wider text-center mb-4">Wichtige Links</h2>
                     <div className="grid grid-cols-2 gap-4">
                       {mainLinks.map((link) => (
-                        <Link href={link.href} key={link.href} target={link.href.startsWith('http') ? '_blank' : '_self'} data-cursor-interactive>
+                        <Link href={link.href} key={link.href} target={link.href.startsWith('http') ? '_blank' : '_self'} data-cursor-interactive prefetch>
                             <Card className="group relative rounded-2xl overflow-hidden text-center h-32 flex flex-col justify-center items-center hover:bg-muted/50 transition-colors">
                               <div className={cn("p-3 rounded-full mb-2 transition-colors", link.color)}>
                                 {link.icon}
@@ -127,7 +127,7 @@ export default function LinksPage() {
                     <div className="space-y-3">
                       {secondaryLinks.map((link) => (
                           <div key={link.href}>
-                            <Link href={link.href} target={link.href.startsWith('http') ? '_blank' : '_self'} data-cursor-interactive>
+                            <Link href={link.href} target={link.href.startsWith('http') ? '_blank' : '_self'} data-cursor-interactive prefetch>
                                <Card className="group relative p-4 rounded-xl hover:bg-muted/50 transition-colors">
                                   <div className="flex items-center">
                                     <div className="w-6 mr-4 text-muted-foreground">{link.icon}</div>
@@ -146,7 +146,7 @@ export default function LinksPage() {
                     <div className="space-y-3">
                       {projectLinks.map((link) => (
                           <div key={link.href}>
-                            <Link href={link.href} target={link.href.startsWith('http') ? '_blank' : '_self'} data-cursor-interactive>
+                            <Link href={link.href} target={link.href.startsWith('http') ? '_blank' : '_self'} data-cursor-interactive prefetch>
                                <Card className="group relative p-4 rounded-xl hover:bg-muted/50 transition-colors">
                                   <div className="flex items-center">
                                     <div className="w-6 mr-4 text-muted-foreground">{link.icon}</div>

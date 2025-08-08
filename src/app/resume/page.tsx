@@ -239,7 +239,7 @@ export default function ResumePage() {
             <motion.div variants={itemVariants} className="flex justify-center gap-2 md:gap-4 mb-12 flex-wrap">
                 {about.links.map(link => (
                     <Button key={link.name} asChild variant="outline" className="rounded-full" data-cursor-interactive>
-                        <Link href={link.url} target="_blank">
+                        <Link href={link.url} target="_blank" prefetch>
                             {React.cloneElement(link.icon, { className: "mr-2" })}
                             {link.name}
                         </Link>
@@ -281,7 +281,7 @@ export default function ResumePage() {
                                         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
                                             <CardTitle className="text-lg md:text-2xl font-bold font-headline">
                                             {event.projectSlug ? (
-                                                <Link href={`/projects/${event.projectSlug}`} className="hover:text-primary transition-colors">
+                                                <Link href={`/projects/${event.projectSlug}`} className="hover:text-primary transition-colors" prefetch>
                                                 {event.title}
                                                 </Link>
                                             ) : (
@@ -291,7 +291,7 @@ export default function ResumePage() {
                                             <Badge variant="secondary" className="text-xs md:text-sm rounded-md whitespace-nowrap self-start sm:self-center">{event.date}</Badge>
                                         </div>
                                         <CardDescription className="text-base md:text-lg pt-1 text-primary">
-                                            <Link href={`/organization/${resumeOrgToSlug[event.organization]}`} data-cursor-interactive className="hover:underline">
+                                            <Link href={`/organization/${resumeOrgToSlug[event.organization]}`} data-cursor-interactive className="hover:underline" prefetch>
                                                 {event.organization}
                                             </Link>
                                         </CardDescription>
@@ -317,7 +317,7 @@ export default function ResumePage() {
                                             <Badge variant="secondary" className="text-xs md:text-sm rounded-md whitespace-nowrap self-start sm:self-center">{cert.date}</Badge>
                                         </div>
                                         <CardDescription className="text-base md:text-lg pt-1 text-primary">
-                                            <Link href={`/organization/${resumeOrgToSlug[cert.organization]}`} data-cursor-interactive className="hover:underline">
+                                            <Link href={`/organization/${resumeOrgToSlug[cert.organization]}`} data-cursor-interactive className="hover:underline" prefetch>
                                                 {cert.organization}
                                             </Link>
                                         </CardDescription>
@@ -380,7 +380,7 @@ export default function ResumePage() {
                                        <Badge variant="secondary" className="text-xs md:text-sm rounded-md whitespace-nowrap self-start sm:self-center">{item.date}</Badge>
                                    </div>
                                     <CardDescription className="text-base md:text-lg pt-1 text-primary">
-                                       <Link href={`/organization/${resumeOrgToSlug[item.organization]}`} data-cursor-interactive className="hover:underline">
+                                       <Link href={`/organization/${resumeOrgToSlug[item.organization]}`} data-cursor-interactive className="hover:underline" prefetch>
                                             {item.organization}
                                        </Link>
                                     </CardDescription>

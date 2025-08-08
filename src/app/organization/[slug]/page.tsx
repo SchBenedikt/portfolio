@@ -39,7 +39,7 @@ export default function OrganizationPage() {
           >
             <div className="mb-8">
               <Button asChild variant="outline" className="rounded-full" data-cursor-interactive>
-                <Link href="/resume">
+                <Link href="/resume" prefetch>
                   <ArrowLeft className="mr-2" />
                   Zurück zum Lebenslauf
                 </Link>
@@ -115,7 +115,7 @@ export default function OrganizationPage() {
                             <div className="columns-1 md:columns-2 gap-8 space-y-8">
                             {relatedArticles.map((article) => (
                             <div key={article.url} className="break-inside-avoid">
-                                <Link href={article.url} target="_blank" rel="noopener noreferrer" data-cursor-interactive className="h-full flex">
+                                <Link href={article.url} target="_blank" rel="noopener noreferrer" data-cursor-interactive className="h-full flex" prefetch>
                                     <Card className="group rounded-2xl overflow-hidden transition-all hover:border-primary/50 hover:bg-muted/30 w-full flex flex-col">
                                     <CardHeader className="p-6 md:p-8">
                                         <CardTitle className="text-2xl font-bold font-headline mb-2">{article.title}</CardTitle>

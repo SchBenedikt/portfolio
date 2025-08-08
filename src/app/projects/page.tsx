@@ -120,7 +120,7 @@ export default function ProjectsPage() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 mt-auto">
                           <Button asChild className="rounded-full" data-cursor-interactive>
-                            <Link href={`/projects/${project.slug}`}>
+                            <Link href={`/projects/${project.slug}`} prefetch>
                                 Details ansehen <ArrowRight className="ml-2"/>
                             </Link>
                           </Button>

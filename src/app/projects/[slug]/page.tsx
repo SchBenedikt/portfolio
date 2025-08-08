@@ -61,7 +61,7 @@ export default function ProjectPage() {
           >
             <div className="mb-8">
               <Button asChild variant="outline" className="rounded-full" data-cursor-interactive>
-                <Link href="/projects">
+                <Link href="/projects" prefetch>
                   <ArrowLeft className="mr-2" />
                   Zurück zu den Projekten
                 </Link>
@@ -173,7 +173,7 @@ export default function ProjectPage() {
                         )}
                      </div>
                      <Button asChild variant="outline" className="w-full rounded-full" data-cursor-interactive disabled={!hasValidUrl}>
-                        <Link href={project.url} target="_blank" rel="noopener noreferrer">
+                        <Link href={project.url} target="_blank" rel="noopener noreferrer" prefetch>
                            {buttonIcon}
                            {buttonText}
                         </Link>
@@ -213,7 +213,7 @@ export default function ProjectPage() {
                                       <h3 className="text-2xl font-bold font-headline mb-2">{proj.title}</h3>
                                       <p className="text-muted-foreground text-sm mb-4 flex-grow">{proj.description}</p>
                                       <Button asChild size="sm" className="rounded-full mt-auto self-start" data-cursor-interactive>
-                                          <Link href={`/projects/${proj.slug}`}>
+                                          <Link href={`/projects/${proj.slug}`} prefetch>
                                               Details ansehen <ArrowRight className="ml-2"/>
                                           </Link>
                                       </Button>
