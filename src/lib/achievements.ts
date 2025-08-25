@@ -14,9 +14,7 @@ export type AchievementID =
   | 'TOOL_MASTER'
   | 'SECRET_AGENT'
   | 'COLOR_ARTIST'
-  | 'TIME_STOPPER'
   | 'DIMENSION_MASTER'
-  | 'WORD_SMITH'
   | 'TASK_MANAGER'
   | 'GALLERY_VIEWER'
   | 'PRESS_READER';
@@ -109,19 +107,9 @@ export const achievementsList: Achievement[] = [
     description: 'Eine Farbpalette generiert.'
   },
   {
-    id: 'TIME_STOPPER',
-    name: 'Zeitstopper',
-    description: 'Die Stoppuhr verwendet.'
-  },
-  {
     id: 'DIMENSION_MASTER',
     name: 'Meister der Maße',
     description: 'Den Einheitenumrechner verwendet.'
-  },
-  {
-    id: 'WORD_SMITH',
-    name: 'Wortschöpfer',
-    description: 'Den KI-Textgenerator verwendet.'
   },
   {
     id: 'TASK_MANAGER',
