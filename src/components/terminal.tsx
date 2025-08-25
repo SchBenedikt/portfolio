@@ -66,7 +66,6 @@ const typingSentences = [
 
 const quizQuestions = [
     { question: "Welches Projekt gewann den Deutschen Multimediapreis?", answer: "meum diarium" },
-    { question: "Welches Tool generiert sichere Zugangscodes?", answer: "passwort-generator" },
     { question: "Welches Kommando startet den Text-Editor im Terminal?", answer: "nano" },
     { question: "In welcher Sportart ist Benedikt Trainerassistent?", answer: "judo" },
     { question: "Wie heißt der KI-Chatbot im Projekt 'Meum Diarium'?", answer: "caesar-ki" }
@@ -591,6 +590,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
                     const content = nodeToEdit ? nodeToEdit.content : '';
                     setNanoFile({ path: resolvedPath, content: content });
                     setIsNanoMode(true);
+                    unlockAchievement('NANO_EDITOR');
                 }
                 break;
             case 'view':
@@ -829,5 +829,3 @@ export const Terminal = ({ onExit }: TerminalProps) => {
     </>
   );
 };
-
-    
