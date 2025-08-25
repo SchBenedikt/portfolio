@@ -37,7 +37,9 @@ export const AchievementsProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const allAchievementsUnlocked = useCallback(() => {
-     return achievementsList.every((ach) => unlockedAchievements.has(ach.id));
+     // Exclude COMPLETIONIST from the list to check against
+     const regularAchievements = achievementsList.filter(a => a.id !== 'COMPLETIONIST');
+     return regularAchievements.every((ach) => unlockedAchievements.has(ach.id));
   }, [unlockedAchievements]);
 
 
@@ -56,10 +58,13 @@ export const AchievementsProvider = ({ children }: { children: ReactNode }) => {
         });
       }
 
-      const allUnlocked = achievementsList.every((ach) => newAchievements.has(ach.id));
+      // Check for completionist achievement
+      const regularAchievements = achievementsList.filter(a => a.id !== 'COMPLETIONIST');
+      const allUnlocked = regularAchievements.every((ach) => newAchievements.has(ach.id));
+
       if(allUnlocked && !newAchievements.has('COMPLETIONIST')){
          const completionistAchievement = achievementsList.find((a) => a.id === 'COMPLETIONIST');
-         if(completionistAchievement && !newAchievements.has('COMPLETIONIST')){
+         if(completionistAchievement){
             const finalAchievements = new Set(newAchievements);
             finalAchievements.add('COMPLETIONIST');
             setUnlockedAchievements(finalAchievements);
@@ -87,3 +92,5 @@ export const useAchievements = () => {
   }
   return context;
 };
+
+    

@@ -13,6 +13,7 @@ import { achievementsList } from '@/lib/achievements';
 import { useAchievements } from './providers/achievements-provider';
 import { CheckCircle, Lock, Trophy } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useMemo } from 'react';
 
 interface AchievementsModalProps {
   isOpen: boolean;
@@ -22,7 +23,22 @@ interface AchievementsModalProps {
 export const AchievementsModal = ({ isOpen, onClose }: AchievementsModalProps) => {
   const { unlockedAchievements, allAchievementsUnlocked } = useAchievements();
 
+  const completionistAchievement = {
+    id: 'COMPLETIONIST',
+    name: 'Perfektionist',
+    description: 'Schalte alle anderen Erfolge frei.',
+  };
+
+  const regularAchievements = useMemo(() => achievementsList.filter(a => a.id !== 'COMPLETIONIST'), []);
   const completionistUnlocked = allAchievementsUnlocked();
+  
+  const unlockedCount = useMemo(() => {
+    // Count only regular achievements for the progress bar
+    const unlockedRegular = regularAchievements.filter(ach => unlockedAchievements.has(ach.id)).length;
+    return completionistUnlocked ? unlockedRegular + 1 : unlockedRegular;
+  }, [unlockedAchievements, regularAchievements, completionistUnlocked]);
+
+  const totalAchievements = regularAchievements.length + 1; // +1 for completionist
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -33,12 +49,12 @@ export const AchievementsModal = ({ isOpen, onClose }: AchievementsModalProps) =
             Erfolge
           </DialogTitle>
           <DialogDescription>
-            Du hast {unlockedAchievements.size} von {achievementsList.length} Erfolgen freigeschaltet.
+            Du hast {unlockedCount} von {totalAchievements} Erfolgen freigeschaltet.
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-72 pr-4">
           <div className="space-y-4">
-            {achievementsList.map((achievement) => (
+            {regularAchievements.map((achievement) => (
               <div
                 key={achievement.id}
                 className={cn(
@@ -68,21 +84,21 @@ export const AchievementsModal = ({ isOpen, onClose }: AchievementsModalProps) =
                 className={cn(
                   'flex items-start gap-4 rounded-lg border p-4 transition-colors',
                   completionistUnlocked
-                    ? 'border-primary/50 bg-primary/10'
+                    ? 'border-yellow-500/50 bg-yellow-500/10' // Special styling for the ultimate achievement
                     : 'bg-muted/50'
                 )}
               >
                 <div className="mt-1">
                   {completionistUnlocked ? (
-                    <CheckCircle className="h-5 w-5 text-primary" />
+                    <Trophy className="h-5 w-5 text-yellow-500" />
                   ) : (
                     <Lock className="h-5 w-5 text-muted-foreground" />
                   )}
                 </div>
                 <div>
-                  <h3 className="font-semibold">Perfektionist</h3>
+                  <h3 className="font-semibold">{completionistAchievement.name}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Schalte alle anderen Erfolge frei.
+                    {completionistAchievement.description}
                   </p>
                 </div>
               </div>
@@ -92,3 +108,5 @@ export const AchievementsModal = ({ isOpen, onClose }: AchievementsModalProps) =
     </Dialog>
   );
 };
+
+    

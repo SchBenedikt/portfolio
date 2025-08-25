@@ -30,7 +30,7 @@ type FileSystemNode = {
 };
 
 
-type GameType = 'none' | 'number_guesser' | 'typing_test' | 'matrix';
+type GameType = 'none' | 'number_guesser' | 'typing_test' | 'matrix' | 'quiz' | 'rps';
 type LoginState = 'prompting' | 'logging_in' | 'loggedin';
 
 const initialFileSystem: { [key: string]: FileSystemNode } = {
@@ -64,6 +64,15 @@ const typingSentences = [
     "Next.js und React ermöglichen den Bau moderner Webanwendungen."
 ];
 
+const quizQuestions = [
+    { question: "Welches Projekt gewann den Deutschen Multimediapreis?", answer: "meum diarium" },
+    { question: "Welches Tool generiert sichere Zugangscodes?", answer: "passwort-generator" },
+    { question: "Welches Kommando startet den Text-Editor im Terminal?", answer: "nano" },
+    { question: "In welcher Sportart ist Benedikt Trainerassistent?", answer: "judo" },
+    { question: "Wie heißt der KI-Chatbot im Projekt 'Meum Diarium'?", answer: "caesar-ki" }
+];
+
+
 export const Terminal = ({ onExit }: TerminalProps) => {
   const { setTheme } = useTheme();
   const { unlockAchievement } = useAchievements();
@@ -94,6 +103,8 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   const [attempts, setAttempts] = useState(0);
   const [textToType, setTextToType] = useState('');
   const [typingStartTime, setTypingStartTime] = useState(0);
+  const [quizQuestionIndex, setQuizQuestionIndex] = useState(0);
+  const [quizScore, setQuizScore] = useState(0);
 
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -292,8 +303,53 @@ export const Terminal = ({ onExit }: TerminalProps) => {
              output += `\nVersuch es nochmal, um den Erfolg freizuschalten! (WPM > 30, Genauigkeit > 90%)`;
         }
         setGameState('none');
+    } else if (gameState === 'quiz') {
+        const currentQuestion = quizQuestions[quizQuestionIndex];
+        if (command.toLowerCase() === currentQuestion.answer.toLowerCase()) {
+            output = "Richtig!\n\n";
+            setQuizScore(prev => prev + 1);
+        } else {
+            output = `Falsch. Die richtige Antwort war: ${currentQuestion.answer}\n\n`;
+        }
+
+        if (quizQuestionIndex < quizQuestions.length - 1) {
+            const nextQuestion = quizQuestions[quizQuestionIndex + 1];
+            output += `Nächste Frage: ${nextQuestion.question}`;
+            setQuizQuestionIndex(prev => prev + 1);
+        } else {
+            const finalScore = quizScore + (command.toLowerCase() === currentQuestion.answer.toLowerCase() ? 1 : 0);
+            output += `Quiz beendet! Du hast ${finalScore} von ${quizQuestions.length} Fragen richtig beantwortet.`;
+            if (finalScore === quizQuestions.length) {
+                output += "\nPerfekt! Du bist ein echter Kenner.";
+                unlockAchievement('QUIZ_MASTER');
+            }
+            setGameState('none');
+        }
+    } else if (gameState === 'rps') {
+        const choices = ['schere', 'stein', 'papier'];
+        const userChoice = command.toLowerCase();
+        if (!choices.includes(userChoice)) {
+            output = "Ungültige Eingabe. Wähle 'schere', 'stein' oder 'papier'.";
+        } else {
+            const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+            output = `Du hast ${userChoice} gewählt, der Computer hat ${computerChoice} gewählt.\n\n`;
+
+            if (userChoice === computerChoice) {
+                output += "Unentschieden!";
+            } else if (
+                (userChoice === 'stein' && computerChoice === 'schere') ||
+                (userChoice === 'schere' && computerChoice === 'papier') ||
+                (userChoice === 'papier' && computerChoice === 'stein')
+            ) {
+                output += "Du gewinnst!";
+                unlockAchievement('INVINCIBLE');
+            } else {
+                output += "Du verlierst!";
+            }
+            output += "\n\nNochmal? (schere, stein, papier) oder 'exit' zum Beenden.";
+        }
     }
-    
+
     setHistory([...newHistory, { type: 'output', content: output, path: `~/${currentPath.join('/')}` }]);
   }
   
@@ -339,7 +395,9 @@ export const Terminal = ({ onExit }: TerminalProps) => {
   --------------------
   matrix            - Startet einen geheimen Modus
   game              - Startet das Zahlenratespiel
-  typing-test       - Startet den Schreibgeschwindigkeitstest`;
+  typing-test       - Startet den Schreibgeschwindigkeitstest
+  quiz              - Startet ein Quiz über mich und meine Projekte
+  rps               - Spielt eine Runde Schere, Stein, Papier`;
         break;
       case 'reset':
         output = "Alle Einstellungen werden zurückgesetzt. Das Terminal wird neu gestartet...";
@@ -407,6 +465,16 @@ export const Terminal = ({ onExit }: TerminalProps) => {
         setGameState('typing_test');
         output = `Tippe den folgenden Satz so schnell wie möglich und drücke Enter:\n\n'${text}'`;
         break;
+      case 'quiz':
+          setGameState('quiz');
+          setQuizQuestionIndex(0);
+          setQuizScore(0);
+          output = `Quiz gestartet!\n\nFrage 1: ${quizQuestions[0].question}`;
+          break;
+      case 'rps':
+          setGameState('rps');
+          output = "Schere, Stein, Papier! Wähle deine Waffe (oder tippe 'exit').";
+          break;
       case 'ls':
         const targetPathLs = args[0] ? resolvePath(args[0]) : currentPath;
         const nodeLs = getNodeByPath(targetPathLs);
@@ -761,3 +829,5 @@ export const Terminal = ({ onExit }: TerminalProps) => {
     </>
   );
 };
+
+    

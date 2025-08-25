@@ -17,7 +17,10 @@ export type AchievementID =
   | 'DIMENSION_MASTER'
   | 'TASK_MANAGER'
   | 'GALLERY_VIEWER'
-  | 'PRESS_READER';
+  | 'PRESS_READER'
+  | 'QUIZ_MASTER'
+  | 'INVINCIBLE'
+  | 'NANO_EDITOR';
 
 export interface Achievement {
   id: AchievementID;
@@ -67,11 +70,6 @@ export const achievementsList: Achievement[] = [
     description: 'In den Light-Mode gewechselt.',
   },
   {
-    id: 'GAMER',
-    name: 'Highscore',
-    description: 'Du hast das Zahlenratespiel gewonnen.',
-  },
-  {
     id: 'VIEW_SWITCHER',
     name: 'Doppelte Perspektive',
     description: 'Zwischen UI- und Terminal-Ansicht gewechselt.',
@@ -85,11 +83,6 @@ export const achievementsList: Achievement[] = [
     id: 'SECRET_FINDER',
     name: 'Geheimnisfinder',
     description: 'Einen geheimen Befehl im Terminal gefunden.',
-  },
-  {
-    id: 'KEYBOARD_VIRTUOSO',
-    name: 'Tasten-Virtuose',
-    description: 'Den Schreibgeschwindigkeitstest gemeistert.'
   },
   {
     id: 'TOOL_MASTER',
@@ -115,5 +108,32 @@ export const achievementsList: Achievement[] = [
     id: 'TASK_MANAGER',
     name: 'Task-Manager',
     description: 'Eine Aufgabe zur Todo-Liste hinzugefügt.'
-  }
+  },
+  {
+    id: 'NANO_EDITOR',
+    name: 'Nano-Editor',
+    description: 'Den Terminal-Editor (nano) benutzt.',
+  },
+  {
+    id: 'GAMER',
+    name: 'Highscore',
+    description: 'Du hast das Zahlenratespiel gewonnen.',
+  },
+  {
+    id: 'KEYBOARD_VIRTUOSO',
+    name: 'Tasten-Virtuose',
+    description: 'Den Schreibgeschwindigkeitstest gemeistert.'
+  },
+  {
+    id: 'QUIZ_MASTER',
+    name: 'Quizmaster',
+    description: 'Das Quiz mit voller Punktzahl abgeschlossen.',
+  },
+  {
+    id: 'INVINCIBLE',
+    name: 'Unschlagbar',
+    description: 'Eine Runde Schere, Stein, Papier gewonnen.',
+  },
 ];
+
+    
