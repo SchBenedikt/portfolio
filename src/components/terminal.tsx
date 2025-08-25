@@ -761,5 +761,3 @@ export const Terminal = ({ onExit }: TerminalProps) => {
     </>
   );
 };
-
-    

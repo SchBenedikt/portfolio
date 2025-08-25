@@ -70,5 +70,3 @@ const ViewPage = ({ params }: { params: { slug: string[] } }) => {
 };
 
 export default ViewPage;
-
-    
