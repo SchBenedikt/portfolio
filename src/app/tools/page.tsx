@@ -344,33 +344,25 @@ function UnitConverter() {
     );
 };
 
-type Note = { id: string; title: string; content: string; };
+type Note = { id: string; title: string; content: string; createdAt: number; };
 
 type Task = {
   id: string;
   text: string;
   completed: boolean;
-  description?: string;
-  dueDate?: string;
-  link?: string;
-  noteId?: string;
 };
 
 function Todo() {
     const [tasks, setTasks] = useState<Task[]>([]);
-    const [notes, setNotes] = useState<Note[]>([]);
     const [input, setInput] = useState('');
-    const [editingTask, setEditingTask] = useState<Task | null>(null);
     const { unlockAchievement } = useAchievements();
 
     useEffect(() => {
         try {
             const storedTasks = localStorage.getItem('todo-tasks');
             if (storedTasks) setTasks(JSON.parse(storedTasks));
-            const storedNotes = localStorage.getItem('user-notes');
-            if (storedNotes) setNotes(JSON.parse(storedNotes));
         } catch (error) {
-            console.error("Fehler beim Laden der Daten:", error);
+            console.error("Fehler beim Laden der Aufgaben:", error);
         }
     }, []);
 
@@ -386,7 +378,7 @@ function Todo() {
         e.preventDefault();
         if (input.trim() === '') return;
         const newTask: Task = { id: Date.now().toString(), text: input, completed: false };
-        setTasks([...tasks, newTask]);
+        setTasks([newTask, ...tasks]);
         setInput('');
         unlockAchievement('TASK_MANAGER');
     };
@@ -400,21 +392,9 @@ function Todo() {
     const handleDeleteTask = (id: string) => {
         setTasks(tasks.filter(task => task.id !== id));
     };
-
-    const handleSaveEdit = () => {
-        if (!editingTask) return;
-        setTasks(tasks.map(task => task.id === editingTask.id ? editingTask : task));
-        setEditingTask(null);
-    };
-
-    const handleEditChange = (field: keyof Task, value: any) => {
-        if (editingTask) {
-            setEditingTask({ ...editingTask, [field]: value });
-        }
-    };
     
     return (
-        <Card className="rounded-3xl w-full">
+        <Card className="rounded-3xl w-full min-h-[550px]">
             <CardHeader>
                 <CardTitle className="text-2xl text-center font-headline">Todo Liste</CardTitle>
             </CardHeader>
@@ -428,88 +408,26 @@ function Todo() {
                     <Button type="submit">Hinzufügen</Button>
                 </form>
                 <ScrollArea className="h-96 w-full pr-4">
-                    <Accordion type="single" collapsible className="w-full">
+                    <div className="space-y-2">
                         {tasks.map(task => (
-                            <AccordionItem value={task.id} key={task.id} className="border-b-0 my-1">
-                                <div className={cn("flex items-center gap-2 p-2 rounded-lg transition-colors", task.completed ? "bg-muted/50" : "bg-muted")}>
-                                    <Checkbox 
-                                        id={`task-${task.id}`}
-                                        checked={task.completed}
-                                        onCheckedChange={() => handleToggleTask(task.id)}
-                                    />
-                                    <Label htmlFor={`task-${task.id}`} className={cn("flex-grow cursor-pointer", task.completed && "line-through text-muted-foreground")}>
-                                        {task.text}
-                                    </Label>
-                                    <AccordionTrigger className="p-2 hover:no-underline [&[data-state=open]>svg]:text-primary" />
-                                    <Button variant="ghost" size="icon" onClick={() => setEditingTask(task)}>
-                                        <Edit className="h-4 w-4 text-blue-500" />
-                                    </Button>
-                                    <Button variant="ghost" size="icon" onClick={() => handleDeleteTask(task.id)}>
-                                        <Trash2 className="h-4 w-4 text-destructive" />
-                                    </Button>
-                                </div>
-                                <AccordionContent className="p-4 bg-muted/20 rounded-b-lg">
-                                    {editingTask && editingTask.id === task.id ? (
-                                        <div className="space-y-4">
-                                            <div>
-                                                <Label>Titel</Label>
-                                                <Input value={editingTask.text} onChange={e => handleEditChange('text', e.target.value)} />
-                                            </div>
-                                            <div>
-                                                <Label>Beschreibung</Label>
-                                                <Textarea value={editingTask.description || ''} onChange={e => handleEditChange('description', e.target.value)} />
-                                            </div>
-                                            <div>
-                                                <Label>Link</Label>
-                                                <Input value={editingTask.link || ''} onChange={e => handleEditChange('link', e.target.value)} placeholder="https://..." />
-                                            </div>
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <div>
-                                                    <Label>Fälligkeitsdatum</Label>
-                                                    <Popover>
-                                                        <PopoverTrigger asChild>
-                                                            <Button variant="outline" className={cn("w-full justify-start text-left font-normal", !editingTask.dueDate && "text-muted-foreground")}>
-                                                                <CalendarIcon className="mr-2 h-4 w-4" />
-                                                                {editingTask.dueDate ? format(new Date(editingTask.dueDate), 'PPP', { locale: de }) : <span>Datum wählen</span>}
-                                                            </Button>
-                                                        </PopoverTrigger>
-                                                        <PopoverContent className="w-auto p-0">
-                                                            <Calendar mode="single" selected={editingTask.dueDate ? new Date(editingTask.dueDate) : undefined} onSelect={date => handleEditChange('dueDate', date?.toISOString())} initialFocus />
-                                                        </PopoverContent>
-                                                    </Popover>
-                                                </div>
-                                                <div>
-                                                    <Label>Notiz verknüpfen</Label>
-                                                     <Select value={editingTask.noteId} onValueChange={value => handleEditChange('noteId', value)}>
-                                                        <SelectTrigger><SelectValue placeholder="Notiz wählen..."/></SelectTrigger>
-                                                        <SelectContent>
-                                                            <SelectItem value="none">Keine</SelectItem>
-                                                            {notes.map(note => <SelectItem key={note.id} value={note.id}>{note.title}</SelectItem>)}
-                                                        </SelectContent>
-                                                    </Select>
-                                                </div>
-                                            </div>
-                                            <Button onClick={handleSaveEdit}><Save className="mr-2"/>Speichern</Button>
-                                        </div>
-                                    ) : (
-                                        <div className="space-y-3 text-sm">
-                                            {task.description ? (
-                                              <p className="text-muted-foreground whitespace-pre-wrap">{task.description}</p>
-                                            ) : (
-                                              <p className="text-muted-foreground italic">Keine Beschreibung.</p>
-                                            )}
-                                            {task.dueDate && <div className="flex items-center gap-2"><CalendarIcon className="w-4 h-4" /><p><strong className="font-semibold">Fällig:</strong> {format(new Date(task.dueDate), 'PPP', { locale: de })}</p></div>}
-                                            {task.link && <div className="flex items-center gap-2"><LinkIcon className="w-4 h-4" /><p><strong className="font-semibold">Link:</strong> <a href={task.link} target="_blank" rel="noopener noreferrer" className="text-primary underline">{task.link}</a></p></div>}
-                                            {task.noteId && notes.find(n => n.id === task.noteId) && <div className="flex items-center gap-2"><Notebook className="w-4 h-4" /><p><strong className="font-semibold">Notiz:</strong> {notes.find(n => n.id === task.noteId)?.title}</p></div>}
-                                        </div>
-                                    )}
-                                </AccordionContent>
-                            </AccordionItem>
+                            <div key={task.id} className={cn("flex items-center gap-2 p-2 rounded-lg transition-colors", task.completed ? "bg-muted/50" : "bg-muted")}>
+                                <Checkbox 
+                                    id={`task-${task.id}`}
+                                    checked={task.completed}
+                                    onCheckedChange={() => handleToggleTask(task.id)}
+                                />
+                                <Label htmlFor={`task-${task.id}`} className={cn("flex-grow cursor-pointer", task.completed && "line-through text-muted-foreground")}>
+                                    {task.text}
+                                </Label>
+                                <Button variant="ghost" size="icon" onClick={() => handleDeleteTask(task.id)} data-cursor-interactive>
+                                    <Trash2 className="h-4 w-4 text-destructive" />
+                                </Button>
+                            </div>
                         ))}
                          {tasks.length === 0 && (
                             <p className="text-center text-muted-foreground py-8">Noch keine Aufgaben vorhanden.</p>
                         )}
-                    </Accordion>
+                    </div>
                 </ScrollArea>
             </CardContent>
         </Card>
@@ -518,22 +436,21 @@ function Todo() {
 
 function Notes() {
     const [notes, setNotes] = useState<Note[]>([]);
-    const [tasks, setTasks] = useState<Task[]>([]);
     const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
+    const titleInputRef = useRef<HTMLInputElement>(null);
 
     // Load from localStorage
     useEffect(() => {
         try {
             const savedNotes = localStorage.getItem('user-notes');
             if (savedNotes) {
-                const parsedNotes = JSON.parse(savedNotes);
-                setNotes(parsedNotes);
-                if (parsedNotes.length > 0 && !activeNoteId) {
-                    setActiveNoteId(parsedNotes[0].id);
+                const parsedNotes: Note[] = JSON.parse(savedNotes);
+                const sortedNotes = parsedNotes.sort((a, b) => b.createdAt - a.createdAt);
+                setNotes(sortedNotes);
+                if (sortedNotes.length > 0 && !activeNoteId) {
+                    setActiveNoteId(sortedNotes[0].id);
                 }
             }
-            const savedTasks = localStorage.getItem('todo-tasks');
-            if (savedTasks) setTasks(JSON.parse(savedTasks));
         } catch (error) {
             console.error("Error loading notes:", error);
         }
@@ -548,11 +465,18 @@ function Notes() {
         }
     }, [notes]);
 
+    useEffect(() => {
+        if(activeNoteId) {
+            titleInputRef.current?.focus();
+        }
+    }, [activeNoteId]);
+
     const handleAddNote = () => {
         const newNote: Note = {
             id: Date.now().toString(),
             title: 'Neue Notiz',
-            content: ''
+            content: '',
+            createdAt: Date.now()
         };
         const newNotes = [newNote, ...notes];
         setNotes(newNotes);
@@ -562,11 +486,6 @@ function Notes() {
     const handleDeleteNote = (id: string) => {
         const newNotes = notes.filter(n => n.id !== id);
         setNotes(newNotes);
-        // also remove link from tasks
-        const updatedTasks = tasks.map(t => t.noteId === id ? {...t, noteId: undefined} : t);
-        setTasks(updatedTasks);
-        localStorage.setItem('todo-tasks', JSON.stringify(updatedTasks));
-        
         if (activeNoteId === id) {
             setActiveNoteId(newNotes.length > 0 ? newNotes[0].id : null);
         }
@@ -577,7 +496,6 @@ function Notes() {
     };
 
     const activeNote = notes.find(n => n.id === activeNoteId);
-    const linkedTasks = tasks.filter(t => t.noteId === activeNoteId);
 
     return (
         <Card className="rounded-3xl w-full min-h-[550px]">
@@ -614,6 +532,7 @@ function Notes() {
                     {activeNote ? (
                         <div className="space-y-4">
                              <Input 
+                                ref={titleInputRef}
                                 value={activeNote.title}
                                 onChange={e => handleNoteChange(activeNote.id, 'title', e.target.value)}
                                 className="text-lg font-bold"
@@ -622,21 +541,8 @@ function Notes() {
                                 value={activeNote.content}
                                 onChange={e => handleNoteChange(activeNote.id, 'content', e.target.value)}
                                 placeholder="Schreib hier deine Gedanken auf..."
-                                className="min-h-[320px] text-base"
+                                className="min-h-[350px] text-base"
                             />
-                            {linkedTasks.length > 0 && (
-                                <div>
-                                    <h4 className="font-semibold mb-2">Verknüpfte Aufgaben:</h4>
-                                    <div className="space-y-1">
-                                    {linkedTasks.map(task => (
-                                        <div key={task.id} className="text-sm p-2 bg-muted/50 rounded-md flex items-center gap-2">
-                                            <ListTodo className='w-4 h-4' />
-                                            <span>{task.text}</span>
-                                        </div>
-                                    ))}
-                                    </div>
-                                </div>
-                            )}
                         </div>
                     ) : (
                          <div className="flex items-center justify-center h-full text-muted-foreground">
@@ -854,3 +760,4 @@ export default function ToolsPage() {
     </div>
   );
 }
+
