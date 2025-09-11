@@ -29,6 +29,13 @@ const about = {
 
 export const timelineEvents = [
     {
+        date: "Juni 2025",
+        title: "Youth Exchange Projekt 2025",
+        organization: "Erasmus+",
+        description: "Teilnahme am internationalen Jugendaustausch in Linz mit Teilnehmern aus Ungarn, Rumänien, Österreich und Finnland, zusammen mit meinem Zwillingsbruder Vinzenz.",
+        icon: <Users/>
+    },
+    {
         date: "Seit April 2025",
         title: "Schriftführer",
         organization: "Judoabteilung TuS Töging",
@@ -239,7 +246,7 @@ export default function ResumePage() {
             <motion.div variants={itemVariants} className="flex justify-center gap-2 md:gap-4 mb-12 flex-wrap">
                 {about.links.map(link => (
                     <Button key={link.name} asChild variant="outline" className="rounded-full" data-cursor-interactive>
-                        <Link href={link.url} target="_blank" prefetch>
+                        <Link href={link.url} target="_blank" prefetch={true}>
                             {React.cloneElement(link.icon, { className: "mr-2" })}
                             {link.name}
                         </Link>
@@ -281,7 +288,7 @@ export default function ResumePage() {
                                         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
                                             <CardTitle className="text-lg md:text-2xl font-bold font-headline">
                                             {event.projectSlug ? (
-                                                <Link href={`/projects/${event.projectSlug}`} className="hover:text-primary transition-colors" prefetch>
+                                                <Link href={`/projects/${event.projectSlug}`} className="hover:text-primary transition-colors" prefetch={true}>
                                                 {event.title}
                                                 </Link>
                                             ) : (
@@ -291,7 +298,7 @@ export default function ResumePage() {
                                             <Badge variant="secondary" className="text-xs md:text-sm rounded-md whitespace-nowrap self-start sm:self-center">{event.date}</Badge>
                                         </div>
                                         <CardDescription className="text-base md:text-lg pt-1 text-primary">
-                                            <Link href={`/organization/${resumeOrgToSlug[event.organization]}`} data-cursor-interactive className="hover:underline" prefetch>
+                                            <Link href={`/organization/${resumeOrgToSlug[event.organization]}`} data-cursor-interactive className="hover:underline" prefetch={true}>
                                                 {event.organization}
                                             </Link>
                                         </CardDescription>
@@ -317,7 +324,7 @@ export default function ResumePage() {
                                             <Badge variant="secondary" className="text-xs md:text-sm rounded-md whitespace-nowrap self-start sm:self-center">{cert.date}</Badge>
                                         </div>
                                         <CardDescription className="text-base md:text-lg pt-1 text-primary">
-                                            <Link href={`/organization/${resumeOrgToSlug[cert.organization]}`} data-cursor-interactive className="hover:underline" prefetch>
+                                            <Link href={`/organization/${resumeOrgToSlug[cert.organization]}`} data-cursor-interactive className="hover:underline" prefetch={true}>
                                                 {cert.organization}
                                             </Link>
                                         </CardDescription>
@@ -380,7 +387,7 @@ export default function ResumePage() {
                                        <Badge variant="secondary" className="text-xs md:text-sm rounded-md whitespace-nowrap self-start sm:self-center">{item.date}</Badge>
                                    </div>
                                     <CardDescription className="text-base md:text-lg pt-1 text-primary">
-                                       <Link href={`/organization/${resumeOrgToSlug[item.organization]}`} data-cursor-interactive className="hover:underline" prefetch>
+                                       <Link href={`/organization/${resumeOrgToSlug[item.organization]}`} data-cursor-interactive className="hover:underline" prefetch={true}>
                                             {item.organization}
                                        </Link>
                                     </CardDescription>
