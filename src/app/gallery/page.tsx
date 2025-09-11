@@ -11,12 +11,15 @@ import { useAchievements } from '@/components/providers/achievements-provider';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { Calendar, Camera, MapPin } from 'lucide-react';
+import { Calendar, MapPin } from 'lucide-react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -106,6 +109,10 @@ export default function GalleryPage() {
                         </Card>
                       </DialogTrigger>
                       <DialogContent className="max-w-6xl w-full h-auto max-h-[90vh] p-0 bg-transparent border-none flex flex-col md:flex-row items-stretch">
+                         <DialogHeader className="sr-only">
+                           <DialogTitle>{item.title}</DialogTitle>
+                           <DialogDescription>{item.description}</DialogDescription>
+                         </DialogHeader>
                          <div className="relative w-full md:w-3/4 h-full flex items-center justify-center bg-black/80 rounded-t-lg md:rounded-l-lg md:rounded-tr-none">
                              <Image
                                 src={item.src}
