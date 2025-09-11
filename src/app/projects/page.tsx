@@ -18,20 +18,28 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Github, ArrowRight, ExternalLink, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
+
+type FilterType = 'all' | 'private' | 'school';
 
 export default function ProjectsPage() {
   const { unlockAchievement } = useAchievements();
   const [searchTerm, setSearchTerm] = useState('');
+  const [activeFilter, setActiveFilter] = useState<FilterType>('all');
 
   useEffect(() => {
     unlockAchievement('PROJECTS_EXPLORER');
   }, [unlockAchievement]);
 
-  const filteredProjects = projectData.filter(project => 
-    project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    project.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  const filteredProjects = projectData.filter(project => {
+    const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          project.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+    
+    const matchesFilter = activeFilter === 'all' || project.type === activeFilter;
+
+    return matchesSearch && matchesFilter;
+  });
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -68,7 +76,7 @@ export default function ProjectsPage() {
             <h1 className="text-6xl md:text-8xl font-black text-center mb-8 uppercase tracking-tighter font-headline">
               Projekte
             </h1>
-            <div className="relative mb-12 md:mb-16">
+            <div className="relative mb-8">
                <Input 
                   type="text"
                   placeholder="Projekte durchsuchen..."
@@ -77,6 +85,12 @@ export default function ProjectsPage() {
                   onChange={(e) => setSearchTerm(e.target.value)}
                />
                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-6 h-6"/>
+            </div>
+            
+            <div className="flex justify-center gap-2 mb-12 md:mb-16">
+              <Button onClick={() => setActiveFilter('all')} variant={activeFilter === 'all' ? 'default' : 'outline'} className="rounded-full">Alle</Button>
+              <Button onClick={() => setActiveFilter('private')} variant={activeFilter === 'private' ? 'default' : 'outline'} className="rounded-full">Privat</Button>
+              <Button onClick={() => setActiveFilter('school')} variant={activeFilter === 'school' ? 'default' : 'outline'} className="rounded-full">Schulisch</Button>
             </div>
 
             <motion.div 

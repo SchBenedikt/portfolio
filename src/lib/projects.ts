@@ -3,6 +3,7 @@ export const projectData = [
   {
     title: 'Notio',
     slug: 'notio',
+    type: 'private',
     description:
       'Eine webbasierte Applikation zur Verwaltung und Analyse schulischer Leistungsdaten, individuell konzipiert für Schüler an weiterführenden Schulen in Deutschland.',
     longDescription:
@@ -39,6 +40,7 @@ export const projectData = [
   {
     title: '@judo_tus_toeging',
     slug: 'tus-toeging-judo-instagram',
+    type: 'private',
     description: 'Verwaltung und Gestaltung des offiziellen Instagram-Kanals der Judoabteilung des TuS Töging. Der Verein wurde als „Top-Verein“ des Bayerischen Judo-Verbands ausgezeichnet.',
     longDescription: `
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Überblick</h3>
@@ -69,6 +71,7 @@ export const projectData = [
   {
     title: 'Meum Diarium',
     slug: 'meum-diarium',
+    type: 'school',
     description: 'Ein preisgekröntes Crossmedia-Projekt, das Julius Cäsars Geschichte im Stil eines modernen Influencer-Blogs erzählt.',
     longDescription: `
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Überblick</h3>
@@ -120,6 +123,7 @@ export const projectData = [
   {
     title: 'Medienscouts KKG',
     slug: 'medienscouts-kkg',
+    type: 'school',
     description:
       'Ein digitales Zukunftsprojekt und Schülerengagement am König-Karlmann-Gymnasium Altötting (KKG) zur Förderung digitaler Kompetenzen.',
     longDescription:
@@ -159,6 +163,7 @@ export const projectData = [
   {
     title: 'Technik Schächner',
     slug: 'technik-blog',
+    type: 'private',
     description: 'Eine digitale Plattform, die technische Anwendungen, Tools und persönliche Experimente aus den Bereichen Programmierung, Cloud und Automatisierung bündelt.',
     longDescription: `
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Überblick</h3>
