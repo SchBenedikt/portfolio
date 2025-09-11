@@ -29,10 +29,10 @@ const about = {
 
 export const timelineEvents = [
     {
-        date: "Juni 2025",
+        date: "02. - 08. Sep. 2025",
         title: "Youth Exchange Projekt 2025",
-        organization: "Erasmus+",
-        description: "Teilnahme am internationalen Jugendaustausch in Linz mit Teilnehmern aus Ungarn, Rumänien, Österreich und Finnland, zusammen mit meinem Zwillingsbruder Vinzenz.",
+        organization: "Ars Electronica",
+        description: "Teilnahme am internationalen Jugendaustausch in Linz bei der Ars Electronica mit Teilnehmern aus Ungarn, Rumänien, Österreich und Finnland, zusammen mit meinem Zwillingsbruder Vinzenz.",
         icon: <Users/>
     },
     {
@@ -414,3 +414,5 @@ export default function ResumePage() {
     </div>
   );
 }
+
+    
