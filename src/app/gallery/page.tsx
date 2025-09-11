@@ -11,6 +11,7 @@ import { useAchievements } from '@/components/providers/achievements-provider';
 import {
   Dialog,
   DialogContent,
+  DialogTrigger,
 } from "@/components/ui/dialog"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
