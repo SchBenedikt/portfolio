@@ -17,10 +17,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Card, CardContent } from '@/components/ui/card';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
 import { Calendar, MapPin } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -45,7 +42,6 @@ const itemVariants = {
 
 export default function GalleryPage() {
   const { unlockAchievement } = useAchievements();
-  const [showCaptions, setShowCaptions] = useState(false);
 
   useEffect(() => {
     unlockAchievement('GALLERY_VIEWER');
@@ -65,18 +61,6 @@ export default function GalleryPage() {
             <h1 className="text-6xl md:text-8xl font-black text-center mb-8 md:mb-12 uppercase tracking-tighter font-headline">
               Galerie
             </h1>
-
-            <div className="flex items-center justify-center space-x-2 mb-12">
-              <Switch 
-                id="show-captions" 
-                checked={showCaptions}
-                onCheckedChange={setShowCaptions}
-              />
-              <Label htmlFor="show-captions" className="text-lg">
-                Bildunterschriften anzeigen
-              </Label>
-            </div>
-
 
             <motion.div
               className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4"
@@ -101,11 +85,9 @@ export default function GalleryPage() {
                                     className="w-full h-auto"
                                     data-ai-hint={item.aiHint}
                                 />
-                                 {showCaptions && (
-                                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent p-4 pt-12">
-                                      <h3 className="font-bold text-white text-lg">{item.title}</h3>
-                                  </div>
-                                )}
+                                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent p-4 pt-12">
+                                    <h3 className="font-bold text-white text-lg">{item.title}</h3>
+                                </div>
                             </CardContent>
                         </Card>
                       </DialogTrigger>
