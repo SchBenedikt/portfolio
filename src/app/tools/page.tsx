@@ -7,7 +7,7 @@ import Footer from '@/components/footer';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search, Wand2, Thermometer, Weight, Ruler, ListTodo, Trash2, QrCode, Notebook, Download, Plus, Trash, Edit, Save, Link as LinkIcon, CalendarIcon } from 'lucide-react';
+import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search, Wand2, Thermometer, Weight, Ruler, ListTodo, Trash2, QrCode, Notebook, Download, Plus, Trash, Edit, Save, Link as LinkIcon, CalendarIcon, Hand, Scissors, ThumbsUp } from 'lucide-react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -31,9 +31,11 @@ const initialTools = [
   { id: 'password', name: 'Passwort-Generator', icon: <KeyRound className="w-8 h-8" />, component: PasswordGenerator },
   { id: 'palette', name: 'Farbpalette', icon: <Palette className="w-8 h-8" />, component: ColorPaletteGenerator },
   { id: 'converter', name: 'Einheitenumrechner', icon: <Scale className="w-8 h-8" />, component: UnitConverter },
+  { id: 'countdown', name: 'Date Countdown', icon: <TimerIcon className="w-8 h-8" />, component: DateCountdown },
   { id: 'todo', name: 'Todo Liste', icon: <ListTodo className="w-8 h-8" />, component: Todo },
   { id: 'notes', name: 'Notizblock', icon: <Notebook className="w-8 h-8" />, component: Notes },
   { id: 'qr-code', name: 'QR-Code Generator', icon: <QrCode className="w-8 h-8" />, component: QrCodeGenerator },
+  { id: 'rps', name: 'Schere-Stein-Papier', icon: <Hand className="w-8 h-8" />, component: RockPaperScissors },
 ];
 
 type Tool = typeof initialTools[number];
@@ -344,6 +346,93 @@ function UnitConverter() {
     );
 };
 
+function DateCountdown() {
+  const [targetDate, setTargetDate] = useState<Date | undefined>(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 10); // Default to 10 days in the future
+    return d;
+  });
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  const calculateTimeLeft = useCallback(() => {
+    if (!targetDate) return;
+    const difference = +targetDate - +new Date();
+    let newTimeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+
+    if (difference > 0) {
+      newTimeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60)
+      };
+    }
+    return newTimeLeft;
+  }, [targetDate]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft() || { days: 0, hours: 0, minutes: 0, seconds: 0 });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [calculateTimeLeft]);
+
+  return (
+    <Card className="rounded-3xl w-full">
+      <CardHeader>
+        <CardTitle className="text-2xl text-center font-headline">Date Countdown</CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col items-center gap-6">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-[280px] justify-start text-left font-normal rounded-full",
+                !targetDate && "text-muted-foreground"
+              )}
+              data-cursor-interactive
+            >
+              <CalendarIcon className="mr-2" />
+              {targetDate ? format(targetDate, "PPP", { locale: de }) : <span>Wähle ein Datum</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0">
+            <Calendar
+              mode="single"
+              selected={targetDate}
+              onSelect={setTargetDate}
+              initialFocus
+              locale={de}
+              disabled={(date) => date < new Date()}
+            />
+          </PopoverContent>
+        </Popover>
+
+        <div className="grid grid-cols-4 gap-4 text-center w-full">
+          <div>
+            <p className="text-4xl md:text-6xl font-bold font-mono">{timeLeft.days}</p>
+            <p className="text-muted-foreground">Tage</p>
+          </div>
+          <div>
+            <p className="text-4xl md:text-6xl font-bold font-mono">{timeLeft.hours}</p>
+            <p className="text-muted-foreground">Stunden</p>
+          </div>
+          <div>
+            <p className="text-4xl md:text-6xl font-bold font-mono">{timeLeft.minutes}</p>
+            <p className="text-muted-foreground">Minuten</p>
+          </div>
+          <div>
+            <p className="text-4xl md:text-6xl font-bold font-mono">{timeLeft.seconds}</p>
+            <p className="text-muted-foreground">Sekunden</p>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 type Note = { id: string; title: string; content: string; createdAt: number; };
 
 type Task = {
@@ -356,6 +445,7 @@ function Todo() {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [input, setInput] = useState('');
     const { unlockAchievement } = useAchievements();
+    const scrollAreaRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         try {
@@ -369,6 +459,10 @@ function Todo() {
     useEffect(() => {
         try {
             localStorage.setItem('todo-tasks', JSON.stringify(tasks));
+            // Scroll to bottom when tasks change
+            if (scrollAreaRef.current) {
+                scrollAreaRef.current.scrollTo({ top: scrollAreaRef.current.scrollHeight, behavior: 'smooth' });
+            }
         } catch (error) {
             console.error("Fehler beim Speichern der Aufgaben:", error);
         }
@@ -407,7 +501,7 @@ function Todo() {
                     />
                     <Button type="submit">Hinzufügen</Button>
                 </form>
-                <ScrollArea className="h-96 w-full pr-4">
+                <ScrollArea className="h-96 w-full pr-4" ref={scrollAreaRef}>
                     <div className="space-y-2">
                         {tasks.map(task => (
                             <div key={task.id} className={cn("flex items-center gap-2 p-2 rounded-lg transition-colors", task.completed ? "bg-muted/50" : "bg-muted")}>
@@ -668,6 +762,98 @@ function QrCodeGenerator() {
     );
 }
 
+function RockPaperScissors() {
+  const choices = ['rock', 'paper', 'scissors'] as const;
+  type Choice = typeof choices[number];
+  
+  const [playerChoice, setPlayerChoice] = useState<Choice | null>(null);
+  const [computerChoice, setComputerChoice] = useState<Choice | null>(null);
+  const [result, setResult] = useState<string | null>(null);
+  const { unlockAchievement } = useAchievements();
+
+  const handlePlayerChoice = (choice: Choice) => {
+    const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+    setPlayerChoice(choice);
+    setComputerChoice(computerChoice);
+
+    if (choice === computerChoice) {
+      setResult("Unentschieden!");
+    } else if (
+      (choice === 'rock' && computerChoice === 'scissors') ||
+      (choice === 'paper' && computerChoice === 'rock') ||
+      (choice === 'scissors' && computerChoice === 'paper')
+    ) {
+      setResult("Du gewinnst!");
+      unlockAchievement('INVINCIBLE');
+    } else {
+      setResult("Computer gewinnt!");
+    }
+  };
+  
+  const getIcon = (choice: Choice) => {
+    switch(choice) {
+      case 'rock': return <Hand className="w-16 h-16" />; // Represents rock
+      case 'paper': return <Hand className="w-16 h-16 rotate-90" />; // Represents paper
+      case 'scissors': return <Scissors className="w-16 h-16" />;
+      default: return null;
+    }
+  }
+
+  const resetGame = () => {
+    setPlayerChoice(null);
+    setComputerChoice(null);
+    setResult(null);
+  };
+
+  return (
+    <Card className="rounded-3xl w-full">
+      <CardHeader>
+        <CardTitle className="text-2xl text-center font-headline">Stein, Schere, Papier</CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col items-center gap-8">
+        {!result ? (
+          <>
+            <p className="text-muted-foreground">Wähle deine Waffe!</p>
+            <div className="flex gap-4">
+              <Button size="lg" variant="outline" className="rounded-full h-24 w-24 flex-col gap-2" onClick={() => handlePlayerChoice('rock')}>
+                <Hand/> Stein
+              </Button>
+              <Button size="lg" variant="outline" className="rounded-full h-24 w-24 flex-col gap-2" onClick={() => handlePlayerChoice('paper')}>
+                <Hand className="rotate-90"/> Papier
+              </Button>
+              <Button size="lg" variant="outline" className="rounded-full h-24 w-24 flex-col gap-2" onClick={() => handlePlayerChoice('scissors')}>
+                <Scissors/> Schere
+              </Button>
+            </div>
+          </>
+        ) : (
+          <div className="flex flex-col items-center gap-6">
+            <div className="flex items-center gap-8 md:gap-16">
+              <div className="flex flex-col items-center gap-2">
+                <h3 className="font-semibold">Du</h3>
+                <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center text-foreground">
+                  {playerChoice && getIcon(playerChoice)}
+                </div>
+              </div>
+              <p className="text-2xl font-bold">vs.</p>
+              <div className="flex flex-col items-center gap-2">
+                <h3 className="font-semibold">Computer</h3>
+                <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center text-foreground">
+                  {computerChoice && getIcon(computerChoice)}
+                </div>
+              </div>
+            </div>
+            <h2 className="text-3xl font-bold text-primary">{result}</h2>
+            <Button onClick={resetGame} className="rounded-full" data-cursor-interactive>
+              <RotateCcw className="mr-2" /> Nochmal spielen
+            </Button>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
 
 export default function ToolsPage() {
   const { unlockAchievement } = useAchievements();
@@ -761,3 +947,4 @@ export default function ToolsPage() {
   );
 }
 
+    
