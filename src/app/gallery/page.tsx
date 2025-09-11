@@ -116,7 +116,7 @@ export default function GalleryPage() {
                          </DialogHeader>
                          <div className="flex flex-col md:flex-row items-stretch gap-0 max-h-[90vh] w-full">
                             <div 
-                                className="flex-1 min-w-0 bg-black flex items-center justify-center rounded-t-lg md:rounded-l-lg md:rounded-r-none"
+                                className="flex-1 min-w-0 bg-black flex items-center justify-center rounded-t-lg md:rounded-l-lg md:rounded-r-none overflow-hidden"
                             >
                                 <Image
                                     src={item.src}
