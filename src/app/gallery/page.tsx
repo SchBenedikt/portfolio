@@ -109,23 +109,23 @@ export default function GalleryPage() {
                             </CardContent>
                         </Card>
                       </DialogTrigger>
-                      <DialogContent className="max-w-6xl w-full p-0 bg-transparent border-none grid grid-cols-1 md:grid-cols-4 items-stretch gap-0">
+                      <DialogContent className="max-w-6xl w-full p-0 bg-transparent border-none flex flex-col md:flex-row items-stretch gap-0">
                          <DialogHeader className="sr-only">
                            <DialogTitle>{item.title}</DialogTitle>
                            <DialogDescription>{item.description}</DialogDescription>
                          </DialogHeader>
                          <div 
-                            className="relative md:col-span-3 bg-black flex items-center justify-center rounded-t-lg md:rounded-l-lg md:rounded-r-none"
+                            className="flex-shrink-0 bg-black flex items-center justify-center rounded-t-lg md:rounded-l-lg md:rounded-r-none"
                           >
                              <Image
                                 src={item.src}
                                 alt={item.alt}
                                 width={1200}
                                 height={800}
-                                className="object-contain w-full h-auto max-w-full max-h-[90vh]"
+                                className="object-contain w-auto h-auto max-w-full max-h-[90vh]"
                               />
                          </div>
-                         <div className="w-full bg-card p-6 md:p-8 flex flex-col rounded-b-lg md:rounded-r-lg md:rounded-l-none">
+                         <div className="w-full md:max-w-sm flex-shrink-0 bg-card p-6 md:p-8 flex flex-col rounded-b-lg md:rounded-r-lg md:rounded-l-none">
                             <h2 className="text-2xl font-bold font-headline mb-2">{item.title}</h2>
                             <p className="text-muted-foreground text-base mb-6">{item.description}</p>
                             <div className="space-y-4 mt-auto border-t pt-6">
