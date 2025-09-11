@@ -14,6 +14,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog"
 import { Card, CardContent } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
@@ -122,7 +123,7 @@ export default function GalleryPage() {
                                     alt={item.alt}
                                     width={1600}
                                     height={1200}
-                                    className="object-contain w-full h-full"
+                                    className="object-contain w-full h-auto max-h-[90vh]"
                                 />
                             </div>
                             <div className="md:w-96 flex-shrink-0 bg-card p-6 md:p-8 flex flex-col rounded-b-lg md:rounded-l-none md:rounded-r-lg">
