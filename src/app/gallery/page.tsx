@@ -109,22 +109,23 @@ export default function GalleryPage() {
                             </CardContent>
                         </Card>
                       </DialogTrigger>
-                      <DialogContent className="max-w-6xl w-full h-[90vh] p-0 bg-transparent border-none flex flex-col md:flex-row items-stretch gap-0">
+                      <DialogContent className="max-w-6xl w-full max-h-[90vh] h-auto p-0 bg-transparent border-none grid grid-cols-1 md:grid-cols-4 items-center gap-0">
                          <DialogHeader className="sr-only">
                            <DialogTitle>{item.title}</DialogTitle>
                            <DialogDescription>{item.description}</DialogDescription>
                          </DialogHeader>
                          <div 
-                            className="relative w-full md:w-3/4 h-64 md:h-full bg-black flex items-center justify-center rounded-t-lg md:rounded-l-lg md:rounded-r-none"
+                            className="relative md:col-span-3 h-full bg-black flex items-center justify-center rounded-t-lg md:rounded-l-lg md:rounded-r-none"
                           >
                              <Image
                                 src={item.src}
                                 alt={item.alt}
-                                fill
-                                className="object-contain w-full h-full"
+                                width={1200}
+                                height={800}
+                                className="object-contain w-auto h-auto max-w-full max-h-[90vh]"
                               />
                          </div>
-                         <div className="w-full md:w-1/4 bg-card p-6 md:p-8 flex flex-col rounded-b-lg md:rounded-r-lg md:rounded-l-none">
+                         <div className="w-full bg-card p-6 md:p-8 flex flex-col rounded-b-lg md:rounded-r-lg md:rounded-l-none">
                             <h2 className="text-2xl font-bold font-headline mb-2">{item.title}</h2>
                             <p className="text-muted-foreground text-base mb-6">{item.description}</p>
                             <div className="space-y-4 mt-auto border-t pt-6">
