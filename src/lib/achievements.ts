@@ -19,8 +19,9 @@ export type AchievementID =
   | 'GALLERY_VIEWER'
   | 'PRESS_READER'
   | 'QUIZ_MASTER'
-  | 'INVINCIBLE'
-  | 'NANO_EDITOR';
+  | 'NANO_EDITOR'
+  | 'FOCUS_MASTER'
+  | 'COMPLETIONIST';
 
 export interface Achievement {
   id: AchievementID;
@@ -130,10 +131,8 @@ export const achievementsList: Achievement[] = [
     description: 'Das Quiz mit voller Punktzahl abgeschlossen.',
   },
   {
-    id: 'INVINCIBLE',
-    name: 'Unschlagbar',
-    description: 'Eine Runde Schere, Stein, Papier gewonnen.',
+    id: 'FOCUS_MASTER',
+    name: 'Fokus-Meister',
+    description: 'Eine Pomodoro-Sitzung abgeschlossen.',
   },
 ];
-
-    

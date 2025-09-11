@@ -7,7 +7,7 @@ import Footer from '@/components/footer';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search, Wand2, Thermometer, Weight, Ruler, ListTodo, Trash2, QrCode, Notebook, Download, Plus, Trash, Edit, Save, Link as LinkIcon, CalendarIcon, Hand, Scissors, ThumbsUp } from 'lucide-react';
+import { Play, Pause, RotateCcw, Coffee, BookOpen, Timer as TimerIcon, ArrowLeft, KeyRound, Check, Copy, Flag, Palette, RefreshCw, Scale, Clock, Search, Wand2, Thermometer, Weight, Ruler, ListTodo, Trash2, QrCode, Notebook, Download, Plus, Trash, Edit, Save, Link as LinkIcon, CalendarIcon, Hand, Scissors, ThumbsUp, Type } from 'lucide-react';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -35,7 +35,8 @@ const initialTools = [
   { id: 'todo', name: 'Todo Liste', icon: <ListTodo className="w-8 h-8" />, component: Todo },
   { id: 'notes', name: 'Notizblock', icon: <Notebook className="w-8 h-8" />, component: Notes },
   { id: 'qr-code', name: 'QR-Code Generator', icon: <QrCode className="w-8 h-8" />, component: QrCodeGenerator },
-  { id: 'rps', name: 'Schere-Stein-Papier', icon: <Hand className="w-8 h-8" />, component: RockPaperScissors },
+  { id: 'pomodoro', name: 'Pomodoro Timer', icon: <Clock className="w-8 h-8" />, component: PomodoroTimer },
+  { id: 'counter', name: 'Wortzähler', icon: <Type className="w-8 h-8" />, component: WordCounter },
 ];
 
 type Tool = typeof initialTools[number];
@@ -762,98 +763,140 @@ function QrCodeGenerator() {
     );
 }
 
-function RockPaperScissors() {
-  const choices = ['rock', 'paper', 'scissors'] as const;
-  type Choice = typeof choices[number];
-  
-  const [playerChoice, setPlayerChoice] = useState<Choice | null>(null);
-  const [computerChoice, setComputerChoice] = useState<Choice | null>(null);
-  const [result, setResult] = useState<string | null>(null);
-  const { unlockAchievement } = useAchievements();
+function PomodoroTimer() {
+    type Mode = 'pomodoro' | 'shortBreak' | 'longBreak';
+    const times: Record<Mode, number> = { pomodoro: 25 * 60, shortBreak: 5 * 60, longBreak: 15 * 60 };
+    
+    const [mode, setMode] = useState<Mode>('pomodoro');
+    const [timeLeft, setTimeLeft] = useState(times.pomodoro);
+    const [isActive, setIsActive] = useState(false);
+    const { unlockAchievement } = useAchievements();
+    const audioRef = useRef<HTMLAudioElement>(null);
 
-  const handlePlayerChoice = (choice: Choice) => {
-    const computerChoice = choices[Math.floor(Math.random() * choices.length)];
-    setPlayerChoice(choice);
-    setComputerChoice(computerChoice);
+    useEffect(() => {
+        setTimeLeft(times[mode]);
+        setIsActive(false);
+    }, [mode]);
 
-    if (choice === computerChoice) {
-      setResult("Unentschieden!");
-    } else if (
-      (choice === 'rock' && computerChoice === 'scissors') ||
-      (choice === 'paper' && computerChoice === 'rock') ||
-      (choice === 'scissors' && computerChoice === 'paper')
-    ) {
-      setResult("Du gewinnst!");
-      unlockAchievement('INVINCIBLE');
-    } else {
-      setResult("Computer gewinnt!");
-    }
-  };
-  
-  const getIcon = (choice: Choice) => {
-    switch(choice) {
-      case 'rock': return <Hand className="w-16 h-16" />; // Represents rock
-      case 'paper': return <Hand className="w-16 h-16 rotate-90" />; // Represents paper
-      case 'scissors': return <Scissors className="w-16 h-16" />;
-      default: return null;
-    }
-  }
+    useEffect(() => {
+        let interval: NodeJS.Timeout | null = null;
+        if (isActive && timeLeft > 0) {
+            interval = setInterval(() => {
+                setTimeLeft(prev => prev - 1);
+            }, 1000);
+        } else if (timeLeft === 0 && isActive) {
+            setIsActive(false);
+            audioRef.current?.play();
+            toast.success("Zeit ist um!", { description: mode === 'pomodoro' ? "Zeit für eine Pause!" : "Zurück an die Arbeit!" });
+            if (mode === 'pomodoro') {
+                unlockAchievement('FOCUS_MASTER');
+            }
+        }
+        return () => {
+            if (interval) clearInterval(interval);
+        };
+    }, [isActive, timeLeft, mode, unlockAchievement]);
 
-  const resetGame = () => {
-    setPlayerChoice(null);
-    setComputerChoice(null);
-    setResult(null);
-  };
+    const formatTime = (seconds: number) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    };
 
-  return (
-    <Card className="rounded-3xl w-full">
-      <CardHeader>
-        <CardTitle className="text-2xl text-center font-headline">Stein, Schere, Papier</CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-col items-center gap-8">
-        {!result ? (
-          <>
-            <p className="text-muted-foreground">Wähle deine Waffe!</p>
-            <div className="flex gap-4">
-              <Button size="lg" variant="outline" className="rounded-full h-24 w-24 flex-col gap-2" onClick={() => handlePlayerChoice('rock')}>
-                <Hand/> Stein
-              </Button>
-              <Button size="lg" variant="outline" className="rounded-full h-24 w-24 flex-col gap-2" onClick={() => handlePlayerChoice('paper')}>
-                <Hand className="rotate-90"/> Papier
-              </Button>
-              <Button size="lg" variant="outline" className="rounded-full h-24 w-24 flex-col gap-2" onClick={() => handlePlayerChoice('scissors')}>
-                <Scissors/> Schere
-              </Button>
-            </div>
-          </>
-        ) : (
-          <div className="flex flex-col items-center gap-6">
-            <div className="flex items-center gap-8 md:gap-16">
-              <div className="flex flex-col items-center gap-2">
-                <h3 className="font-semibold">Du</h3>
-                <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center text-foreground">
-                  {playerChoice && getIcon(playerChoice)}
+    const handleModeChange = (newMode: Mode) => {
+        setMode(newMode);
+    };
+
+    const handleToggle = () => setIsActive(!isActive);
+
+    const handleReset = () => {
+        setIsActive(false);
+        setTimeLeft(times[mode]);
+    };
+
+    return (
+        <Card className="rounded-3xl w-full">
+            <CardHeader>
+                <CardTitle className="text-2xl text-center font-headline">Pomodoro Timer</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center gap-8">
+                <div className="flex gap-2 bg-muted p-1 rounded-full">
+                    <Button onClick={() => handleModeChange('pomodoro')} variant={mode === 'pomodoro' ? 'default' : 'ghost'} className="rounded-full">Pomodoro</Button>
+                    <Button onClick={() => handleModeChange('shortBreak')} variant={mode === 'shortBreak' ? 'default' : 'ghost'} className="rounded-full">Kurze Pause</Button>
+                    <Button onClick={() => handleModeChange('longBreak')} variant={mode === 'longBreak' ? 'default' : 'ghost'} className="rounded-full">Lange Pause</Button>
                 </div>
-              </div>
-              <p className="text-2xl font-bold">vs.</p>
-              <div className="flex flex-col items-center gap-2">
-                <h3 className="font-semibold">Computer</h3>
-                <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center text-foreground">
-                  {computerChoice && getIcon(computerChoice)}
+                
+                <div className="text-8xl md:text-9xl font-mono font-bold tracking-tighter">
+                    {formatTime(timeLeft)}
                 </div>
-              </div>
-            </div>
-            <h2 className="text-3xl font-bold text-primary">{result}</h2>
-            <Button onClick={resetGame} className="rounded-full" data-cursor-interactive>
-              <RotateCcw className="mr-2" /> Nochmal spielen
-            </Button>
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
+
+                <div className="flex gap-4">
+                    <Button onClick={handleToggle} size="lg" className="rounded-full w-32">
+                        {isActive ? <Pause className="mr-2"/> : <Play className="mr-2"/>}
+                        {isActive ? 'Pause' : 'Start'}
+                    </Button>
+                    <Button onClick={handleReset} size="lg" variant="outline" className="rounded-full">
+                        <RotateCcw/>
+                    </Button>
+                </div>
+                <audio ref={audioRef} src="/bell.mp3" preload="auto"></audio>
+            </CardContent>
+        </Card>
+    );
 }
 
+function WordCounter() {
+    const [text, setText] = useState('');
+    
+    const stats = React.useMemo(() => {
+        const trimmedText = text.trim();
+        if (trimmedText === '') {
+            return { words: 0, characters: 0, sentences: 0, paragraphs: 0 };
+        }
+        
+        const words = trimmedText.split(/\s+/).filter(Boolean).length;
+        const characters = text.length;
+        // Simple sentence count: split by sentence-ending punctuation.
+        const sentences = (trimmedText.match(/[.!?]+(\s|$)/g) || []).length || (trimmedText.length > 0 ? 1 : 0);
+        const paragraphs = trimmedText.split(/\n+/).filter(p => p.trim() !== '').length;
+
+        return { words, characters, sentences, paragraphs };
+    }, [text]);
+
+    return (
+        <Card className="rounded-3xl w-full">
+            <CardHeader>
+                <CardTitle className="text-2xl text-center font-headline">Wort- & Zeichenzähler</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center gap-6">
+                <Textarea
+                    value={text}
+                    onChange={e => setText(e.target.value)}
+                    placeholder="Hier Text einfügen..."
+                    className="min-h-[250px] text-base"
+                />
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full text-center">
+                    <div className="bg-muted p-4 rounded-lg">
+                        <p className="text-2xl font-bold">{stats.words}</p>
+                        <p className="text-sm text-muted-foreground">Wörter</p>
+                    </div>
+                     <div className="bg-muted p-4 rounded-lg">
+                        <p className="text-2xl font-bold">{stats.characters}</p>
+                        <p className="text-sm text-muted-foreground">Zeichen</p>
+                    </div>
+                     <div className="bg-muted p-4 rounded-lg">
+                        <p className="text-2xl font-bold">{stats.sentences}</p>
+                        <p className="text-sm text-muted-foreground">Sätze</p>
+                    </div>
+                     <div className="bg-muted p-4 rounded-lg">
+                        <p className="text-2xl font-bold">{stats.paragraphs}</p>
+                        <p className="text-sm text-muted-foreground">Absätze</p>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+    );
+}
 
 export default function ToolsPage() {
   const { unlockAchievement } = useAchievements();
