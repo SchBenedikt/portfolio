@@ -109,7 +109,7 @@ export default function GalleryPage() {
                             </CardContent>
                         </Card>
                       </DialogTrigger>
-                      <DialogContent className="max-w-6xl w-full p-0 bg-transparent border-none grid grid-cols-1 md:grid-cols-4 items-start gap-0">
+                      <DialogContent className="max-w-6xl w-full p-0 bg-transparent border-none grid grid-cols-1 md:grid-cols-4 items-stretch gap-0">
                          <DialogHeader className="sr-only">
                            <DialogTitle>{item.title}</DialogTitle>
                            <DialogDescription>{item.description}</DialogDescription>
