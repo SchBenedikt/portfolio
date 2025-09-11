@@ -6,6 +6,8 @@ export interface GalleryImage {
   alt: string;
   title: string;
   description: string;
+  location: string;
+  date: string;
   aiHint: string;
 }
 
@@ -16,7 +18,9 @@ export const galleryData: GalleryImage[] = [
     height: 800,
     alt: 'Porträtfoto von Benedikt Schächner',
     title: 'Porträt',
-    description: 'Ein professionelles Porträtfoto.',
+    description: 'Ein professionelles Porträtfoto, aufgenommen für offizielle Anlässe und Publikationen.',
+    location: 'Fotostudio, München',
+    date: '2024-05-15',
     aiHint: 'portrait person'
   },
   {
@@ -25,7 +29,9 @@ export const galleryData: GalleryImage[] = [
     height: 800,
     alt: 'Benedikt Schächner bei einer Präsentation',
     title: 'Vortrag',
-    description: 'Bei einem Vortrag über Technik-Themen.',
+    description: 'Während eines Lightning Talks über Nextcloud-Sicherheit auf der Nextcloud Conference in Berlin.',
+    location: 'Nextcloud Conference, Berlin',
+    date: '2024-09-14',
     aiHint: 'person presentation'
   },
   {
@@ -34,7 +40,9 @@ export const galleryData: GalleryImage[] = [
     height: 600,
     alt: 'Benedikt Schächner in legerer Kleidung',
     title: 'Lässig',
-    description: 'Ein entspannter Moment.',
+    description: 'Ein entspannter Moment, aufgenommen im Englischen Garten in München.',
+    location: 'Englischer Garten, München',
+    date: '2024-06-20',
     aiHint: 'person casual'
   },
   {
@@ -42,8 +50,10 @@ export const galleryData: GalleryImage[] = [
     width: 600,
     height: 800,
     alt: 'Benedikt Schächner im Anzug',
-    title: 'Formell',
-    description: 'Bereit für das nächste Event.',
+    title: 'Preisverleihung',
+    description: 'Formelle Kleidung bei der Preisverleihung des Deutschen Multimediapreises in Dresden.',
+    location: 'Deutscher Multimediapreis, Dresden',
+    date: '2024-11-23',
     aiHint: 'person formal'
   },
   {
@@ -52,7 +62,9 @@ export const galleryData: GalleryImage[] = [
     height: 800,
     alt: 'Weiteres Porträtfoto',
     title: 'Porträt II',
-    description: 'Ein weiteres Porträt.',
+    description: 'Ein weiteres professionelles Porträt aus einem Shooting in Töging.',
+    location: 'Fotostudio, Töging',
+    date: '2023-10-01',
     aiHint: 'portrait man'
   },
   {
@@ -61,7 +73,9 @@ export const galleryData: GalleryImage[] = [
     height: 800,
     alt: 'Benedikt Schächner im Freien',
     title: 'Outdoor',
-    description: 'Foto im Freien aufgenommen.',
+    description: 'Ein Outdoor-Foto, das bei einem Spaziergang in der Natur entstanden ist.',
+    location: 'In der Nähe von Pleiskirchen',
+    date: '2024-07-10',
     aiHint: 'person outdoor'
   },
   {
@@ -70,7 +84,9 @@ export const galleryData: GalleryImage[] = [
     height: 800,
     alt: 'Porträtfoto von Benedikt Schächner',
     title: 'Nahaufnahme',
-    description: 'Eine Nahaufnahme.',
+    description: 'Eine Nahaufnahme, die den Fokus auf den Gesichtsausdruck legt.',
+    location: 'Fotostudio, München',
+    date: '2024-05-15',
     aiHint: 'person closeup'
   },
   {
@@ -78,8 +94,10 @@ export const galleryData: GalleryImage[] = [
     width: 800,
     height: 600,
     alt: 'Benedikt Schächner bei einer Veranstaltung',
-    title: 'Veranstaltung',
-    description: 'Auf einer Veranstaltung.',
+    title: 'Networking',
+    description: 'Im Gespräch auf einer Fachveranstaltung für junge Führungskräfte.',
+    location: 'Young Leaders Akademie',
+    date: '2023-11-18',
     aiHint: 'person event'
   },
   {
@@ -88,7 +106,9 @@ export const galleryData: GalleryImage[] = [
     height: 800,
     alt: 'Profilbild von Benedikt Schächner',
     title: 'Profil',
-    description: 'Ein Profilbild.',
+    description: 'Ein klassisches Profilbild für berufliche Netzwerke und Online-Profile.',
+    location: 'Fotostudio, Töging',
+    date: '2023-10-01',
     aiHint: 'person profile'
   },
   {
@@ -96,8 +116,10 @@ export const galleryData: GalleryImage[] = [
     width: 800,
     height: 600,
     alt: 'Benedikt Schächner bei der Arbeit',
-    title: 'Arbeit',
-    description: 'Bei der Arbeit an einem Projekt.',
+    title: 'Fokussiert',
+    description: 'Konzentriert bei der Arbeit an einem neuen Web-Projekt am Schreibtisch.',
+    location: 'Home Office',
+    date: '2024-08-05',
     aiHint: 'person working'
   },
   {
@@ -106,7 +128,9 @@ export const galleryData: GalleryImage[] = [
     height: 800,
     alt: 'Ein weiteres Foto von Benedikt Schächner',
     title: 'Klassisch',
-    description: 'Ein klassisches Foto.',
+    description: 'Ein klassisches Foto in Schwarz-Weiß-Optik für einen zeitlosen Look.',
+    location: 'Fotostudio, München',
+    date: '2024-05-15',
     aiHint: 'person classic'
   },
    {
@@ -115,7 +139,9 @@ export const galleryData: GalleryImage[] = [
     height: 600,
     alt: 'Benedikt Schächner in Aktion',
     title: 'Aktion',
-    description: 'Ein dynamisches Bild in Aktion.',
+    description: 'Ein dynamisches Bild während einer interaktiven Workshop-Session mit Medienscouts.',
+    location: 'König-Karlmann-Gymnasium',
+    date: '2024-03-22',
     aiHint: 'person action'
   },
 ];
