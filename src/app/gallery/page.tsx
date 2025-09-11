@@ -109,20 +109,19 @@ export default function GalleryPage() {
                             </CardContent>
                         </Card>
                       </DialogTrigger>
-                      <DialogContent className="max-w-6xl w-full h-[90vh] max-h-[600px] p-0 bg-transparent border-none flex flex-col md:flex-row items-stretch gap-0">
+                      <DialogContent className="max-w-6xl w-full h-[90vh] p-0 bg-transparent border-none flex flex-col md:flex-row items-stretch gap-0">
                          <DialogHeader className="sr-only">
                            <DialogTitle>{item.title}</DialogTitle>
                            <DialogDescription>{item.description}</DialogDescription>
                          </DialogHeader>
                          <div 
-                            className="relative w-full md:w-3/4 h-64 md:h-full bg-cover bg-center rounded-t-lg md:rounded-l-lg md:rounded-r-none"
-                            style={{ backgroundImage: `url(${item.src})` }}
+                            className="relative w-full md:w-3/4 h-64 md:h-full bg-black flex items-center justify-center rounded-t-lg md:rounded-l-lg md:rounded-r-none"
                           >
                              <Image
                                 src={item.src}
                                 alt={item.alt}
                                 fill
-                                className="object-contain opacity-0 pointer-events-none" // For optimization, not for display
+                                className="object-contain w-full h-full"
                               />
                          </div>
                          <div className="w-full md:w-1/4 bg-card p-6 md:p-8 flex flex-col rounded-b-lg md:rounded-r-lg md:rounded-l-none">
