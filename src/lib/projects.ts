@@ -1,6 +1,25 @@
 
 export const projectData = [
   {
+    title: 'P-Seminar',
+    slug: 'p-seminar',
+    type: 'school',
+    description: 'Es wird etwas Großartiges kommen (hoffentlich 😉)',
+    longDescription: `
+      <p class="text-xl md:text-2xl">Die Planungen laufen auf Hochtouren. Bleiben Sie gespannt, was hier in Kürze enthüllt wird. Es wird etwas Großartiges kommen... hoffentlich 😉</p>
+    `,
+    image: 'https://placehold.co/1200x675/171717/9ca3af?text=P-Seminar',
+    aiHint: 'question mark mystery',
+    url: '#',
+    tags: ['Zukunftsprojekt', 'P-Seminar', 'Geheim'],
+    date: '2025-09-01',
+    category: 'Schulprojekt',
+    details: {
+      usage: 'Ein spannendes Projekt im Rahmen des P-Seminars.',
+      potential: 'Das Potenzial ist grenzenlos.'
+    }
+  },
+  {
     title: 'Notio',
     slug: 'notio',
     type: 'private',
@@ -190,7 +209,7 @@ export const projectData = [
         <p>Das Projekt zeigt Benedikt Schächner als engagierten Entwickler und Ideengeber, der seine Begeisterung für Technik praktisch vermittelt, sein Wissen weitergibt und aktiv an der offenen Tech-Community teilnimmt. Es unterstreicht die Fähigkeit, Herausforderungen mit modernen Werkzeugen kreativ zu lösen, kontinuierlich zu lernen und eigene Projekte selbständig umzusetzen.</p>
     `,
     image: 'https://technik.xn--schchner-2za.de/wp-content/uploads/2025/08/Technik.png',
-    url: 'https://technik.xn--schchner-2za.de/',
+    url: 'https://technik.xn--schchner-de/',
     tags: ['Web-Anwendungen', 'Python', 'JavaScript', 'Self-Hosting', 'Docker', 'Open-Source'],
     date: '2024-09-01',
     category: 'Entwicklerplattform / Blog',
