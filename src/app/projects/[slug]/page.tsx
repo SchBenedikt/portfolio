@@ -47,7 +47,7 @@ export default function ProjectPage() {
 
   const hasValidUrl = project.url && project.url !== '#';
   const buttonIcon = hasValidUrl && !project.url.includes('github.com') ? <ExternalLink className="mr-3"/> : <Github className="mr-3"/>;
-  const buttonText = hasValidUrl ? (project.url.includes('github.com') ? 'Auf Github ansehen' : 'Projekt ansehen') : 'Nicht verfügbar';
+  const buttonText = hasValidUrl ? (project.url.includes('github.com') ? 'Auf Github ansehen' : 'Projekt ansehen') : '';
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
@@ -172,12 +172,14 @@ export default function ProjectPage() {
                           </div>
                         )}
                      </div>
-                     <Button asChild variant="outline" className="w-full rounded-full" data-cursor-interactive disabled={!hasValidUrl}>
-                        <Link href={project.url} target="_blank" rel="noopener noreferrer" prefetch>
-                           {buttonIcon}
-                           {buttonText}
-                        </Link>
-                    </Button>
+                     {hasValidUrl && (
+                       <Button asChild variant="outline" className="w-full rounded-full" data-cursor-interactive>
+                          <Link href={project.url} target="_blank" rel="noopener noreferrer" prefetch>
+                             {buttonIcon}
+                             {buttonText}
+                          </Link>
+                      </Button>
+                    )}
                  </div>
               </div>
             </div>

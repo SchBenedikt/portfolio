@@ -4,9 +4,10 @@ export const projectData = [
     title: 'P-Seminar',
     slug: 'p-seminar',
     type: 'school',
-    description: 'Es wird etwas Großartiges kommen (hoffentlich 😉)',
+    description: 'Ein geheimnisvolles Projekt im Rahmen des P-Seminars. Die Planungen laufen auf Hochtouren und Großes wird erwartet... (hoffentlich 😉).',
     longDescription: `
-      <p class="text-xl md:text-2xl">Die Planungen laufen auf Hochtouren. Bleiben Sie gespannt, was hier in Kürze enthüllt wird. Es wird etwas Großartiges kommen... hoffentlich 😉</p>
+      <p class="text-xl md:text-2xl">Die Planungen für ein neues, spannendes Projekt im Rahmen des P-Seminars laufen auf Hochtouren. Bleib gespannt, was hier in Kürze enthüllt wird. Es wird etwas Großartiges kommen... hoffentlich 😉</p>
+      <p class="text-lg mt-4">Dieses Projekt wird neue Technologien mit praktischer Anwendung verbinden und verspricht, sowohl lehrreich als auch innovativ zu sein. Mehr Details folgen bald!</p>
     `,
     image: 'https://placehold.co/1200x675/171717/9ca3af?text=P-Seminar',
     aiHint: 'question mark mystery',
