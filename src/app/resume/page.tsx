@@ -113,7 +113,7 @@ export const certificates = [
         organization: "Bayerischer Judo-Verband e.V.",
         date: "Okt. 2025",
         skills: ["Kampfrichter", "Lizenz J", "Judo"],
-        description: "Ausbildung zum Judo-Kampfrichter mit Erwerb der Lizenz J.",
+        description: "Ausbildung zum Jugend-Kampfrichter mit Erwerb der Lizenz J im Rahmen einer Maßnahme des Judobezirks Oberbayern.",
     },
     {
         title: "Mediator",

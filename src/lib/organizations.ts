@@ -18,7 +18,7 @@ export const organizationData: Organization[] = [
     { slug: 'fau', name: 'Friedrich-Alexander-Universität Erlangen-Nürnberg', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/FAU_logo.svg/1920px-FAU_logo.svg.png'},
     { slug: 'young-leaders', name: 'young leaders GmbH' },
     { slug: 'brk', name: 'Bayerisches Rotes Kreuz (BRK)' },
-    { slug: 'bayerischer-judo-verband', name: 'Bayerischer Judo-Verband e.V.' },
+    { slug: 'bayerischer-judo-verband', name: 'Bayerischer Judo-Verband e.V.', logo: 'https://www.bayernjudo.de/templates/yootheme/cache/a7/JLG%20obb-a718fabc.webp' },
     { slug: 'schachklub-toeging', name: 'Schachklub Töging e. V.'},
     { slug: 'ovb-heimatzeitungen', name: 'OVB Heimatzeitungen' },
     { slug: 'ars-electronica', name: 'Ars Electronica' },

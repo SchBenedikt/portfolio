@@ -107,6 +107,14 @@ export const articlesData: Article[] = [
         date: '2024-02-22',
         description: 'Erfolgreicher Wettkampftag für die Judoka des KKG, die sich den Sieg im Bezirksfinale sicherten.',
     },
+    {
+        title: 'Neue Jugendkampfrichter für Oberbayern',
+        source: 'Bayerischer Judo-Verband',
+        organizationSlug: 'bayerischer-judo-verband',
+        url: 'https://www.bayernjudo.de/aktuelles/verbandsnachrichten/61-kampfrichter/3562-neue-jugendkampfrichter-fuer-oberbayern',
+        date: '2025-10-05',
+        description: 'Der Judobezirk Oberbayern bildete erfolgreich neue Jugendkampfrichter aus, um die Nachwuchsförderung im Kampfrichterwesen zu stärken.'
+    },
      {
         title: 'Schachjugend zeigt ihr Können',
         source: 'OVB Heimatzeitungen',
