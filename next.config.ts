@@ -71,6 +71,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+       {
+        protocol: 'https',
+        hostname: 'www.bayernjudo.de',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   devIndicators: false,
