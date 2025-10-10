@@ -109,6 +109,13 @@ export const timelineEvents = [
 
 export const certificates = [
     {
+        title: "Judo-Kampfrichter",
+        organization: "Bayerischer Judo-Verband e.V.",
+        date: "Okt. 2025",
+        skills: ["Kampfrichter", "Lizenz J", "Judo"],
+        description: "Ausbildung zum Judo-Kampfrichter mit Erwerb der Lizenz J.",
+    },
+    {
         title: "Mediator",
         organization: "König-Karlmann-Gymnasium",
         date: "Feb. 2024 - Juli 2025",
@@ -414,5 +421,3 @@ export default function ResumePage() {
     </div>
   );
 }
-
-    
