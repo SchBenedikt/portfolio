@@ -12,9 +12,9 @@ import { ArrowUpRight, Calendar, Search } from 'lucide-react';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getOrganizationBySlug } from '@/lib/organizations';
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -110,39 +110,53 @@ export default function PressPage() {
                   <motion.div key={year} variants={itemVariants}>
                     <h2 className="text-4xl md:text-5xl font-black mb-8 border-b pb-4">{year}</h2>
                     <div className="columns-1 md:columns-2 gap-8 space-y-8">
-                      {groupedArticles[year].map((article) => (
-                        <motion.div key={article.url} variants={itemVariants} className="break-inside-avoid">
-                           <Card className="group rounded-2xl overflow-hidden transition-all hover:border-primary/50 hover:bg-muted/30 w-full flex flex-col">
-                            <CardHeader className="p-6 md:p-8">
-                              <div className="flex flex-col-reverse sm:flex-row justify-between sm:items-start gap-4">
-                                  <div>
-                                      <CardTitle className="text-2xl font-bold font-headline mb-2">
-                                        <Link href={article.url} target="_blank" rel="noopener noreferrer" data-cursor-interactive className="hover:text-primary transition-colors" prefetch>
-                                          {article.title}
+                      {groupedArticles[year].map((article) => {
+                         const organization = getOrganizationBySlug(article.organizationSlug);
+                         return (
+                            <motion.div key={article.url} variants={itemVariants} className="break-inside-avoid">
+                               <Card className={cn("group rounded-2xl overflow-hidden transition-all w-full flex flex-col relative", organization?.logo ? '' : 'hover:border-primary/50 hover:bg-muted/30')}>
+                                {organization?.logo && (
+                                  <Image
+                                    src={organization.logo}
+                                    alt={`${organization.name} Logo`}
+                                    layout="fill"
+                                    objectFit="contain"
+                                    className="absolute inset-0 z-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 ease-in-out p-8"
+                                  />
+                                )}
+                                <div className="relative z-10 bg-transparent flex flex-col h-full">
+                                  <CardHeader className="p-6 md:p-8">
+                                    <div className="flex flex-col-reverse sm:flex-row justify-between sm:items-start gap-4">
+                                        <div>
+                                            <CardTitle className="text-2xl font-bold font-headline mb-2">
+                                              <Link href={article.url} target="_blank" rel="noopener noreferrer" data-cursor-interactive className="hover:text-primary transition-colors" prefetch>
+                                                {article.title}
+                                              </Link>
+                                            </CardTitle>
+                                            <Link href={`/organization/${article.organizationSlug}`} data-cursor-interactive className="text-base text-primary hover:underline" prefetch>
+                                                {organization?.name || article.source}
+                                            </Link>
+                                        </div>
+                                        <div className="flex items-center gap-2 text-sm text-muted-foreground whitespace-nowrap self-start sm:self-auto">
+                                            <Calendar className="w-4 h-4" />
+                                            <span>{new Date(article.date).toLocaleDateString('de-DE')}</span>
+                                        </div>
+                                    </div>
+                                  </CardHeader>
+                                  <CardContent className="p-6 md:p-8 pt-0 flex-grow flex flex-col">
+                                      <p className="text-muted-foreground text-base flex-grow">{article.description}</p>
+                                      <Button asChild variant="outline" className="rounded-full mt-4 self-start group-hover:bg-accent group-hover:text-accent-foreground" data-cursor-interactive>
+                                        <Link href={article.url} target="_blank" rel="noopener noreferrer" prefetch>
+                                          <span>Artikel lesen</span>
+                                          <ArrowUpRight className="ml-2 w-5 h-5 transform-gpu transition-transform group-hover:rotate-45" />
                                         </Link>
-                                      </CardTitle>
-                                      <Link href={`/organization/${article.organizationSlug}`} data-cursor-interactive className="text-base text-primary hover:underline" prefetch>
-                                          {getOrganizationBySlug(article.organizationSlug)?.name || article.source}
-                                      </Link>
-                                  </div>
-                                  <div className="flex items-center gap-2 text-sm text-muted-foreground whitespace-nowrap self-start sm:self-auto">
-                                      <Calendar className="w-4 h-4" />
-                                      <span>{new Date(article.date).toLocaleDateString('de-DE')}</span>
-                                  </div>
-                              </div>
-                            </CardHeader>
-                            <CardContent className="p-6 md:p-8 pt-0 flex-grow flex flex-col">
-                                <p className="text-muted-foreground text-base flex-grow">{article.description}</p>
-                                <Button asChild variant="outline" className="rounded-full mt-4 self-start group-hover:bg-accent group-hover:text-accent-foreground" data-cursor-interactive>
-                                  <Link href={article.url} target="_blank" rel="noopener noreferrer" prefetch>
-                                    <span>Artikel lesen</span>
-                                    <ArrowUpRight className="ml-2 w-5 h-5 transform-gpu transition-transform group-hover:rotate-45" />
-                                  </Link>
-                                </Button>
-                            </CardContent>
-                          </Card>
-                        </motion.div>
-                      ))}
+                                      </Button>
+                                  </CardContent>
+                                </div>
+                              </Card>
+                            </motion.div>
+                         )
+                      })}
                     </div>
                   </motion.div>
                 ))}

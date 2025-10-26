@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://benedikt.xn--schchner-2za.de/sitemap.xml

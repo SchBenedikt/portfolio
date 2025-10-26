@@ -49,7 +49,7 @@ export default function OrganizationPage() {
             <div className="flex items-center gap-4 md:gap-6 mb-8 md:mb-12">
                 {organization.logo && (
                     <div className="w-16 h-16 md:w-24 md:h-24 relative p-2 bg-white rounded-xl flex items-center justify-center">
-                        <Image src={organization.logo} alt={`${organization.name} Logo`} layout="fill" objectFit="contain" />
+                        <Image src={organization.logo} alt={`${organization.name} Logo`} width="100" height="100" className="object-contain" />
                     </div>
                 )}
                 <h1 className="text-4xl md:text-7xl font-black uppercase tracking-tighter font-headline">
