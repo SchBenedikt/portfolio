@@ -105,7 +105,13 @@ export default function ProjectsPage() {
                  const buttonText = hasValidUrl ? (project.url.includes('github.com') ? 'Auf Github ansehen' : 'Projekt ansehen') : 'Nicht verfügbar';
 
                 return (
-                  <motion.div key={project.slug} variants={itemVariants} className="flex">
+                  <motion.div
+                    key={project.slug}
+                    variants={itemVariants}
+                    className="flex"
+                    whileHover={{ scale: 1.03 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                  >
                     <Card className="rounded-3xl overflow-hidden border-border/50 flex flex-col w-full">
                        <CardHeader className="p-0">
                          <div className="aspect-video overflow-hidden border-b">
