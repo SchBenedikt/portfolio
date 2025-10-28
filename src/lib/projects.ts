@@ -24,10 +24,13 @@ export const projectData = [
     slug: 'notio',
     type: 'private',
     description:
-      'Eine webbasierte Applikation zur Verwaltung und Analyse schulischer Leistungsdaten, individuell konzipiert für Schüler an weiterführenden Schulen in Deutschland.',
+      'Eine webbasierte Applikation zur Verwaltung schulischer Leistungsdaten, nominiert für den Crossmedia-Wettbewerb des Bayerischen Rundfunks.',
     longDescription:
       `
       <p class="text-xl md:text-2xl">Notio ist eine webbasierte Applikation zur Verwaltung und Analyse schulischer Leistungsdaten, individuell konzipiert für Schüler an weiterführenden Schulen in Deutschland. Die Software bietet ein zentrales, übersichtlich gestaltetes Dashboard, über das alle relevanten Informationen auf einen Blick sichtbar sind.</p>
+
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Erfolge und Anerkennung</h3>
+      <p>Das Projekt wurde für den renommierten <strong>Crossmedia-Wettbewerb des Bayerischen Rundfunks</strong> nominiert und unterstreicht damit seinen innovativen Charakter und die hohe Qualität der Umsetzung.</p>
 
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Dashboard & Übersicht</h3>
       <p>Nach dem Login gelangt der Nutzer direkt in das persönliche Notencockpit. Hier werden der aktuelle Gesamtnotenschnitt (auf Basis gewichteter Fächer), die Anzahl der ordentlich geführten Fächer sowie sämtliche eingetragenen Leistungsnachweise angezeigt.</p>
@@ -49,7 +52,7 @@ export const projectData = [
       `,
     image: 'https://raw.githubusercontent.com/SchBenedikt/portfolio/refs/heads/master/src/app/photos/Notio_Dashboard.png',
     url: 'https://notio.schächner.de',
-    tags: ['Web-App', 'Next.js', 'Datenvisualisierung', 'Bildung', 'Lernmanagement'],
+    tags: ['Web-App', 'Next.js', 'Datenvisualisierung', 'Bildung', 'Lernmanagement', 'Nominiert', 'Ausgezeichnet'],
     date: '2024-08-01',
     category: 'Web-Anwendung / EdTech',
     details: {
