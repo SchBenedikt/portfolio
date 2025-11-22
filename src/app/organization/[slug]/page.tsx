@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { getOrganizationBySlug, resumeOrgToSlug } from '@/lib/organizations';
 import { articlesData } from '@/lib/articles';
 import { timelineEvents, certificates } from '@/app/resume/page';
-import Image from 'next/image';
+// use plain <img> to display external logos (avoids next/image host config)
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Briefcase, Award, Newspaper, Calendar } from 'lucide-react';
 import Link from 'next/link';
@@ -49,7 +49,7 @@ export default function OrganizationPage() {
             <div className="flex items-center gap-4 md:gap-6 mb-8 md:mb-12">
                 {organization.logo && (
                     <div className="w-16 h-16 md:w-24 md:h-24 relative p-2 bg-white rounded-xl flex items-center justify-center">
-                        <Image src={organization.logo} alt={`${organization.name} Logo`} width="100" height="100" className="object-contain" />
+                        <img src={organization.logo} alt={`${organization.name} Logo`} className="object-contain w-full h-full" />
                     </div>
                 )}
                 <h1 className="text-4xl md:text-7xl font-black uppercase tracking-tighter font-headline">
@@ -62,8 +62,8 @@ export default function OrganizationPage() {
                     <section>
                     <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 flex items-center gap-3"><Briefcase className="text-primary"/> Werdegang</h2>
                     <div className="relative border-l-2 border-border ml-3 md:ml-4">
-                        {relatedTimelineEvents.map((event, index) => (
-                            <div key={index} className="mb-10 ml-4 md:ml-8 pl-4">
+                        {relatedTimelineEvents.map((event) => (
+                            <div key={`${event.date}-${event.title}`} className="mb-10 ml-4 md:ml-8 pl-4">
                                 <span className="absolute -left-[18px] flex items-center justify-center w-9 h-9 bg-background rounded-full ring-8 ring-background">
                                     <div className="flex items-center justify-center w-full h-full bg-secondary rounded-full">
                                         {event.icon}
@@ -90,8 +90,8 @@ export default function OrganizationPage() {
                     <section>
                         <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 flex items-center gap-3"><Award className="text-primary"/> Bescheinigungen</h2>
                         <div className="columns-1 md:columns-2 gap-8 space-y-8">
-                            {relatedCertificates.map((cert, index) => (
-                                <div key={index} className="break-inside-avoid">
+                            {relatedCertificates.map((cert) => (
+                                <div key={`${cert.date}-${cert.title}`} className="break-inside-avoid">
                                     <Card className="rounded-2xl border-border/50 hover:border-primary/50 transition-colors h-full">
                                         <CardHeader>
                                             <CardTitle className="text-lg md:text-2xl font-bold font-headline">{cert.title}</CardTitle>

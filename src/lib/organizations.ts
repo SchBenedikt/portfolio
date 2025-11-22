@@ -12,6 +12,7 @@ export const organizationData: Organization[] = [
     { slug: 'mb21', name: 'Deutscher Multimediapreis mb21', logo: 'https://www.mb21.de/fileadmin/mb21_2021/Design/mb21_logo_2021.svg'},
     { slug: 'br', name: 'Bayerischer Rundfunk', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Logo-br-2017.svg/1024px-Logo-br-2017.svg.png' },
     { slug: 'nextcloud', name: 'Nextcloud Conference', logo: 'https://nextcloud.com/wp-content/themes/nextcloud-theme/assets/img/logo-dark.svg' },
+    { slug: 'km-bayern', name: 'Kultusministerium Bayern' },
     { slug: 'omv-burghausen', name: 'OMV Burghausen' },
     { slug: 'rohde-schwarz', name: 'Rohde & Schwarz Cybersecurity' },
     { slug: 'technik-schaechner', name: 'Technik Schächner' },
@@ -45,6 +46,7 @@ export const resumeOrgToSlug: { [key: string]: string } = {
     "Schachklub Töging e. V.": "schachklub-toeging",
     "OVB Heimatzeitungen": "ovb-heimatzeitungen",
     "Passauer Neue Presse": "pnp",
+    "Kultusministerium Bayern": "km-bayern",
     "TuS Töging": "tus-toeging",
     "Ars Electronica": "ars-electronica",
 };

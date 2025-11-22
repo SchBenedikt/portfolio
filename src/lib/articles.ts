@@ -84,6 +84,14 @@ export const articlesData: Article[] = [
         description: 'Der Bayerische Rundfunk berichtet über das prämierte Projekt "Meum Diarium" und hebt die kreative Verbindung von historischer Figur und modernem Medienumfeld hervor.',
     },
     {
+        title: 'Notio — Einfach besser lernen (Gewinnerbeitrag)',
+        source: 'Bayerischer Rundfunk',
+        organizationSlug: 'br',
+        url: 'https://www.br.de/medienkompetenzprojekte/inhalt/crossmedia/notio-einfach-besser-lernen-interactive-crossmedia-2025-gewinnerbeitrag-100.html',
+        date: '2025-11-20',
+        description: 'Bericht über den Gewinn des Crossmedia‑Preises 2025 in der Sparte "interactive" für das Projekt Notio.',
+    },
+    {
         title: 'Ein Feldherr wird wieder lebendig',
         source: 'König-Karlmann-Gymnasium',
         organizationSlug: 'kkg',
@@ -138,5 +146,13 @@ export const articlesData: Article[] = [
         url: 'https://www.koenig-karlmann-gymnasium.de/news/lesen-was-geht/',
         date: '2020-09-18',
         description: 'Bericht über die Teilnahme am Lesewettbewerb und die Bedeutung des Lesens.',
+    },
+    {
+        title: '30 Jahre Crossmedia – Nachwuchstalente ausgezeichnet',
+        source: 'Kultusministerium Bayern',
+        organizationSlug: 'km-bayern',
+        url: 'https://www.km.bayern.de/meldung/30-jahre-crossmedia-nachwuchstalente-fuer-innovative-digitalprojekte-ausgezeichnet',
+        date: '2025-11-20',
+        description: 'Bericht des Kultusministeriums über die Auszeichnung junger Talente beim Crossmedia‑Wettbewerb und die Preisvergabe für innovative Digitalprojekte (Gewinner: Notio).',
     },
 ];

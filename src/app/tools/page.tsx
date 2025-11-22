@@ -186,8 +186,8 @@ function ColorPaletteGenerator() {
             </CardHeader>
             <CardContent className="flex flex-col items-center gap-6">
                  <div className="w-full flex flex-col sm:flex-row gap-4">
-                    {palette.map((color, index) => (
-                        <div key={index} className="flex-1 h-32 rounded-lg flex items-end justify-center p-2 cursor-pointer" style={{ backgroundColor: color }} onClick={() => handleCopy(color)}>
+                    {palette.map((color) => (
+                        <div key={color} className="flex-1 h-32 rounded-lg flex items-end justify-center p-2 cursor-pointer" style={{ backgroundColor: color }} onClick={() => handleCopy(color)}>
                             <span className="font-mono bg-background/50 text-foreground px-2 py-1 rounded">{color}</span>
                         </div>
                     ))}

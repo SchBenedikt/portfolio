@@ -13,7 +13,7 @@ import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { getOrganizationBySlug } from '@/lib/organizations';
-import Image from 'next/image';
+// using native <img> for external logos to avoid next/image host config
 import { cn } from '@/lib/utils';
 
 const containerVariants = {
@@ -109,19 +109,17 @@ export default function PressPage() {
                 {sortedYears.map((year) => (
                   <motion.div key={year} variants={itemVariants}>
                     <h2 className="text-4xl md:text-5xl font-black mb-8 border-b pb-4">{year}</h2>
-                    <div className="columns-1 md:columns-2 gap-8 space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       {groupedArticles[year].map((article) => {
                          const organization = getOrganizationBySlug(article.organizationSlug);
                          return (
                             <motion.div key={article.url} variants={itemVariants} className="break-inside-avoid">
                                <Card className={cn("group rounded-2xl overflow-hidden transition-all w-full flex flex-col relative", organization?.logo ? '' : 'hover:border-primary/50 hover:bg-muted/30')}>
                                 {organization?.logo && (
-                                  <Image
+                                  <img
                                     src={organization.logo}
                                     alt={`${organization.name} Logo`}
-                                    layout="fill"
-                                    objectFit="contain"
-                                    className="absolute inset-0 z-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 ease-in-out p-8"
+                                    className="absolute inset-0 z-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 ease-in-out p-8 object-contain w-full h-full"
                                   />
                                 )}
                                 <div className="relative z-10 bg-transparent flex flex-col h-full">

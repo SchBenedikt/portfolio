@@ -29,6 +29,14 @@ const about = {
 
 export const timelineEvents = [
     {
+        date: "20. Nov. 2025",
+        title: "Crossmedia-Preis, Sparte \"Interactive\"",
+        organization: "Bayerischer Rundfunk",
+        description: "Gewinn des Crossmedia-Preises in der Sparte \"interactive\" mit dem Projekt \"Notio\".",
+        icon: <Award />,
+        projectSlug: 'notio'
+    },
+    {
         date: "02. - 08. Sep. 2025",
         title: "Youth Exchange Projekt 2025",
         organization: "Ars Electronica",
@@ -283,8 +291,8 @@ export default function ResumePage() {
                 <motion.div variants={itemVariants} className="mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 text-center flex items-center justify-center gap-3"><Briefcase className="text-primary"/> Werdegang</h2>
                     <div className="relative border-l-2 border-border ml-3 md:ml-4 pl-4">
-                        {timelineEvents.map((event, index) => (
-                            <motion.div key={index} variants={itemVariants} className="mb-10 ml-4 md:ml-8">
+                        {timelineEvents.map((event) => (
+                            <motion.div key={`${event.date}-${event.title}`} variants={itemVariants} className="mb-10 ml-4 md:ml-8">
                                 <span className="absolute -left-[18px] flex items-center justify-center w-9 h-9 bg-background rounded-full ring-8 ring-background">
                                     <div className="flex items-center justify-center w-full h-full bg-secondary rounded-full">
                                       {React.cloneElement(event.icon, { className: "h-5 w-5 text-muted-foreground" })}
@@ -322,8 +330,8 @@ export default function ResumePage() {
                 <motion.div variants={itemVariants} className="mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 text-center flex items-center justify-center gap-3"><Award className="text-primary"/> Bescheinigungen & Zertifikate</h2>
                     <div className="md:columns-2 md:gap-8 space-y-8">
-                        {certificates.map((cert, index) => (
-                            <motion.div key={index} variants={itemVariants} className="break-inside-avoid">
+                        {certificates.map((cert) => (
+                            <motion.div key={`${cert.date}-${cert.title}`} variants={itemVariants} className="break-inside-avoid">
                                 <Card className="rounded-2xl border-border/50">
                                     <CardHeader>
                                         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
@@ -385,8 +393,8 @@ export default function ResumePage() {
               </TabsContent>
               <TabsContent value="current">
                  <div className="md:columns-2 md:gap-8 space-y-8">
-                    {currentActivities.map((item: any, index) => (
-                       <motion.div key={index} variants={itemVariants} className="break-inside-avoid">
+                          {currentActivities.map((item: any) => (
+                              <motion.div key={`${item.date}-${item.title}`} variants={itemVariants} className="break-inside-avoid">
                            <Card className="rounded-2xl border-border/50">
                                <CardHeader>
                                    <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
