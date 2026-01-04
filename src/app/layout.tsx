@@ -73,13 +73,13 @@ export const metadata: Metadata = {
 };
 
 const pagesToPrefetch = [
-    '/',
-    '/projects',
-    '/resume',
-    '/gallery',
-    '/press',
-    '/tools',
-    '/links',
+  '/',
+  '/projects',
+  '/resume',
+  '/gallery',
+  '/press',
+  '/tools',
+  '/links',
 ];
 
 const structuredData = {
@@ -119,9 +119,9 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <meta name="theme-color" content="#111827" />
         <script
           type="application/ld+json"
@@ -136,16 +136,16 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AchievementsProvider>
-              <CustomCursor />
-              {children}
-              <DefaultToaster />
-              <SonnerToaster />
+            <CustomCursor />
+            {children}
+            <DefaultToaster />
+            <SonnerToaster />
           </AchievementsProvider>
         </ThemeProvider>
-         <div style={{ display: 'none' }}>
-            {pagesToPrefetch.map(page => (
-                <Link key={page} href={page} prefetch={true} />
-            ))}
+        <div style={{ display: 'none' }}>
+          {pagesToPrefetch.map(page => (
+            <Link key={page} href={page} prefetch={true} />
+          ))}
         </div>
       </body>
     </html>

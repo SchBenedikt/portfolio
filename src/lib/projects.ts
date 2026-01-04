@@ -217,10 +217,10 @@ export const projectData = [
     date: '2024-09-01',
     category: 'Entwicklerplattform / Blog',
     details: {
-        usage: 'Persönliche Entwicklerplattform und Experimentierfeld für neue Technologien.',
-        potential: 'Fokus auf Open-Source, Self-Hosting und Wissensvermittlung für die Tech-Community.'
+      usage: 'Persönliche Entwicklerplattform und Experimentierfeld für neue Technologien.',
+      potential: 'Fokus auf Open-Source, Self-Hosting und Wissensvermittlung für die Tech-Community.'
     }
   },
 ];
 
-    
+

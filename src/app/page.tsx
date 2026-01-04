@@ -43,10 +43,10 @@ export default function Home() {
       setIsTerminalView(!forceUiView);
       return;
     }
-  
+
     // Toggle view first
     setIsTerminalView((prev) => !prev);
-  
+
     // Unlock achievement after a short delay to prevent UI blocking
     setTimeout(() => {
       unlockAchievement('VIEW_SWITCHER');
@@ -59,7 +59,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground overflow-hidden">
-       <motion.div initial="visible" animate={isHeaderVisible ? 'visible' : 'hidden'} variants={headerVariants}>
+      <motion.div initial="visible" animate={isHeaderVisible ? 'visible' : 'hidden'} variants={headerVariants}>
         <Header>
           <Button
             variant="ghost"
@@ -97,24 +97,24 @@ export default function Home() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
-                >
-                  <h1 className="text-6xl sm:text-7xl md:text-9xl font-black uppercase tracking-tighter font-headline">
-                    <div className="flex items-center justify-between">
-                      <Image
-                        src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20professions/Technologist%20Medium-Light%20Skin%20Tone.png"
-                        alt="Technologist Medium-Light Skin Tone"
-                        width={100}
-                        height={100}
-                        className="inline-block w-[60px] h-[60px] md:w-[100px] md:h-[100px]"
-                      />
-                      <span className="text-right">Benedikt</span>
-                    </div>
-                    <div className="text-right">Schächner</div>
-                  </h1>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+              >
+                <h1 className="text-6xl sm:text-7xl md:text-9xl font-black uppercase tracking-tighter font-headline">
+                  <div className="flex items-center justify-between">
+                    <Image
+                      src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20professions/Technologist%20Medium-Light%20Skin%20Tone.png"
+                      alt="Technologist Medium-Light Skin Tone"
+                      width={100}
+                      height={100}
+                      className="inline-block w-[60px] h-[60px] md:w-[100px] md:h-[100px]"
+                    />
+                    <span className="text-right">Benedikt</span>
+                  </div>
+                  <div className="text-right">Schächner</div>
+                </h1>
               </motion.div>
             </motion.section>
           )}
