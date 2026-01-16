@@ -115,13 +115,22 @@ export default function ProjectsPage() {
                     <Card className="rounded-3xl overflow-hidden border-border/50 flex flex-col w-full">
                        <CardHeader className="p-0">
                          <div className="aspect-video overflow-hidden border-b">
-                            <Image
-                                src={project.image}
-                                alt={project.title}
-                                width={1200}
-                                height={675}
-                                className="object-cover w-full h-full object-top"
-                            />
+                            {project.embedWebsite ? (
+                              <iframe
+                                src={project.url}
+                                className="w-full h-full"
+                                title={project.title}
+                                allowFullScreen
+                              />
+                            ) : (
+                              <Image
+                                  src={project.image}
+                                  alt={project.title}
+                                  width={1200}
+                                  height={675}
+                                  className="object-cover w-full h-full object-top"
+                              />
+                            )}
                         </div>
                       </CardHeader>
                       <CardContent className="p-6 md:p-8 flex flex-col flex-grow">

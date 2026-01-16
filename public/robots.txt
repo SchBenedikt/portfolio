@@ -1,4 +1,21 @@
+# robots.txt für benedikt.schächner.de
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/
 
+# Crawl-Delay für höfliches Crawling
+Crawl-delay: 1
+
+# Spezifische Bot-Anweisungen
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Sitemap-Lokation
 Sitemap: https://benedikt.xn--schchner-2za.de/sitemap.xml

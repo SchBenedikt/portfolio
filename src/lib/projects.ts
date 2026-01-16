@@ -1,5 +1,61 @@
+export interface Project {
+  title: string;
+  slug: string;
+  type: string;
+  description: string;
+  longDescription: string;
+  image: string;
+  aiHint: string;
+  url: string;
+  displayUrl?: string;
+  embedWebsite?: boolean;
+  tags: string[];
+  date: string;
+  category: string;
+  details: {
+    usage: string;
+    potential?: string;
+  };
+}
 
-export const projectData = [
+export const projectData: Project[] = [
+  {
+    title: 'Wissenschaftswoche 2026',
+    slug: 'wissenschaftswoche-2026',
+    type: 'school',
+    description: 'Eine wissenschaftliche Arbeit über nachhaltige Rechenzentren unter terrestrischen und extraterrestrischen Bedingungen – entstanden im Rahmen der Wissenschaftswoche 2026.',
+    longDescription: `
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Zentrale Fragestellung</h3>
+      <p>Mit der rasanten Entwicklung digitaler Technologien und dem Aufstieg künstlicher Intelligenz wächst der weltweite Bedarf an Rechenleistung in nie dagewesenen Ausmaß. Datenintensive Anwendungen verlagern sich zunehmend in Cloudsysteme und verlangen hochkomplexe und energieintensive Infrastrukturen.</p>
+      
+      <p class="mt-4">Diese Arbeit untersucht entlang der drei Säulen ökologischer, ökonomischer und sozialer Nachhaltigkeit die zentrale Frage, wie Rechenzentren sowohl unter terrestrischen als auch extraterrestrischen Bedingungen ganzheitlich nachhaltig gestaltet werden können, ohne die Leistungsfähigkeit, Verfügbarkeit und den langfristigen Wettbewerb zu beeinträchtigen.</p>
+
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Ökologische Dimension</h3>
+      <p><b>Terrestrische Bedingungen:</b> Die Arbeit untersucht die Nachhaltigkeit der Energieversorgung, der thermischen Infrastruktur im Bezug auf sinnvolle Nutzung von Serverabwärme anhand verschiedener Beispiele und die neuen Arten nuklearer Energieversorgung von Rechenzentren großer Konzerne. Die zuvor vertieften Aspekte werden durch die umweltrelevanten Herausforderungen terrestrischer Rechenzentren mit alternativen Ansätzen für energieoptimierten Rechenzentren auf der Erde dargestellt.</p>
+      
+      <p class="mt-4"><b>Extraterrestrische Bedingungen:</b> Darüber hinaus befasst sich die ökologische Dimension der Nachhaltigkeit mit diversifizierten Entwicklungsansätzen für Rechenzentren in extraterrestrischen Umgebungen und der Vertiefung über Rechenzentren auf dem Planeten Mond. Erläutert werden dazu Methoden der Krisenbewältigung und der Möglichkeiten zur infrastrukturellen Absicherung vertiefend im Bezug auf Möglichkeiten von selbstheilenden Systemen.</p>
+
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Ökonomische Dimension</h3>
+      <p>Die ökonomische Dimension der Nachhaltigkeit umfasst die Analyse des wirtschaftlichen Nutzens nachhaltiger Rechenzentren, insbesondere im Kontext terrestrischer Betriebsbedingungen.</p>
+
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Soziale Dimension</h3>
+      <p>Die sozialen Dimensionen der Nachhaltigkeit beleuchten die Probleme, Möglichkeiten und Auswirkungen des Betriebs von Rechenzentren unter terrestrischen Bedingungen sowie deren Einfluss auf das unmittelbare Lebensumfeld der darum angesiedelten Bevölkerung. Hierbei stehen insbesondere die Beeinträchtigung der Lebensqualität auch, aber nicht nur durch Lärmbelastung, Luftverschmutzung und Wasserverbrauch im Fokus, die zu (in)direkten gesundheitlichen Schäden der Bevölkerung führen kann.</p>
+
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Thematische Einordnung</h3>
+      <p>Thematisch ist das Paper dem übergeordneten Fachbereich <i>Umwelt und Nachhaltigkeit</i> zuzuordnen und widmet sich innerhalb dieses Rahmens dem Schwerpunkt <i>nachhaltige Rechenzentren</i>. Der inhaltliche Fokus liegt hierbei auf dem Thema der <i>Strategien zur Energieeffizienz und Ressourcenschonung</i>.</p>
+    `,
+    image: 'https://placehold.co/1200x675/171717/9ca3af?text=Wissenschaftswoche+2026',
+    aiHint: 'data center sustainability technology',
+    url: 'https://w.xn--schchner-2za.de',
+    displayUrl: 'w.schächner.de',
+    embedWebsite: true,
+    tags: ['Wissenschaft', 'Nachhaltigkeit', 'Rechenzentren', 'Forschung', 'Umwelt'],
+    date: '2026-01-12',
+    category: 'Wissenschaftliche Arbeit',
+    details: {
+      usage: 'Wissenschaftliche Arbeit im Rahmen der Wissenschaftswoche 2026 (12.01.2026 - 15.01.2026).'
+    }
+  },
   {
     title: 'P-Seminar',
     slug: 'p-seminar',

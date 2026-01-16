@@ -1,7 +1,7 @@
 
 'use client';
 
-import { projectData } from '@/lib/projects';
+import { projectData, type Project } from '@/lib/projects';
 import { notFound, useParams } from 'next/navigation';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
@@ -73,10 +73,20 @@ export default function ProjectPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12">
               <div className="md:col-span-3">
-                 <Dialog>
-                  <DialogTrigger asChild>
-                    <div className="aspect-video overflow-hidden rounded-3xl mb-8 cursor-pointer" data-cursor-interactive>
-                       <Image
+                {project.embedWebsite ? (
+                  <div className="aspect-video overflow-hidden rounded-3xl mb-8 border border-border/50">
+                    <iframe
+                      src={project.url}
+                      className="w-full h-full"
+                      title={project.title}
+                      allowFullScreen
+                    />
+                  </div>
+                ) : (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <div className="aspect-video overflow-hidden rounded-3xl mb-8 cursor-pointer" data-cursor-interactive>
+                        <Image
                           src={project.image}
                           alt={project.title}
                           width={1200}
@@ -84,24 +94,25 @@ export default function ProjectPage() {
                           className="object-cover w-full h-full object-top"
                           data-ai-hint={project.aiHint}
                         />
-                    </div>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-4xl p-2 bg-transparent border-none">
-                    <DialogHeader className="sr-only">
-                      <DialogTitle>{project.title}</DialogTitle>
-                      <DialogDescription>
-                        Vergrößerte Ansicht des Projektbildes für {project.title}.
-                      </DialogDescription>
-                    </DialogHeader>
-                     <Image
+                      </div>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-4xl p-2 bg-transparent border-none">
+                      <DialogHeader className="sr-only">
+                        <DialogTitle>{project.title}</DialogTitle>
+                        <DialogDescription>
+                          Vergrößerte Ansicht des Projektbildes für {project.title}.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <Image
                         src={project.image}
                         alt={project.title}
                         width={1920}
                         height={1080}
                         className="object-contain w-full h-full rounded-lg"
                       />
-                  </DialogContent>
-                </Dialog>
+                    </DialogContent>
+                  </Dialog>
+                )}
 
                 <div className="prose prose-invert prose-lg max-w-none text-muted-foreground text-xl md:text-2xl space-y-6" dangerouslySetInnerHTML={{ __html: project.longDescription }}>
                 </div>
@@ -148,7 +159,7 @@ export default function ProjectPage() {
                               <div>
                                   <h4 className="font-semibold">Website</h4>
                                   <a href={project.url} target="_blank" rel="noopener noreferrer" className="text-muted-foreground text-sm md:text-base hover:text-primary transition-colors break-all">
-                                    {project.url}
+                                    {project.displayUrl || project.url}
                                   </a>
                               </div>
                           </div>
