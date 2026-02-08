@@ -41,6 +41,9 @@ export const projectData: Project[] = [
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Soziale Dimension</h3>
       <p>Die sozialen Dimensionen der Nachhaltigkeit beleuchten die Probleme, Möglichkeiten und Auswirkungen des Betriebs von Rechenzentren unter terrestrischen Bedingungen sowie deren Einfluss auf das unmittelbare Lebensumfeld der darum angesiedelten Bevölkerung. Hierbei stehen insbesondere die Beeinträchtigung der Lebensqualität auch, aber nicht nur durch Lärmbelastung, Luftverschmutzung und Wasserverbrauch im Fokus, die zu (in)direkten gesundheitlichen Schäden der Bevölkerung führen kann.</p>
 
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Zenodo Eintrag</h3>
+      <p>Die wissenschaftliche Arbeit ist auf Zenodo archiviert und unter folgendem DOI verfügbar: <a href="https://zenodo.org/records/18378534" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">https://zenodo.org/records/18378534</a></p>
+
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Thematische Einordnung</h3>
       <p>Thematisch ist das Paper dem übergeordneten Fachbereich <i>Umwelt und Nachhaltigkeit</i> zuzuordnen und widmet sich innerhalb dieses Rahmens dem Schwerpunkt <i>nachhaltige Rechenzentren</i>. Der inhaltliche Fokus liegt hierbei auf dem Thema der <i>Strategien zur Energieeffizienz und Ressourcenschonung</i>.</p>
     `,

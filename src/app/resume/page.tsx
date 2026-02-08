@@ -29,6 +29,14 @@ const about = {
 
 export const timelineEvents = [
     {
+        date: "12. - 15. Jan. 2026",
+        title: "Wissenschaftswoche 2026",
+        organization: "König-Karlmann-Gymnasium",
+        description: "Wissenschaftliche Arbeit über nachhaltige Rechenzentren unter terrestrischen und extraterrestrischen Bedingungen, archiviert auf Zenodo.",
+        icon: <Award />,
+        projectSlug: 'wissenschaftswoche-2026'
+    },
+    {
         date: "20. Nov. 2025",
         title: "Crossmedia-Preis, Sparte \"Interactive\"",
         organization: "Bayerischer Rundfunk",
