@@ -13,8 +13,14 @@ import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { getOrganizationBySlug } from '@/lib/organizations';
-// using native <img> for external logos to avoid next/image host config
 import { cn } from '@/lib/utils';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -42,19 +48,33 @@ type GroupedArticles = { [year: string]: typeof articlesData };
 export default function PressPage() {
   const { unlockAchievement } = useAchievements();
   const [searchTerm, setSearchTerm] = useState('');
+  const [sourceFilter, setSourceFilter] = useState('all');
 
   useEffect(() => {
     unlockAchievement('PRESS_READER');
   }, [unlockAchievement]);
 
+  const sources = useMemo(() => {
+    const set = new Set<string>();
+    articlesData.forEach((article) => {
+      const org = getOrganizationBySlug(article.organizationSlug);
+      set.add(org?.name || article.source);
+    });
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, []);
+
   const filteredArticles = useMemo(() => {
     return articlesData
       .filter(article => {
         const term = searchTerm.toLowerCase();
-        return article.title.toLowerCase().includes(term) || 
+        const matchesSearch = article.title.toLowerCase().includes(term) || 
                article.description.toLowerCase().includes(term);
+        const org = getOrganizationBySlug(article.organizationSlug);
+        const source = org?.name || article.source;
+        const matchesSource = sourceFilter === 'all' || source === sourceFilter;
+        return matchesSearch && matchesSource;
       });
-  }, [searchTerm]);
+  }, [searchTerm, sourceFilter]);
 
   const groupedArticles = useMemo(() => {
     const sorted = [...filteredArticles].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -85,7 +105,7 @@ export default function PressPage() {
               Presse
             </h1>
             
-            <div className="mb-12 flex flex-col sm:flex-row gap-4">
+            <div className="mb-12 flex flex-col lg:flex-row gap-4">
               <div className="relative flex-grow">
                  <Input 
                     type="text"
@@ -96,6 +116,17 @@ export default function PressPage() {
                  />
                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-6 h-6"/>
               </div>
+              <Select value={sourceFilter} onValueChange={setSourceFilter}>
+                <SelectTrigger className="w-full lg:w-72 h-12 rounded-full px-6 text-base">
+                  <SelectValue placeholder="Alle Quellen" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Alle Quellen</SelectItem>
+                  {sources.map((source) => (
+                    <SelectItem key={source} value={source}>{source}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
 
@@ -108,20 +139,18 @@ export default function PressPage() {
               >
                 {sortedYears.map((year) => (
                   <motion.div key={year} variants={itemVariants}>
-                    <h2 className="text-4xl md:text-5xl font-black mb-8 border-b pb-4">{year}</h2>
+                    <div className="flex items-baseline justify-between mb-8 border-b pb-4">
+                      <h2 className="text-4xl md:text-5xl font-black">{year}</h2>
+                      <span className="text-base md:text-lg text-muted-foreground whitespace-nowrap">
+                        {groupedArticles[year].length} Artikel
+                      </span>
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       {groupedArticles[year].map((article) => {
                          const organization = getOrganizationBySlug(article.organizationSlug);
                          return (
                             <motion.div key={article.url} variants={itemVariants} className="break-inside-avoid">
-                               <Card className={cn("group rounded-2xl overflow-hidden transition-all w-full flex flex-col relative", organization?.logo ? '' : 'hover:border-primary/50 hover:bg-muted/30')}>
-                                {organization?.logo && (
-                                  <img
-                                    src={organization.logo}
-                                    alt={`${organization.name} Logo`}
-                                    className="absolute inset-0 z-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 ease-in-out p-8 object-contain w-full h-full"
-                                  />
-                                )}
+                               <Card className={cn("group rounded-2xl overflow-hidden transition-all w-full flex flex-col relative hover:border-primary/50 hover:bg-muted/30")}>
                                 <div className="relative z-10 bg-transparent flex flex-col h-full">
                                   <CardHeader className="p-6 md:p-8">
                                     <div className="flex flex-col-reverse sm:flex-row justify-between sm:items-start gap-4">
