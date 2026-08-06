@@ -103,7 +103,7 @@ export default function LinksPage() {
                       <AvatarFallback>BS</AvatarFallback>
                   </Avatar>
                   <h1 className="text-3xl font-bold font-headline">Benedikt Schächner</h1>
-                  <p className="text-muted-foreground mt-1">Schüler, Entwickler & digitaler Pionier</p>
+                  <p className="text-muted-foreground mt-1">Schüler am König-Karlmann-Gymnasium Altötting</p>
                 </motion.div>
 
                 <motion.div variants={itemVariants} className="mb-10">

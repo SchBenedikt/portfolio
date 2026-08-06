@@ -21,6 +21,7 @@ export type AchievementID =
   | 'QUIZ_MASTER'
   | 'NANO_EDITOR'
   | 'FOCUS_MASTER'
+  | 'INVINCIBLE'
   | 'COMPLETIONIST';
 
 export interface Achievement {
@@ -134,5 +135,10 @@ export const achievementsList: Achievement[] = [
     id: 'FOCUS_MASTER',
     name: 'Fokus-Meister',
     description: 'Eine Pomodoro-Sitzung abgeschlossen.',
+  },
+  {
+    id: 'INVINCIBLE',
+    name: 'Unbesiegbar',
+    description: 'Eine Runde Schere-Stein-Papier im Terminal gewonnen.',
   },
 ];

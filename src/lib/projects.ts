@@ -13,7 +13,7 @@ export interface Project {
   date: string;
   category: string;
   details: {
-    usage: string;
+    usage?: string;
     potential?: string;
   };
 }
@@ -60,23 +60,25 @@ export const projectData: Project[] = [
     }
   },
   {
-    title: 'P-Seminar',
+    title: 'P-Seminar Latein 2026',
     slug: 'p-seminar',
     type: 'school',
-    description: 'Ein geheimnisvolles Projekt im Rahmen des P-Seminars. Die Planungen laufen auf Hochtouren und Großes wird erwartet... (hoffentlich 😉).',
+    description: 'Das P-Seminar im Fach Latein am König-Karlmann-Gymnasium Altötting.',
     longDescription: `
-      <p class="text-xl md:text-2xl">Die Planungen für ein neues, spannendes Projekt im Rahmen des P-Seminars laufen auf Hochtouren. Bleib gespannt, was hier in Kürze enthüllt wird. Es wird etwas Großartiges kommen... hoffentlich 😉</p>
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Überblick</h3>
+      <p class="text-xl md:text-2xl">Im Rahmen des P-Seminars im Fach Latein 2026 haben wir eine eigene Zeitschrift erstellt. Das Ergebnis ist im PDF-Dokument zu sehen.</p>
+
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Dokument</h3>
+      <p>Das vollständige Dokument als PDF: <a href="/p-seminar.pdf" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">P-Seminar anzeigen</a>.</p>
     `,
     image: 'https://placehold.co/1200x675/171717/9ca3af?text=P-Seminar',
-    aiHint: 'question mark mystery',
-    url: '#',
-    tags: ['Zukunftsprojekt', 'P-Seminar', 'Geheim'],
-    date: '2025-09-01',
+    aiHint: 'latin p seminar presentation',
+    url: '/p-seminar.pdf#toolbar=0',
+    embedWebsite: true,
+    tags: [],
+    date: '2026-06-01',
     category: 'Schulprojekt',
-    details: {
-      usage: 'Ein spannendes Projekt im Rahmen des P-Seminars.',
-      potential: 'Das Potenzial ist grenzenlos.'
-    }
+    details: {}
   },
   {
     title: 'Notio',
@@ -88,8 +90,8 @@ export const projectData: Project[] = [
       `
       <p class="text-xl md:text-2xl">Notio ist eine webbasierte Applikation zur Verwaltung und Analyse schulischer Leistungsdaten, individuell konzipiert für Schüler an weiterführenden Schulen in Deutschland. Die Software bietet ein zentrales, übersichtlich gestaltetes Dashboard, über das alle relevanten Informationen auf einen Blick sichtbar sind.</p>
 
-      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Erfolge und Anerkennung</h3>
-      <p>Das Projekt wurde für den renommierten <strong>Crossmedia-Wettbewerb des Bayerischen Rundfunks</strong> nominiert und unterstreicht damit seinen innovativen Charakter und die hohe Qualität der Umsetzung.</p>
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Auszeichnung</h3>
+      <p>Das Projekt wurde für den <strong>Crossmedia-Wettbewerb des Bayerischen Rundfunks</strong> nominiert.</p>
 
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Dashboard & Übersicht</h3>
       <p>Nach dem Login gelangt der Nutzer direkt in das persönliche Notencockpit. Hier werden der aktuelle Gesamtnotenschnitt (auf Basis gewichteter Fächer), die Anzahl der ordentlich geführten Fächer sowie sämtliche eingetragenen Leistungsnachweise angezeigt.</p>
@@ -111,6 +113,7 @@ export const projectData: Project[] = [
       `,
     image: 'https://raw.githubusercontent.com/SchBenedikt/portfolio/refs/heads/master/src/app/photos/Notio_Dashboard.png',
     url: 'https://notio.schächner.de',
+    aiHint: 'education dashboard grades',
     tags: ['Web-App', 'Next.js', 'Datenvisualisierung', 'Bildung', 'Lernmanagement', 'Nominiert', 'Ausgezeichnet'],
     date: '2024-08-01',
     category: 'Web-Anwendung / EdTech',
@@ -125,7 +128,7 @@ export const projectData: Project[] = [
     description: 'Verwaltung und Gestaltung des offiziellen Instagram-Kanals der Judoabteilung des TuS Töging. Der Verein wurde als „Top-Verein“ des Bayerischen Judo-Verbands ausgezeichnet.',
     longDescription: `
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Überblick</h3>
-      <p>Dieses Projekt umfasst die Mitverwaltung und inhaltliche Gestaltung des Instagram-Kanals der TuS Töging Judoabteilung. Als „Top-Verein“ des Bayerischen Judo-Verbands (2024-2028) ist eine moderne und ansprechende Online-Präsenz entscheidend, um Mitglieder zu informieren und neue Interessenten zu gewinnen.</p>
+      <p>Dieses Projekt umfasst die Mitverwaltung und inhaltliche Gestaltung des Instagram-Kanals der TuS Töging Judoabteilung. Als „Top-Verein“ des Bayerischen Judo-Verbands (2024-2028) ist eine gepflegte Online-Präsenz wichtig, um Mitglieder zu informieren und neue Interessenten zu gewinnen.</p>
 
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Aufgaben & Inhalte</h3>
       <ul class="list-disc pl-6 space-y-2">
@@ -136,7 +139,7 @@ export const projectData: Project[] = [
       </ul>
 
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Bedeutung für das Portfolio</h3>
-      <p>Dieses Projekt zeigt Engagement im Ehrenamt und die Fähigkeit, eine Marke in sozialen Medien zu repräsentieren. Es verbindet sportliche Gemeinschaft mit modernen Kommunikationsstrategien und unterstreicht die Kompetenz in der Teamarbeit und im Content-Management.</p>
+      <p>Das Projekt ist Teil meiner ehrenamtlichen Arbeit im Verein. Ich bin für die Gestaltung und Verwaltung des Kanals zuständig und arbeite dabei im Team.</p>
     `,
     image: 'https://github.com/SchBenedikt/portfolio/blob/master/src/app/photos/judo-instagram.png?raw=true',
     aiHint: 'judo sport',
@@ -156,7 +159,7 @@ export const projectData: Project[] = [
     description: 'Ein preisgekröntes Crossmedia-Projekt, das Julius Cäsars Geschichte im Stil eines modernen Influencer-Blogs erzählt.',
     longDescription: `
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Überblick</h3>
-        <p>Das Projekt „Meum Diarium“ vereint Geschichtswissen, Latein und moderne Medientechnologien zu einer einzigartigen Online-Präsenz, auf der Gaius Julius Caesar als Blog-Influencer im Stil eines Tagebuchs aus seinem Leben berichtet. Die Website entstand im Rahmen des Schulunterrichts und wurde bereits mehrfach mit bedeutenden Preisen – etwa dem Deutschen Multimediapreis mb21 und Preisen beim Crossmedia-Wettbewerb – ausgezeichnet. Neben den ironisch-historischen Blogeinträgen finden sich eine Vielzahl an Presseartikeln, eine Übersicht der Medienresonanz sowie Produkte zum Kaufen (Merch).</p>
+        <p>Das Projekt „Meum Diarium“ verbindet Geschichte, Latein und moderne Medien: Auf der Website berichtet Gaius Julius Caesar als Blogger-Influencer im Stil eines Tagebuchs aus seinem Leben. Entstanden ist die Seite im Rahmen des Schulunterrichts; sie wurde mit dem Deutschen Multimediapreis mb21 und Preisen beim Crossmedia-Wettbewerb ausgezeichnet. Neben den Blogeinträgen gibt es Presseartikel, eine Übersicht der Medienresonanz und einen kleinen Shop (Merch).</p>
         
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Schwerpunkte</h3>
         <ul class="list-disc pl-6 space-y-2">
@@ -170,18 +173,18 @@ export const projectData: Project[] = [
          <ul class="list-disc pl-6 space-y-2">
             <li>Hervorragend aufgenommen von der Jury des Deutschen Multimediapreises ("herausragende Detailverliebtheit und Witz", "authentisches, multimediales Erlebnis, das antike und moderne Welt verbindet").</li>
             <li>Umfangreiche Berichterstattung in überregionalen Medien inkl. Bayerischem Rundfunk, lokalen Zeitungen und Kulturanbietern.</li>
-            <li>Vermittlung historischer Themen für eine junge Zielgruppe im handlungsorientierten, medialen Kontext; didaktischer Mehrwert und Vorbildfunktion für die Verbindung von Kultur und Digitalisierung.</li>
+            <li>Vermittlung historischer Themen für eine junge Zielgruppe in einem medialen Kontext.</li>
         </ul>
 
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Alleinstellungsmerkmale</h3>
         <ul class="list-disc pl-6 space-y-2">
             <li>Historische Inhalte werden mit popkulturellen und gesellschaftlichen Themen verflochten.</li>
             <li>Vielseitig: Tagebuch, interaktive Website, Presseportal und Merch-Store in einem.</li>
-            <li>Völlig eigenständig auf selbstbetriebenem Server umgesetzt – technische Kompetenz und Kreativität geraten ins Rampenlicht.</li>
+            <li>Eigenständig auf einem selbst betriebenen Server umgesetzt.</li>
         </ul>
 
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Bedeutung für das Portfolio</h3>
-        <p>Das Projekt zeigt Benedikt Schächner neben Teamfähigkeit und Kreativität auch als technisch versierten und gesellschaftlich sensiblen Macher, der erfolgreich Brücken zwischen Geschichte, Bildung und moderner Medienwelt baut. Die Resonanz in der Presse wie die Anerkennung im Wettbewerb stellen die Relevanz und Qualität des Projekts eindrucksvoll unter Beweis.</p>
+        <p>Zeigt, wie ein historisches Thema mit modernen Medien aufbereitet werden kann. Die Website ist ein größeres Projekt von meinen Zwillingsbruder Vinzenz und mir, das im Unterricht umgesetzt wurde und große Resonanz bekam.</p>
 
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Pressespiegel (Auswahl)</h3>
         <ul class="list-disc pl-6 space-y-2">
@@ -193,6 +196,7 @@ export const projectData: Project[] = [
     `,
     image: 'https://technik.xn--schchner-2za.de/wp-content/uploads/2025/08/Meum-Diarium.png',
     url: 'https://caesar.schächner.de',
+    aiHint: 'caesar roman history blog',
     tags: ['Crossmedia', 'Storytelling', 'Ausgezeichnet', 'UI/UX', 'KI-Chatbot'],
     date: '2024-05-10',
     category: 'Schulprojekt / Crossmedia',
@@ -206,7 +210,7 @@ export const projectData: Project[] = [
     slug: 'medienscouts-kkg',
     type: 'school',
     description:
-      'Ein digitales Zukunftsprojekt und Schülerengagement am König-Karlmann-Gymnasium Altötting (KKG) zur Förderung digitaler Kompetenzen.',
+      'Ein Schülerprojekt am König-Karlmann-Gymnasium Altötting (KKG): Schülerinnen und Schüler helfen bei digitalen Fragen und fördern Medienkompetenz.',
     longDescription:
       `
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Überblick</h3>
@@ -223,16 +227,17 @@ export const projectData: Project[] = [
 
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Alleinstellungsmerkmale</h3>
         <ul class="list-disc pl-6 space-y-2">
-            <li>Gelebte digitale Selbsthilfe durch engagierte, gut geschulte Jugendliche.</li>
+            <li>Ausgebildete Schülerinnen und Schüler geben ihr Wissen an Mitschüler, Lehrkräfte und Eltern weiter.</li>
             <li>Kombination aus persönlicher Beratung, interaktiven Online-Tools und regelmäßiger Wissensvermittlung über den Schulblog.</li>
-            <li>Starke Fokussierung auf die Integration digitaler Medienbildung im Unterricht und das nachhaltige Erlernen sicherer Internetkompetenzen.</li>
+            <li>Fokus auf digitale Medienbildung im Unterricht und den sicheren Umgang mit dem Internet.</li>
         </ul>
 
       <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Bedeutung für das Portfolio</h3>
-        <p>Das Medienscouts-Projekt unterstreicht, wie Schülerengagement, digitale Kompetenzen, Teamarbeit und Innovationsgeist an Schulen aktiv vorangetrieben werden können. Es steht für moderne Wertevermittlung und die Förderung eigenverantwortlicher Tech-Kompetenz – zentral für den weiteren Bildungsweg und das spätere Berufsleben.</p>
+        <p>Ich bin Mitgründer und Administrator der Medienscouts am KKG und kümmere mich um Technik, Inhalte und die Organisation der Workshops und Schulungen.</p>
       `,
     image: 'https://technik.xn--schchner-2za.de/wp-content/uploads/2025/08/Medienscouts.png',
     url: 'https://medienscouts-kkg.de/',
+    aiHint: 'students digital help school',
     tags: ['Chatbot', 'Schulprojekt', 'Bildung'],
     date: '2023-09-01',
     category: 'Web-Anwendung / Bildung',
@@ -248,7 +253,7 @@ export const projectData: Project[] = [
     description: 'Eine digitale Plattform, die technische Anwendungen, Tools und persönliche Experimente aus den Bereichen Programmierung, Cloud und Automatisierung bündelt.',
     longDescription: `
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Überblick</h3>
-        <p>technik.schächner.de dient als digitale Plattform, die verschiedene technische und digitale Anwendungen, Tools sowie persönliche Experimente von Benedikt Schächner präsentiert und bündelt. Die Seite fungiert als Schaufenster für eigenständig entwickelte Webprojekte, Open-Source-Beiträge und technische Demonstrationslösungen im Bereich Programmierung, Cloud-Technologien und Automatisierung.</p>
+        <p>technik.schächner.de ist eine Sammlung meiner eigenen technischen Anwendungen, Tools und Experimente aus den Bereichen Programmierung, Cloud und Automatisierung – ohne kommerziellen Hintergrund.</p>
         
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Schwerpunkte</h3>
         <ul class="list-disc pl-6 space-y-2">
@@ -261,17 +266,18 @@ export const projectData: Project[] = [
 
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Alleinstellungsmerkmale</h3>
          <ul class="list-disc pl-6 space-y-2">
-            <li>Authentisch, praxisnah und technologiebegeistert von Grund auf eigenständig entwickelt.</li>
+            <li>Eigenständig entwickelt, praxisnah und ohne kommerziellen Hintergrund.</li>
             <li>Stetige Erweiterung durch neue Projekte und Features basierend auf aktuellen IT-trends.</li>
             <li>Integration in das persönliche Portfolio von Benedikt Schächner und Bezug zur digitalen Bildung sowie zu Open-Source.</li>
             <li>Plattform dient auch der eigenen Weiterbildung, Förderung von Teamwork und Motivation zur aktiven Mitgestaltung in digitalen Communities.</li>
         </ul>
 
         <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Bedeutung für das Portfolio</h3>
-        <p>Das Projekt zeigt Benedikt Schächner als engagierten Entwickler und Ideengeber, der seine Begeisterung für Technik praktisch vermittelt, sein Wissen weitergibt und aktiv an der offenen Tech-Community teilnimmt. Es unterstreicht die Fähigkeit, Herausforderungen mit modernen Werkzeugen kreativ zu lösen, kontinuierlich zu lernen und eigene Projekte selbständig umzusetzen.</p>
+        <p>Die Plattform ist meine persönliche Sammlung für eigene Projekte und Experimente. Sie dient mir als Weiterbildung und ich möchte damit auch junge Technikinteressierte erreichen.</p>
     `,
     image: 'https://technik.xn--schchner-2za.de/wp-content/uploads/2025/08/Technik.png',
     url: 'https://technik.xn--schchner-de/',
+    aiHint: 'developer tools selfhosting blog',
     tags: ['Web-Anwendungen', 'Python', 'JavaScript', 'Self-Hosting', 'Docker', 'Open-Source'],
     date: '2024-09-01',
     category: 'Entwicklerplattform / Blog',

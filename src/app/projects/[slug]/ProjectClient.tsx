@@ -137,7 +137,8 @@ export default function ProjectClient({ slug }: { slug: string }) {
                                 <p className="text-muted-foreground text-sm md:text-base">{project.category}</p>
                             </div>
                         </div>
-                        <div className="flex items-start">
+                        {project.tags.length > 0 && (
+                          <div className="flex items-start">
                             <Tags className="w-5 h-5 mr-3 mt-1 text-primary"/>
                             <div>
                                 <h4 className="font-semibold">Technologien</h4>
@@ -149,7 +150,8 @@ export default function ProjectClient({ slug }: { slug: string }) {
                                     ))}
                                 </div>
                             </div>
-                        </div>
+                          </div>
+                        )}
                         {hasValidUrl && (
                           <div className="flex items-start">
                               <LinkIcon className="w-5 h-5 mr-3 mt-1 text-primary"/>

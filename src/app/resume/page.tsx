@@ -19,7 +19,7 @@ import { resumeOrgToSlug } from '@/lib/organizations';
 
 const about = {
     name: "Benedikt Schächner",
-    title: "Schüler, Entwickler & digitaler Pionier",
+    title: "Schüler am König-Karlmann-Gymnasium Altötting",
     links: [
         { name: "Website", url: "https://benedikt.xn--schchner-2za.de", icon: <LinkIcon/> },
         { name: "LinkedIn", url: "https://de.linkedin.com/in/benedikt-schächner-a22632299/", icon: <Linkedin/> },
@@ -28,6 +28,28 @@ const about = {
 }
 
 export const timelineEvents = [
+    {
+        date: "Seit Juli 2026",
+        title: "Mitglied im Jugendbeirat",
+        organization: "Deutscher Multimediapreis mb21",
+        description: "Mitglied im Jugendbeirat des Deutschen Multimediapreis mb21.",
+        icon: <Users/>,
+        isCurrent: true
+    },
+    {
+        date: "19. Juli 2026",
+        title: "3. Platz beim Schach-Jugendopen",
+        organization: "Schachklub Töging e. V.",
+        description: "Dritter Platz in der Altersklasse U18 beim Jugendopen 2026 des Schachklub Töging.",
+        icon: <Award />
+    },
+    {
+        date: "13. Juli 2026",
+        title: "Dies Academicus",
+        organization: "König-Karlmann-Gymnasium",
+        description: "Teilnahme am Dies Academicus am König-Karlmann-Gymnasium mit Besuch des Oberlandesgerichts München.",
+        icon: <School/>
+    },
     {
         date: "12. - 15. Jan. 2026",
         title: "Wissenschaftswoche 2026",
@@ -125,6 +147,14 @@ export const timelineEvents = [
 
 export const certificates = [
     {
+        title: "JD-Kampfrichter",
+        organization: "Bayerischer Judo-Verband e.V.",
+        date: "März 2026",
+        skills: ["Kampfrichter", "Judo"],
+        description: "JD-Kampfrichter beim Bayerischen Judo-Verband seit dem 29. März 2026.",
+        isCurrent: true
+    },
+    {
         title: "Judo-Kampfrichter",
         organization: "Bayerischer Judo-Verband e.V.",
         date: "Okt. 2025",
@@ -136,7 +166,7 @@ export const certificates = [
         organization: "König-Karlmann-Gymnasium",
         date: "Feb. 2024 - Juli 2025",
         skills: ["Mediation", "Streitschlichtung", "Konfliktlösung", "Konfliktprävention"],
-        description: "Im Rahmen des Wahlunterrichts Mediation eine 35-stündige Ausbildung zum Mediator absolviert und die Tätigkeit eines Mediators mit großer Begeisterung ausgeübt.",
+        description: "Im Rahmen des Wahlunterrichts Mediation eine 35-stündige Ausbildung zum Mediator absolviert.",
         isCurrent: true
     },
     {

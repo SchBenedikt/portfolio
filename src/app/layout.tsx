@@ -25,11 +25,11 @@ const siteUrl = 'https://benedikt.xn--schchner-2za.de';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Benedikt Schächner | Digitaler Entwickler & Kreativtechnologe',
+    default: 'Benedikt Schächner',
     template: '%s | Benedikt Schächner'
   },
   description:
-    'Entdecken Sie das Portfolio von Benedikt Schächner. Ein Schaufenster für innovative Webprojekte, Full-Stack-Entwicklung und KI-Integration von einem jungen Entwickler und digitalen Pionier aus Deutschland.',
+    'Persönliche Website von Benedikt Schächner, Schüler am König-Karlmann-Gymnasium Altötting: Projekte, Lebenslauf und mehr.',
   keywords: [
     'Benedikt Schächner',
     'Portfolio',
@@ -88,10 +88,10 @@ export const metadata: Metadata = {
   },
   manifest: '/manifest.json',
   openGraph: {
-    title: 'Benedikt Schächner | Digitaler Entwickler & Kreativtechnologe',
-    description: 'Entdecken Sie das Portfolio von Benedikt Schächner. Ein Schaufenster für innovative Webprojekte, Full-Stack-Entwicklung und KI-Integration von einem jungen Entwickler und digitalen Pionier.',
+    title: 'Benedikt Schächner',
+    description: 'Persönliche Website von Benedikt Schächner: Projekte, Lebenslauf und mehr.',
     url: siteUrl,
-    siteName: 'Benedikt Schächner Portfolio',
+    siteName: 'Benedikt Schächner',
     images: [
       {
         url: '/og-image.png',
@@ -107,8 +107,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Benedikt Schächner | Digitaler Entwickler & Kreativtechnologe',
-    description: 'Entdecken Sie das Portfolio von Benedikt Schächner. Ein Schaufenster für innovative Webprojekte, Full-Stack-Entwicklung und KI-Integration.',
+    title: 'Benedikt Schächner',
+    description: 'Persönliche Website von Benedikt Schächner: Projekte, Lebenslauf und mehr.',
     images: ['/og-image.png'],
     creator: '@benedikt.schaechner',
   },
@@ -161,7 +161,7 @@ const structuredData = {
     "https://www.instagram.com/benedikt.schaechner/",
     "https://github.com/SchBenedikt"
   ],
-  "jobTitle": "Digitaler Entwickler und Kreativtechnologe",
+  "jobTitle": "Schüler",
   "worksFor": {
     "@type": "EducationalOrganization",
     "name": "König-Karlmann-Gymnasium Altötting"
@@ -169,9 +169,9 @@ const structuredData = {
   "image": {
     "@type": "ImageObject",
     "url": "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20professions/Technologist%20Medium-Light%20Skin%20Tone.png",
-    "caption": "Benedikt Schächner - Digitaler Entwickler"
+    "caption": "Benedikt Schächner"
   },
-  "description": "Schüler, Entwickler und digitaler Pionier mit einer Leidenschaft für Webtechnologien, KI-Integration und innovative Projekte. Ausgezeichnet mit dem Crossmedia-Preis des Bayerischen Rundfunks.",
+  "description": "Benedikt Schächner ist Schüler am König-Karlmann-Gymnasium Altötting. Ausgezeichnet mit dem Crossmedia-Preis des Bayerischen Rundfunks und dem Deutschen Multimediapreis mb21.",
   "knowsAbout": [
     "Web-Entwicklung",
     "Next.js",
@@ -204,12 +204,12 @@ const structuredData = {
   ],
   "hasOccupation": {
     "@type": "Occupation",
-    "name": "Web Developer",
+    "name": "Schüler",
     "occupationLocation": {
       "@type": "Country",
       "name": "Deutschland"
     },
-    "skills": "Next.js, React, TypeScript, Python, KI-Integration, Full-Stack Development"
+    "skills": "Next.js, React, TypeScript, Python, Web-Entwicklung"
   },
   "award": [
     "Crossmedia-Preis 2024/2025 des Bayerischen Rundfunks",

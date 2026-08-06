@@ -286,7 +286,7 @@ function UnitConverter() {
             conversionResult = valueInBase / factors[toUnit];
         }
 
-        setResult(conversionResult.toFixed(4));
+        setResult(conversionResult === undefined ? '' : conversionResult.toFixed(4));
         unlockAchievement('DIMENSION_MASTER');
     }, [inputValue, fromUnit, toUnit, currentTab, unlockAchievement]);
 

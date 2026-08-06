@@ -22,6 +22,7 @@ export const organizationData: Organization[] = [
     { slug: 'bayerischer-judo-verband', name: 'Bayerischer Judo-Verband e.V.', logo: 'https://www.bayernjudo.de/templates/yootheme/cache/9c/logo_bjv_2-9c27e1bf.webp' },
     { slug: 'schachklub-toeging', name: 'Schachklub Töging e. V.'},
     { slug: 'ovb-heimatzeitungen', name: 'OVB Heimatzeitungen' },
+    { slug: 'facebook', name: 'Facebook' },
     { slug: 'ars-electronica', name: 'Ars Electronica' },
 ];
 

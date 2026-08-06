@@ -16,7 +16,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Card, CardContent } from '@/components/ui/card';
-import { Calendar, MapPin } from 'lucide-react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -124,9 +123,6 @@ export default function GalleryPage() {
                             className="w-full h-auto"
                             data-ai-hint={item.aiHint}
                           />
-                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent p-4 pt-12">
-                            <h3 className="font-bold text-white text-lg">{item.title}</h3>
-                          </div>
                         </CardContent>
                       </Card>
                     </DialogTrigger>
@@ -135,41 +131,14 @@ export default function GalleryPage() {
                         <DialogTitle>{item.title}</DialogTitle>
                         <DialogDescription>{item.description}</DialogDescription>
                       </DialogHeader>
-                      <div className="flex flex-col md:flex-row items-stretch gap-0 max-h-[90vh] w-full">
-                        <div
-                          className="flex-1 min-w-0 bg-black flex items-center justify-center rounded-t-lg md:rounded-l-lg md:rounded-r-none overflow-hidden"
-                        >
-                          <Image
-                            src={item.src}
-                            alt={item.alt}
-                            width={1600}
-                            height={1200}
-                            className="object-contain w-full h-auto max-h-[90vh]"
-                          />
-                        </div>
-                        <div className="md:w-96 flex-shrink-0 bg-card p-6 md:p-8 flex flex-col rounded-b-lg md:rounded-l-none md:rounded-r-lg">
-                          <h2 className="text-2xl font-bold font-headline mb-2">{item.title}</h2>
-                          <p className="text-muted-foreground text-base mb-6">{item.description}</p>
-
-                          <div className="space-y-4 mt-auto border-t pt-6">
-                            <div className="flex items-start">
-                              <MapPin className="w-5 h-5 mr-3 mt-1 text-primary" />
-                              <div>
-                                <h4 className="font-semibold">Ort</h4>
-                                <p className="text-muted-foreground text-sm">{item.location}</p>
-                              </div>
-                            </div>
-                            <div className="flex items-start">
-                              <Calendar className="w-5 h-5 mr-3 mt-1 text-primary" />
-                              <div>
-                                <h4 className="font-semibold">Datum</h4>
-                                <p className="text-muted-foreground text-sm">
-                                  {new Date(item.date).toLocaleDateString('de-DE')}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                      <div className="flex-1 min-w-0 bg-black flex items-center justify-center rounded-lg overflow-hidden max-h-[90vh]">
+                        <Image
+                          src={item.src}
+                          alt={item.alt}
+                          width={1600}
+                          height={1200}
+                          className="object-contain w-full h-auto max-h-[90vh]"
+                        />
                       </div>
                     </DialogContent>
                   </Dialog>

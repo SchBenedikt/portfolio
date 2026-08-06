@@ -663,7 +663,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
     }
     setLoginState('logging_in');
   
-    let tempHistory = [...history, { type: 'input', content: name, path: '~' }];
+    let tempHistory: HistoryItem[] = [...history, { type: 'input', content: name, path: '~' }];
     
     const showMessage = (text: string, delay: number) => {
         return new Promise(resolve => {
@@ -820,7 +820,7 @@ export const Terminal = ({ onExit }: TerminalProps) => {
                 className="w-full bg-transparent border-none focus:ring-0 outline-none text-foreground pl-2"
                 autoFocus
                 autoComplete="off"
-                disabled={gameState === 'matrix' || loginState === 'logging_in'}
+                disabled={gameState === 'matrix'}
               />
             </>
           )}
