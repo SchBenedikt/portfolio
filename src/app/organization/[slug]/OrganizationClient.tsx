@@ -7,7 +7,7 @@ import Footer from '@/components/footer';
 import { motion } from 'framer-motion';
 import { getOrganizationBySlug, resumeOrgToSlug } from '@/lib/organizations';
 import { articlesData } from '@/lib/articles';
-import { timelineEvents, certificates } from '@/app/resume/page';
+import { timelineEvents, certificates } from '@/lib/resume-data';
 // use plain <img> to display external logos (avoids next/image host config)
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Briefcase, Award, Newspaper, Calendar } from 'lucide-react';
