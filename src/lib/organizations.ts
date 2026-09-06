@@ -23,7 +23,9 @@ export const organizationData: Organization[] = [
     { slug: 'schachklub-toeging', name: 'Schachklub Töging e. V.'},
     { slug: 'ovb-heimatzeitungen', name: 'OVB Heimatzeitungen' },
     { slug: 'facebook', name: 'Facebook' },
+    { slug: 'dsa', name: 'Deutsche SchülerAkademie' },
     { slug: 'ars-electronica', name: 'Ars Electronica' },
+    { slug: 'bildung-und-begabung', name: 'Bildung & Begabung e.V.' },
 ];
 
 export const getOrganizationBySlug = (slug: string) => {
@@ -50,6 +52,8 @@ export const resumeOrgToSlug: { [key: string]: string } = {
     "Kultusministerium Bayern": "km-bayern",
     "TuS Töging": "tus-toeging",
     "Ars Electronica": "ars-electronica",
+    "Bildung & Begabung e.V.": "bildung-und-begabung",
+    "Deutsche SchülerAkademie": "dsa",
 };
 
     

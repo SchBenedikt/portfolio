@@ -1,4 +1,4 @@
-import { Award, Briefcase, Users, Code, Rocket, School } from 'lucide-react';
+import { Award, Briefcase, Users, Code, Rocket, School, Trophy } from 'lucide-react';
 
 export const timelineEvents = [
     {
@@ -8,6 +8,23 @@ export const timelineEvents = [
         description: "Mitglied im Jugendbeirat des Deutschen Multimediapreis mb21.",
         icon: <Users/>,
         isCurrent: true
+    },
+    {
+        date: "29. Aug. - 05. Sep. 2026",
+        title: "Dan-Lehrgang Inzell",
+        subtitle: "1. Dan Judo",
+        organization: "Bayerischer Judo-Verband e.V.",
+        description: "Erfolgreicher Abschluss des 1. Dan im Judo beim DAN-Kompakt-Wochen-Lehrgang des Bayerischen Judo-Verbands in Inzell.",
+        icon: <Trophy/>,
+    },
+    {
+        date: "13. - 29. Aug. 2026",
+        title: "Deutsche SchülerAkademie",
+        subtitle: "Kurs 1.3 – 7 Emotionen für 1 Mensch",
+        organization: "Bildung & Begabung e.V.",
+        organizationSlug: "dsa",
+        description: "Psychologische Studie über Gefühle, Stimmung und Affekt am Landesgymnasium für Hochbegabte Schwäbisch Gmünd.",
+        icon: <School/>,
     },
     {
         date: "19. Juli 2026",
@@ -119,6 +136,14 @@ export const timelineEvents = [
 ];
 
 export const certificates = [
+    {
+        title: "1. Dan Judo",
+        organization: "Bayerischer Judo-Verband e.V.",
+        date: "Sep. 2026",
+        skills: ["1. Dan", "Schwarzgurt", "Judo"],
+        description: "Erfolgreiche Graduierung zum 1. Dan im Judo beim DAN-Kompakt-Wochen-Lehrgang in Inzell.",
+        isCurrent: true
+    },
     {
         title: "JD-Kampfrichter",
         organization: "Bayerischer Judo-Verband e.V.",
