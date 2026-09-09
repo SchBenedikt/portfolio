@@ -5,6 +5,7 @@ import './portfolio.css';
 import './work.css';
 import './blog.css';
 import { ThemeProvider } from '@/components/providers/theme-provider';
+import { I18nProvider } from '@/components/providers/i18n-provider';
 import { Toaster as DefaultToaster } from '@/components/ui/toaster';
 import { AchievementsProvider } from '@/components/providers/achievements-provider';
 import { Toaster as SonnerToaster } from '@/components/ui/sonner';
@@ -268,19 +269,21 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <AchievementsProvider>
+        <I18nProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <AchievementsProvider>
 
-            {children}
-            <DefaultToaster />
-            <SonnerToaster />
-          </AchievementsProvider>
-        </ThemeProvider>
+              {children}
+              <DefaultToaster />
+              <SonnerToaster />
+            </AchievementsProvider>
+          </ThemeProvider>
+        </I18nProvider>
         <div style={{ display: 'none' }}>
           {pagesToPrefetch.map(page => (
             <Link key={page} href={page} prefetch={true} />

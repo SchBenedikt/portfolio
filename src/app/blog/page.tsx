@@ -1,42 +1,11 @@
+'use client';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import PageHeading from '@/components/page-heading';
 import Link from 'next/link';
 import { ArrowUpRight, Clock, PenLine } from 'lucide-react';
 import { blogData } from '@/lib/blog';
-import type { Metadata } from 'next';
-
-const siteUrl = 'https://benedikt.xn--schchner-2za.de';
-
-export const metadata: Metadata = {
-  title: 'Blog',
-  description:
-    'Der Blog von Benedikt Schächner: Artikel über Webentwicklung, Projekte, KI und digitale Bildung.',
-  alternates: { canonical: `${siteUrl}/blog` },
-  openGraph: {
-    title: 'Blog | Benedikt Schächner',
-    description:
-      'Artikel über Webentwicklung, Projekte, KI und digitale Bildung.',
-    url: `${siteUrl}/blog`,
-    type: 'website',
-    siteName: 'Benedikt Schächner',
-    images: [
-      {
-        url: `${siteUrl}/og/og-default.jpg`,
-        width: 1200,
-        height: 630,
-        alt: 'Blog von Benedikt Schächner',
-        type: 'image/jpeg',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Blog | Benedikt Schächner',
-    description: 'Artikel über Webentwicklung, Projekte, KI und digitale Bildung.',
-    images: [`${siteUrl}/og/og-default.jpg`],
-  },
-};
+import { useI18n } from '@/components/providers/i18n-provider';
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString('de-DE', {
@@ -47,6 +16,7 @@ function formatDate(iso: string): string {
 }
 
 export default function BlogPage() {
+  const { t } = useI18n();
   const posts = [...blogData].sort((a, b) => b.date.localeCompare(a.date));
   return (
     <div className="portfolio-home">
@@ -54,8 +24,8 @@ export default function BlogPage() {
       <main className="portfolio-subpage blog-page">
         <div className="container">
           <PageHeading
-            title="Blog."
-            description="Artikel über Webentwicklung, Projekte, KI und digitale Bildung."
+            title={t.blog.title}
+            description={t.blog.description}
           />
           <div className="blog-list">
             {posts.map((post) => (
@@ -76,7 +46,7 @@ export default function BlogPage() {
                     {post.readingMinutes} Min. Lesezeit
                   </span>
                   <Link href={`/blog/${post.slug}`} className="blog-card-link" data-cursor-interactive>
-                    Weiterlesen <ArrowUpRight size={16} />
+                    {t.blog.readMore} <ArrowUpRight size={16} />
                   </Link>
                 </div>
               </article>

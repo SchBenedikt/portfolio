@@ -1,0 +1,117 @@
+{
+  "site": {
+    "title": "Portfolio of Benedikt Schächner",
+    "description": "Personal website of Benedikt Schächner: Projects, resume, and more."
+  },
+  "nav": {
+    "projects": "Projects",
+    "blog": "Blog",
+    "resume": "Resume",
+    "awards": "Awards",
+    "gallery": "Gallery",
+    "press": "Press",
+    "links": "Links & Contact"
+  },
+  "hero": {
+    "eyebrow": "My personal portfolio",
+    "name": "Benedikt Schächner",
+    "description": "I build web applications, design digital projects, and have a strong interest in crossmedia and artificial intelligence. Here's a selection of my work.",
+    "skills": {
+      "web": "Web Development",
+      "crossmedia": "Crossmedia",
+      "ai": "Artificial Intelligence"
+    },
+    "cta": "View overview",
+    "badge": "Crossmedia 2025",
+    "caption": "BR Munich · Nov. 2025"
+  },
+  "sections": {
+    "awards": {
+      "title": "Awards.",
+      "viewAll": "View all awards"
+    },
+    "projects": {
+      "title": "Selected Work.",
+      "viewAll": "View all projects"
+    },
+    "pages": {
+      "eyebrow": "SECTIONS",
+      "title": "All areas."
+    }
+  },
+  "pages": {
+    "resume": { "name": "Resume", "desc": "Experience & milestones" },
+    "projects": { "name": "Projects", "desc": "Selected work" },
+    "blog": { "name": "Blog", "desc": "Articles & thoughts" },
+    "awards": { "name": "Awards", "desc": "Prizes & certificates" },
+    "gallery": { "name": "Gallery", "desc": "Images & impressions" },
+    "press": { "name": "Press", "desc": "Media coverage" },
+    "links": { "name": "Links & Contact", "desc": "Profiles & reachability" }
+  },
+  "footer": {
+    "navigation": "Navigation",
+    "more": "More",
+    "contact": "Contact",
+    "stayInTouch": "Stay in touch"
+  },
+  "resume": {
+    "title": "Resume.",
+    "description": "Experience, milestones, and competencies.",
+    "profileLinks": "Profiles",
+    "experience": "Experience",
+    "education": "Education",
+    "skills": "Skills",
+    "certifications": "Certifications"
+  },
+  "awards": {
+    "title": "Awards & Certificates.",
+    "description": "Recognition for creative work and personal commitment.",
+    "highlights": "Highlights.",
+    "moreAwards": "More Awards.",
+    "upcoming": "Coming Soon.",
+    "upcomingText": "On September 20, 2026, a new award will be announced. More details to follow — until then, it remains a surprise.",
+    "qualifications": "Qualifications.",
+    "toResume": "View resume",
+    "toOrganization": "View organization"
+  },
+  "projects": {
+    "title": "Projects.",
+    "description": "Selected work and personal projects.",
+    "allProjects": "All projects",
+    "website": "Website",
+    "document": "Document"
+  },
+  "blog": {
+    "title": "Blog.",
+    "description": "Articles, thoughts, and insights.",
+    "readMore": "Read more",
+    "minRead": "min read",
+    "backToBlog": "Back to blog",
+    "relatedPosts": "More articles",
+    "noPosts": "No articles yet.",
+    "writeOne": "Write the first one"
+  },
+  "gallery": {
+    "title": "Gallery.",
+    "description": "Images and impressions."
+  },
+  "press": {
+    "title": "Press.",
+    "description": "Media coverage and publications."
+  },
+  "links": {
+    "title": "Links & Contact.",
+    "description": "Profiles and reachability."
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "palette": {
+    "green": "Green",
+    "red": "Red",
+    "blue": "Blue"
+  }
+}

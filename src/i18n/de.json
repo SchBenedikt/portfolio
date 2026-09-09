@@ -1,0 +1,117 @@
+{
+  "site": {
+    "title": "Portfolio von Benedikt Schächner",
+    "description": "Persönliche Website von Benedikt Schächner: Projekte, Lebenslauf und mehr."
+  },
+  "nav": {
+    "projects": "Projekte",
+    "blog": "Blog",
+    "resume": "Lebenslauf",
+    "awards": "Auszeichnungen",
+    "gallery": "Galerie",
+    "press": "Presse",
+    "links": "Links & Kontakt"
+  },
+  "hero": {
+    "eyebrow": "Mein persönliches Portfolio",
+    "name": "Benedikt Schächner",
+    "description": "Ich entwickle Webanwendungen, gestalte digitale Projekte und interessiere mich für Crossmedia und künstliche Intelligenz. Einiges davon ist hier zu sehen.",
+    "skills": {
+      "web": "Webentwicklung",
+      "crossmedia": "Crossmedia",
+      "ai": "Künstliche Intelligenz"
+    },
+    "cta": "Zur Übersicht",
+    "badge": "Crossmedia 2025",
+    "caption": "BR München · Nov. 2025"
+  },
+  "sections": {
+    "awards": {
+      "title": "Auszeichnungen.",
+      "viewAll": "Alle Auszeichnungen"
+    },
+    "projects": {
+      "title": "Ausgewählte Arbeiten.",
+      "viewAll": "Alle Projekte ansehen"
+    },
+    "pages": {
+      "eyebrow": "SEITEN",
+      "title": "Alle Bereiche."
+    }
+  },
+  "pages": {
+    "resume": { "name": "Lebenslauf", "desc": "Stationen & Erfahrungen" },
+    "projects": { "name": "Projekte", "desc": "Ausgewählte Arbeiten" },
+    "blog": { "name": "Blog", "desc": "Artikel & Gedanken" },
+    "awards": { "name": "Auszeichnungen", "desc": "Preise & Zertifikate" },
+    "gallery": { "name": "Galerie", "desc": "Bilder & Eindrücke" },
+    "press": { "name": "Presse", "desc": "Medienberichte" },
+    "links": { "name": "Links & Kontakt", "desc": "Profile & Erreichbarkeit" }
+  },
+  "footer": {
+    "navigation": "Navigation",
+    "more": "Mehr",
+    "contact": "Kontakt",
+    "stayInTouch": "In Verbindung bleiben"
+  },
+  "resume": {
+    "title": "Lebenslauf.",
+    "description": "Stationen, Erfahrungen und Kompetenzen.",
+    "profileLinks": "Profile",
+    "experience": "Erfahrung",
+    "education": "Bildung",
+    "skills": "Fähigkeiten",
+    "certifications": "Zertifikate"
+  },
+  "awards": {
+    "title": "Auszeichnungen & Zertifikate.",
+    "description": "Anerkennung für kreative Arbeit und persönliches Engagement.",
+    "highlights": "Höhepunkte.",
+    "moreAwards": "Weitere Auszeichnungen.",
+    "upcoming": "Bald.",
+    "upcomingText": "Am 20. September 2026 gibt es eine neue Auszeichnung. Mehr dazu an diesem Tag – bis dahin bleibt es eine Überraschung.",
+    "qualifications": "Qualifikationen.",
+    "toResume": "Zum Lebenslauf",
+    "toOrganization": "Zur Organisation"
+  },
+  "projects": {
+    "title": "Projekte.",
+    "description": "Ausgewählte Arbeiten und persönliche Projekte.",
+    "allProjects": "Alle Projekte",
+    "website": "Website",
+    "document": "Dokument"
+  },
+  "blog": {
+    "title": "Blog.",
+    "description": "Artikel, Gedanken und Einblicke.",
+    "readMore": "Weiterlesen",
+    "minRead": "Min. Lesezeit",
+    "backToBlog": "Zurück zum Blog",
+    "relatedPosts": "Weitere Artikel",
+    "noPosts": "Noch keine Artikel vorhanden.",
+    "writeOne": "Schreib den ersten"
+  },
+  "gallery": {
+    "title": "Galerie.",
+    "description": "Bilder und Eindrücke."
+  },
+  "press": {
+    "title": "Presse.",
+    "description": "Medienberichte und Veröffentlichungen."
+  },
+  "links": {
+    "title": "Links & Kontakt.",
+    "description": "Profile und Erreichbarkeit."
+  },
+  "theme": {
+    "toggle": "Design wechseln",
+    "light": "Hell",
+    "dark": "Dunkel",
+    "system": "System"
+  },
+  "palette": {
+    "green": "Grün",
+    "red": "Rot",
+    "blue": "Blau"
+  }
+}

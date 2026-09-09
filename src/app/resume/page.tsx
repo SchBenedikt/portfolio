@@ -5,6 +5,7 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 import PageHeading from '@/components/page-heading';
 import { useAchievements } from '@/components/providers/achievements-provider';
+import { useI18n } from '@/components/providers/i18n-provider';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { timelineEvents, certificates } from '@/lib/resume-data';
 import { resumeOrgToSlug } from '@/lib/organizations';
@@ -28,10 +29,11 @@ function ResumeRow({ item }: { item: ResumeEntry }) {
 
 export default function ResumePage() {
   const { unlockAchievement } = useAchievements();
+  const { t } = useI18n();
   useEffect(() => { unlockAchievement('RESUME_VIEWER'); }, [unlockAchievement]);
   const current = [...timelineEvents, ...certificates].filter(item => (item as ResumeEntry).isCurrent);
   return <div className="min-h-screen flex flex-col"><Header/><main className="portfolio-subpage resume-page"><div className="container">
-    <PageHeading title="Lebenslauf" description="Mein Weg, meine Erfahrungen und die Themen, die mich bewegen."/>
+    <PageHeading title={t.resume.title} description={t.resume.description}/>
     <section className="resume-intro"><div><p className="eyebrow">ÜBER MICH</p><h2>Benedikt Schächner</h2><p>Schüler am König-Karlmann-Gymnasium Altötting. Ich interessiere mich für Webentwicklung, digitale Bildung und die Verbindung von Technik und Gestaltung.</p></div><div className="resume-profile-links"><Link href="/projects">Meine Projekte <span>↗</span></Link><a href="https://de.linkedin.com/in/benedikt-schächner-a22632299/" target="_blank" rel="noreferrer">LinkedIn <span>↗</span></a><a href="https://www.instagram.com/benedikt.schaechner/" target="_blank" rel="noreferrer">Instagram <span>↗</span></a></div></section>
     <Tabs defaultValue="resume"><TabsList className="editorial-tabs"><TabsTrigger value="resume">Gesamter Lebenslauf</TabsTrigger><TabsTrigger value="current">Aktuelle Tätigkeiten</TabsTrigger></TabsList><TabsContent value="resume">
       <section className="resume-section"><div className="section-heading"><div className="section-heading-icon"><Briefcase size={20} strokeWidth={1.5}/></div><h2>Werdegang</h2></div>{timelineEvents.map(item => <ResumeRow key={`${item.date}-${item.title}`} item={item}/>)}</section>

@@ -5,11 +5,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { LanguageToggle } from '@/components/language-toggle';
+import { useI18n } from '@/components/providers/i18n-provider';
 import { cn } from '@/lib/utils';
 
 const Header = ({ children }: { children?: React.ReactNode }) => {
   const pathname = usePathname();
   const { theme } = useTheme();
+  const { t } = useI18n();
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => { setMenuOpen(false); }, [pathname]);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -41,11 +44,11 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
   };
 
   const navLinks = [
-    { href: '/projects', label: 'Projekte' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/resume', label: 'Lebenslauf' },
-    { href: '/awards', label: 'Auszeichnungen' },
-    { href: '/gallery', label: 'Galerie' },
+    { href: '/projects', label: t.nav.projects },
+    { href: '/blog', label: t.nav.blog },
+    { href: '/resume', label: t.nav.resume },
+    { href: '/awards', label: t.nav.awards },
+    { href: '/gallery', label: t.nav.gallery },
   ];
 
   const isDark = mounted && theme === 'dark';
@@ -110,12 +113,13 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
                     : 'border-transparent hover:scale-110'
                 )}
                 style={{ backgroundColor: isDark ? paletteColors[palette].dark : paletteColors[palette].light }}
-                aria-label={`Palette ${palette === 'green' ? 'Grün' : palette === 'red' ? 'Rot' : 'Blau'}`}
+                aria-label={t.palette[palette as keyof typeof t.palette]}
                 data-cursor-interactive
               />
             ))}
           </div>
 
+          <LanguageToggle />
           <ThemeToggle />
 
           <button
@@ -134,13 +138,12 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
       </div>
       {menuOpen && (
         <nav id="mobile-navigation" aria-label="Mobile Navigation" className="md:hidden px-6 pb-6 grid gap-1 border-b bg-background">
-          {[...navLinks, {href: '/press', label: 'Presse'}, {href: '/links', label: 'Links & Kontakt'}].map(link => (
+          {[...navLinks, {href: '/press', label: t.nav.press}, {href: '/links', label: t.nav.links}].map(link => (
             <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)} className="py-4 text-base border-b hover:text-foreground transition-colors">
               {link.label}
             </Link>
           ))}
           <div className="flex items-center gap-3 pt-4">
-            <span className="text-sm text-muted-foreground">Farbkonzept</span>
             <div className="flex items-center gap-2">
               {['green', 'red', 'blue'].map((palette) => (
                 <button
@@ -153,10 +156,11 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
                       : 'border-transparent'
                   )}
                   style={{ backgroundColor: isDark ? paletteColors[palette].dark : paletteColors[palette].light }}
-                  aria-label={`Palette ${palette === 'green' ? 'Grün' : palette === 'red' ? 'Rot' : 'Blau'}`}
+                  aria-label={t.palette[palette as keyof typeof t.palette]}
                 />
               ))}
             </div>
+            <LanguageToggle />
           </div>
         </nav>
       )}
