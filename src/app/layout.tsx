@@ -84,11 +84,11 @@ export const metadata: Metadata = {
     siteName: 'Benedikt Schächner',
     images: [
       {
-        url: '/og-image.png',
+        url: `${siteUrl}/og/og-default.jpg`,
         width: 1200,
         height: 630,
-        alt: 'Benedikt Schächner Portfolio - Vorschau',
-        type: 'image/png',
+        alt: 'Benedikt Schächner – Webentwicklung, Crossmedia und künstliche Intelligenz',
+        type: 'image/jpeg',
       },
     ],
     locale: 'de_DE',
@@ -99,8 +99,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Benedikt Schächner',
     description: 'Persönliche Website von Benedikt Schächner: Projekte, Lebenslauf und mehr.',
-    images: ['/og-image.png'],
-    creator: '@benedikt.schaechner',
+    images: [`${siteUrl}/og/og-default.jpg`],
   },
   icons: {
     icon: [
@@ -137,6 +136,20 @@ const pagesToPrefetch = [
   '/press',
   '/links',
 ];
+
+const websiteData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Benedikt Schächner Portfolio",
+  "url": "https://benedikt.xn--schchner-2za.de",
+  "description": "Portfolio-Website von Benedikt Schächner mit Projekten, Lebenslauf und Blog.",
+  "inLanguage": "de-DE",
+  "publisher": {
+    "@type": "Person",
+    "name": "Benedikt Schächner",
+    "url": "https://benedikt.xn--schchner-2za.de"
+  }
+};
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -232,12 +245,9 @@ export default function RootLayout({
   return (
     <html lang="de" suppressHydrationWarning>
       <head>
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#181714" />
-        <meta name="theme-color" content="#151613" media="(prefers-color-scheme: dark)" />
+        {/* Icons/manifest are emitted by the metadata API – only extra hints live here */}
+        <link rel="preconnect" href="https://raw.githubusercontent.com" crossOrigin="anonymous" />
+        <meta name="theme-color" content="#1a2821" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#f2efe6" media="(prefers-color-scheme: light)" />
         <meta name="color-scheme" content="dark light" />
         <meta name="msapplication-TileColor" content="#181714" />
@@ -248,6 +258,10 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Benedikt Schächner" />
         <meta name="application-name" content="Benedikt Schächner Portfolio" />
         <meta name="format-detection" content="telephone=no" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteData) }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

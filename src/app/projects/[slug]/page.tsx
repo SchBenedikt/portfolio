@@ -30,12 +30,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url,
       type: 'article',
       siteName: 'Benedikt Schächner',
+      locale: 'de_DE',
+      publishedTime: project.date,
+      modifiedTime: project.date,
+      authors: ['Benedikt Schächner'],
+      tags: project.tags,
       images: [
         {
-          url: project.image || '/og-image.png',
+          url: `${siteUrl}/og/project-${project.slug}.jpg`,
           width: 1200,
-          height: 675,
+          height: 630,
           alt: project.title,
+          type: 'image/jpeg',
         },
       ],
     },
@@ -43,12 +49,84 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: 'summary_large_image',
       title: project.title,
       description: project.description,
-      images: [project.image || '/og-image.png'],
+      images: [`${siteUrl}/og/project-${project.slug}.jpg`],
     },
   };
 }
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  return <ProjectClient slug={slug} />;
+  const project = projectData.find((p) => p.slug === slug);
+  const url = `${siteUrl}/projects/${slug}`;
+
+  const creativeWorkLd = project
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'CreativeWork',
+        name: project.title,
+        headline: project.title,
+        description: project.description,
+        datePublished: project.date,
+        dateModified: project.date,
+        inLanguage: 'de-DE',
+        keywords: project.tags.join(', '),
+        url,
+        image: `${siteUrl}/og/project-${project.slug}.jpg`,
+        author: {
+          '@type': 'Person',
+          name: 'Benedikt Schächner',
+          url: siteUrl,
+        },
+        publisher: {
+          '@type': 'Person',
+          name: 'Benedikt Schächner',
+          url: siteUrl,
+        },
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': url,
+        },
+      }
+    : null;
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Start',
+        item: siteUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Projekte',
+        item: `${siteUrl}/projects`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: project?.title ?? slug,
+        item: url,
+      },
+    ],
+  };
+
+  return (
+    <>
+      {creativeWorkLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(creativeWorkLd) }}
+        />
+      )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+      <ProjectClient slug={slug} />
+    </>
+  );
 }

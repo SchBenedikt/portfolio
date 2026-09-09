@@ -22,8 +22,8 @@
       "purpose": "any maskable"
     }
   ],
-  "theme_color": "#111827",
-  "background_color": "#111827",
+  "theme_color": "#253b30",
+  "background_color": "#253b30",
   "display": "standalone",
   "start_url": "/",
   "scope": "/",
@@ -33,9 +33,9 @@
   "categories": ["portfolio", "technology", "development"],
   "screenshots": [
     {
-      "src": "/og-image.png",
+      "src": "/og/og-default.jpg",
       "sizes": "1200x630",
-      "type": "image/png",
+      "type": "image/jpeg",
       "label": "Benedikt Schächner Portfolio Startseite"
     }
   ],

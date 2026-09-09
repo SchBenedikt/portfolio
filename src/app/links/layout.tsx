@@ -13,13 +13,13 @@ export const metadata: Metadata = {
     url: `${siteUrl}/links`,
     type: 'website',
     siteName: 'Benedikt Schächner',
-    images: ['/og-image.png'],
+    images: [`${siteUrl}/og/og-default.jpg`],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Links & Kontakt | Benedikt Schächner',
     description: 'Profile, Kontakt und Verlinkungen von Benedikt Schächner.',
-    images: ['/og-image.png'],
+    images: [`${siteUrl}/og/og-default.jpg`],
   },
 };
 

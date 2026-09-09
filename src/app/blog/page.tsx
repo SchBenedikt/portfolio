@@ -20,13 +20,21 @@ export const metadata: Metadata = {
     url: `${siteUrl}/blog`,
     type: 'website',
     siteName: 'Benedikt Schächner',
-    images: ['/og-image.png'],
+    images: [
+      {
+        url: `${siteUrl}/og/og-default.jpg`,
+        width: 1200,
+        height: 630,
+        alt: 'Blog von Benedikt Schächner',
+        type: 'image/jpeg',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Blog | Benedikt Schächner',
     description: 'Artikel über Webentwicklung, Projekte, KI und digitale Bildung.',
-    images: ['/og-image.png'],
+    images: [`${siteUrl}/og/og-default.jpg`],
   },
 };
 

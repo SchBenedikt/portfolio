@@ -13,13 +13,13 @@ export const metadata: Metadata = {
     url: `${siteUrl}/resume`,
     type: 'website',
     siteName: 'Benedikt Schächner',
-    images: ['/og-image.png'],
+    images: [`${siteUrl}/og/og-default.jpg`],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Lebenslauf | Benedikt Schächner',
     description: 'Stationen, Skills und Engagement von Benedikt Schächner.',
-    images: ['/og-image.png'],
+    images: [`${siteUrl}/og/og-default.jpg`],
   },
 };
 

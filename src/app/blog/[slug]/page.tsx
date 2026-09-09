@@ -38,10 +38,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       tags: post.tags,
       images: [
         {
-          url: '/og-image.png',
+          url: `${siteUrl}/og/blog-${post.slug}.jpg`,
           width: 1200,
           height: 630,
           alt: post.title,
+          type: 'image/jpeg',
         },
       ],
     },
@@ -49,7 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: 'summary_large_image',
       title: post.title,
       description: post.description,
-      images: ['/og-image.png'],
+      images: [`${siteUrl}/og/blog-${post.slug}.jpg`],
     },
   };
 }
@@ -102,7 +103,7 @@ export default async function BlogPostPage({ params }: Props) {
       name: 'Benedikt Schächner',
       url: siteUrl,
     },
-    image: `${siteUrl}/og-image.png`,
+    image: `${siteUrl}/og/blog-${post.slug}.jpg`,
     keywords: post.tags.join(', '),
   };
 
