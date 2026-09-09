@@ -165,7 +165,6 @@ export const certificates = [
         date: "Feb. 2024 - Juli 2025",
         skills: ["Mediation", "Streitschlichtung", "Konfliktlösung", "Konfliktprävention"],
         description: "Im Rahmen des Wahlunterrichts Mediation eine 35-stündige Ausbildung zum Mediator absolviert.",
-        isCurrent: true
     },
     {
         title: "Großes Latinum",

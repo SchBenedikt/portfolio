@@ -4,6 +4,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import Header from '@/components/header';
+import PageHeading from '@/components/page-heading';
 import Footer from '@/components/footer';
 import { articlesData } from '@/lib/articles';
 import { useAchievements } from '@/components/providers/achievements-provider';
@@ -93,7 +94,7 @@ export default function PressPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
-      <main className="relative z-10 flex-grow pt-16 md:pt-32 pb-24 md:pb-16">
+      <main className="portfolio-subpage relative z-10 flex-grow pt-16 md:pt-32 pb-24 md:pb-16">
         <div className="container mx-auto px-6 sm:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -101,9 +102,7 @@ export default function PressPage() {
             transition={{ duration: 0.6 }}
             className="max-w-6xl mx-auto"
           >
-            <h1 className="text-6xl md:text-8xl font-black text-center mb-8 uppercase tracking-tighter font-headline">
-              Presse
-            </h1>
+            <PageHeading title="Presse" description="Berichte und Veröffentlichungen über meine Projekte und mein Engagement."/>
             
             <div className="mb-12 flex flex-col lg:flex-row gap-4">
               <div className="relative flex-grow">
@@ -150,7 +149,7 @@ export default function PressPage() {
                          const organization = getOrganizationBySlug(article.organizationSlug);
                          return (
                             <motion.div key={article.url} variants={itemVariants} className="break-inside-avoid">
-                               <Card className={cn("group rounded-2xl overflow-hidden transition-all w-full flex flex-col relative hover:border-primary/50 hover:bg-muted/30")}>
+                               <Card className={cn("group rounded-none overflow-hidden transition-all w-full flex flex-col relative hover:border-primary/50 hover:bg-muted/30")}>
                                 <div className="relative z-10 bg-transparent flex flex-col h-full">
                                   <CardHeader className="p-6 md:p-8">
                                     <div className="flex flex-col-reverse sm:flex-row justify-between sm:items-start gap-4">

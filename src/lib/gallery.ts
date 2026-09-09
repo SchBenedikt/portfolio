@@ -261,18 +261,6 @@ export const galleryData: GalleryImage[] = [
     aiHint: 'person working',
   },
   {
-    src: 'https://raw.githubusercontent.com/SchBenedikt/portfolio/master/src/app/photos/benedikt/Benedikt%20Scha%CC%88chner.jpeg',
-    width: 600,
-    height: 800,
-    alt: 'Ein weiteres Foto von Benedikt Schächner',
-    title: 'Klassisch',
-    description:
-      'Schwarz-Weiß-Foto aus dem Studio.',
-    location: 'Fotostudio, München',
-    date: '2024-05-15',
-    aiHint: 'person classic',
-  },
-  {
     src: 'https://raw.githubusercontent.com/SchBenedikt/portfolio/master/src/app/photos/benedikt/Download%20(1).jpeg',
     width: 800,
     height: 600,

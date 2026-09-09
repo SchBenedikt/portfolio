@@ -28,7 +28,7 @@ export default function OrganizationClient({ slug }: { slug: string }) {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
-      <main className="relative z-10 flex-grow pt-16 md:pt-32 pb-24 md:pb-16">
+      <main className="portfolio-subpage relative z-10 flex-grow pt-16 md:pt-32 pb-24 md:pb-16">
         <div className="container mx-auto px-6 sm:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -50,7 +50,7 @@ export default function OrganizationClient({ slug }: { slug: string }) {
                         <img src={organization.logo} alt={`${organization.name} Logo`} className="object-contain w-full h-full" />
                     </div>
                 )}
-                <h1 className="text-4xl md:text-7xl font-black uppercase tracking-tighter font-headline">
+                <h1 className="text-3xl sm:text-4xl md:text-7xl font-black uppercase tracking-tighter font-headline break-words">
                     {organization.name}
                 </h1>
             </div>
@@ -67,7 +67,7 @@ export default function OrganizationClient({ slug }: { slug: string }) {
                                         {event.icon}
                                     </div>
                                 </span>
-                                <Card className="rounded-2xl border-border/50 hover:border-primary/50 transition-colors">
+                                <Card className="rounded-none border-border/50 hover:border-primary/50 transition-colors">
                                     <CardHeader>
                                         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
                                             <CardTitle className="text-lg md:text-2xl font-bold font-headline">{event.title}</CardTitle>
@@ -90,7 +90,7 @@ export default function OrganizationClient({ slug }: { slug: string }) {
                         <div className="columns-1 md:columns-2 gap-8 space-y-8">
                             {relatedCertificates.map((cert) => (
                                 <div key={`${cert.date}-${cert.title}`} className="break-inside-avoid">
-                                    <Card className="rounded-2xl border-border/50 hover:border-primary/50 transition-colors h-full">
+                                    <Card className="rounded-none border-border/50 hover:border-primary/50 transition-colors h-full">
                                         <CardHeader>
                                             <CardTitle className="text-lg md:text-2xl font-bold font-headline">{cert.title}</CardTitle>
                                             <CardDescription>{cert.date}</CardDescription>
@@ -114,7 +114,7 @@ export default function OrganizationClient({ slug }: { slug: string }) {
                             {relatedArticles.map((article) => (
                             <div key={article.url} className="break-inside-avoid">
                                 <Link href={article.url} target="_blank" rel="noopener noreferrer" data-cursor-interactive className="h-full flex" prefetch>
-                                    <Card className="group rounded-2xl overflow-hidden transition-all hover:border-primary/50 hover:bg-muted/30 w-full flex flex-col">
+                                    <Card className="group rounded-none overflow-hidden transition-all hover:border-primary/50 hover:bg-muted/30 w-full flex flex-col">
                                     <CardHeader className="p-6 md:p-8">
                                         <CardTitle className="text-2xl font-bold font-headline mb-2">{article.title}</CardTitle>
                                         <CardDescription className="text-base text-primary">{article.source}</CardDescription>

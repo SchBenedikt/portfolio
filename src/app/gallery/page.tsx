@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Header from '@/components/header';
+import PageHeading from '@/components/page-heading';
 import Footer from '@/components/footer';
 import { galleryData } from '@/lib/gallery';
 import Image from 'next/image';
@@ -66,12 +67,10 @@ export default function GalleryPage() {
     return (
       <div className="flex flex-col min-h-screen bg-background text-foreground">
         <Header />
-        <main className="relative z-10 flex-grow pt-16 md:pt-32 pb-24 md:pb-16">
+        <main className="portfolio-subpage relative z-10 flex-grow pt-16 md:pt-32 pb-24 md:pb-16">
           <div className="container mx-auto px-6 sm:px-8">
             <div className="max-w-6xl mx-auto">
-              <h1 className="text-6xl md:text-8xl font-black text-center mb-8 md:mb-12 uppercase tracking-tighter font-headline">
-                Galerie
-              </h1>
+              <PageHeading title="Galerie" description="Einblicke in meine Projekte, Veranstaltungen und Erlebnisse."/>
               <div className="text-center text-muted-foreground">Lädt...</div>
             </div>
           </div>
@@ -84,7 +83,7 @@ export default function GalleryPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
-      <main className="relative z-10 flex-grow pt-16 md:pt-32 pb-24 md:pb-16">
+      <main className="portfolio-subpage relative z-10 flex-grow pt-16 md:pt-32 pb-24 md:pb-16">
         <div className="container mx-auto px-6 sm:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -92,9 +91,7 @@ export default function GalleryPage() {
             transition={{ duration: 0.6 }}
             className="max-w-6xl mx-auto"
           >
-            <h1 className="text-6xl md:text-8xl font-black text-center mb-8 md:mb-12 uppercase tracking-tighter font-headline">
-              Galerie
-            </h1>
+            <PageHeading title="Galerie" description="Einblicke in meine Projekte, Veranstaltungen und Erlebnisse."/>
 
             <motion.div
               className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4"
@@ -111,7 +108,7 @@ export default function GalleryPage() {
                   <Dialog>
                     <DialogTrigger asChild>
                       <Card
-                        className="rounded-2xl overflow-hidden group relative cursor-pointer"
+                        className="rounded-none overflow-hidden group relative cursor-pointer"
                         data-cursor-interactive
                       >
                         <CardContent className="p-0">

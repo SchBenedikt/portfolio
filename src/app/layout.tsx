@@ -1,32 +1,22 @@
 
 import type { Metadata } from 'next';
 import './globals.css';
+import './portfolio.css';
+import './work.css';
+import './blog.css';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { Toaster as DefaultToaster } from '@/components/ui/toaster';
-import { Rubik, JetBrains_Mono as FontMono } from 'next/font/google';
 import { AchievementsProvider } from '@/components/providers/achievements-provider';
 import { Toaster as SonnerToaster } from '@/components/ui/sonner';
-import CustomCursor from '@/components/custom-cursor';
 import Link from 'next/link';
-
-const rubik = Rubik({
-  subsets: ['latin'],
-  weight: ['400', '500', '700', '900'],
-  variable: '--font-rubik',
-});
-
-const fontMono = FontMono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-})
 
 const siteUrl = 'https://benedikt.xn--schchner-2za.de';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Benedikt Schächner',
-    template: '%s | Benedikt Schächner'
+    default: 'Portfolio von Benedikt Schächner',
+    template: '%s | Portfolio von Benedikt Schächner'
   },
   description:
     'Persönliche Website von Benedikt Schächner, Schüler am König-Karlmann-Gymnasium Altötting: Projekte, Lebenslauf und mehr.',
@@ -112,9 +102,6 @@ export const metadata: Metadata = {
     images: ['/og-image.png'],
     creator: '@benedikt.schaechner',
   },
-  verification: {
-    google: 'google-site-verification-code',
-  },
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
@@ -129,7 +116,7 @@ export const metadata: Metadata = {
       {
         rel: 'mask-icon',
         url: '/safari-pinned-tab.svg',
-        color: '#111827',
+        color: '#181714',
       },
     ],
   },
@@ -143,10 +130,11 @@ export const metadata: Metadata = {
 const pagesToPrefetch = [
   '/',
   '/projects',
+  '/blog',
   '/resume',
+  '/awards',
   '/gallery',
   '/press',
-  '/tools',
   '/links',
 ];
 
@@ -244,22 +232,15 @@ export default function RootLayout({
   return (
     <html lang="de" suppressHydrationWarning>
       <head>
-        <link rel="canonical" href={siteUrl} />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#111827" />
-        <meta name="theme-color" content="#111827" media="(prefers-color-scheme: dark)" />
-        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#181714" />
+        <meta name="theme-color" content="#151613" media="(prefers-color-scheme: dark)" />
+        <meta name="theme-color" content="#f2efe6" media="(prefers-color-scheme: light)" />
         <meta name="color-scheme" content="dark light" />
-        <meta name="msapplication-TileColor" content="#111827" />
+        <meta name="msapplication-TileColor" content="#181714" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -272,7 +253,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
-      <body className={`${rubik.variable} ${fontMono.variable} font-body antialiased`}>
+      <body className="font-body antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -280,7 +261,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AchievementsProvider>
-            <CustomCursor />
+
             {children}
             <DefaultToaster />
             <SonnerToaster />

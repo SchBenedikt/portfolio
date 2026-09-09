@@ -6,10 +6,11 @@ import { motion } from 'framer-motion';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { 
-  Briefcase, Code, Home, Instagram, Linkedin, Notebook, Rss, User, ArrowUpRight, GalleryHorizontal, Wrench, Newspaper 
+  Briefcase, Code, Home, Instagram, Linkedin, Notebook, Rss, User, ArrowUpRight, GalleryHorizontal, Newspaper 
 } from 'lucide-react';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
+import PageHeading from '@/components/page-heading';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
@@ -41,9 +42,9 @@ const mainLinks = [
 ];
 
 const secondaryLinks = [
+  { title: 'Blog', href: '/blog', icon: <Notebook /> },
   { title: 'Galerie', href: '/gallery', icon: <GalleryHorizontal /> },
   { title: 'Presse', href: '/press', icon: <Newspaper /> },
-  { title: 'Tools', href: '/tools', icon: <Wrench /> },
 ]
 
 const projectLinks = [
@@ -90,28 +91,20 @@ export default function LinksPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
         <Header />
-        <main className="flex-grow flex items-center justify-center pt-16 md:pt-32 pb-24 md:pb-16">
+        <main className="portfolio-subpage links-page flex-grow flex items-center justify-center pt-16 md:pt-32 pb-24 md:pb-16">
             <motion.div
                 className="container mx-auto px-6 sm:px-8 max-w-md"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
             >
-                <motion.div className="flex flex-col items-center text-center mb-12" variants={itemVariants}>
-                  <Avatar className="w-24 h-24 mb-4 border-2 border-primary">
-                      <AvatarImage src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20professions/Technologist%20Medium-Light%20Skin%20Tone.png" alt="Benedikt Schächner" />
-                      <AvatarFallback>BS</AvatarFallback>
-                  </Avatar>
-                  <h1 className="text-3xl font-bold font-headline">Benedikt Schächner</h1>
-                  <p className="text-muted-foreground mt-1">Schüler am König-Karlmann-Gymnasium Altötting</p>
-                </motion.div>
-
+                <PageHeading title="Links & Kontakt" description="Meine Profile, Projekte und weitere Seiten auf einen Blick."/>
                 <motion.div variants={itemVariants} className="mb-10">
-                    <h2 className="text-sm font-semibold uppercase text-muted-foreground tracking-wider text-center mb-4">Wichtige Links</h2>
+                    <h2 className="text-sm font-semibold uppercase text-muted-foreground tracking-wider text-left mb-4">Wichtige Links</h2>
                     <div className="grid grid-cols-2 gap-4">
                       {mainLinks.map((link) => (
                         <Link href={link.href} key={link.href} target={link.href.startsWith('http') ? '_blank' : '_self'} data-cursor-interactive prefetch>
-                            <Card className="group relative rounded-2xl overflow-hidden text-center h-32 flex flex-col justify-center items-center hover:bg-muted/50 transition-colors">
+                            <Card className="group relative rounded-none overflow-hidden text-center h-32 flex flex-col justify-center items-center hover:bg-muted/50 transition-colors">
                               <div className={cn("p-3 rounded-full mb-2 transition-colors", link.color)}>
                                 {link.icon}
                               </div>
@@ -128,7 +121,7 @@ export default function LinksPage() {
                       {secondaryLinks.map((link) => (
                           <div key={link.href}>
                             <Link href={link.href} target={link.href.startsWith('http') ? '_blank' : '_self'} data-cursor-interactive prefetch>
-                               <Card className="group relative p-4 rounded-xl hover:bg-muted/50 transition-colors">
+                               <Card className="group relative p-4 rounded-none hover:bg-muted/50 transition-colors">
                                   <div className="flex items-center">
                                     <div className="w-6 mr-4 text-muted-foreground">{link.icon}</div>
                                     <span className="font-medium flex-grow">{link.title}</span>
@@ -142,12 +135,12 @@ export default function LinksPage() {
                 </motion.div>
 
                 <motion.div variants={itemVariants}>
-                    <h2 className="text-sm font-semibold uppercase text-muted-foreground tracking-wider text-center mb-4">Projekte</h2>
+                    <h2 className="text-sm font-semibold uppercase text-muted-foreground tracking-wider text-left mb-4">Projekte</h2>
                     <div className="space-y-3">
                       {projectLinks.map((link) => (
                           <div key={link.href}>
                             <Link href={link.href} target={link.href.startsWith('http') ? '_blank' : '_self'} data-cursor-interactive prefetch>
-                               <Card className="group relative p-4 rounded-xl hover:bg-muted/50 transition-colors">
+                               <Card className="group relative p-4 rounded-none hover:bg-muted/50 transition-colors">
                                   <div className="flex items-center">
                                     <div className="w-6 mr-4 text-muted-foreground">{link.icon}</div>
                                     <span className="font-medium flex-grow">{link.title}</span>

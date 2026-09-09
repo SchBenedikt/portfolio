@@ -1,156 +1,74 @@
-
-'use client';
-
-import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, User } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+"use client";
 import Header from '@/components/header';
-import { useEffect, useState } from 'react';
+import Footer from '@/components/footer';
+import { useEffect } from 'react';
 import { useAchievements } from '@/components/providers/achievements-provider';
-import { Terminal } from '@/components/terminal';
-import { cn } from '@/lib/utils';
-import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
+import ProjectCard from '@/components/project-card';
+import { projectData } from '@/lib/projects';
+import { Trophy, ArrowUpRight } from 'lucide-react';
 
-const landingImages = Array.from({ length: 9 }, (_, i) =>
-  `/portraets/landing-page/${i + 1}.png`
-);
+const pages = [
+  { name: 'Lebenslauf', href: '/resume', eyebrow: '01', desc: 'Stationen & Erfahrungen' },
+  { name: 'Projekte', href: '/projects', eyebrow: '02', desc: 'Ausgewählte Arbeiten' },
+  { name: 'Blog', href: '/blog', eyebrow: '03', desc: 'Artikel & Gedanken' },
+  { name: 'Auszeichnungen', href: '/awards', eyebrow: '04', desc: 'Preise & Zertifikate' },
+  { name: 'Galerie', href: '/gallery', eyebrow: '05', desc: 'Bilder & Eindrücke' },
+  { name: 'Presse', href: '/press', eyebrow: '06', desc: 'Medienberichte' },
+  { name: 'Links & Kontakt', href: '/links', eyebrow: '07', desc: 'Profile & Erreichbarkeit' },
+];
+
+const latestAwards = [
+  {
+    date: "20. Nov. 2025",
+    title: "Crossmedia-Preis",
+    subtitle: "Sparte Interactive",
+    organization: "Bayerischer Rundfunk",
+    project: "Notio",
+    projectSlug: "notio",
+  },
+  {
+    date: "22. Nov. 2024",
+    title: "Hauptpreis",
+    subtitle: "Deutscher Multimediapreis mb21",
+    organization: "Deutscher Multimediapreis mb21",
+    project: "Meum Diarium",
+    projectSlug: "meum-diarium",
+  },
+];
 
 export default function Home() {
   const { unlockAchievement } = useAchievements();
-  const [isTerminalView, setIsTerminalView] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
-  const [imageIndex, setImageIndex] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setImageIndex((prev) => {
-        let next;
-        do {
-          next = Math.floor(Math.random() * landingImages.length);
-        } while (next === prev && landingImages.length > 1);
-        return next;
-      });
-    }, 10000);
-    return () => clearInterval(id);
-  }, []);
-
-  useEffect(() => {
-    unlockAchievement('FIRST_STEP');
-    const savedView = localStorage.getItem('terminalView');
-    if (savedView) {
-      setIsTerminalView(JSON.parse(savedView));
-    }
-    setIsMounted(true);
-  }, [unlockAchievement]);
-
-  useEffect(() => {
-    if (isMounted) {
-      localStorage.setItem('terminalView', JSON.stringify(isTerminalView));
-    }
-  }, [isTerminalView, isMounted]);
-
-  const headerVariants = {
-    hidden: { y: -150, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: [0.6, 0.05, 0.01, 0.9] } },
-  };
-
-  const handleToggleView = (forceUiView?: boolean) => {
-    if (typeof forceUiView === 'boolean') {
-      setIsTerminalView(!forceUiView);
-      return;
-    }
-
-    // Toggle view first
-    setIsTerminalView((prev) => !prev);
-
-    // Unlock achievement after a short delay to prevent UI blocking
-    setTimeout(() => {
-      unlockAchievement('VIEW_SWITCHER');
-    }, 100);
-  };
-
-  if (!isMounted) {
-    return null;
-  }
-
-  return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground overflow-hidden">
-      <motion.div initial="visible" animate={isHeaderVisible ? 'visible' : 'hidden'} variants={headerVariants}>
-        <Header>
-          <Button
-            variant="ghost"
-            className="rounded-full"
-            onClick={() => handleToggleView()}
-            aria-label="Ansicht wechseln"
-            data-cursor-interactive
-          >
-            <User className={cn('h-[1.2rem] w-[1.2rem] transition-all', isTerminalView && 'scale-0')} />
-            <Bot className={cn('absolute h-[1.2rem] w-[1.2rem] transition-all', !isTerminalView && 'scale-0')} />
-            <span className="sr-only">Ansicht wechseln</span>
-          </Button>
-        </Header>
-      </motion.div>
-      <main className="flex-grow flex flex-col items-center justify-center pt-16 md:pt-20 pb-24 md:pb-0">
-        <div
-          className="container mx-auto px-6 sm:px-8 h-full flex items-center justify-center"
-        >
-          {isTerminalView ? (
-            <motion.div
-              key="terminal"
-              className="w-full h-full flex items-center justify-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Terminal onExit={() => handleToggleView(true)} />
-            </motion.div>
-          ) : (
-            <motion.section
-              key="ui"
-              className="flex justify-center items-center text-left w-full h-full"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-              >
-                <h1 className="text-6xl sm:text-7xl md:text-9xl font-black uppercase tracking-tighter font-headline">
-                  <div className="flex items-center justify-between">
-                    <div className="w-[65px] h-[45px] md:w-[130px] md:h-[95px] rounded-lg bg-muted border border-border relative overflow-hidden">
-                      <AnimatePresence mode="sync">
-                        <motion.div
-                          key={imageIndex}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.8 }}
-                          className="absolute inset-0"
-                        >
-                          <Image
-                            src={landingImages[imageIndex]}
-                            alt="Benedikt Schächner"
-                            width={375}
-                            height={313}
-                            className="w-full h-full object-cover"
-                          />
-                        </motion.div>
-                      </AnimatePresence>
-                    </div>
-                    <span className="text-right">Benedikt</span>
-                  </div>
-                  <div className="text-right">Schächner</div>
-                </h1>
-              </motion.div>
-            </motion.section>
-          )}
-        </div>
-      </main>
+  useEffect(() => { unlockAchievement('FIRST_STEP'); }, [unlockAchievement]);
+  return <div className="portfolio-home"><Header/><main id="main-content">
+    <section className="portfolio-hero" aria-labelledby="hero-title">
+      <div className="hero-layout"><div className="hero-copy-block"><p className="eyebrow">Mein persönliches Portfolio</p><h1 id="hero-title">Benedikt Schächner<span>.</span></h1><p className="hero-description">Ich entwickle Webanwendungen, gestalte digitale Projekte und interessiere mich für Crossmedia und künstliche Intelligenz. Einiges davon ist hier zu sehen.</p><div className="hero-skills"><span>Webentwicklung</span><span>Crossmedia</span><span>Künstliche Intelligenz</span></div></div><div className="hero-photo" data-cursor-interactive>
+        <div className="hero-photo-frame"><div className="hero-photo-grain" aria-hidden="true"/><Image src="https://raw.githubusercontent.com/SchBenedikt/portfolio/master/src/app/photos/benedikt/crossmedia-3.jpeg" alt="Benedikt Schächner bei der Crossmedia-Preisverleihung im Bayerischen Rundfunk" width={600} height={800} priority/></div>
+        <div className="hero-photo-badge" aria-hidden="true"><Trophy size={13} strokeWidth={1.5}/> Crossmedia 2025</div>
+        <span className="hero-photo-arrow" aria-hidden="true">↗</span>
+        <span className="hero-photo-caption" aria-hidden="true">BR München · Nov. 2025</span>
+      </div></div>
+      <div className="hero-bottom"><a href="#inhalt">Zur Übersicht <span>↓</span></a></div>
+    </section>
+    <div className="portfolio-content" id="inhalt">
+    <section className="home-selected"><div className="recognition-heading"><div className="section-heading-icon"><Trophy size={20} strokeWidth={1.5}/></div><h2>Auszeichnungen.</h2></div><div className="home-awards-grid">{latestAwards.map((award) => <Link key={award.date} href={`/projects/${award.projectSlug}`} className="home-award-card"><div className="home-award-top"><span className="home-award-date">{award.date}</span><ArrowUpRight size={16}/></div><h3>{award.title}</h3><p>{award.subtitle}</p><span className="home-award-org">{award.organization}</span><span className="home-award-project">{award.project}</span></Link>)}</div><Link className="home-all-work" href="/awards">Alle Auszeichnungen <span>↗</span></Link></section>
+    <section className="home-selected"><div className="recognition-heading"><div className="section-heading-icon"><Trophy size={20} strokeWidth={1.5}/></div><h2>Ausgewählte Arbeiten.</h2></div><div className="work-collection">{["notio", "meum-diarium"].map(slug => { const project = projectData.find(p => p.slug === slug); return project ? <ProjectCard key={slug} project={project}/> : null; })}</div><Link className="home-all-work" href="/projects">Alle Projekte ansehen <span>↗</span></Link></section>
+    <section className="portfolio-section" style={{paddingTop: '100px', paddingBottom: '100px'}}>
+      <div className="landing-section-header"><p className="eyebrow">SEITEN</p><h2>Alle Bereiche.</h2></div>
+      <div className="landing-grid">
+        {pages.map((page) => (
+          <Link key={page.href} href={page.href} className="landing-card">
+            <span className="landing-card-number">{page.eyebrow}</span>
+            <div className="landing-card-content">
+              <span className="landing-card-name">{page.name}</span>
+              <span className="landing-card-desc">{page.desc}</span>
+            </div>
+            <span className="landing-card-arrow">↗</span>
+          </Link>
+        ))}
+      </div>
+    </section>
     </div>
-  );
+  </main><Footer/></div>;
 }

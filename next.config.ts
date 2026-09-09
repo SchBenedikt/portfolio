@@ -3,6 +3,8 @@ import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   output: 'export',
+  // Keep production builds from overwriting a running development server.
+  distDir: process.env.NODE_ENV === 'development' ? '.next-dev' : '.next',
   typescript: {
     ignoreBuildErrors: true,
   },

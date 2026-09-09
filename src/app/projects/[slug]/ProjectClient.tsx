@@ -49,7 +49,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
-      <main className="relative z-10 flex-grow pt-16 md:pt-32 pb-24 md:pb-16">
+      <main className="portfolio-subpage relative z-10 flex-grow pt-16 md:pt-32 pb-24 md:pb-16">
         <div className="container mx-auto px-6 sm:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -64,14 +64,14 @@ export default function ProjectClient({ slug }: { slug: string }) {
                 </Link>
               </Button>
             </div>
-            <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter font-headline mb-8 md:mb-4">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black uppercase tracking-tighter font-headline mb-8 md:mb-4 break-words">
               {project.title}
             </h1>
             
             <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12">
               <div className="md:col-span-3">
                 {project.embedWebsite ? (
-                  <div className="aspect-video overflow-hidden rounded-3xl mb-8 border border-border/50">
+                  <div className="aspect-video overflow-hidden rounded-none mb-8 border border-border/50">
                     <iframe
                       src={project.url}
                       className="w-full h-full"
@@ -82,7 +82,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
                 ) : (
                   <Dialog>
                     <DialogTrigger asChild>
-                      <div className="aspect-video overflow-hidden rounded-3xl mb-8 cursor-pointer" data-cursor-interactive>
+                      <div className="aspect-video overflow-hidden rounded-none mb-8 cursor-pointer" data-cursor-interactive>
                         <Image
                           src={project.image}
                           alt={project.title}
@@ -115,7 +115,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
                 </div>
               </div>
               <div className="md:col-span-2">
-                 <div className="sticky top-32 bg-card/50 backdrop-blur-lg p-6 md:p-8 rounded-3xl border border-border/50">
+                 <div className="sticky top-32 bg-card/50 backdrop-blur-lg p-6 md:p-8 rounded-none border border-border/50">
                     <div className="flex justify-between items-start mb-6">
                       <h3 className="text-2xl md:text-3xl font-bold font-headline">Projekt-Infos</h3>
                     </div>
@@ -211,7 +211,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
                     {otherProjects.map((proj) => (
                         <CarouselItem key={proj.slug} className="md:basis-1/2 lg:basis-1/3">
                             <div className="p-1">
-                                <Card className="rounded-3xl overflow-hidden border-border/50 flex flex-col w-full h-full">
+                                <Card className="rounded-none overflow-hidden border-border/50 flex flex-col w-full h-full">
                                   <div className="aspect-video overflow-hidden border-b">
                                       <Image
                                           src={proj.image}

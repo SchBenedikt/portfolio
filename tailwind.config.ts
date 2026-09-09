@@ -13,11 +13,20 @@ export default {
         '10xl': '10rem',
       },
       fontFamily: {
-        body: ['var(--font-rubik)', 'sans-serif'],
-        headline: ['var(--font-rubik)', 'sans-serif'],
-        mono: ['var(--font-mono)', 'monospace'],
+        sans: ['var(--font-sans)'],
+        body: ['var(--font-sans)'],
+        headline: ['var(--font-sans)'],
+        mono: ['var(--font-mono)'],
+        serif: ['var(--font-serif)'],
       },
       colors: {
+        paper: 'var(--paper)',
+        'paper-soft': 'var(--paper-soft)',
+        ink: 'var(--ink)',
+        muted: 'var(--muted)',
+        rule: 'var(--rule)',
+        oxblood: 'var(--oxblood)',
+        'oxblood-light': 'var(--oxblood-light)',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -36,10 +45,6 @@ export default {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
         },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
-        },
         accent: {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
@@ -57,16 +62,6 @@ export default {
           '3': 'hsl(var(--chart-3))',
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
-        },
-        sidebar: {
-          DEFAULT: 'hsl(var(--sidebar-background))',
-          foreground: 'hsl(var(--sidebar-foreground))',
-          primary: 'hsl(var(--sidebar-primary))',
-          'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-          accent: 'hsl(var(--sidebar-accent))',
-          'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-          border: 'hsl(var(--sidebar-border))',
-          ring: 'hsl(var(--sidebar-ring))',
         },
       },
       borderRadius: {

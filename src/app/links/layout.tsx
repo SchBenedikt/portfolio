@@ -3,14 +3,13 @@ import type { Metadata } from 'next';
 const siteUrl = 'https://benedikt.xn--schchner-2za.de';
 
 export const metadata: Metadata = {
-  title: 'Links',
+  title: 'Links & Kontakt',
   description:
-    'Wichtige Links und Social-Media-Profile von Benedikt Schächner.',
+    'Profile, Kontakt und Verlinkungen von Benedikt Schächner: LinkedIn, Instagram, GitHub und mehr.',
   alternates: { canonical: `${siteUrl}/links` },
   openGraph: {
-    title: 'Links | Benedikt Schächner',
-    description:
-      'Social Media und weitere Links von Benedikt Schächner.',
+    title: 'Links & Kontakt | Benedikt Schächner',
+    description: 'Profile, Kontakt und Verlinkungen von Benedikt Schächner.',
     url: `${siteUrl}/links`,
     type: 'website',
     siteName: 'Benedikt Schächner',
@@ -18,9 +17,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Links | Benedikt Schächner',
-    description:
-      'Social Media und weitere Links von Benedikt Schächner.',
+    title: 'Links & Kontakt | Benedikt Schächner',
+    description: 'Profile, Kontakt und Verlinkungen von Benedikt Schächner.',
     images: ['/og-image.png'],
   },
 };

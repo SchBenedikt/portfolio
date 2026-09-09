@@ -5,12 +5,11 @@ const siteUrl = 'https://benedikt.xn--schchner-2za.de';
 export const metadata: Metadata = {
   title: 'Galerie',
   description:
-    'Fotogalerie von Benedikt Schächner – Porträts und Eindrücke aus Projekten, Veranstaltungen und dem Alltag.',
+    'Bilder und Eindrücke aus Projekten und dem Alltag von Benedikt Schächner.',
   alternates: { canonical: `${siteUrl}/gallery` },
   openGraph: {
     title: 'Galerie | Benedikt Schächner',
-    description:
-      'Porträts und Fotos von Benedikt Schächner.',
+    description: 'Bilder und Eindrücke aus Projekten und dem Alltag.',
     url: `${siteUrl}/gallery`,
     type: 'website',
     siteName: 'Benedikt Schächner',
@@ -19,8 +18,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Galerie | Benedikt Schächner',
-    description:
-      'Porträts und Fotos von Benedikt Schächner.',
+    description: 'Bilder und Eindrücke aus Projekten und dem Alltag.',
     images: ['/og-image.png'],
   },
 };
