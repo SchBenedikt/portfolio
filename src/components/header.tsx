@@ -3,15 +3,27 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTheme } from 'next-themes';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { cn } from '@/lib/utils';
 
 const Header = ({ children }: { children?: React.ReactNode }) => {
   const pathname = usePathname();
+  const { theme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => { setMenuOpen(false); }, [pathname]);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activePalette, setActivePalette] = useState<string>('green');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const saved = localStorage.getItem('palette') || 'green';
+    if (saved) {
+      setActivePalette(saved);
+      document.documentElement.setAttribute('data-palette', saved);
+    }
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,14 +32,6 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
     handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const saved = localStorage.getItem('palette') || 'green';
-    if (saved) {
-      setActivePalette(saved);
-      document.documentElement.setAttribute('data-palette', saved);
-    }
   }, []);
 
   const handlePaletteChange = (palette: string) => {
@@ -44,10 +48,12 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
     { href: '/gallery', label: 'Galerie' },
   ];
 
-  const paletteColors: Record<string, string> = {
-    green: '#35543c',
-    red: '#711f2d',
-    blue: '#354154',
+  const isDark = mounted && theme === 'dark';
+
+  const paletteColors: Record<string, { light: string; dark: string }> = {
+    green: { light: '#35543c', dark: '#6aab78' },
+    red: { light: '#711f2d', dark: '#cd7c8b' },
+    blue: { light: '#354154', dark: '#7a94b8' },
   };
 
   return (
@@ -103,7 +109,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
                     ? 'border-foreground scale-110'
                     : 'border-transparent hover:scale-110'
                 )}
-                style={{ backgroundColor: paletteColors[palette] }}
+                style={{ backgroundColor: isDark ? paletteColors[palette].dark : paletteColors[palette].light }}
                 aria-label={`Palette ${palette === 'green' ? 'Grün' : palette === 'red' ? 'Rot' : 'Blau'}`}
                 data-cursor-interactive
               />
@@ -146,7 +152,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
                       ? 'border-foreground scale-110'
                       : 'border-transparent'
                   )}
-                  style={{ backgroundColor: paletteColors[palette] }}
+                  style={{ backgroundColor: isDark ? paletteColors[palette].dark : paletteColors[palette].light }}
                   aria-label={`Palette ${palette === 'green' ? 'Grün' : palette === 'red' ? 'Rot' : 'Blau'}`}
                 />
               ))}
