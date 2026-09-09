@@ -157,8 +157,14 @@
   background: var(--paper-soft);
   border: 1px solid var(--rule);
   transition: background-color .25s ease, border-color .25s ease;
+  position: relative;
+  overflow: hidden;
 }
 .blog-related-card:hover { background: var(--forest); border-color: var(--forest); }
+
+/* Blog card visual variety */
+.blog-related-card:nth-child(1)::before {content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--oxblood);opacity:0.6;transition:opacity .3s ease;}.blog-related-card:nth-child(1):hover::before {opacity:0;}
+.blog-related-card:nth-child(2)::after {content:'';position:absolute;bottom:0;right:0;width:60px;height:60px;background:radial-gradient(circle at bottom right,var(--mint),transparent 70%);opacity:0.15;pointer-events:none;transition:opacity .3s ease;}.blog-related-card:nth-child(2):hover::after {opacity:0;}
 .blog-related-card time {
   font: 12px var(--font-mono);
   letter-spacing: .05em;
