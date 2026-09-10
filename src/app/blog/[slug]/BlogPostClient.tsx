@@ -21,9 +21,9 @@ export default function BlogPostClient({ slug }: { slug: string }) {
     return (
       <main className="portfolio-subpage">
         <div className="container">
-          <h1>Artikel nicht gefunden.</h1>
+          <h1>{t.blog.notFound}</h1>
           <Link href="/blog" className="text-link">
-            Zurück zum Blog <span>↗</span>
+            {t.blog.backToBlog} <span>↗</span>
           </Link>
         </div>
       </main>

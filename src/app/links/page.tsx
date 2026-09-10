@@ -3,7 +3,6 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { 
   Briefcase, Code, Home, Instagram, Linkedin, Notebook, Rss, User, ArrowUpRight, GalleryHorizontal, Newspaper 
@@ -13,39 +12,7 @@ import Header from '@/components/header';
 import PageHeading from '@/components/page-heading';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-
-const mainLinks = [
-  {
-    title: 'Portfolio',
-    href: '/',
-    icon: <Home className="w-8 h-8" />,
-    color: 'bg-primary/10 text-primary',
-  },
-  {
-    title: 'Lebenslauf',
-    href: '/resume',
-    icon: <User className="w-8 h-8" />,
-    color: 'bg-green-500/10 text-green-500',
-  },
-  {
-    title: 'LinkedIn',
-    href: 'https://de.linkedin.com/in/benedikt-schächner-a22632299/',
-    icon: <Linkedin className="w-8 h-8" />,
-     color: 'bg-sky-600/10 text-sky-600',
-  },
-  {
-    title: 'Instagram',
-    href: 'https://www.instagram.com/benedikt.schaechner/',
-    icon: <Instagram className="w-8 h-8" />,
-     color: 'bg-pink-500/10 text-pink-500',
-  },
-];
-
-const secondaryLinks = [
-  { title: 'Blog', href: '/blog', icon: <Notebook /> },
-  { title: 'Galerie', href: '/gallery', icon: <GalleryHorizontal /> },
-  { title: 'Presse', href: '/press', icon: <Newspaper /> },
-]
+import { useI18n } from '@/components/providers/i18n-provider';
 
 const projectLinks = [
   {
@@ -88,6 +55,41 @@ const itemVariants = {
 
 
 export default function LinksPage() {
+  const { t } = useI18n();
+
+  const mainLinks = [
+    {
+      title: t.links.portfolio,
+      href: '/',
+      icon: <Home className="w-8 h-8" />,
+      color: 'bg-primary/10 text-primary',
+    },
+    {
+      title: t.links.resume,
+      href: '/resume',
+      icon: <User className="w-8 h-8" />,
+      color: 'bg-green-500/10 text-green-500',
+    },
+    {
+      title: 'LinkedIn',
+      href: 'https://de.linkedin.com/in/benedikt-schächner-a22632299/',
+      icon: <Linkedin className="w-8 h-8" />,
+       color: 'bg-sky-600/10 text-sky-600',
+    },
+    {
+      title: 'Instagram',
+      href: 'https://www.instagram.com/benedikt.schaechner/',
+      icon: <Instagram className="w-8 h-8" />,
+       color: 'bg-pink-500/10 text-pink-500',
+    },
+  ];
+
+  const secondaryLinks = [
+    { title: t.nav.blog, href: '/blog', icon: <Notebook /> },
+    { title: t.nav.gallery, href: '/gallery', icon: <GalleryHorizontal /> },
+    { title: t.nav.press, href: '/press', icon: <Newspaper /> },
+  ];
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
         <Header />
@@ -98,9 +100,9 @@ export default function LinksPage() {
                 initial="hidden"
                 animate="visible"
             >
-                <PageHeading title="Links & Kontakt" description="Meine Profile, Projekte und weitere Seiten auf einen Blick."/>
+                <PageHeading title={t.links.title} description={t.links.description}/>
                 <motion.div variants={itemVariants} className="mb-10">
-                    <h2 className="text-sm font-semibold uppercase text-muted-foreground tracking-wider text-left mb-4">Wichtige Links</h2>
+                    <h2 className="text-sm font-semibold uppercase text-muted-foreground tracking-wider text-left mb-4">{t.links.importantLinks}</h2>
                     <div className="grid grid-cols-2 gap-4">
                       {mainLinks.map((link) => (
                         <Link href={link.href} key={link.href} target={link.href.startsWith('http') ? '_blank' : '_self'} data-cursor-interactive prefetch>
@@ -135,7 +137,7 @@ export default function LinksPage() {
                 </motion.div>
 
                 <motion.div variants={itemVariants}>
-                    <h2 className="text-sm font-semibold uppercase text-muted-foreground tracking-wider text-left mb-4">Projekte</h2>
+                    <h2 className="text-sm font-semibold uppercase text-muted-foreground tracking-wider text-left mb-4">{t.links.projects}</h2>
                     <div className="space-y-3">
                       {projectLinks.map((link) => (
                           <div key={link.href}>

@@ -8,6 +8,7 @@ import PageHeading from '@/components/page-heading';
 import Footer from '@/components/footer';
 import { articlesData } from '@/lib/articles';
 import { useAchievements } from '@/components/providers/achievements-provider';
+import { useI18n } from '@/components/providers/i18n-provider';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowUpRight, Calendar, Search } from 'lucide-react';
 import Link from 'next/link';
@@ -48,6 +49,7 @@ type GroupedArticles = { [year: string]: typeof articlesData };
 
 export default function PressPage() {
   const { unlockAchievement } = useAchievements();
+  const { t } = useI18n();
   const [searchTerm, setSearchTerm] = useState('');
   const [sourceFilter, setSourceFilter] = useState('all');
 
@@ -102,13 +104,13 @@ export default function PressPage() {
             transition={{ duration: 0.6 }}
             className="max-w-6xl mx-auto"
           >
-            <PageHeading title="Presse" description="Berichte und Veröffentlichungen über meine Projekte und mein Engagement."/>
+            <PageHeading title={t.press.title} description={t.press.description}/>
             
             <div className="mb-12 flex flex-col lg:flex-row gap-4">
               <div className="relative flex-grow">
                  <Input 
                     type="text"
-                    placeholder="Artikel durchsuchen..."
+                    placeholder={t.press.searchPlaceholder}
                     className="w-full p-4 pl-12 text-lg rounded-full h-12"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -117,10 +119,10 @@ export default function PressPage() {
               </div>
               <Select value={sourceFilter} onValueChange={setSourceFilter}>
                 <SelectTrigger className="w-full lg:w-72 h-12 rounded-full px-6 text-base">
-                  <SelectValue placeholder="Alle Quellen" />
+                  <SelectValue placeholder={t.press.allSources} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Alle Quellen</SelectItem>
+                  <SelectItem value="all">{t.press.allSources}</SelectItem>
                   {sources.map((source) => (
                     <SelectItem key={source} value={source}>{source}</SelectItem>
                   ))}
@@ -141,7 +143,7 @@ export default function PressPage() {
                     <div className="flex items-baseline justify-between mb-8 border-b pb-4">
                       <h2 className="text-4xl md:text-5xl font-black">{year}</h2>
                       <span className="text-base md:text-lg text-muted-foreground whitespace-nowrap">
-                        {groupedArticles[year].length} Artikel
+                        {groupedArticles[year].length} {t.press.articles}
                       </span>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -173,7 +175,7 @@ export default function PressPage() {
                                       <p className="text-muted-foreground text-base flex-grow">{article.description}</p>
                                       <Button asChild variant="outline" className="rounded-full mt-4 self-start group-hover:bg-accent group-hover:text-accent-foreground" data-cursor-interactive>
                                         <Link href={article.url} target="_blank" rel="noopener noreferrer" prefetch>
-                                          <span>Artikel lesen</span>
+                                          <span>{t.press.readArticle}</span>
                                           <ArrowUpRight className="ml-2 w-5 h-5 transform-gpu transition-transform group-hover:rotate-45" />
                                         </Link>
                                       </Button>
@@ -189,7 +191,7 @@ export default function PressPage() {
               </motion.div>
             ) : (
               <motion.div variants={itemVariants} className="text-center text-lg text-muted-foreground py-16">
-                <p>Keine Artikel für die aktuelle Auswahl gefunden.</p>
+                <p>{t.press.noResults}</p>
               </motion.div>
             )}
           </motion.div>

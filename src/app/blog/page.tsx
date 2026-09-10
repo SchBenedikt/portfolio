@@ -43,7 +43,7 @@ export default function BlogPage() {
                 <div className="blog-card-bottom">
                   <span className="blog-card-reading">
                     <Clock size={13} />
-                    {post.readingMinutes} Min. Lesezeit
+                    {post.readingMinutes} {t.blog.minRead}
                   </span>
                   <Link href={`/blog/${post.slug}`} className="blog-card-link" data-cursor-interactive>
                     {t.blog.readMore} <ArrowUpRight size={16} />
@@ -55,7 +55,7 @@ export default function BlogPage() {
           <div className="blog-empty" role="note">
             <PenLine size={18} />
             <p>
-              Weitere Artikel folgen. Schau bald wieder vorbei oder{' '}
+              {t.blog.comingSoon}{' '}
               <Link href="/links" data-cursor-interactive>kontaktiere mich</Link>.
             </p>
           </div>

@@ -61,7 +61,17 @@
     "experience": "Erfahrung",
     "education": "Bildung",
     "skills": "Fähigkeiten",
-    "certifications": "Zertifikate"
+    "certifications": "Zertifikate",
+    "aboutMe": "ÜBER MICH",
+    "aboutDescription": "Schüler am König-Karlmann-Gymnasium Altötting. Ich interessiere mich für Webentwicklung, digitale Bildung und die Verbindung von Technik und Gestaltung.",
+    "myProjects": "Meine Projekte",
+    "fullResume": "Gesamter Lebenslauf",
+    "currentWork": "Aktuelle Tätigkeiten",
+    "backToResume": "Zurück zum Lebenslauf",
+    "career": "Werdegang",
+    "certificatesAndCerts": "Bescheinigungen & Zertifikate",
+    "skillsSection": "Fähigkeiten",
+    "languages": "Sprachen"
   },
   "awards": {
     "title": "Auszeichnungen & Zertifikate.",
@@ -72,14 +82,35 @@
     "upcomingText": "Am 20. September 2026 gibt es eine neue Auszeichnung. Mehr dazu an diesem Tag – bis dahin bleibt es eine Überraschung.",
     "qualifications": "Qualifikationen.",
     "toResume": "Zum Lebenslauf",
-    "toOrganization": "Zur Organisation"
+    "toOrganization": "Zur Organisation",
+    "moreStations": "Weitere Stationen im Lebenslauf."
   },
   "projects": {
     "title": "Projekte.",
     "description": "Ausgewählte Arbeiten und persönliche Projekte.",
     "allProjects": "Alle Projekte",
+    "allWork": "Alle Arbeiten",
+    "private": "Eigene Projekte",
+    "school": "Schulprojekte",
+    "searchPlaceholder": "Projekt suchen …",
+    "searchLabel": "Projekte durchsuchen",
+    "resultCount": "Projekte",
+    "resultCountSingular": "Projekt",
+    "emptyTitle": "Hier ist noch nichts dabei.",
+    "emptyText": "Versuche einen anderen Suchbegriff oder zeige alle Projekte an.",
+    "resetFilters": "Filter zurücksetzen",
     "website": "Website",
-    "document": "Dokument"
+    "document": "Dokument",
+    "backToProjects": "Zurück zu den Projekten",
+    "moreProjects": "Weitere Projekte",
+    "projectInfos": "Projekt-Infos",
+    "date": "Datum",
+    "category": "Kategorie",
+    "technologies": "Technologien",
+    "viewProject": "Projekt ansehen",
+    "viewOnGithub": "Auf Github ansehen",
+    "viewDetails": "Details ansehen",
+    "enlargedView": "Vergrößerte Ansicht des Projektbildes für"
   },
   "blog": {
     "title": "Blog.",
@@ -89,19 +120,44 @@
     "backToBlog": "Zurück zum Blog",
     "relatedPosts": "Weitere Artikel",
     "noPosts": "Noch keine Artikel vorhanden.",
-    "writeOne": "Schreib den ersten"
+    "writeOne": "Schreib den ersten",
+    "notFound": "Artikel nicht gefunden.",
+    "comingSoon": "Weitere Artikel folgen. Schau bald wieder vorbei oder"
   },
   "gallery": {
     "title": "Galerie.",
-    "description": "Bilder und Eindrücke."
+    "description": "Bilder und Eindrücke.",
+    "loading": "Lädt...",
+    "alt": "Bild aus der Galerie"
   },
   "press": {
     "title": "Presse.",
-    "description": "Medienberichte und Veröffentlichungen."
+    "description": "Berichte und Veröffentlichungen über meine Projekte und mein Engagement.",
+    "searchPlaceholder": "Artikel durchsuchen...",
+    "allSources": "Alle Quellen",
+    "articles": "Artikel",
+    "noResults": "Keine Artikel für die aktuelle Auswahl gefunden.",
+    "readArticle": "Artikel lesen"
   },
   "links": {
     "title": "Links & Kontakt.",
-    "description": "Profile und Erreichbarkeit."
+    "description": "Meine Profile, Projekte und weitere Seiten auf einen Blick.",
+    "importantLinks": "Wichtige Links",
+    "projects": "Projekte",
+    "portfolio": "Portfolio",
+    "resume": "Lebenslauf"
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "description": "Die Seite, die Sie suchen, existiert nicht oder wurde verschoben. Keine Sorge, wir helfen Ihnen zurück auf den richtigen Weg.",
+    "home": "Zur Startseite",
+    "backToProjects": "Projekte ansehen"
+  },
+  "organization": {
+    "career": "Werdegang",
+    "certificates": "Bescheinigungen",
+    "pressArticles": "Presseartikel",
+    "noEntries": "Für diese Organisation sind noch keine spezifischen Einträge vorhanden."
   },
   "theme": {
     "toggle": "Design wechseln",

@@ -12,6 +12,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useAchievements } from '@/components/providers/achievements-provider';
+import { useI18n } from '@/components/providers/i18n-provider';
 import { useEffect, useMemo } from 'react';
 import {
   Dialog,
@@ -30,6 +31,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
   const otherProjects = useMemo(() => projectData.filter((p) => p.slug !== slug), [slug]);
   
   const { unlockAchievement } = useAchievements();
+  const { t } = useI18n();
 
   useEffect(() => {
     if (project) {
@@ -44,7 +46,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
 
   const hasValidUrl = project.url && project.url !== '#';
   const buttonIcon = hasValidUrl && !project.url.includes('github.com') ? <ExternalLink className="mr-3"/> : <Github className="mr-3"/>;
-  const buttonText = hasValidUrl ? (project.url.includes('github.com') ? 'Auf Github ansehen' : 'Projekt ansehen') : '';
+  const buttonText = hasValidUrl ? (project.url.includes('github.com') ? t.projects.viewOnGithub : t.projects.viewProject) : '';
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
@@ -60,7 +62,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
               <Button asChild variant="outline" className="rounded-full" data-cursor-interactive>
                 <Link href="/projects" prefetch>
                   <ArrowLeft className="mr-2" />
-                  Zurück zu den Projekten
+                  {t.projects.backToProjects}
                 </Link>
               </Button>
             </div>
@@ -97,7 +99,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
                       <DialogHeader className="sr-only">
                         <DialogTitle>{project.title}</DialogTitle>
                         <DialogDescription>
-                          Vergrößerte Ansicht des Projektbildes für {project.title}.
+                          {t.projects.enlargedView} {project.title}.
                         </DialogDescription>
                       </DialogHeader>
                       <Image
@@ -117,7 +119,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
               <div className="md:col-span-2">
                  <div className="sticky top-32 bg-card/50 backdrop-blur-lg p-6 md:p-8 rounded-none border border-border/50">
                     <div className="flex justify-between items-start mb-6">
-                      <h3 className="text-2xl md:text-3xl font-bold font-headline">Projekt-Infos</h3>
+                      <h3 className="text-2xl md:text-3xl font-bold font-headline">{t.projects.projectInfos}</h3>
                     </div>
                      <p className="text-base md:text-lg text-muted-foreground mb-6">
                         {project.description}
@@ -126,14 +128,14 @@ export default function ProjectClient({ slug }: { slug: string }) {
                         <div className="flex items-start">
                             <Calendar className="w-5 h-5 mr-3 mt-1 text-primary"/>
                             <div>
-                                <h4 className="font-semibold">Datum</h4>
+                                <h4 className="font-semibold">{t.projects.date}</h4>
                                 <p className="text-muted-foreground text-sm md:text-base">{new Date(project.date).toLocaleDateString('de-DE')}</p>
                             </div>
                         </div>
                          <div className="flex items-start">
                             <Folder className="w-5 h-5 mr-3 mt-1 text-primary"/>
                             <div>
-                                <h4 className="font-semibold">Kategorie</h4>
+                                <h4 className="font-semibold">{t.projects.category}</h4>
                                 <p className="text-muted-foreground text-sm md:text-base">{project.category}</p>
                             </div>
                         </div>
@@ -141,7 +143,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
                           <div className="flex items-start">
                             <Tags className="w-5 h-5 mr-3 mt-1 text-primary"/>
                             <div>
-                                <h4 className="font-semibold">Technologien</h4>
+                                <h4 className="font-semibold">{t.projects.technologies}</h4>
                                 <div className="flex flex-wrap gap-2 mt-2">
                                     {project.tags.map((tag) => (
                                         <Badge key={tag} variant="secondary" className="text-xs md:text-sm rounded-md">
@@ -198,7 +200,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
 
         <div className="container mx-auto px-6 sm:px-8 mt-16 md:mt-24">
             <h2 className="text-4xl md:text-5xl font-black text-center mb-12 uppercase tracking-tighter font-headline">
-                Weitere Projekte
+                {t.projects.moreProjects}
             </h2>
             <Carousel
                 opts={{
@@ -226,7 +228,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
                                       <p className="text-muted-foreground text-sm mb-4 flex-grow">{proj.description}</p>
                                       <Button asChild size="sm" className="rounded-full mt-auto self-start" data-cursor-interactive>
                                           <Link href={`/projects/${proj.slug}`} prefetch>
-                                              Details ansehen <ArrowRight className="ml-2"/>
+                                              {t.projects.viewDetails} <ArrowRight className="ml-2"/>
                                           </Link>
                                       </Button>
                                   </CardContent>

@@ -5,8 +5,10 @@ import { Home, ArrowLeft, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useI18n } from '@/components/providers/i18n-provider';
 
 export default function NotFound() {
+    const { t } = useI18n();
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -125,11 +127,10 @@ export default function NotFound() {
                 {/* Message */}
                 <motion.div variants={itemVariants} className="mb-12">
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-                        Seite nicht gefunden
+                        {t.notFound.title}
                     </h2>
                     <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-                        Die Seite, die Sie suchen, existiert nicht oder wurde verschoben.
-                        Keine Sorge, wir helfen Ihnen zurück auf den richtigen Weg.
+                        {t.notFound.description}
                     </p>
                 </motion.div>
 
@@ -177,7 +178,7 @@ export default function NotFound() {
                                 }}
                             />
                             <Home className="mr-2 h-5 w-5 inline-block" />
-                            Zur Startseite
+                            {t.notFound.home}
                         </Button>
                     </Link>
 
@@ -189,7 +190,7 @@ export default function NotFound() {
                             data-cursor-interactive
                         >
                             <ArrowLeft className="mr-2 h-5 w-5 inline-block transition-transform group-hover:-translate-x-1" />
-                            Projekte ansehen
+                            {t.notFound.backToProjects}
                         </Button>
                     </Link>
                 </motion.div>

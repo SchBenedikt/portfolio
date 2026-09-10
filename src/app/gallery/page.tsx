@@ -8,6 +8,7 @@ import Footer from '@/components/footer';
 import { galleryData } from '@/lib/gallery';
 import Image from 'next/image';
 import { useAchievements } from '@/components/providers/achievements-provider';
+import { useI18n } from '@/components/providers/i18n-provider';
 import {
   Dialog,
   DialogContent,
@@ -41,6 +42,7 @@ const itemVariants = {
 
 export default function GalleryPage() {
   const { unlockAchievement } = useAchievements();
+  const { t } = useI18n();
   const [shuffledGallery, setShuffledGallery] = useState(galleryData);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -70,8 +72,8 @@ export default function GalleryPage() {
         <main className="portfolio-subpage relative z-10 flex-grow pt-16 md:pt-32 pb-24 md:pb-16">
           <div className="container mx-auto px-6 sm:px-8">
             <div className="max-w-6xl mx-auto">
-              <PageHeading title="Galerie" description="Einblicke in meine Projekte, Veranstaltungen und Erlebnisse."/>
-              <div className="text-center text-muted-foreground">Lädt...</div>
+              <PageHeading title={t.gallery.title} description={t.gallery.description}/>
+              <div className="text-center text-muted-foreground">{t.gallery.loading}</div>
             </div>
           </div>
         </main>
@@ -91,7 +93,7 @@ export default function GalleryPage() {
             transition={{ duration: 0.6 }}
             className="max-w-6xl mx-auto"
           >
-            <PageHeading title="Galerie" description="Einblicke in meine Projekte, Veranstaltungen und Erlebnisse."/>
+            <PageHeading title={t.gallery.title} description={t.gallery.description}/>
 
             <motion.div
               className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4"

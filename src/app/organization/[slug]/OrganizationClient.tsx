@@ -13,9 +13,11 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Briefcase, Award, Newspaper, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useI18n } from '@/components/providers/i18n-provider';
 
 export default function OrganizationClient({ slug }: { slug: string }) {
   const organization = getOrganizationBySlug(slug);
+  const { t } = useI18n();
 
   if (!organization) {
     notFound();
@@ -39,7 +41,7 @@ export default function OrganizationClient({ slug }: { slug: string }) {
               <Button asChild variant="outline" className="rounded-full" data-cursor-interactive>
                 <Link href="/resume" prefetch>
                   <ArrowLeft className="mr-2" />
-                  Zurück zum Lebenslauf
+                  {t.resume.backToResume}
                 </Link>
               </Button>
             </div>
@@ -58,7 +60,7 @@ export default function OrganizationClient({ slug }: { slug: string }) {
             <div className="space-y-16">
                 {relatedTimelineEvents.length > 0 && (
                     <section>
-                    <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 flex items-center gap-3"><Briefcase className="text-primary"/> Werdegang</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 flex items-center gap-3"><Briefcase className="text-primary"/> {t.organization.career}</h2>
                     <div className="relative border-l-2 border-border ml-3 md:ml-4">
                         {relatedTimelineEvents.map((event) => (
                             <div key={`${event.date}-${event.title}`} className="mb-10 ml-4 md:ml-8 pl-4">
@@ -86,7 +88,7 @@ export default function OrganizationClient({ slug }: { slug: string }) {
 
                 {relatedCertificates.length > 0 && (
                     <section>
-                        <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 flex items-center gap-3"><Award className="text-primary"/> Bescheinigungen</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 flex items-center gap-3"><Award className="text-primary"/> {t.organization.certificates}</h2>
                         <div className="columns-1 md:columns-2 gap-8 space-y-8">
                             {relatedCertificates.map((cert) => (
                                 <div key={`${cert.date}-${cert.title}`} className="break-inside-avoid">
@@ -109,7 +111,7 @@ export default function OrganizationClient({ slug }: { slug: string }) {
 
                  {relatedArticles.length > 0 && (
                     <section>
-                        <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 flex items-center gap-3"><Newspaper className="text-primary"/> Presseartikel</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold font-headline mb-8 flex items-center gap-3"><Newspaper className="text-primary"/> {t.organization.pressArticles}</h2>
                             <div className="columns-1 md:columns-2 gap-8 space-y-8">
                             {relatedArticles.map((article) => (
                             <div key={article.url} className="break-inside-avoid">
@@ -136,7 +138,7 @@ export default function OrganizationClient({ slug }: { slug: string }) {
 
                 {relatedTimelineEvents.length === 0 && relatedCertificates.length === 0 && relatedArticles.length === 0 && (
                      <div className="text-center py-16">
-                        <p className="text-lg text-muted-foreground">Für diese Organisation sind noch keine spezifischen Einträge vorhanden.</p>
+                        <p className="text-lg text-muted-foreground">{t.organization.noEntries}</p>
                     </div>
                 )}
             </div>

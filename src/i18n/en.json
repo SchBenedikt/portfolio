@@ -61,7 +61,17 @@
     "experience": "Experience",
     "education": "Education",
     "skills": "Skills",
-    "certifications": "Certifications"
+    "certifications": "Certifications",
+    "aboutMe": "ABOUT ME",
+    "aboutDescription": "Student at König-Karlmann-Gymnasium Altötting. I'm interested in web development, digital education, and the intersection of technology and design.",
+    "myProjects": "My Projects",
+    "fullResume": "Full Resume",
+    "currentWork": "Current Work",
+    "backToResume": "Back to resume",
+    "career": "Career",
+    "certificatesAndCerts": "Certificates & Qualifications",
+    "skillsSection": "Skills",
+    "languages": "Languages"
   },
   "awards": {
     "title": "Awards & Certificates.",
@@ -72,14 +82,35 @@
     "upcomingText": "On September 20, 2026, a new award will be announced. More details to follow — until then, it remains a surprise.",
     "qualifications": "Qualifications.",
     "toResume": "View resume",
-    "toOrganization": "View organization"
+    "toOrganization": "View organization",
+    "moreStations": "More milestones in the resume."
   },
   "projects": {
     "title": "Projects.",
     "description": "Selected work and personal projects.",
     "allProjects": "All projects",
+    "allWork": "All work",
+    "private": "Personal projects",
+    "school": "School projects",
+    "searchPlaceholder": "Search projects …",
+    "searchLabel": "Search projects",
+    "resultCount": "projects",
+    "resultCountSingular": "project",
+    "emptyTitle": "Nothing here yet.",
+    "emptyText": "Try a different search term or view all projects.",
+    "resetFilters": "Reset filters",
     "website": "Website",
-    "document": "Document"
+    "document": "Document",
+    "backToProjects": "Back to projects",
+    "moreProjects": "More projects",
+    "projectInfos": "Project Info",
+    "date": "Date",
+    "category": "Category",
+    "technologies": "Technologies",
+    "viewProject": "View project",
+    "viewOnGithub": "View on Github",
+    "viewDetails": "View details",
+    "enlargedView": "Enlarged view of the project image for"
   },
   "blog": {
     "title": "Blog.",
@@ -89,19 +120,44 @@
     "backToBlog": "Back to blog",
     "relatedPosts": "More articles",
     "noPosts": "No articles yet.",
-    "writeOne": "Write the first one"
+    "writeOne": "Write the first one",
+    "notFound": "Article not found.",
+    "comingSoon": "More articles coming soon. Check back later or"
   },
   "gallery": {
     "title": "Gallery.",
-    "description": "Images and impressions."
+    "description": "Images and impressions.",
+    "loading": "Loading...",
+    "alt": "Image from gallery"
   },
   "press": {
     "title": "Press.",
-    "description": "Media coverage and publications."
+    "description": "Reports and publications about my projects and engagement.",
+    "searchPlaceholder": "Search articles...",
+    "allSources": "All sources",
+    "articles": "articles",
+    "noResults": "No articles found for the current selection.",
+    "readArticle": "Read article"
   },
   "links": {
     "title": "Links & Contact.",
-    "description": "Profiles and reachability."
+    "description": "My profiles, projects, and other pages at a glance.",
+    "importantLinks": "Important Links",
+    "projects": "Projects",
+    "portfolio": "Portfolio",
+    "resume": "Resume"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist or has been moved. Don't worry, we'll help you get back on track.",
+    "home": "Back to homepage",
+    "backToProjects": "View projects"
+  },
+  "organization": {
+    "career": "Career",
+    "certificates": "Certificates",
+    "pressArticles": "Press Articles",
+    "noEntries": "No specific entries available for this organization yet."
   },
   "theme": {
     "toggle": "Toggle theme",
