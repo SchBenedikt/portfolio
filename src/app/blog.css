@@ -11,9 +11,7 @@
   flex-direction: column;
   gap: 14px;
   padding: 34px 0;
-  transition: padding-left .4s cubic-bezier(.22,.8,.25,1);
 }
-.blog-card:hover .blog-card-inner { padding-left: 16px; }
 .blog-card-header {
   display: flex;
   align-items: center;
@@ -56,8 +54,8 @@
   letter-spacing: -.04em;
   line-height: 1.15;
 }
-.blog-card h2 a { transition: all .3s ease; }
-.blog-card h2 a:hover { color: var(--oxblood); letter-spacing: .01em; }
+.blog-card h2 a { transition: color .3s ease; }
+.blog-card h2 a:hover { color: var(--oxblood); }
 .blog-card-description {
   font-size: 14px;
   line-height: 1.8;
@@ -91,13 +89,12 @@
   margin-top: 8px;
   background: var(--paper-soft);
   border: 1px solid var(--rule);
-  transition: all .4s cubic-bezier(.22,.8,.25,1);
+  transition: all .3s ease;
 }
 .blog-card-project-link:hover {
   background: var(--forest);
   color: var(--hero-text);
   border-color: var(--forest);
-  transform: translateX(6px);
 }
 .blog-card-project-link svg:first-child {
   flex-shrink: 0;
@@ -127,11 +124,10 @@
 .blog-card-project-arrow {
   flex-shrink: 0;
   color: var(--editorial-muted);
-  transition: all .3s cubic-bezier(.34,1.56,.64,1);
+  transition: color .3s ease;
 }
-.blog-card-project-link:hover .blog-card-project-arrow {
+.blog-cross-link-card:hover .blog-cross-link-arrow {
   color: var(--mint);
-  transform: translate(3px, -3px);
 }
 .blog-card-bottom {
   display: flex;
@@ -149,9 +145,8 @@
   color: var(--oxblood);
   border-bottom: 1px solid currentColor;
   padding-bottom: 3px;
-  transition: all .3s cubic-bezier(.34,1.56,.64,1);
+  transition: color .3s ease;
 }
-.blog-card-link:hover { gap: 14px; letter-spacing: .01em; }
 .blog-empty {
   display: flex;
   align-items: center;
@@ -171,9 +166,9 @@
   font-size: 13px;
   color: var(--editorial-muted);
   margin-bottom: 48px;
-  transition: all .3s cubic-bezier(.22,.8,.25,1);
+  transition: color .3s ease;
 }
-.blog-back:hover { color: var(--oxblood); transform: translateX(-4px); }
+.blog-back:hover { color: var(--oxblood); }
 .blog-post-heading { margin-bottom: 48px; }
 .blog-post-heading .eyebrow { margin-bottom: 22px; }
 .blog-post-heading h1 {
@@ -253,14 +248,12 @@
   padding: 26px;
   background: var(--paper-soft);
   border: 1px solid var(--rule);
-  transition: all .4s cubic-bezier(.22,.8,.25,1);
+  transition: all .3s ease;
 }
 .blog-related-card:hover {
   background: var(--forest);
   color: var(--hero-text);
   border-color: var(--forest);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(0,0,0,.12);
 }
 .blog-related-card time {
   font: 12px var(--font-mono);
@@ -275,19 +268,17 @@
   font-weight: 400;
   letter-spacing: -.03em;
   line-height: 1.25;
-  transition: letter-spacing .3s ease;
 }
-.blog-related-card:hover h3 { letter-spacing: -.01em; }
 .blog-related-card > span {
   display: inline-flex;
   align-items: center;
   gap: 7px;
   font-size: 12px;
   color: var(--oxblood);
-  transition: all .3s ease;
+  transition: color .3s ease;
   margin-top: auto;
 }
-.blog-related-card:hover > span { color: var(--mint); gap: 11px; }
+.blog-related-card:hover > span { color: var(--mint); }
 
 /* Blog – cross-links */
 .blog-cross-links { margin-top: 64px; padding-top: 48px; border-top: 1px solid var(--rule); }
@@ -309,14 +300,12 @@
   padding: 24px;
   background: var(--paper-soft);
   border: 1px solid var(--rule);
-  transition: all .4s cubic-bezier(.22,.8,.25,1);
+  transition: all .3s ease;
 }
 .blog-cross-link-card:hover {
   background: var(--forest);
   color: var(--hero-text);
   border-color: var(--forest);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(0,0,0,.12);
 }
 .blog-cross-link-icon {
   flex-shrink: 0;
@@ -349,9 +338,7 @@
   font-weight: 500;
   letter-spacing: -.03em;
   line-height: 1.3;
-  transition: letter-spacing .3s ease;
 }
-.blog-cross-link-card:hover .blog-cross-link-content h3 { letter-spacing: -.01em; }
 .blog-cross-link-content p {
   font-size: 13px;
   line-height: 1.6;
@@ -367,11 +354,10 @@
 .blog-cross-link-arrow {
   flex-shrink: 0;
   color: var(--editorial-muted);
-  transition: all .3s cubic-bezier(.34,1.56,.64,1);
+  transition: color .3s ease;
 }
 .blog-cross-link-card:hover .blog-cross-link-arrow {
   color: var(--mint);
-  transform: translate(3px, -3px);
 }
 .blog-cross-link-press {
   cursor: default;
@@ -415,6 +401,5 @@
 @media (max-width: 700px) {
   .blog-cross-links-grid { grid-template-columns: 1fr; }
   .blog-card-inner { padding: 26px 0; }
-  .blog-card:hover .blog-card-inner { padding-left: 8px; }
   .blog-related-grid { grid-template-columns: 1fr; }
 }
