@@ -2,8 +2,9 @@
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import Link from 'next/link';
-import { ArrowLeft, ArrowUpRight, Clock, Calendar } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, Clock, Calendar, Folder } from 'lucide-react';
 import { blogData } from '@/lib/blog';
+import { projectData } from '@/lib/projects';
 import { useI18n } from '@/components/providers/i18n-provider';
 import { motion } from 'framer-motion';
 
@@ -71,6 +72,20 @@ export default function BlogPostClient({ slug }: { slug: string }) {
               </span>
             ))}
           </footer>
+          {post.projectSlug && (() => {
+            const project = projectData.find(p => p.slug === post.projectSlug);
+            if (!project) return null;
+            return (
+              <Link href={`/projects/${project.slug}`} className="group block p-6 border border-border/50 hover:border-primary/50 hover:bg-muted/30 transition-all rounded-none mb-8" data-cursor-interactive prefetch>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                  <Folder className="w-4 h-4" />
+                  <span>{t.crossLink.relatedProject}</span>
+                </div>
+                <h3 className="text-xl font-bold font-headline group-hover:text-primary transition-colors">{project.title}</h3>
+                <p className="text-muted-foreground text-sm mt-1 line-clamp-2">{project.description}</p>
+              </Link>
+            );
+          })()}
           {relatedPosts.length > 0 && (
             <section className="blog-related" aria-labelledby="related-posts">
               <h2 id="related-posts">{t.blog.relatedPosts}.</h2>

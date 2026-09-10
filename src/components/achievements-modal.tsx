@@ -11,6 +11,7 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { achievementsList } from '@/lib/achievements';
 import { useAchievements } from './providers/achievements-provider';
+import { useI18n } from '@/components/providers/i18n-provider';
 import { CheckCircle, Lock, Trophy } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useMemo } from 'react';
@@ -22,11 +23,12 @@ interface AchievementsModalProps {
 
 export const AchievementsModal = ({ isOpen, onClose }: AchievementsModalProps) => {
   const { unlockedAchievements, allAchievementsUnlocked } = useAchievements();
+  const { t } = useI18n();
 
   const completionistAchievement = {
     id: 'COMPLETIONIST',
-    name: 'Perfektionist',
-    description: 'Schalte alle anderen Erfolge frei.',
+    name: t.achievements.perfectionist,
+    description: t.achievements.perfectionistDesc,
   };
 
   const regularAchievements = useMemo(() => achievementsList.filter(a => a.id !== 'COMPLETIONIST'), []);
@@ -46,10 +48,10 @@ export const AchievementsModal = ({ isOpen, onClose }: AchievementsModalProps) =
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-2xl">
             <Trophy className="text-primary" />
-            Erfolge
+            {t.achievements.title}
           </DialogTitle>
           <DialogDescription>
-            Du hast {unlockedCount} von {totalAchievements} Erfolgen freigeschaltet.
+            {t.achievements.progress.replace('{count}', String(unlockedCount)).replace('{total}', String(totalAchievements))}
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-72 pr-4">
@@ -72,9 +74,9 @@ export const AchievementsModal = ({ isOpen, onClose }: AchievementsModalProps) =
                   )}
                 </div>
                 <div>
-                  <h3 className="font-semibold">{achievement.name}</h3>
+                  <h3 className="font-semibold">{t.achievements.list[achievement.id as keyof typeof t.achievements.list]?.name ?? achievement.name}</h3>
                   <p className="text-sm text-muted-foreground">
-                    {achievement.description}
+                    {t.achievements.list[achievement.id as keyof typeof t.achievements.list]?.description ?? achievement.description}
                   </p>
                 </div>
               </div>

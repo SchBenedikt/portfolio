@@ -16,6 +16,8 @@ export interface Project {
     usage?: string;
     potential?: string;
   };
+  blogSlug?: string;
+  relatedArticleUrls?: string[];
 }
 
 export const projectData: Project[] = [
@@ -119,7 +121,13 @@ export const projectData: Project[] = [
     category: 'Web-Anwendung / EdTech',
     details: {
       usage: 'Digitale Noten- und Lernverwaltung für Schüler, Eltern und Lehrkräfte.'
-    }
+    },
+    blogSlug: 'notio-von-der-idee-zur-nominierten-lernplattform',
+    relatedArticleUrls: [
+      'https://www.br.de/medienkompetenzprojekte/inhalt/crossmedia/notio-einfach-besser-lernen-interactive-crossmedia-2025-gewinnerbeitrag-100.html',
+      'https://www.koenig-karlmann-gymnasium.de/news/erneuter-erfolg-bei-crossmedia/',
+      'https://www.km.bayern.de/meldung/30-jahre-crossmedia-nachwuchstalente-fuer-innovative-digitalprojekte-ausgezeichnet',
+    ]
   },
   {
     title: '@judo_tus_toeging',
@@ -203,7 +211,13 @@ export const projectData: Project[] = [
     details: {
       usage: 'Multimediales Storytelling mit Blog, KI-Chat und Merchandise.',
       potential: 'Kombiniert Geschichte und moderne Medientechnologien.'
-    }
+    },
+    relatedArticleUrls: [
+      'https://www.mb21.de/wettbewerbsjahr_2024.html?articles=meum-diarium',
+      'https://www.br.de/medienkompetenzprojekte/inhalt/crossmedia/tagebuch-caesars-heute-feldherr-als-influencer-textbased-crossmedia-2024-gewinnerbeitrag-100.html',
+      'https://www.koenig-karlmann-gymnasium.de/news/mit-caesars-tagebuch-den-1-preis-geholt/',
+      'https://www.pnp.de/lokales/landkreis-altoetting/vertreterin-der-bundesregierung-ehrt-in-dresden-vinzenz-und-benedikt-schaechner-aus-pleiskirchen-17504456',
+    ]
   },
   {
     title: 'Medienscouts KKG',

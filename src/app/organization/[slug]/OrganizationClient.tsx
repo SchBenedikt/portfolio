@@ -17,7 +17,7 @@ import { useI18n } from '@/components/providers/i18n-provider';
 
 export default function OrganizationClient({ slug }: { slug: string }) {
   const organization = getOrganizationBySlug(slug);
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
   if (!organization) {
     notFound();
@@ -124,7 +124,7 @@ export default function OrganizationClient({ slug }: { slug: string }) {
                                     <CardContent className="p-6 md:p-8 pt-0 flex-grow flex flex-col">
                                         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
                                             <Calendar className="w-4 h-4" />
-                                            <span>{new Date(article.date).toLocaleDateString('de-DE')}</span>
+                                            <span>{new Date(article.date).toLocaleDateString(locale === 'en' ? 'en-GB' : 'de-DE')}</span>
                                         </div>
                                         <p className="text-muted-foreground text-base flex-grow">{article.description}</p>
                                     </CardContent>

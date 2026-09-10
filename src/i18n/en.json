@@ -185,5 +185,45 @@
   },
   "view": {
     "loading": "Loading content…"
+  },
+  "achievements": {
+    "title": "Achievements",
+    "progress": "You've unlocked {count} of {total} achievements.",
+    "perfectionist": "Perfectionist",
+    "perfectionistDesc": "Unlock all other achievements.",
+    "list": {
+      "FIRST_STEP": { "name": "First Step", "description": "Landed on the homepage." },
+      "PROJECTS_EXPLORER": { "name": "The Architect", "description": "Visited the projects page." },
+      "PROJECT_INSPECTOR": { "name": "Deep Diver", "description": "Viewed the details of a project." },
+      "RESUME_VIEWER": { "name": "The Historian", "description": "Viewed the resume." },
+      "GALLERY_VIEWER": { "name": "The Curator", "description": "Visited the gallery." },
+      "PRESS_READER": { "name": "In the Spotlight", "description": "Visited the press page." },
+      "NIGHT_OWL": { "name": "Night Owl", "description": "Switched to dark mode." },
+      "EARLY_BIRD": { "name": "Early Bird", "description": "Switched to light mode." },
+      "VIEW_SWITCHER": { "name": "Dual Perspective", "description": "Switched between UI and terminal view." },
+      "COMMAND_PRO": { "name": "Command Pro", "description": "Used 5 different terminal commands." },
+      "SECRET_FINDER": { "name": "Secret Finder", "description": "Found a secret command in the terminal." },
+      "TOOL_MASTER": { "name": "Tool Master", "description": "Discovered the tools page." },
+      "SECRET_AGENT": { "name": "Secret Agent", "description": "Generated a secure password." },
+      "COLOR_ARTIST": { "name": "Color Artist", "description": "Generated a color palette." },
+      "DIMENSION_MASTER": { "name": "Dimension Master", "description": "Used the unit converter." },
+      "TASK_MANAGER": { "name": "Task Manager", "description": "Added a task to the todo list." },
+      "NANO_EDITOR": { "name": "Nano Editor", "description": "Used the terminal editor (nano)." },
+      "GAMER": { "name": "Highscore", "description": "Won the number guessing game." },
+      "KEYBOARD_VIRTUOSO": { "name": "Keyboard Virtuoso", "description": "Mastered the typing speed test." },
+      "QUIZ_MASTER": { "name": "Quiz Master", "description": "Completed the quiz with a perfect score." },
+      "FOCUS_MASTER": { "name": "Focus Master", "description": "Completed a Pomodoro session." },
+      "INVINCIBLE": { "name": "Invincible", "description": "Won a round of rock-paper-scissors in the terminal." }
+    }
+  },
+  "projectCard": {
+    "discover": "explore",
+    "document": "Document",
+    "website": "Website"
+  },
+  "crossLink": {
+    "relatedBlog": "Related Article",
+    "relatedPress": "Press Coverage",
+    "relatedProject": "View Project"
   }
 }

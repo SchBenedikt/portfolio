@@ -2,12 +2,14 @@
 'use client';
 
 import { projectData, type Project } from '@/lib/projects';
+import { blogData } from '@/lib/blog';
+import { articlesData } from '@/lib/articles';
 import { notFound, useParams } from 'next/navigation';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Github, Calendar, Folder, Tags, Target, BrainCircuit, Link as LinkIcon, ExternalLink, ArrowRight } from 'lucide-react';
+import { ArrowLeft, Github, Calendar, Folder, Tags, Target, BrainCircuit, Link as LinkIcon, ExternalLink, ArrowRight, Newspaper, BookOpen } from 'lucide-react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -197,6 +199,51 @@ export default function ProjectClient({ slug }: { slug: string }) {
             </div>
           </motion.div>
         </div>
+
+        {(project.blogSlug || (project.relatedArticleUrls && project.relatedArticleUrls.length > 0)) && (
+          <div className="container mx-auto px-6 sm:px-8 mt-12">
+            <div className="max-w-6xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {project.blogSlug && (() => {
+                  const blogPost = blogData.find(b => b.slug === project.blogSlug);
+                  if (!blogPost) return null;
+                  return (
+                    <Link href={`/blog/${blogPost.slug}`} className="group" data-cursor-interactive prefetch>
+                      <div className="p-6 border border-border/50 hover:border-primary/50 hover:bg-muted/30 transition-all rounded-none">
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+                          <BookOpen className="w-4 h-4" />
+                          <span>{t.crossLink.relatedBlog}</span>
+                        </div>
+                        <h3 className="text-xl font-bold font-headline group-hover:text-primary transition-colors">{blogPost.title}</h3>
+                        <p className="text-muted-foreground text-sm mt-2 line-clamp-2">{blogPost.description}</p>
+                      </div>
+                    </Link>
+                  );
+                })()}
+                {project.relatedArticleUrls && project.relatedArticleUrls.length > 0 && (() => {
+                  const relatedArticles = articlesData.filter(a => project.relatedArticleUrls!.includes(a.url));
+                  if (relatedArticles.length === 0) return null;
+                  return (
+                    <div className="p-6 border border-border/50 rounded-none">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+                        <Newspaper className="w-4 h-4" />
+                        <span>{t.crossLink.relatedPress}</span>
+                      </div>
+                      <div className="space-y-3">
+                        {relatedArticles.slice(0, 3).map(article => (
+                          <a key={article.url} href={article.url} target="_blank" rel="noopener noreferrer" className="block group" data-cursor-interactive>
+                            <h4 className="font-semibold group-hover:text-primary transition-colors text-sm">{article.title}</h4>
+                            <p className="text-muted-foreground text-xs">{article.source}</p>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="container mx-auto px-6 sm:px-8 mt-16 md:mt-24">
             <h2 className="text-4xl md:text-5xl font-black text-center mb-12 uppercase tracking-tighter font-headline">

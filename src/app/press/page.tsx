@@ -49,7 +49,7 @@ type GroupedArticles = { [year: string]: typeof articlesData };
 
 export default function PressPage() {
   const { unlockAchievement } = useAchievements();
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const [searchTerm, setSearchTerm] = useState('');
   const [sourceFilter, setSourceFilter] = useState('all');
 
@@ -167,7 +167,7 @@ export default function PressPage() {
                                         </div>
                                         <div className="flex items-center gap-2 text-sm text-muted-foreground whitespace-nowrap self-start sm:self-auto">
                                             <Calendar className="w-4 h-4" />
-                                            <span>{new Date(article.date).toLocaleDateString('de-DE')}</span>
+                                            <span>{new Date(article.date).toLocaleDateString(locale === 'en' ? 'en-GB' : 'de-DE')}</span>
                                         </div>
                                     </div>
                                   </CardHeader>

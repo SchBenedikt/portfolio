@@ -7,6 +7,7 @@ export interface BlogPost {
   tags: string[];
   readingMinutes: number;
   content: string; // HTML body (rendered with dangerouslySetInnerHTML)
+  projectSlug?: string;
 }
 
 export const blogData: BlogPost[] = [
@@ -19,6 +20,7 @@ export const blogData: BlogPost[] = [
     category: 'Projektbericht',
     tags: ['Notio', 'EdTech', 'Web-App', 'Projektarbeit'],
     readingMinutes: 5,
+    projectSlug: 'notio',
     content: `
       <p>Notio ist eine webbasierte Applikation zur Verwaltung schulischer Leistungsdaten. Was als kleines Skript für den eigenen Schulalltag begann, ist heute eine vollständige Plattform – nominiert für den Crossmedia-Wettbewerb des Bayerischen Rundfunks.</p>
 

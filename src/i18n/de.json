@@ -185,5 +185,45 @@
   },
   "view": {
     "loading": "Lade Inhalt…"
+  },
+  "achievements": {
+    "title": "Erfolge",
+    "progress": "Du hast {count} von {total} Erfolgen freigeschaltet.",
+    "perfectionist": "Perfektionist",
+    "perfectionistDesc": "Schalte alle anderen Erfolge frei.",
+    "list": {
+      "FIRST_STEP": { "name": "Erster Schritt", "description": "Auf der Startseite gelandet." },
+      "PROJECTS_EXPLORER": { "name": "Der Architekt", "description": "Die Projektseite besucht." },
+      "PROJECT_INSPECTOR": { "name": "Tieftaucher", "description": "Die Details eines Projekts angesehen." },
+      "RESUME_VIEWER": { "name": "Der Historiker", "description": "Den Lebenslauf angesehen." },
+      "GALLERY_VIEWER": { "name": "Der Kurator", "description": "Die Bildergalerie besucht." },
+      "PRESS_READER": { "name": "Im Rampenlicht", "description": "Die Presseseite besucht." },
+      "NIGHT_OWL": { "name": "Nachteule", "description": "In den Dark-Mode gewechselt." },
+      "EARLY_BIRD": { "name": "Früher Vogel", "description": "In den Light-Mode gewechselt." },
+      "VIEW_SWITCHER": { "name": "Doppelte Perspektive", "description": "Zwischen UI- und Terminal-Ansicht gewechselt." },
+      "COMMAND_PRO": { "name": "Befehls-Profi", "description": "5 verschiedene Terminal-Befehle benutzt." },
+      "SECRET_FINDER": { "name": "Geheimnisfinder", "description": "Einen geheimen Befehl im Terminal gefunden." },
+      "TOOL_MASTER": { "name": "Werkzeugmeister", "description": "Die Tools-Seite entdeckt." },
+      "SECRET_AGENT": { "name": "Geheimagent", "description": "Ein sicheres Passwort generiert." },
+      "COLOR_ARTIST": { "name": "Farbkünstler", "description": "Eine Farbpalette generiert." },
+      "DIMENSION_MASTER": { "name": "Meister der Maße", "description": "Den Einheitenumrechner verwendet." },
+      "TASK_MANAGER": { "name": "Task-Manager", "description": "Eine Aufgabe zur Todo-Liste hinzugefügt." },
+      "NANO_EDITOR": { "name": "Nano-Editor", "description": "Den Terminal-Editor (nano) benutzt." },
+      "GAMER": { "name": "Highscore", "description": "Du hast das Zahlenratespiel gewonnen." },
+      "KEYBOARD_VIRTUOSO": { "name": "Tasten-Virtuose", "description": "Den Schreibgeschwindigkeitstest gemeistert." },
+      "QUIZ_MASTER": { "name": "Quizmaster", "description": "Das Quiz mit voller Punktzahl abgeschlossen." },
+      "FOCUS_MASTER": { "name": "Fokus-Meister", "description": "Eine Pomodoro-Sitzung abgeschlossen." },
+      "INVINCIBLE": { "name": "Unbesiegbar", "description": "Eine Runde Schere-Stein-Papier im Terminal gewonnen." }
+    }
+  },
+  "projectCard": {
+    "discover": "entdecken",
+    "document": "Dokument",
+    "website": "Website"
+  },
+  "crossLink": {
+    "relatedBlog": "Dazugehöriger Artikel",
+    "relatedPress": "Presseberichte",
+    "relatedProject": "Zum Projekt"
   }
 }
