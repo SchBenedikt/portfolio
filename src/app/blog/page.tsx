@@ -6,9 +6,10 @@ import Link from 'next/link';
 import { ArrowUpRight, Clock, PenLine } from 'lucide-react';
 import { blogData } from '@/lib/blog';
 import { useI18n } from '@/components/providers/i18n-provider';
+import { motion } from 'framer-motion';
 
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('de-DE', {
+function formatDate(iso: string, locale: string): string {
+  return new Date(iso).toLocaleDateString(locale === 'en' ? 'en-GB' : 'de-DE', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -16,7 +17,7 @@ function formatDate(iso: string): string {
 }
 
 export default function BlogPage() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const posts = [...blogData].sort((a, b) => b.date.localeCompare(a.date));
   return (
     <div className="portfolio-home">
@@ -27,11 +28,11 @@ export default function BlogPage() {
             title={t.blog.title}
             description={t.blog.description}
           />
-          <div className="blog-list">
+          <motion.div className="blog-list" initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }} variants={{ visible: { transition: { staggerChildren: 0.08 } } }}>
             {posts.map((post) => (
-              <article className="blog-card" key={post.slug}>
+              <motion.article className="blog-card" key={post.slug} variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.35 } } }}>
                 <div className="blog-card-meta">
-                  <time dateTime={post.date}>{formatDate(post.date)}</time>
+                  <time dateTime={post.date}>{formatDate(post.date, locale)}</time>
                   <span className="blog-card-category">{post.category}</span>
                 </div>
                 <h2>
@@ -49,14 +50,14 @@ export default function BlogPage() {
                     {t.blog.readMore} <ArrowUpRight size={16} />
                   </Link>
                 </div>
-              </article>
+              </motion.article>
             ))}
-          </div>
+          </motion.div>
           <div className="blog-empty" role="note">
             <PenLine size={18} />
             <p>
               {t.blog.comingSoon}{' '}
-              <Link href="/links" data-cursor-interactive>kontaktiere mich</Link>.
+              <Link href="/links" data-cursor-interactive>{t.blog.contactMe}</Link>.
             </p>
           </div>
         </div>

@@ -8,6 +8,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { LanguageToggle } from '@/components/language-toggle';
 import { useI18n } from '@/components/providers/i18n-provider';
 import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = ({ children }: { children?: React.ReactNode }) => {
   const pathname = usePathname();
@@ -124,7 +125,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
 
           <button
             className="md:hidden p-3 -mr-2 text-muted-foreground hover:text-foreground transition-colors"
-            aria-label={menuOpen ? "Menü schließen" : "Menü öffnen"}
+            aria-label={menuOpen ? t.nav.menuClose : t.nav.menuOpen}
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -136,8 +137,9 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
           </button>
         </div>
       </div>
+      <AnimatePresence>
       {menuOpen && (
-        <nav id="mobile-navigation" aria-label="Mobile Navigation" className="md:hidden px-6 pb-6 grid gap-1 border-b bg-background">
+        <motion.nav id="mobile-navigation" aria-label="Mobile Navigation" className="md:hidden px-6 pb-6 grid gap-1 border-b bg-background" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.2 }}>
           {[...navLinks, {href: '/press', label: t.nav.press}, {href: '/links', label: t.nav.links}].map(link => (
             <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)} className="py-4 text-base border-b hover:text-foreground transition-colors">
               {link.label}
@@ -162,8 +164,9 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
             </div>
             <LanguageToggle />
           </div>
-        </nav>
+        </motion.nav>
       )}
+      </AnimatePresence>
       {children}
     </header>
   );

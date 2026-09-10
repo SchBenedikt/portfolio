@@ -10,21 +10,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { timelineEvents, certificates } from '@/lib/resume-data';
 import { resumeOrgToSlug } from '@/lib/organizations';
 import { Briefcase, GraduationCap, Code2, Globe, Clock } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const skills = [
   'IT-Management', 'Serververwaltung', 'Netzwerktechnik', 'Next.js', 'React', 'Docker', 'Linux', 'Nextcloud', 'WordPress', 'UI Motion', 'Ollama', 'GitOps', 'Digitale Bildung', 'Mediation', 'Jura/Strafrecht'
 ];
 
 const languages = [
-    { name: "Deutsch", level: "Muttersprache" },
-    { name: "Englisch", level: "B1+ (zertifiziert)" },
-    { name: "Latein", level: "Großes Latinum" },
+    { name: "Deutsch", levelKey: "native" as const },
+    { name: "Englisch", levelKey: "b1certified" as const },
+    { name: "Latein", levelKey: "latinum" as const },
 ]
 
 type ResumeEntry = { date: string; title: string; organization: string; organizationSlug?: string; description?: string; projectSlug?: string; skills?: string[]; isCurrent?: boolean };
 function ResumeRow({ item }: { item: ResumeEntry }) {
   const organizationSlug = item.organizationSlug || resumeOrgToSlug[item.organization];
-  return <article className="resume-row"><div><h3>{item.projectSlug ? <Link href={`/projects/${item.projectSlug}`}>{item.title} ↗</Link> : item.title}</h3><p className="resume-organization">{organizationSlug ? <Link href={`/organization/${organizationSlug}`}>{item.organization} ↗</Link> : item.organization}</p>{item.description && <p className="resume-description">{item.description}</p>}{item.skills && <div className="skill-line">{item.skills.map(skill => <span key={skill}>{skill}</span>)}</div>}</div><p className="resume-date">{item.date}</p></article>;
+  return <motion.article className="resume-row" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.35 }}><div><h3>{item.projectSlug ? <Link href={`/projects/${item.projectSlug}`}>{item.title} ↗</Link> : item.title}</h3><p className="resume-organization">{organizationSlug ? <Link href={`/organization/${organizationSlug}`}>{item.organization} ↗</Link> : item.organization}</p>{item.description && <p className="resume-description">{item.description}</p>}{item.skills && <div className="skill-line">{item.skills.map(skill => <span key={skill}>{skill}</span>)}</div>}</div><p className="resume-date">{item.date}</p></motion.article>;
 }
 
 export default function ResumePage() {
@@ -38,7 +39,7 @@ export default function ResumePage() {
     <Tabs defaultValue="resume"><TabsList className="editorial-tabs"><TabsTrigger value="resume">{t.resume.fullResume}</TabsTrigger><TabsTrigger value="current">{t.resume.currentWork}</TabsTrigger></TabsList><TabsContent value="resume">
       <section className="resume-section"><div className="section-heading"><div className="section-heading-icon"><Briefcase size={20} strokeWidth={1.5}/></div><h2>{t.resume.career}</h2></div>{timelineEvents.map(item => <ResumeRow key={`${item.date}-${item.title}`} item={item}/>)}</section>
       <section className="resume-section"><div className="section-heading"><div className="section-heading-icon"><GraduationCap size={20} strokeWidth={1.5}/></div><h2>{t.resume.certificatesAndCerts}</h2></div>{certificates.map(item => <ResumeRow key={`${item.date}-${item.title}`} item={item}/>)}</section>
-      <section className="resume-competencies"><div><div className="section-heading"><div className="section-heading-icon"><Code2 size={20} strokeWidth={1.5}/></div><h2>{t.resume.skillsSection}</h2></div><div className="skill-line">{skills.map(skill => <span key={skill}>{skill}</span>)}</div></div><div><div className="section-heading"><div className="section-heading-icon"><Globe size={20} strokeWidth={1.5}/></div><h2>{t.resume.languages}</h2></div><dl>{languages.map(lang => <div key={lang.name}><dt>{lang.name}</dt><dd>{lang.level}</dd></div>)}</dl></div></section>
+      <section className="resume-competencies"><div><div className="section-heading"><div className="section-heading-icon"><Code2 size={20} strokeWidth={1.5}/></div><h2>{t.resume.skillsSection}</h2></div><div className="skill-line">{skills.map(skill => <span key={skill}>{skill}</span>)}</div></div><div><div className="section-heading"><div className="section-heading-icon"><Globe size={20} strokeWidth={1.5}/></div><h2>{t.resume.languages}</h2></div><dl>{languages.map(lang => <div key={lang.name}><dt>{lang.name}</dt><dd>{t.resume[lang.levelKey]}</dd></div>)}</dl></div></section>
     </TabsContent><TabsContent value="current"><section className="resume-section"><div className="section-heading"><div className="section-heading-icon"><Clock size={20} strokeWidth={1.5}/></div><h2>{t.resume.currentWork}</h2></div>{current.map(item => <ResumeRow key={`${item.date}-${item.title}`} item={item}/>)}</section></TabsContent></Tabs>
   </div></main><Footer/></div>;
 }

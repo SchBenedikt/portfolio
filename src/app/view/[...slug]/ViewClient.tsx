@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
+import { useI18n } from '@/components/providers/i18n-provider';
 
 type FileSystemNode = {
     type: 'file';
@@ -13,6 +14,7 @@ type FileSystemNode = {
 };
 
 const ViewClient = ({ slug }: { slug: string[] }) => {
+  const { t } = useI18n();
   const [content, setContent] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -53,7 +55,7 @@ const ViewClient = ({ slug }: { slug: string[] }) => {
   if (isLoading) {
     return (
         <div className="min-h-screen bg-background text-foreground p-8 font-mono">
-            <p>Lade Inhalt...</p>
+            <p>{t.view.loading}</p>
         </div>
     );
   }

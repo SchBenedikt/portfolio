@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowUpRight, Clock, Calendar } from 'lucide-react';
 import { blogData } from '@/lib/blog';
 import { useI18n } from '@/components/providers/i18n-provider';
+import { motion } from 'framer-motion';
 
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('de-DE', {
+function formatDate(iso: string, locale: string): string {
+  return new Date(iso).toLocaleDateString(locale === 'en' ? 'en-GB' : 'de-DE', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -15,7 +16,7 @@ function formatDate(iso: string): string {
 }
 
 export default function BlogPostClient({ slug }: { slug: string }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const post = blogData.find((p) => p.slug === slug);
   if (!post) {
     return (
@@ -43,22 +44,25 @@ export default function BlogPostClient({ slug }: { slug: string }) {
           <Link href="/blog" className="blog-back" data-cursor-interactive>
             <ArrowLeft size={16} /> {t.blog.backToBlog}
           </Link>
-          <header className="blog-post-heading">
-            <p className="eyebrow">Benedikt Schächner / Blog</p>
+          <motion.header className="blog-post-heading" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <p className="eyebrow">{t.blog.breadcrumb}</p>
             <h1>{post.title}</h1>
             <div className="blog-post-meta">
               <span>
-                <Calendar size={14} /> <time dateTime={post.date}>{formatDate(post.date)}</time>
+                <Calendar size={14} /> <time dateTime={post.date}>{formatDate(post.date, locale)}</time>
               </span>
               <span>
                 <Clock size={14} /> {post.readingMinutes} {t.blog.minRead}
               </span>
               <span className="blog-post-category">{post.category}</span>
             </div>
-          </header>
-          <div
+          </motion.header>
+          <motion.div
             className="blog-post-content"
             dangerouslySetInnerHTML={{ __html: post.content }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           />
           <footer className="blog-post-tags">
             {post.tags.map((tag) => (
@@ -73,7 +77,7 @@ export default function BlogPostClient({ slug }: { slug: string }) {
               <div className="blog-related-grid">
                 {relatedPosts.map((p) => (
                   <Link key={p.slug} href={`/blog/${p.slug}`} className="blog-related-card" data-cursor-interactive>
-                    <time dateTime={p.date}>{formatDate(p.date)}</time>
+                    <time dateTime={p.date}>{formatDate(p.date, locale)}</time>
                     <h3>{p.title}</h3>
                     <span>
                       {t.blog.readMore} <ArrowUpRight size={15} />

@@ -31,7 +31,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
   const otherProjects = useMemo(() => projectData.filter((p) => p.slug !== slug), [slug]);
   
   const { unlockAchievement } = useAchievements();
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
   useEffect(() => {
     if (project) {
@@ -129,7 +129,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
                             <Calendar className="w-5 h-5 mr-3 mt-1 text-primary"/>
                             <div>
                                 <h4 className="font-semibold">{t.projects.date}</h4>
-                                <p className="text-muted-foreground text-sm md:text-base">{new Date(project.date).toLocaleDateString('de-DE')}</p>
+                                <p className="text-muted-foreground text-sm md:text-base">{new Date(project.date).toLocaleDateString(locale === 'en' ? 'en-GB' : 'de-DE')}</p>
                             </div>
                         </div>
                          <div className="flex items-start">
@@ -158,7 +158,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
                           <div className="flex items-start">
                               <LinkIcon className="w-5 h-5 mr-3 mt-1 text-primary"/>
                               <div>
-                                  <h4 className="font-semibold">Website</h4>
+                                  <h4 className="font-semibold">{t.projects.website}</h4>
                                   <a href={project.url} target="_blank" rel="noopener noreferrer" className="text-muted-foreground text-sm md:text-base hover:text-primary transition-colors break-all">
                                     {project.displayUrl || project.url}
                                   </a>
@@ -169,7 +169,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
                           <div className="flex items-start">
                               <Target className="w-5 h-5 mr-3 mt-1 text-primary"/>
                               <div>
-                                  <h4 className="font-semibold">Einsatzbereich</h4>
+                                  <h4 className="font-semibold">{t.projects.usage}</h4>
                                   <p className="text-muted-foreground text-sm md:text-base">{project.details.usage}</p>
                               </div>
                           </div>
@@ -178,7 +178,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
                            <div className="flex items-start">
                               <BrainCircuit className="w-5 h-5 mr-3 mt-1 text-primary"/>
                               <div>
-                                  <h4 className="font-semibold">Verbesserungspotenzial</h4>
+                                  <h4 className="font-semibold">{t.projects.potential}</h4>
                                   <p className="text-muted-foreground text-sm md:text-base">{project.details.potential}</p>
                               </div>
                           </div>

@@ -10,7 +10,10 @@
     "awards": "Awards",
     "gallery": "Gallery",
     "press": "Press",
-    "links": "Links & Contact"
+    "links": "Links & Contact",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu",
+    "home": "Home"
   },
   "hero": {
     "eyebrow": "My personal portfolio",
@@ -71,7 +74,10 @@
     "career": "Career",
     "certificatesAndCerts": "Certificates & Qualifications",
     "skillsSection": "Skills",
-    "languages": "Languages"
+    "languages": "Languages",
+    "native": "Native",
+    "b1certified": "B1+ (certified)",
+    "latinum": "Advanced Latin"
   },
   "awards": {
     "title": "Awards & Certificates.",
@@ -83,7 +89,10 @@
     "qualifications": "Qualifications.",
     "toResume": "View resume",
     "toOrganization": "View organization",
-    "moreStations": "More milestones in the resume."
+    "moreStations": "More milestones in the resume.",
+    "awardedProject": "Awarded Project",
+    "secret": "🤫 Top Secret",
+    "upcomingAward": "An award is coming soon."
   },
   "projects": {
     "title": "Projects.",
@@ -107,6 +116,8 @@
     "date": "Date",
     "category": "Category",
     "technologies": "Technologies",
+    "usage": "Usage",
+    "potential": "Improvement Potential",
     "viewProject": "View project",
     "viewOnGithub": "View on Github",
     "viewDetails": "View details",
@@ -122,7 +133,9 @@
     "noPosts": "No articles yet.",
     "writeOne": "Write the first one",
     "notFound": "Article not found.",
-    "comingSoon": "More articles coming soon. Check back later or"
+    "comingSoon": "More articles coming soon. Check back later or",
+    "contactMe": "contact me",
+    "breadcrumb": "Benedikt Schächner / Blog"
   },
   "gallery": {
     "title": "Gallery.",
@@ -169,5 +182,8 @@
     "green": "Green",
     "red": "Red",
     "blue": "Blue"
+  },
+  "view": {
+    "loading": "Loading content…"
   }
 }
