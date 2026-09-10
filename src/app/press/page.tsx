@@ -10,11 +10,12 @@ import { articlesData } from '@/lib/articles';
 import { useAchievements } from '@/components/providers/achievements-provider';
 import { useI18n } from '@/components/providers/i18n-provider';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowUpRight, Calendar, Search } from 'lucide-react';
+import { ArrowUpRight, Calendar, Search, Folder } from 'lucide-react';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { getOrganizationBySlug } from '@/lib/organizations';
+import { projectData } from '@/lib/projects';
 import { cn } from '@/lib/utils';
 import {
   Select,
@@ -173,6 +174,16 @@ export default function PressPage() {
                                   </CardHeader>
                                   <CardContent className="p-6 md:p-8 pt-0 flex-grow flex flex-col">
                                       <p className="text-muted-foreground text-base flex-grow">{article.description}</p>
+                                      {article.projectSlug && (() => {
+                                        const project = projectData.find(p => p.slug === article.projectSlug);
+                                        if (!project) return null;
+                                        return (
+                                          <Link href={`/projects/${project.slug}`} className="flex items-center gap-2 text-sm text-primary mt-3 hover:underline" data-cursor-interactive prefetch>
+                                            <Folder size={14} />
+                                            <span>{project.title}</span>
+                                          </Link>
+                                        );
+                                      })()}
                                       <Button asChild variant="outline" className="rounded-full mt-4 self-start group-hover:bg-accent group-hover:text-accent-foreground" data-cursor-interactive>
                                         <Link href={article.url} target="_blank" rel="noopener noreferrer" prefetch>
                                           <span>{t.press.readArticle}</span>

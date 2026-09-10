@@ -7,6 +7,7 @@ export interface Article {
   url: string;
   date: string;
   description: string;
+  projectSlug?: string;
 }
 
 export const articlesData: Article[] = [
@@ -89,6 +90,7 @@ export const articlesData: Article[] = [
     url: 'https://www.pnp.de/lokales/landkreis-altoetting/vertreterin-der-bundesregierung-ehrt-in-dresden-vinzenz-und-benedikt-schaechner-aus-pleiskirchen-17504456',
     date: '2024-11-26',
     description: 'Die Passauer Neue Presse berichtet über die Ehrung in Dresden durch eine Vertreterin der Bundesregierung für das Projekt „Meum Diarium“.',
+    projectSlug: 'meum-diarium',
   },
   {
     title: 'Ein Feldherr als Influencer',
@@ -104,7 +106,9 @@ export const articlesData: Article[] = [
     organizationSlug: 'mb21',
     url: 'https://www.youtube.com/watch?v=l-50niYLKXo',
     date: '2024-11-23',
-    description: 'Die offizielle Laudatio zum Gewinn des Hauptpreises. Die Jury lobt den Witz, die Detailverliebtheit und die kreative Verbindung von Antike und Moderne.'
+    description: 'Die offizielle Laudatio zum Gewinn des Hauptpreises. Die Jury lobt den Witz, die Detailverliebtheit und die kreative Verbindung von Antike und Moderne.',
+    projectSlug: 'meum-diarium',
+
   },
   {
     title: 'Mit Cäsars Tagebuch den 1. Preis geholt',
@@ -126,6 +130,7 @@ export const articlesData: Article[] = [
     title: 'Ein Feldherr als Influencer',
     source: 'Bayerischer Rundfunk',
     organizationSlug: 'br',
+    projectSlug: 'meum-diarium',
     url: 'https://www.br.de/medienkompetenzprojekte/inhalt/crossmedia/tagebuch-caesars-heute-feldherr-als-influencer-textbased-crossmedia-2024-gewinnerbeitrag-100.html',
     date: '2024-11-21',
     description: 'Der Bayerische Rundfunk berichtet über das prämierte Projekt "Meum Diarium" und hebt die kreative Verbindung von historischer Figur und modernem Medienumfeld hervor.',
@@ -135,6 +140,7 @@ export const articlesData: Article[] = [
     source: 'Bayerischer Rundfunk',
     organizationSlug: 'br',
     url: 'https://www.br.de/medienkompetenzprojekte/inhalt/crossmedia/notio-einfach-besser-lernen-interactive-crossmedia-2025-gewinnerbeitrag-100.html',
+    projectSlug: 'notio',
     date: '2025-11-20',
     description: 'Bericht über den Gewinn des Crossmedia‑Preises 2025 in der Sparte "interactive" für das Projekt Notio.',
   },
@@ -143,6 +149,7 @@ export const articlesData: Article[] = [
     source: 'König-Karlmann-Gymnasium',
     organizationSlug: 'kkg',
     url: 'https://www.koenig-karlmann-gymnasium.de/news/ein-feldherr-wird-wieder-lebendig/',
+    projectSlug: 'meum-diarium',
     date: '2024-11-19',
     description: 'Vorstellung des Projekts „Meum Diarium“, bei dem Julius Cäsar als moderner Influencer auftritt.',
   },
@@ -152,7 +159,9 @@ export const articlesData: Article[] = [
     organizationSlug: 'nextcloud',
     url: 'https://www.youtube.com/watch?v=zMfyJDge7is',
     date: '2024-10-25',
-    description: 'Ein Vortrag über die Absicherung von privat gehosteten Nextcloud-Instanzen, Vor- und Nachteile von Sicherheitsmaßnahmen und den sinnvollen Einsatz in der Familie.'
+    description: 'Ein Vortrag über die Absicherung von privat gehosteten Nextcloud-Instanzen, Vor- und Nachteile von Sicherheitsmaßnahmen und den sinnvollen Einsatz in der Familie.',
+    projectSlug: 'meum-diarium',
+
   },
   {
     title: 'KKG-Judomannschaft siegt beim Bezirksfinale',
@@ -168,7 +177,9 @@ export const articlesData: Article[] = [
     organizationSlug: 'bayerischer-judo-verband',
     url: 'https://www.bayernjudo.de/aktuelles/verbandsnachrichten/61-kampfrichter/3562-neue-jugendkampfrichter-fuer-oberbayern',
     date: '2025-10-05',
-    description: 'Der Judobezirk Oberbayern bildete erfolgreich neue Jugendkampfrichter aus, um die Nachwuchsförderung im Kampfrichterwesen zu stärken.'
+    description: 'Der Judobezirk Oberbayern bildete erfolgreich neue Jugendkampfrichter aus, um die Nachwuchsförderung im Kampfrichterwesen zu stärken.',
+    projectSlug: 'meum-diarium',
+
   },
   {
     title: 'Schachjugend zeigt ihr Können',
