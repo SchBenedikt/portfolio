@@ -17,7 +17,8 @@ export default function Footer() {
       <div className="editorial-footer-middle">
         <div className="footer-links-group">
           <p className="footer-label">{t.footer.navigation}</p>
-          <nav aria-label="Footer Navigation">
+          <nav aria-label="Footer Primary Navigation">
+            <Link href="/about">{t.nav.about}</Link>
             <Link href="/projects">{t.nav.projects}</Link>
             <Link href="/resume">{t.nav.resume}</Link>
             <Link href="/awards">{t.nav.awards}</Link>
@@ -25,7 +26,7 @@ export default function Footer() {
         </div>
         <div className="footer-links-group">
           <p className="footer-label">{t.footer.more}</p>
-          <nav aria-label="Footer Navigation">
+          <nav aria-label="Footer More Navigation">
             <Link href="/blog">{t.nav.blog}</Link>
             <Link href="/gallery">{t.nav.gallery}</Link>
             <Link href="/press">{t.nav.press}</Link>
@@ -33,7 +34,7 @@ export default function Footer() {
         </div>
         <div className="footer-links-group">
           <p className="footer-label">{t.footer.contact}</p>
-          <nav aria-label="Footer Navigation">
+          <nav aria-label="Footer Contact Links">
             <Link href="/links">{t.nav.links}</Link>
             <a href="https://github.com/SchBenedikt" target="_blank" rel="noreferrer">GitHub</a>
             <a href="https://www.instagram.com/benedikt.schaechner/" target="_blank" rel="noreferrer">Instagram</a>

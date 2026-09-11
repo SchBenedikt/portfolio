@@ -11,6 +11,7 @@
     "gallery": "Galerie",
     "press": "Presse",
     "links": "Links & Kontakt",
+    "about": "Über mich",
     "menuOpen": "Menü öffnen",
     "menuClose": "Menü schließen",
     "home": "Startseite"
@@ -49,7 +50,8 @@
     "awards": { "name": "Auszeichnungen", "desc": "Preise & Zertifikate" },
     "gallery": { "name": "Galerie", "desc": "Bilder & Eindrücke" },
     "press": { "name": "Presse", "desc": "Medienberichte" },
-    "links": { "name": "Links & Kontakt", "desc": "Profile & Erreichbarkeit" }
+    "links": { "name": "Links & Kontakt", "desc": "Profile & Erreichbarkeit" },
+    "about": { "name": "Über mich", "desc": "Wer ich bin und was ich mache" }
   },
   "footer": {
     "navigation": "Navigation",
@@ -225,5 +227,37 @@
     "relatedBlog": "Dazugehöriger Artikel",
     "relatedPress": "Presseberichte",
     "relatedProject": "Zum Projekt"
+  },
+  "about": {
+    "eyebrow": "ÜBER MICH",
+    "title": "Wer ich bin.",
+    "description": "Persönliche Perspektive auf Technik, Kreativität und das Internet.",
+    "statement": "Ich verbinde Technik mit Gestaltung und mache Dinge, die funktionieren und Spaß machen.",
+    "paragraph1": "Mein Name ist Benedikt Schächner. Ich bin Schüler am König-Karlmann-Gymnasium Altötting und entwickle seit einigen Jahren Webanwendungen, digitale Lernprojekte und multimediale Formate. Was mich antreibt, ist die Frage, wie Technik Menschen helfen kann – beim Lernen, beim Verstehen, beim Gestalten.",
+    "paragraph2": "Ich arbeite mit modernen Web-Technologien, künstlicher Intelligenz und kreativen Medien. Meine Projekte entstehen nicht im Labor, sondern dort, wo sie gebraucht werden: in der Schule, im Verein, im Alltag. Mein webbasiertes Lernsystem Notio wurde vom Bayerischen Rundfunk mit dem Crossmedia-Preis 2025 ausgezeichnet. Mein Latein-Projekt Meum Diarium gewann den Hauptpreis beim Deutschen Multimediapreis mb21.",
+    "paragraph3": "Ich glaube daran, dass gute Technik unsichtbar ist. Wenn etwas funktioniert, merkt man es nicht. Das ist mein Anspruch – an Code, an Design, an Projekte. Hier auf meiner Website gebe ich Einblicke in das, was ich mache, was ich gelernt habe und wohin die Reise geht.",
+    "pillarsEyebrow": "WORAUF ES MIR ANKOMMT",
+    "pillars": {
+      "development": {
+        "title": "Webentwicklung",
+        "description": "Moderne Frameworks, sauberer Code, Performanz. Von der Idee zum funktionierenden Produkt."
+      },
+      "research": {
+        "title": "Bildung & Forschung",
+        "description": "Digitale Bildung erforschen und Lernsysteme entwickeln, die wirklich weiterhelfen."
+      },
+      "design": {
+        "title": "Gestaltung",
+        "description": "Interface-Design, das Funktion und Ästhetik verbindet. Editioral, nicht templatehaft."
+      },
+      "ai": {
+        "title": "Künstliche Intelligenz",
+        "description": "KI sinnvoll einsetzen – in Bildung, in Projekte, in der Anwendungsentwicklung."
+      }
+    },
+    "ctaEyebrow": "WEITERE EINBLICKE",
+    "ctaProjects": "Projekte ansehen",
+    "ctaResume": "Lebenslauf",
+    "ctaBlog": "Blog lesen"
   }
 }

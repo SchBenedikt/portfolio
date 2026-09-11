@@ -248,11 +248,12 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: '-80px' }}
             variants={stagger}
+            aria-labelledby="awards-heading"
           >
             <motion.div variants={fadeUp}>
               <div className="recognition-heading">
                 <div className="section-heading-icon"><Trophy size={20} strokeWidth={1.5} /></div>
-                <h2>{t.sections.awards.title}</h2>
+                <h2 id="awards-heading">{t.sections.awards.title}</h2>
               </div>
             </motion.div>
             <div className="home-awards-grid">
@@ -284,19 +285,20 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: '-80px' }}
             variants={stagger}
+            aria-labelledby="projects-heading"
           >
             <motion.div variants={fadeUp}>
               <div className="recognition-heading">
                 <div className="section-heading-icon"><Trophy size={20} strokeWidth={1.5} /></div>
-                <h2>{t.sections.projects.title}</h2>
+                <h2 id="projects-heading">{t.sections.projects.title}</h2>
               </div>
             </motion.div>
             <div className="work-collection">
               {["notio", "meum-diarium"].map((slug, i) => {
                 const project = projectData.find(p => p.slug === slug);
-                return project ? (
+                  return project ? (
                   <motion.div key={slug} custom={i} variants={projectCardVariant}>
-                    <ProjectCard project={project} />
+                    <ProjectCard project={project} headingLevel="h3" />
                   </motion.div>
                 ) : null;
               })}
@@ -314,10 +316,11 @@ export default function Home() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-60px' }}
+            aria-labelledby="pages-heading"
           >
             <motion.div className="landing-section-header" variants={fadeUp}>
               <p className="eyebrow">{t.sections.pages.eyebrow}</p>
-              <h2>{t.sections.pages.title}</h2>
+              <h2 id="pages-heading">{t.sections.pages.title}</h2>
             </motion.div>
             <motion.div className="landing-grid" variants={stagger}>
               {pagesData.map((page, i) => (

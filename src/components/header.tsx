@@ -45,6 +45,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
   };
 
   const navLinks = [
+    { href: '/about', label: t.nav.about },
     { href: '/projects', label: t.nav.projects },
     { href: '/blog', label: t.nav.blog },
     { href: '/resume', label: t.nav.resume },
@@ -79,7 +80,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
           <span>Benedikt Schächner</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-8" aria-label="Main Navigation">
           {navLinks.map((link) => (
             <Link
               key={link.href}

@@ -129,6 +129,7 @@ export const metadata: Metadata = {
 
 const pagesToPrefetch = [
   '/',
+  '/about',
   '/projects',
   '/blog',
   '/resume',

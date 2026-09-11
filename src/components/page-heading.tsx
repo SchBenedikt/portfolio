@@ -3,7 +3,7 @@
 import { useI18n } from '@/components/providers/i18n-provider';
 import { motion } from 'framer-motion';
 
-export default function PageHeading({ title, description }: { title: string; description: string }) {
+export default function PageHeading({ title, description, eyebrow }: { title: string; description: string; eyebrow?: string }) {
   const { t } = useI18n();
   return (
     <motion.header
@@ -12,7 +12,7 @@ export default function PageHeading({ title, description }: { title: string; des
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <p className="eyebrow">Benedikt Schächner / {t.nav.home}</p>
+      <p className="eyebrow">{eyebrow || `Benedikt Schächner / ${t.nav.home}`}</p>
       <h1>{title}</h1>
       <p>{description}</p>
     </motion.header>

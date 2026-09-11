@@ -11,6 +11,7 @@
     "gallery": "Gallery",
     "press": "Press",
     "links": "Links & Contact",
+    "about": "About",
     "menuOpen": "Open menu",
     "menuClose": "Close menu",
     "home": "Home"
@@ -49,7 +50,8 @@
     "awards": { "name": "Awards", "desc": "Prizes & certificates" },
     "gallery": { "name": "Gallery", "desc": "Images & impressions" },
     "press": { "name": "Press", "desc": "Media coverage" },
-    "links": { "name": "Links & Contact", "desc": "Profiles & reachability" }
+    "links": { "name": "Links & Contact", "desc": "Profiles & reachability" },
+    "about": { "name": "About", "desc": "Who I am & what I do" }
   },
   "footer": {
     "navigation": "Navigation",
@@ -225,5 +227,37 @@
     "relatedBlog": "Related Article",
     "relatedPress": "Press Coverage",
     "relatedProject": "View Project"
+  },
+  "about": {
+    "eyebrow": "ABOUT ME",
+    "title": "Who I am.",
+    "description": "A personal perspective on technology, creativity, and the internet.",
+    "statement": "I combine technology with design and build things that work and are fun to use.",
+    "paragraph1": "My name is Benedikt Schächner. I'm a student at the König-Karlmann-Gymnasium in Altötting and have been developing web applications, digital learning projects, and multimedia formats for several years. What drives me is the question of how technology can help people — in learning, in understanding, in creating.",
+    "paragraph2": "I work with modern web technologies, artificial intelligence, and creative media. My projects don't happen in a lab — they happen where they're needed: in school, in clubs, in everyday life. My web-based learning system Notio was awarded the Crossmedia Prize 2025 by Bayerischer Rundfunk. My Latin project Meum Diarium won the main prize at the German Multimedia Award mb21.",
+    "paragraph3": "I believe that good technology is invisible. When something works, you don't notice it. That's my standard — for code, for design, for projects. Here on my website, I share insights into what I do, what I've learned, and where the journey is going.",
+    "pillarsEyebrow": "WHAT I CARE ABOUT",
+    "pillars": {
+      "development": {
+        "title": "Web Development",
+        "description": "Modern frameworks, clean code, performance. From idea to working product."
+      },
+      "research": {
+        "title": "Education & Research",
+        "description": "Exploring digital education and building learning systems that actually help."
+      },
+      "design": {
+        "title": "Design",
+        "description": "Interface design that combines function and aesthetics. Editorial, not template-based."
+      },
+      "ai": {
+        "title": "Artificial Intelligence",
+        "description": "Using AI meaningfully — in education, in projects, in application development."
+      }
+    },
+    "ctaEyebrow": "FURTHER INSIGHTS",
+    "ctaProjects": "View projects",
+    "ctaResume": "Resume",
+    "ctaBlog": "Read blog"
   }
 }
