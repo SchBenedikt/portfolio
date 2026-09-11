@@ -18,7 +18,6 @@ export default function Footer() {
         <div className="footer-links-group">
           <p className="footer-label">{t.footer.navigation}</p>
           <nav aria-label="Footer Primary Navigation">
-            <Link href="/about">{t.nav.about}</Link>
             <Link href="/projects">{t.nav.projects}</Link>
             <Link href="/resume">{t.nav.resume}</Link>
             <Link href="/awards">{t.nav.awards}</Link>

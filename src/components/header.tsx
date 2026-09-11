@@ -45,7 +45,6 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
   };
 
   const navLinks = [
-    { href: '/about', label: t.nav.about },
     { href: '/projects', label: t.nav.projects },
     { href: '/blog', label: t.nav.blog },
     { href: '/resume', label: t.nav.resume },
