@@ -1,343 +1,274 @@
 "use client";
-import Header from '@/components/header';
-import Footer from '@/components/footer';
-import { useEffect, useRef } from 'react';
-import { useAchievements } from '@/components/providers/achievements-provider';
-import { useI18n } from '@/components/providers/i18n-provider';
-import Link from 'next/link';
-import Image from 'next/image';
-import ProjectCard from '@/components/project-card';
-import { projectData } from '@/lib/projects';
-import { Trophy, ArrowUpRight, Sparkles } from 'lucide-react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 
-const pagesData = [
-  { key: 'resume' as const, href: '/resume', eyebrow: '01' },
-  { key: 'projects' as const, href: '/projects', eyebrow: '02' },
-  { key: 'blog' as const, href: '/blog', eyebrow: '03' },
-  { key: 'awards' as const, href: '/awards', eyebrow: '04' },
-  { key: 'gallery' as const, href: '/gallery', eyebrow: '05' },
-  { key: 'press' as const, href: '/press', eyebrow: '06' },
-  { key: 'links' as const, href: '/links', eyebrow: '07' },
-];
+import { useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowDown, ArrowRight, ArrowUpRight } from "lucide-react";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
+import ProjectArtwork from "@/components/project-artwork";
+import { useAchievements } from "@/components/providers/achievements-provider";
+import { useI18n } from "@/components/providers/i18n-provider";
+import { projectData } from "@/lib/projects";
+import "./home-redesign.css";
 
-const latestAwards = [
-  {
-    date: "20. Nov. 2025",
-    title: "Crossmedia-Preis",
-    subtitle: "Sparte Interactive",
-    organization: "Bayerischer Rundfunk",
-    project: "Notio",
-    projectSlug: "notio",
+const featuredSlugs = ["notio", "meum-diarium"] as const;
+
+const copy = {
+  de: {
+    eyebrow: "Persönliches Portfolio · 2026",
+    introduction: "Ich entwickle digitale Produkte, denke gern über Fachgrenzen hinweg und mache aus Ideen greifbare Projekte.",
+    subintro: "Webentwicklung, Open Source & Crossmedia.",
+    viewProjects: "Projekte entdecken",
+    about: "Mehr über mich",
+    imageCaption: "Crossmedia-Preis · Bayerischer Rundfunk, 2025",
+    scroll: "Weiter entdecken",
+    selectedLabel: "01 / Was ich mache",
+    selectedTitle: "Ausgewählte Arbeiten",
+    selectedIntro: "Nicht nur Konzepte, sondern Projekte, die man ausprobieren, lesen oder benutzen kann.",
+    allProjects: "Alle Projekte ansehen",
+    projectLabels: ["Webanwendung · Bildung", "Crossmedia · Storytelling"],
+    projectDescriptions: [
+      "Eine digitale Lernplattform, die Schulalltag und Leistungsübersicht übersichtlicher macht. Ausgezeichnet beim Crossmedia-Wettbewerb.",
+      "Antike Geschichte als interaktiver Influencer-Blog: gemeinsam entwickelt und mit dem Deutschen Multimediapreis mb21 ausgezeichnet."
+    ],
+    researchLabel: "Weitere Arbeit / 2026",
+    researchTitle: "Wie nachhaltig können Rechenzentren sein?",
+    researchDescription: "Eine wissenschaftliche Arbeit über Infrastruktur, Energieeffizienz und Rechenzentren – auf der Erde und darüber hinaus.",
+    researchLink: "Wissenschaftswoche 2026 lesen",
+    awardsLabel: "02 / Anerkennung",
+    awardsTitle: "Ausgezeichnete Ideen.",
+    awardsIntro: "Zwei Projekte, zwei Auszeichnungen – und viel Motivation, Neues auszuprobieren.",
+    awards: [
+      { year: "2025", title: "Crossmedia-Preis", detail: "Sparte Interactive · Bayerischer Rundfunk", project: "Notio", href: "/projects/notio" },
+      { year: "2024", title: "Deutscher Multimediapreis mb21", detail: "Hauptpreis · Meum Diarium", project: "Meum Diarium", href: "/projects/meum-diarium" }
+    ],
+    allAwards: "Alle Auszeichnungen",
+    aboutLabel: "03 / Über mich",
+    aboutTitle: "Neugier ist mein Antrieb.",
+    aboutParagraph: "Ich bin Schüler am König-Karlmann-Gymnasium in Altötting. Mich interessiert besonders, was entsteht, wenn Technik, Gestaltung und gesellschaftliche Fragen aufeinandertreffen. Ich entwickle Webanwendungen, beschäftige mich mit digitalen Infrastrukturen und erzähle Geschichten über neue Medien.",
+    aboutAsideTitle: "Woran ich gern arbeite",
+    aboutTopics: ["Web & Open Source", "Digitale Bildung", "Crossmedia & KI", "Self-Hosting"],
+    resumeLink: "Meinen Werdegang ansehen",
+    exploreLabel: "Noch mehr entdecken",
+    moreLinks: [
+      { num: "01", name: "Blog", detail: "Gedanken und Einblicke", href: "/blog" },
+      { num: "02", name: "Presse", detail: "Berichte und Interviews", href: "/press" },
+      { num: "03", name: "Galerie", detail: "Momente und Eindrücke", href: "/gallery" }
+    ],
+    contactLabel: "Kontakt",
+    contactTitle: "Eine Idee im Kopf?",
+    contactSubtitle: "Ich freue mich über interessante Projekte, neue Perspektiven und gute Gespräche.",
+    contactLink: "In Kontakt kommen"
   },
-  {
-    date: "22. Nov. 2024",
-    title: "Hauptpreis",
-    subtitle: "Deutscher Multimediapreis mb21",
-    organization: "Deutscher Multimediapreis mb21",
-    project: "Meum Diarium",
-    projectSlug: "meum-diarium",
-  },
-];
-
-const heroNameWords = ["Benedikt", "Schächner."];
-
-const wordReveal = {
-  hidden: { opacity: 0, y: 40, rotateX: 45 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    rotateX: 0,
-    transition: {
-      duration: 0.7,
-      delay: i * 0.18,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  }),
-};
-
-const skillBadge = {
-  hidden: { opacity: 0, scale: 0.8, y: 20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      delay: 0.8 + i * 0.1,
-      ease: [0.34, 1.56, 0.64, 1],
-    },
-  }),
-};
-
-const photoSlide = {
-  hidden: { opacity: 0, x: 80, rotate: 8, scale: 0.9 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    rotate: 2,
-    scale: 1,
-    transition: {
-      duration: 0.8,
-      delay: 0.4,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
-};
-
-const stagger = {
-  visible: { transition: { staggerChildren: 0.1 } },
-};
-
-const awardCardLeft = {
-  hidden: { opacity: 0, x: -60, rotate: -2 },
-  visible: { opacity: 1, x: 0, rotate: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
-};
-
-const awardCardRight = {
-  hidden: { opacity: 0, x: 60, rotate: 2 },
-  visible: { opacity: 1, x: 0, rotate: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
-};
-
-const projectCardVariant = {
-  hidden: { opacity: 0, y: 50, scale: 0.95 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.6,
-      delay: i * 0.15,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  }),
-};
-
-const landingCardVariant = {
-  hidden: { opacity: 0, y: 30, scale: 0.97 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-      delay: i * 0.06,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  }),
+  en: {
+    eyebrow: "Personal portfolio · 2026",
+    introduction: "I build digital products, think across disciplines and turn ideas into projects you can actually explore.",
+    subintro: "Web development, open source & crossmedia.",
+    viewProjects: "Explore projects",
+    about: "More about me",
+    imageCaption: "Crossmedia Award · Bavarian Broadcasting, 2025",
+    scroll: "Scroll to explore",
+    selectedLabel: "01 / Selected work",
+    selectedTitle: "Things I've made",
+    selectedIntro: "More than ideas: projects you can explore, read or use.",
+    allProjects: "All projects",
+    projectLabels: ["Web application · Education", "Crossmedia · Storytelling"],
+    projectDescriptions: [
+      "An education platform designed to make grades and everyday learning easier to manage. Recognized at the Crossmedia Awards.",
+      "Ancient history as an interactive influencer blog: built together and honored with the German Multimedia Award mb21."
+    ],
+    researchLabel: "Another project / 2026",
+    researchTitle: "How sustainable can data centers be?",
+    researchDescription: "A research paper on infrastructure, energy efficiency and data centers – on Earth and beyond.",
+    researchLink: "Explore the 2026 research project",
+    awardsLabel: "02 / Recognition",
+    awardsTitle: "Ideas with impact.",
+    awardsIntro: "Two projects, two awards – and plenty of motivation to keep experimenting.",
+    awards: [
+      { year: "2025", title: "Crossmedia Award", detail: "Interactive category · Bavarian Broadcasting", project: "Notio", href: "/projects/notio" },
+      { year: "2024", title: "German Multimedia Award mb21", detail: "Grand prize · Meum Diarium", project: "Meum Diarium", href: "/projects/meum-diarium" }
+    ],
+    allAwards: "All awards",
+    aboutLabel: "03 / About",
+    aboutTitle: "Driven by curiosity.",
+    aboutParagraph: "I'm a student at König-Karlmann-Gymnasium in Altötting, Germany. I'm interested in what happens when technology, design and social questions intersect. I build web applications, explore digital infrastructure and tell stories through new media.",
+    aboutAsideTitle: "What I enjoy working on",
+    aboutTopics: ["Web & open source", "Digital education", "Crossmedia & AI", "Self-hosting"],
+    resumeLink: "Explore my background",
+    exploreLabel: "Explore more",
+    moreLinks: [
+      { num: "01", name: "Journal", detail: "Ideas and insights", href: "/blog" },
+      { num: "02", name: "Press", detail: "Articles and interviews", href: "/press" },
+      { num: "03", name: "Gallery", detail: "Moments and impressions", href: "/gallery" }
+    ],
+    contactLabel: "Contact",
+    contactTitle: "Have an idea?",
+    contactSubtitle: "I'm always interested in new projects, fresh perspectives and good conversations.",
+    contactLink: "Get in touch"
+  }
 };
 
 export default function Home() {
+  const { locale } = useI18n();
   const { unlockAchievement } = useAchievements();
-  const { t } = useI18n();
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-  const photoY = useSpring(useTransform(scrollYProgress, [0, 1], [0, 60]), { stiffness: 100, damping: 20 });
-  const photoRotate = useTransform(scrollYProgress, [0, 1], [2, 6]);
-  const textY = useSpring(useTransform(scrollYProgress, [0, 1], [0, -30]), { stiffness: 100, damping: 20 });
+  const c = copy[locale];
 
-  useEffect(() => { unlockAchievement('FIRST_STEP'); }, [unlockAchievement]);
+  useEffect(() => {
+    unlockAchievement("FIRST_STEP");
+  }, [unlockAchievement]);
+
+  const featuredProjects = featuredSlugs
+    .map(slug => projectData.find(project => project.slug === slug))
+    .filter((project): project is NonNullable<typeof project> => Boolean(project));
 
   return (
-    <div className="portfolio-home">
+    <div className="home-refresh">
       <Header />
       <main id="main-content">
-        <section className="portfolio-hero" aria-labelledby="hero-title" ref={heroRef}>
-          <div className="hero-layout">
-            <motion.div
-              className="hero-copy-block"
-              initial="hidden"
-              animate="visible"
-              style={{ y: textY }}
-            >
-              <motion.p className="eyebrow" variants={fadeUp}>
-                {t.hero.eyebrow}
-              </motion.p>
-              <h1 id="hero-title" className="hero-title-split">
-                {heroNameWords.map((word, i) => (
-                  <motion.span
-                    key={word}
-                    custom={i}
-                    variants={wordReveal}
-                    className="hero-word"
-                  >
-                    {word === "Schächner." ? (
-                      <>Schächner<span>.</span></>
-                    ) : (
-                      word
-                    )}
-                    {i === 0 && " "}
-                  </motion.span>
-                ))}
-              </h1>
-              <motion.p className="hero-description" variants={fadeUp} custom={0.6}>
-                {t.hero.description}
-              </motion.p>
-              <motion.div className="hero-skills" variants={stagger} initial="hidden" animate="visible">
-                {[t.hero.skills.web, t.hero.skills.crossmedia, t.hero.skills.ai].map((skill, i) => (
-                  <motion.span key={skill} custom={i} variants={skillBadge}>
-                    <Sparkles size={12} className="skill-icon" />
-                    {skill}
-                  </motion.span>
-                ))}
-              </motion.div>
-            </motion.div>
-            <motion.div
-              className="hero-photo"
-              data-cursor-interactive
-              variants={photoSlide}
-              initial="hidden"
-              animate="visible"
-              style={{ y: photoY, rotate: photoRotate }}
-            >
-              <div className="hero-photo-frame">
-                <div className="hero-photo-grain" aria-hidden="true" />
+        <section className="refresh-hero refresh-shell" aria-labelledby="home-title">
+          <div className="refresh-hero-topline">
+            <span className="refresh-overline">{c.eyebrow}</span>
+            <span className="refresh-hero-symbol" aria-hidden="true">✳</span>
+          </div>
+
+          <h1 id="home-title" className="refresh-name">
+            <span>Benedikt</span>
+            <span>Schächner<span className="refresh-period">.</span></span>
+          </h1>
+
+          <div className="refresh-hero-lower">
+            <div className="refresh-hero-copy">
+              <p className="refresh-lead">{c.introduction}</p>
+              <p className="refresh-sublead">{c.subintro}</p>
+              <div className="refresh-hero-actions">
+                <Link className="refresh-button refresh-button-primary" href="/projects">
+                  {c.viewProjects} <ArrowUpRight size={18} aria-hidden="true" />
+                </Link>
+                <Link className="refresh-text-link" href="/resume">
+                  {c.about} <ArrowRight size={17} aria-hidden="true" />
+                </Link>
+              </div>
+            </div>
+            <figure className="refresh-portrait">
+              <div className="refresh-portrait-frame">
                 <Image
                   src="https://raw.githubusercontent.com/SchBenedikt/portfolio/master/src/app/photos/benedikt/crossmedia-3.jpeg"
-                  alt="Benedikt Schächner bei der Crossmedia-Preisverleihung im Bayerischen Rundfunk"
-                  width={600}
-                  height={800}
+                  alt="Benedikt Schächner bei der Crossmedia-Preisverleihung des Bayerischen Rundfunks"
+                  width={760}
+                  height={960}
                   priority
+                  sizes="(max-width: 720px) 90vw, (max-width: 1050px) 40vw, 400px"
                 />
               </div>
-              <motion.div
-                className="hero-photo-badge"
-                aria-hidden="true"
-                initial={{ opacity: 0, scale: 0, rotate: -20 }}
-                animate={{ opacity: 1, scale: 1, rotate: 3 }}
-                transition={{ delay: 1.2, duration: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
-              >
-                <Trophy size={13} strokeWidth={1.5} /> {t.hero.badge}
-              </motion.div>
-              <motion.span
-                className="hero-photo-arrow"
-                aria-hidden="true"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 1.4, duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
-              >
-                ↗
-              </motion.span>
-              <span className="hero-photo-caption" aria-hidden="true">{t.hero.caption}</span>
-            </motion.div>
+              <figcaption>{c.imageCaption}</figcaption>
+            </figure>
           </div>
-          <motion.div
-            className="hero-bottom"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.5, duration: 0.5 }}
-          >
-            <a href="#inhalt">
-              {t.hero.cta} <span>↓</span>
-            </a>
-          </motion.div>
+
+          <a className="refresh-scroll-cue" href="#arbeiten">
+            <ArrowDown size={17} aria-hidden="true" />
+            <span>{c.scroll}</span>
+          </a>
         </section>
 
-        <div className="portfolio-content" id="inhalt">
-          <motion.section
-            className="home-selected"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-80px' }}
-            variants={stagger}
-            aria-labelledby="awards-heading"
-          >
-            <motion.div variants={fadeUp}>
-              <div className="recognition-heading">
-                <div className="section-heading-icon"><Trophy size={20} strokeWidth={1.5} /></div>
-                <h2 id="awards-heading">{t.sections.awards.title}</h2>
+        <section className="refresh-section refresh-shell" id="arbeiten" aria-labelledby="work-title">
+          <div className="refresh-section-heading">
+            <div>
+              <p className="refresh-overline">{c.selectedLabel}</p>
+              <h2 id="work-title">{c.selectedTitle}<span className="refresh-period">.</span></h2>
+            </div>
+            <p>{c.selectedIntro}</p>
+          </div>
+
+          <div className="refresh-projects">
+            {featuredProjects.map((project, index) => (
+              <article className="refresh-project" key={project.slug}>
+                <Link href={"/projects/" + project.slug} className="refresh-project-picture" aria-label={project.title}>
+                  <ProjectArtwork slug={project.slug} />
+                  <span className="refresh-project-picture-arrow" aria-hidden="true"><ArrowUpRight size={22} /></span>
+                </Link>
+                <div className="refresh-project-meta">
+                  <span>{String(index + 1).padStart(2, "0")} / {c.projectLabels[index]}</span>
+                  <span>{project.date.slice(0, 4)}</span>
+                </div>
+                <h3><Link href={"/projects/" + project.slug}>{project.title} <ArrowUpRight size={24} aria-hidden="true" /></Link></h3>
+                <p>{c.projectDescriptions[index]}</p>
+              </article>
+            ))}
+          </div>
+
+          <Link className="refresh-research" href="/projects/wissenschaftswoche-2026">
+            <span className="refresh-research-icon" aria-hidden="true">↗</span>
+            <span className="refresh-research-content">
+              <span className="refresh-overline">{c.researchLabel}</span>
+              <strong>{c.researchTitle}</strong>
+              <span>{c.researchDescription}</span>
+            </span>
+            <span className="refresh-research-cta">{c.researchLink} <ArrowUpRight size={17} aria-hidden="true" /></span>
+          </Link>
+
+          <Link className="refresh-inline-link" href="/projects">{c.allProjects} <ArrowUpRight size={18} aria-hidden="true" /></Link>
+        </section>
+
+        <section className="refresh-awards" aria-labelledby="awards-title">
+          <div className="refresh-shell">
+            <div className="refresh-section-heading">
+              <div>
+                <p className="refresh-overline">{c.awardsLabel}</p>
+                <h2 id="awards-title">{c.awardsTitle}</h2>
               </div>
-            </motion.div>
-            <div className="home-awards-grid">
-              {latestAwards.map((award, i) => (
-                <motion.div key={award.date} variants={i === 0 ? awardCardLeft : awardCardRight}>
-                  <Link href={`/projects/${award.projectSlug}`} className="home-award-card">
-                    <div className="home-award-top">
-                      <span className="home-award-date">{award.date}</span>
-                      <ArrowUpRight size={16} />
-                    </div>
-                    <h3>{award.title}</h3>
-                    <p>{award.subtitle}</p>
-                    <span className="home-award-org">{award.organization}</span>
-                    <span className="home-award-project">{award.project}</span>
-                  </Link>
-                </motion.div>
+              <p>{c.awardsIntro}</p>
+            </div>
+            <div className="refresh-award-list">
+              {c.awards.map((award) => (
+                <Link href={award.href} className="refresh-award" key={award.year}>
+                  <span className="refresh-award-year">{award.year}</span>
+                  <span className="refresh-award-text"><strong>{award.title}</strong><span>{award.detail}</span></span>
+                  <span className="refresh-award-project">{award.project}</span>
+                  <ArrowUpRight size={21} aria-hidden="true" />
+                </Link>
               ))}
             </div>
-            <motion.div variants={fadeUp}>
-              <Link className="home-all-work" href="/awards">
-                {t.sections.awards.viewAll} <span>↗</span>
-              </Link>
-            </motion.div>
-          </motion.section>
+            <Link className="refresh-inline-link" href="/awards">{c.allAwards} <ArrowUpRight size={18} aria-hidden="true" /></Link>
+          </div>
+        </section>
 
-          <motion.section
-            className="home-selected"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-80px' }}
-            variants={stagger}
-            aria-labelledby="projects-heading"
-          >
-            <motion.div variants={fadeUp}>
-              <div className="recognition-heading">
-                <div className="section-heading-icon"><Trophy size={20} strokeWidth={1.5} /></div>
-                <h2 id="projects-heading">{t.sections.projects.title}</h2>
-              </div>
-            </motion.div>
-            <div className="work-collection">
-              {["notio", "meum-diarium"].map((slug, i) => {
-                const project = projectData.find(p => p.slug === slug);
-                  return project ? (
-                  <motion.div key={slug} custom={i} variants={projectCardVariant}>
-                    <ProjectCard project={project} headingLevel="h3" />
-                  </motion.div>
-                ) : null;
-              })}
-            </div>
-            <motion.div variants={fadeUp}>
-              <Link className="home-all-work" href="/projects">
-                {t.sections.projects.viewAll} <span>↗</span>
-              </Link>
-            </motion.div>
-          </motion.section>
+        <section className="refresh-about refresh-shell" aria-labelledby="about-title">
+          <div>
+            <p className="refresh-overline">{c.aboutLabel}</p>
+            <h2 id="about-title">{c.aboutTitle}</h2>
+          </div>
+          <div className="refresh-about-right">
+            <p className="refresh-about-body">{c.aboutParagraph}</p>
+            <p className="refresh-small-label">{c.aboutAsideTitle}</p>
+            <div className="refresh-topics">{c.aboutTopics.map(topic => <span key={topic}>{topic}</span>)}</div>
+            <Link className="refresh-inline-link" href="/resume">{c.resumeLink} <ArrowUpRight size={18} aria-hidden="true" /></Link>
+          </div>
+        </section>
 
-          <motion.section
-            className="portfolio-section"
-            style={{ paddingTop: '100px', paddingBottom: '100px' }}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-60px' }}
-            aria-labelledby="pages-heading"
-          >
-            <motion.div className="landing-section-header" variants={fadeUp}>
-              <p className="eyebrow">{t.sections.pages.eyebrow}</p>
-              <h2 id="pages-heading">{t.sections.pages.title}</h2>
-            </motion.div>
-            <motion.div className="landing-grid" variants={stagger}>
-              {pagesData.map((page, i) => (
-                <motion.div key={page.href} custom={i} variants={landingCardVariant}>
-                  <Link href={page.href} className="landing-card">
-                    <span className="landing-card-number">{page.eyebrow}</span>
-                    <div className="landing-card-content">
-                      <span className="landing-card-name">{t.pages[page.key].name}</span>
-                      <span className="landing-card-desc">{t.pages[page.key].desc}</span>
-                    </div>
-                    <span className="landing-card-arrow">↗</span>
-                  </Link>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.section>
-        </div>
+        <section className="refresh-explore refresh-shell" aria-label={c.exploreLabel}>
+          <p className="refresh-overline">{c.exploreLabel}</p>
+          <div className="refresh-explore-grid">
+            {c.moreLinks.map(item => (
+              <Link key={item.href} href={item.href} className="refresh-explore-link">
+                <span className="refresh-overline">{item.num}</span>
+                <strong>{item.name}</strong>
+                <span className="refresh-explore-bottom">{item.detail}<ArrowUpRight size={20} aria-hidden="true" /></span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="refresh-contact refresh-shell" aria-labelledby="contact-title">
+          <div>
+            <p className="refresh-overline">{c.contactLabel}</p>
+            <h2 id="contact-title">{c.contactTitle}</h2>
+            <p>{c.contactSubtitle}</p>
+          </div>
+          <Link className="refresh-button refresh-button-primary" href="/links">
+            {c.contactLink} <ArrowUpRight size={19} aria-hidden="true" />
+          </Link>
+        </section>
       </main>
       <Footer />
     </div>
