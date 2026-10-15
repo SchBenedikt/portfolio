@@ -106,18 +106,24 @@ export default function Home() {
                 transition={{ duration: 0.8, ease: "easeOut" }}
               >
                 <h1 className="text-6xl sm:text-7xl md:text-9xl font-black uppercase tracking-tighter font-headline">
-                  <div className="flex items-center justify-between">
-                    <Image
-                      src={fluentTechnologist}
-                      alt="Benedikt Schächner"
-                      width={130}
-                      height={130}
-                      className="w-[65px] h-[65px] md:w-[130px] md:h-[130px]"
-                      unoptimized
-                    />
-                    <span className="text-right">Benedikt</span>
-                  </div>
-                  <div className="text-right">Schächner</div>
+                  <a
+                    rel="me"
+                    href="https://cloud.xn--schchner-2za.de/apps/social/@Benedikt"
+                    className="block text-inherit no-underline"
+                  >
+                    <div className="flex items-center justify-between">
+                      <Image
+                        src={fluentTechnologist}
+                        alt="Benedikt Schächner"
+                        width={130}
+                        height={130}
+                        className="w-[65px] h-[65px] md:w-[130px] md:h-[130px]"
+                        unoptimized
+                      />
+                      <span className="text-right">Benedikt</span>
+                    </div>
+                    <div className="text-right">Schächner</div>
+                  </a>
                 </h1>
               </motion.div>
             </motion.section>

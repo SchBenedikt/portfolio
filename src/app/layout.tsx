@@ -246,6 +246,7 @@ export default function RootLayout({
     <html lang="de" suppressHydrationWarning>
       <head>
         <link rel="canonical" href={siteUrl} />
+        <link rel="me" href="https://cloud.xn--schchner-2za.de/apps/social/@Benedikt" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
