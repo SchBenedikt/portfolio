@@ -1,7 +1,7 @@
 
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Bot, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/header';
@@ -12,29 +12,14 @@ import { cn } from '@/lib/utils';
 import React from 'react';
 import Image from 'next/image';
 
-const landingImages = Array.from({ length: 9 }, (_, i) =>
-  `/portraets/landing-page/${i + 1}.png`
-);
+const fluentTechnologist =
+  'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20professions/Technologist%20Medium-Light%20Skin%20Tone.png';
 
 export default function Home() {
   const { unlockAchievement } = useAchievements();
   const [isTerminalView, setIsTerminalView] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
-  const [imageIndex, setImageIndex] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setImageIndex((prev) => {
-        let next;
-        do {
-          next = Math.floor(Math.random() * landingImages.length);
-        } while (next === prev && landingImages.length > 1);
-        return next;
-      });
-    }, 10000);
-    return () => clearInterval(id);
-  }, []);
 
   useEffect(() => {
     unlockAchievement('FIRST_STEP');
@@ -122,26 +107,14 @@ export default function Home() {
               >
                 <h1 className="text-6xl sm:text-7xl md:text-9xl font-black uppercase tracking-tighter font-headline">
                   <div className="flex items-center justify-between">
-                    <div className="w-[65px] h-[45px] md:w-[130px] md:h-[95px] rounded-lg bg-muted border border-border relative overflow-hidden">
-                      <AnimatePresence mode="sync">
-                        <motion.div
-                          key={imageIndex}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.8 }}
-                          className="absolute inset-0"
-                        >
-                          <Image
-                            src={landingImages[imageIndex]}
-                            alt="Benedikt Schächner"
-                            width={375}
-                            height={313}
-                            className="w-full h-full object-cover"
-                          />
-                        </motion.div>
-                      </AnimatePresence>
-                    </div>
+                    <Image
+                      src={fluentTechnologist}
+                      alt="Benedikt Schächner"
+                      width={130}
+                      height={130}
+                      className="w-[65px] h-[65px] md:w-[130px] md:h-[130px]"
+                      unoptimized
+                    />
                     <span className="text-right">Benedikt</span>
                   </div>
                   <div className="text-right">Schächner</div>

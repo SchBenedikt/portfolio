@@ -11,6 +11,30 @@ export interface Article {
 
 export const articlesData: Article[] = [
   {
+    title: 'Meet the winners of the Nextcloud Community Awards 2026',
+    source: 'Nextcloud',
+    organizationSlug: 'nextcloud-community-awards',
+    url: 'https://nextcloud.com/blog/meet-the-winners-of-the-nextcloud-community-awards-2026',
+    date: '2026-09-21',
+    description: 'Nextcloud stellt die Gewinner der Community Awards 2026 vor: Benedikt Schächner gewinnt in der Kategorie „Hidden Gem“ für die Wiederbelebung der Nextcloud Social App.',
+  },
+  {
+    title: 'Nextcloud Social v0.10.0',
+    source: 'Nextcloud Community',
+    organizationSlug: 'nextcloud-community-awards',
+    url: 'https://help.nextcloud.com/t/nextcloud-social-v0-10-0/244891',
+    date: '2026-05-27',
+    description: 'Ankündigung von Nextcloud Social v0.10.0: Die App ist zurück im App Store und unterstützt wieder die zentralen Fediverse-/ActivityPub-Funktionen – inklusive neuem Design.',
+  },
+  {
+    title: 'Nextcloud Social mit neuem Update',
+    source: 'Nextcloud Community',
+    organizationSlug: 'nextcloud-community-awards',
+    url: 'https://help.nextcloud.com/t/nextcloud-social-with-a-new-update/244692',
+    date: '2026-05-21',
+    description: 'Die Nextcloud Social App funktioniert wieder: Das gesamte Design wurde überarbeitet und an die aktuellen Vue-Standards angepasst.',
+  },
+  {
     title: 'Tutoren-Fußballturnier der 5. und 6. Klassen',
     source: 'König-Karlmann-Gymnasium',
     organizationSlug: 'kkg',

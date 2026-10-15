@@ -18,6 +18,7 @@ export type AchievementID =
   | 'TASK_MANAGER'
   | 'GALLERY_VIEWER'
   | 'PRESS_READER'
+  | 'AWARDS_VIEWER'
   | 'QUIZ_MASTER'
   | 'NANO_EDITOR'
   | 'FOCUS_MASTER'
@@ -60,6 +61,11 @@ export const achievementsList: Achievement[] = [
     id: 'PRESS_READER',
     name: 'Im Rampenlicht',
     description: 'Die Presseseite besucht.',
+  },
+  {
+    id: 'AWARDS_VIEWER',
+    name: 'Pokaljäger',
+    description: 'Die Auszeichnungen angesehen.',
   },
   {
     id: 'NIGHT_OWL',

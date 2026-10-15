@@ -10,6 +10,14 @@ export const timelineEvents = [
         isCurrent: true
     },
     {
+        date: "Sep. 2026",
+        title: "Nextcloud Community Award 2026 – Hidden Gem",
+        organization: "Nextcloud Community Awards",
+        description: "Auszeichnung mit dem Nextcloud Community Award 2026 in der Kategorie „Hidden Gem“ für die Wiederbelebung und Weiterentwicklung der Nextcloud Social App (ActivityPub/Fediverse).",
+        icon: <Trophy/>,
+        projectSlug: 'nextcloud-social',
+    },
+    {
         date: "29. Aug. - 05. Sep. 2026",
         title: "Dan-Lehrgang Inzell",
         subtitle: "1. Dan Judo",

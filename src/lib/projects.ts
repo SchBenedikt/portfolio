@@ -20,6 +20,52 @@ export interface Project {
 
 export const projectData: Project[] = [
   {
+    title: 'Nextcloud Social',
+    slug: 'nextcloud-social',
+    type: 'private',
+    description: 'Wiederbelebung der Nextcloud Social App: Fediverse- und ActivityPub-Anbindung direkt in Nextcloud – ausgezeichnet mit dem Nextcloud Community Award 2026 in der Kategorie „Hidden Gem“.',
+    longDescription: `
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Überblick</h3>
+      <p>Nextcloud Social macht aus jeder Nextcloud-Instanz einen Fediverse-Server: Jede Nutzerin und jeder Nutzer erhält mit <i>@name@cloud</i> eine echte Fediverse-Identität, die von Mastodon, Pixelfed, PeerTube, GoToSocial und Akkoma aus gefolgt, erwähnt und beantwortet werden kann – ohne neues Konto, ohne neuen Dienst und ohne Algorithmus.</p>
+      <p>Nachdem die App über Jahre kaum gepflegt wurde und zuletzt weitgehend nicht mehr funktionierte, habe ich ihre Entwicklung übernommen, die Codebasis aufgeräumt und sie wieder stabil, kompatibel und nutzbar gemacht. Dabei habe ich neue Funktionen und Verbesserungen auf Basis eigener Ideen ergänzt.</p>
+
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Funktionen</h3>
+      <ul class="list-disc pl-6 space-y-2">
+        <li><b>Timelines:</b> öffentliche, lokale und Home-Timeline durchsuchen.</li>
+        <li><b>Composer:</b> Beiträge, Antworten und Erwähnungen erstellen.</li>
+        <li><b>Post-Aktionen:</b> Liken, Boosten (Announce) und Antworten.</li>
+        <li><b>Profile:</b> Avatar, Header/Banner und Metadaten.</li>
+        <li><b>Federation:</b> Senden und Empfangen von ActivityPub-Aktivitäten (Create, Update, Undo und weitere).</li>
+        <li><b>Discovery:</b> Webfinger und Auffinden entfernter Nutzer.</li>
+      </ul>
+
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Auszeichnung</h3>
+      <p>Für die Wiederbelebung der App wurde ich im September 2026 mit dem <strong>Nextcloud Community Award 2026</strong> in der Kategorie <strong>„Hidden Gem“</strong> ausgezeichnet.</p>
+
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Technik</h3>
+      <p>Das Frontend wurde vollständig überarbeitet und an die aktuellen Vue-Standards angepasst; im Backend kommen PHP sowie eine Teilimplementierung von ActivityPub und der Mastodon-Client-API zum Einsatz. Die App ist im Nextcloud App Store verfügbar.</p>
+
+      <h3 class="text-2xl font-bold font-headline mt-6 mb-3">Links</h3>
+      <ul class="list-disc pl-6 space-y-2">
+        <li><a href="https://apps.nextcloud.com/apps/social" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Nextcloud App Store: Social</a></li>
+        <li><a href="https://github.com/nextcloud/social" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">GitHub-Repository (nextcloud/social)</a></li>
+        <li><a href="https://help.nextcloud.com/t/nextcloud-social-v0-10-0/244891" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Release-Ankündigung Nextcloud Social v0.10.0</a></li>
+        <li><a href="https://nextcloud.com/blog/meet-the-winners-of-the-nextcloud-community-awards-2026" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Nextcloud Community Awards 2026 (Gewinner)</a></li>
+      </ul>
+    `,
+    image: 'https://placehold.co/1200x675/171717/9ca3af?text=Nextcloud+Social',
+    aiHint: 'fediverse social network nextcloud',
+    url: 'https://apps.nextcloud.com/apps/social',
+    displayUrl: 'apps.nextcloud.com/apps/social',
+    tags: ['Open-Source', 'ActivityPub', 'Fediverse', 'Nextcloud', 'Vue.js', 'PHP', 'Ausgezeichnet'],
+    date: '2026-05-21',
+    category: 'Open-Source / Fediverse',
+    details: {
+      usage: 'Fediverse-Server direkt in Nextcloud – dezentrales soziales Netzwerken mit einer echten ActivityPub-Identität pro Nutzer.',
+      potential: 'Brücke zwischen selbstgehosteter Cloud und dem Fediverse; Wiederbelebung und Modernisierung einer lange vernachlässigten offiziellen Nextcloud-App.'
+    }
+  },
+  {
     title: 'Wissenschaftswoche 2026',
     slug: 'wissenschaftswoche-2026',
     type: 'school',

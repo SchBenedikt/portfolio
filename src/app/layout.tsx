@@ -144,6 +144,7 @@ const pagesToPrefetch = [
   '/',
   '/projects',
   '/resume',
+  '/awards',
   '/gallery',
   '/press',
   '/tools',
@@ -212,9 +213,9 @@ const structuredData = {
     "skills": "Next.js, React, TypeScript, Python, Web-Entwicklung"
   },
   "award": [
+    "Nextcloud Community Award 2026 (Hidden Gem)",
     "Crossmedia-Preis 2024/2025 des Bayerischen Rundfunks",
-    "Deutscher Multimediapreis mb21",
-    "Top-Verein Bayerischer Judo-Verband (TuS Töging)"
+    "Deutscher Multimediapreis mb21"
   ],
   "interactionStatistic": {
     "@type": "InteractionCounter",

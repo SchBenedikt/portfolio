@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { FolderKanban, UserSquare, Wrench, Link as LinkIcon, Home, GalleryHorizontal, Newspaper } from 'lucide-react';
+import { FolderKanban, UserSquare, Wrench, Link as LinkIcon, Home, GalleryHorizontal, Newspaper, Trophy } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 
@@ -32,6 +32,7 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
     { href: "/", label: "Home", icon: <Home/> },
     { href: "/projects", label: "Projekte", icon: <FolderKanban/> },
     { href: "/resume", label: "Lebenslauf", icon: <UserSquare/> },
+    { href: "/awards", label: "Auszeichnungen", icon: <Trophy/> },
     { href: "/gallery", label: "Galerie", icon: <GalleryHorizontal/> },
     { href: "/press", label: "Presse", icon: <Newspaper/> },
     { href: "/tools", label: "Tools", icon: <Wrench/> },
